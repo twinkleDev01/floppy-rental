@@ -1,4 +1,47 @@
 /* You can add global styles to this file, and also import other style files */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
+
+@font-face {
+    font-family: 'Airbnb-bold';
+    src: url('/src/assets/fonts/AirbnbCereal_W_Bd.otf') ;
+  }
+
+  @font-face {
+    font-family: 'Airbnb';
+    src: url('/src/assets/fonts/AirbnbCereal_W_Lt.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Airbnb';
+    src: url('/src/assets/fonts/AirbnbCereal_W_Bk.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Airbnb';
+    src: url('/src/assets/fonts/AirbnbCereal_W_Blk.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Airbnb';
+    src: url('/src/assets/fonts/AirbnbCereal_W_Md.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Airbnb';
+    src: url('/src/assets/fonts/AirbnbCereal_W_XBd.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  * {
+    font-family: 'Airbnb', sans-serif;
+  }
+  

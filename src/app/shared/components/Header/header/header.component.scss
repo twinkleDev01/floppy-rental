@@ -1,9 +1,128 @@
-.icon-color {
-    color: #008CAC;
+.header{
+  background-color: #1E3B43;
+  color: #ffff;
+  font-size: 14px;
+  height: 50px;
+}
+
+.header_top{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+}
+
+.navigation{
+  width: 100%;
+  height: 100px;
+}
+
+nav{
+  width: 100%;
+  height: 100px;
+}
+
+.brand_logo{
+  width: 300px;
+  height: 100%;
+}
+
+.brand_logo img{ 
+  width: 100%;
+}
+
+.nav_container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
+}
+
+.nav_menu{
+  display: flex;
+  align-items: center;
+}
+
+.nav_menu a{
+  padding: 5px 10px;
+}
+
+.login{
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.login a{
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+
+
+.login i{
+  color: #008CAC;
+}
+
+@media (max-width: 768px) {
+  .nav_container {
+    flex-direction: column;
+    align-items: flex-start;
   }
-  .icon-text-container {
+
+  .nav_menu,
+  .login {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    align-items: flex-start;
   }
+
+  .nav_menu a,
+  .login a {
+    margin: 10px 0;
+  }
+
+  .nav_menu {
+    margin-top: 10px;
+  }
+
+  .login {
+    margin-top: 10px;
+  }
+
+  .brand_logo {
+    margin-bottom: 10px;
+  }
+
+  .nav_container {
+    padding: 10px;
+  }
+}
+
+/* Optional: Add a hamburger menu for mobile */
+.hamburger {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+    cursor: pointer;
+    font-size: 24px;
+  }
+
+  .nav_menu,
+  .login {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .nav_menu.show,
+  .login.show {
+    display: flex;
+  }
+}
