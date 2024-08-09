@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { SharedRoutingModule } from './shared-routing.module';
 import { HeaderComponent } from './components/Header/header/header.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { HeaderComponent } from './components/Header/header/header.component';
   ],
   imports: [
     CommonModule,
-    SharedRoutingModule
+    SharedRoutingModule,
+    MatDialogModule
   ],
   exports: [
     HeaderComponent
