@@ -10,6 +10,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SignupComponent } from './Components/signup/signup.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { MatSelectModule } from "@angular/material/select"
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     LoginRoutingModule,
     MatDialogModule,
     MatFormFieldModule,
-    NgSelectModule
+    NgSelectModule,
+    MatSelectModule
   ]
 })
 export class LoginModule { }

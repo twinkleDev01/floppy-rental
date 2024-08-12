@@ -48,3 +48,12 @@
 .cdk-overlay-dark-backdrop {
   background: rgba(0, 0, 0, 0.65);
 }
+.image-field {
+  position: absolute;
+  left: 15px;
+}
+
+.image-field + mat-select .mat-mdc-select-min-line {
+  display: none;
+}
+

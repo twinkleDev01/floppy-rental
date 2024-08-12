@@ -123,11 +123,12 @@
       padding: 0.5rem 0.75rem; /* Further adjust padding inside form controls */
     }
   }
-  
-  
-  
-  
-  
-  
-  
-  
+
+  .country-code {
+    &::before {
+      content: '';
+      height: 70%;
+      padding-right: 8px;
+      border-left: 1px solid rgba(0, 0, 0, 0.4);
+    }
+  }
