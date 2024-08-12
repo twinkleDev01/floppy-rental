@@ -1,6 +1,6 @@
 
 .loginContainer {
-    padding: 1.5rem 4rem !important;
+    padding: 0.5rem 4rem !important;
     width: 100%;
     max-width: 700px; /* Ensure the container can take up full width */
     box-sizing: border-box; /* Include padding in the width calculation */
@@ -12,7 +12,11 @@
     width: 100%; /* Ensure the container can take up full width */
     box-sizing: border-box; /* Include padding in the width calculation */
   }
-  
+  .mat-display-medium.welcome-back {
+    margin-bottom: 0 !important; 
+    font-size: 2rem; /* h5 size */
+    font-weight: 500; /* Adjust the weight if needed */
+  }
   .form-control {
     width: 100%;
     padding: 0.5rem;

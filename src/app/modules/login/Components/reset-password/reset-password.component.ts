@@ -45,10 +45,20 @@ ngOnInit(){
       code: country.idd.root + (country.idd.suffixes ? country.idd.suffixes[0] : ''),
       flag: country.flags.svg
     }));
+    const defaultCountry = this.countries.find(country => country.code === 'IN');
+    this.selectedCountryFlag = defaultCountry ? defaultCountry.flag : null;
     console.log(this.countries,"countriesss")
   });
 }
+selectedCountryFlag: string | null = null;
 
+onCountryChange(selectedCountry: any) {
+  if (selectedCountry) {
+    this.selectedCountryFlag = selectedCountry.flag;
+  } else {
+    this.selectedCountryFlag = null;
+  }
+}
   togglePassword(): void {
     this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
     this.confirmPasswordType = this.confirmPasswordType === 'confirmPassword' ? 'text' : 'confirmPassword';

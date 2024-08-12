@@ -9,7 +9,8 @@ import { Observable } from 'rxjs';
   styleUrl: './signup.component.scss'
 })
 export class SignupComponent {
-  @Output() handleNavigationSignup = new EventEmitter<'login'>()
+  // @Output() handleNavigationSignup = new EventEmitter<'login'>()
+  @Output() handleNavigationSignup = new EventEmitter()
   passwordType: string = 'password';
   signup: FormGroup;
   keyChar: any;
@@ -58,6 +59,11 @@ ngOnInit(){
 
   togglePassword(): void {
     this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
+  }
+
+  handleNavigation(){
+    console.log('login signup')
+    this.handleNavigationSignup.emit('login')
   }
 
   noSpace(event: any) {
