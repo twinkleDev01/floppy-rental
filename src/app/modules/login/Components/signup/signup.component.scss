@@ -1,0 +1,133 @@
+
+.loginContainer {
+    padding: 0.5rem 4rem !important;
+    width: 100%;
+    max-width: 700px; /* Ensure the container can take up full width */
+    box-sizing: border-box; /* Include padding in the width calculation */
+  }
+  
+  .dataContainer {
+    // padding: 2rem 0 !important;
+    min-width: 430px;
+    width: 100%; /* Ensure the container can take up full width */
+    box-sizing: border-box; /* Include padding in the width calculation */
+  }
+  .mat-display-medium.welcome-back {
+    margin-bottom: 0 !important; 
+    font-size: 2rem; /* h5 size */
+    font-weight: 500; /* Adjust the weight if needed */
+  }
+  .form-control {
+    width: 100%;
+    padding: 0.5rem;
+    box-sizing: border-box;
+  }
+  // .custom-container {
+  //   max-width: 700px;
+  //   width: 100%;
+  // }
+  
+  // .custom-container .form-control {
+  //   width: calc(90% - 1rem); /* Adjust the width of the input fields */
+  // }
+    
+    .item-align, .item-align-new {
+      pointer-events: none; /* Ensure icons don't interfere with the input field */
+    }
+    
+    .bg-dark {
+      background-color: #343a40; /* Adjust to match bg-dark */
+    }
+    
+    .bg-opacity-10 {
+      background-color: rgba(0, 0, 0, 0.1); /* Adjust opacity */
+    }
+    .mat-display-medium.welcome-back {
+      margin-bottom: 0 !important; /* This will remove the margin-bottom specifically for this case */
+    }
+    .rounded-pill {
+      border-radius: 50rem;
+    }
+    .bg-color{
+      background-color: #008CAC;
+    }
+    .txt-color{
+      color: #008CAC;
+    }
+    .item-align{
+      left:15px;
+    }
+   
+    .item-align-new{
+      right:25px;
+    }
+    .forget{
+      display: flex;
+      justify-content: end;
+      margin-bottom:15px;
+      padding-top:15px;
+      margin-right:20px
+    }
+  
+    /* Media Queries for Responsive Design */
+  @media (max-width: 768px) {
+    .loginContainer {
+      padding: 1rem 2rem !important; /* Reduce padding for smaller screens */
+    }
+  
+    .dataContainer {
+      min-width: 100%; /* Set minimum width to 100% for full-screen width */
+    }
+    .item-align {
+      left: 50px; /* Adjust icon position for smaller screens */
+    }
+  
+    .item-align-new {
+      right: 50px; /* Adjust eye icon position for smaller screens */
+    }
+  
+    // .form-control {
+    //   padding-left: 2rem; /* Adjust input padding for smaller screens */
+    // }
+    .form-control {
+      padding: 0.75rem 1rem; /* Adjust padding inside form controls */
+    }
+  
+    .forget {
+      margin-right: 40px; /* Adjust margin for smaller screens */
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .item-align {
+      left: 30px; /* Further adjust for very small screens */
+    }
+  
+    .item-align-new {
+      right: 35px; /* Further adjust eye icon position for very small screens */
+    }
+  
+    .form-control {
+      padding-left: 1.5rem; /* Further adjust input padding for very small screens */
+    }
+  
+    .loginContainer {
+      padding: 1rem !important; /* Further reduce padding for very small screens */
+    }
+  
+    .dataContainer {
+      padding: 0 1rem; /* Add padding inside the data container */
+    }
+  
+    .form-control {
+      padding: 0.5rem 0.75rem; /* Further adjust padding inside form controls */
+    }
+  }
+  
+  
+  
+  
+  
+  
+  
+  

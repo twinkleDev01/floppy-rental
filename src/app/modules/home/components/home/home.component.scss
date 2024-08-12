@@ -126,7 +126,7 @@ h2 span {
     color: #008CAC;
 }
 
-.card_background{
+.card_background {
     background-color: #008CAC;
     width: 100%;
     height: 150px;
@@ -136,36 +136,255 @@ h2 span {
 .card {
     width: 200px;
     height: 200px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
+    padding: 20px 10px;
     background: #FFFFFF;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
     border: none;
+    margin-bottom: 25px;
 }
 
-.owl_container{
+.owlText_container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.owl_container {
     margin-top: 50px;
 }
 
 
+
 .card_img {
-    width: 80px;
+    width: 100%;
     height: 80px;
+    display: flex;
+    justify-content: center;
 }
 
 .card_img img {
-    width: 100%;
+    width: 80px;
 }
 
-.owl_section{
-    padding: 10px 20px;
+.owl_section {
+    padding: 10px 35px;
     margin-top: -100px;
 }
 
 .owl_card {
     width: 200px;
+}
+
+.owl_carousel .owl-carousel .owl-nav {
+    position: absolute;
+}
+
+
+.book_now_btn {
+    margin-top: 50px;
+    padding: 10px 50px;
+    border: none;
+    border-radius: 25px;
+    background-color: #008CAC;
+    color: white;
+}
+
+.fridge_repair {
+    background: url("../../../../../../public/images/fridge-repair.png") no-repeat;
+}
+
+.ac_service {
+    background: url("../../../../../../public/images/ac-servicing.png") no-repeat;
+}
+
+.electrician {
+    background: url("../../../../../../public/images/need-electrician.png") no-repeat;
+}
+
+.electrician span,
+.ac_service span {
+    margin-bottom: 7px;
+}
+
+.electrician,
+.ac_service,
+.fridge_repair {
+    width: 100%;
+    padding-top: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 20px;
+    height: 250px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 5px 0px -1px #008cac;
+}
+
+// how it works
+
+.how_it_works_section {
+    margin-top: 100px;
+    width: 100%;
+    background-color: #F4F5F5;
+    border-radius: 50px;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.inner_container {
+    width: 80%;
+}
+
+.border_circle {
+    margin-top: 40px;
+    border: 3px solid black;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+
+.inner_circle {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-color: #ffff;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.inner_circle_img {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.inner_circle_img img {
+    width: 100%;
+    height: inherit;
+}
+
+.number_circle {
+    position: absolute;
+    top: 10px;
+    right: -40px;
+    background-color: #FEFEFE;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.number_circle_inner {
+    width: 90px;
+    height: 90px;
+    background-color: #F3FDFF;
+    border-radius: 50%;
+    border: 9px solid #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: -5px 1px 29px -10px #5f5f5f;
+}
+
+/* Vector 1 */
+// .background_img {
+//     position: absolute;
+//     width: 856.05px;
+//     height: 361.02px;
+//     border: 71px solid #008CAC;
+//     border-radius: 100px;
+//     transform: matrix(-0.49, 0.87, -0.94, -0.35, 0, 0);
+// }
+
+.appliance_repair_section {
+    margin-top: 80px;
+    text-align: center;
+    background-image: url("../../../../../../public/images/appliance-repair&service.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 700px;
+    width: 100%;
+    padding-top: 80px;
+    position: relative;
+}
+
+// salon at home
+
+.salon_at_home {
+    background: #F4F5F5;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.card_salon {
+    width: 300px;
+    height: fit-content;
+    border-radius: 20px;
+    background-color: #fff;
+    box-shadow: 0px 5px 0px -1px #008cac;
+    margin-top: 30px;
+}
+
+.card_salon img {
+    width: 100%;
+}
+
+.card_salon h3 {
+    line-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.discount_banner1,
+.discount_banner2,
+.discount_banner {
+    border-radius: 20px;
+    padding: 60px 40px;
+    height: 400px;
+    width: 100%;;
+}
+
+.discount_banner1 {
+    background: url("../../../../../../public/images/discount-banner1.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.discount_banner2 {
+    background: url("../../../../../../public/images/discount-banner2.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.discount_banner3 {
+    background: url("../../../../../../public/images/discount-banner3.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
