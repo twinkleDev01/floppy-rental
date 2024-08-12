@@ -329,13 +329,62 @@ h2 span {
     position: relative;
 }
 
-/* Rectangle 1526 */
-.service_box {
-    position: absolute;
-    width: 177px;
-    height: 140px;
-    left: 351px;
-    top: 10px;
-    background: #FFFFFF;
-    border-radius: 15px;
+// salon at home
+
+.salon_at_home {
+    background: #F4F5F5;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.card_salon {
+    width: 300px;
+    height: fit-content;
+    border-radius: 20px;
+    background-color: #fff;
+    box-shadow: 0px 5px 0px -1px #008cac;
+    margin-top: 30px;
+}
+
+.card_salon img {
+    width: 100%;
+}
+
+.card_salon h3 {
+    line-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.discount_banner1,
+.discount_banner2,
+.discount_banner {
+    border-radius: 20px;
+    padding: 60px 40px;
+    height: 400px;
+    width: 100%;;
+}
+
+.discount_banner1 {
+    background: url("../../../../../../public/images/discount-banner1.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.discount_banner2 {
+    background: url("../../../../../../public/images/discount-banner2.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.discount_banner3 {
+    background: url("../../../../../../public/images/discount-banner3.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
