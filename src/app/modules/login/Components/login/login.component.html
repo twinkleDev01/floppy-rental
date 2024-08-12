@@ -1,9 +1,130 @@
-<div class="container">
-    <div class="w-100">
-        <section>
-            <div>
-                <img class="h-8 w-auto" src="Icons/floppyLogo.png" alt="FloppyRental">
-            </div>
-        </section>
+<div
+  class="min-vh-100 d-flex align-items-center justify-content-center px-3 py-5 bg-light"
+>
+  <!-- Full-Page Rounded Container with custom width -->
+  <div
+    class="bg-white border border-secondary rounded-5 p-4 shadow-lg custom-container"
+  >
+    <div class="text-center mb-4 pt-3">
+      <img
+        class="mx-auto h-10 w-auto"
+        src="Icons/floppyLogo.png"
+        alt="Your Company"
+      />
+      <h1 class="mt-4 fw-bold text-dark">Welcome Back</h1>
+      <p class="mt-2 text-muted">Please Login To Your Account</p>
     </div>
+
+    <div class="mt-5">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <!-- div -->
+         
+    <!-- LoginEmail -->
+        <div
+          class="position-relative d-flex justify-content-center align-items-center"
+        >
+          <input
+            id="email"
+            name="email"
+            type="text"
+            autocomplete="email"
+            formControlName="emailOrPhone"
+            required
+            (input)="handleValidation()"
+            placeholder="Enter Email or Phone Number"
+            class="form-control ps-5 pe-3 py-3 rounded-pill border-0 text-muted bg-dark bg-opacity-10 shadow-sm"
+            (keypress)="noSpace($event)"
+          />
+          <div class="position-absolute item-align">
+            <i class="fa-solid fa-envelope"></i>
+          </div>
+        </div>
+          <!-- Email-Error -->
+          <div
+            *ngIf="
+              loginForm.get('emailOrPhone')?.invalid && loginForm.get('emailOrPhone')?.touched
+            "
+            class="d-flex justify-content-center text-danger"
+          >
+          <span *ngIf=" loginForm.get('emailOrPhone')?.errors?.['required']">
+            <i class="fa fa-exclamation-triangle" style="color: #fe3061;" aria-hidden="true"></i>Required
+          </span>
+          <span *ngIf="loginForm.get('emailOrPhone')?.errors?.['pattern'] && !loginForm.get('emailOrPhone')?.errors?.['required']">
+            <i class="fa fa-exclamation-triangle" style="color: #fe3061;" aria-hidden="true"></i> Invalid email or phone </span>
+
+            <!-- <span *ngIf="loginForm.get('Number')?.errors?.['pattern'] && !loginForm.get('Number')?.errors?.['required']">
+              <i class="fa fa-exclamation-triangle" style="color: #fe3061;" aria-hidden="true"></i> Invalid email or phone </span> -->
+    </div>
+
+        <!-- Passoword -->
+        <div
+          class="position-relative pt-4 d-flex justify-content-center align-items-center"
+        >
+          <input
+            id="password"
+            name="password"
+            [type]="passwordType"
+            autocomplete="current-password"
+            formControlName="password"
+            required
+            placeholder="Enter Password"
+            class="form-control ps-5 pe-5 py-3 rounded-pill border-0 text-muted bg-dark bg-opacity-10 shadow-sm"
+            (keypress)="noSpace($event)"
+          />
+          <div class="position-absolute item-align">
+            <i class="fa-solid fa-lock"></i>
+          </div>
+          <div
+            class="position-absolute item-align-new"
+            (click)="togglePassword()"
+          >
+            <i
+              [ngClass]="{
+                'fa-eye-slash': passwordType === 'password',
+                'fa-eye': passwordType === 'text'
+              }"
+              class="fa-solid"
+            ></i>
+          </div>
+        </div>
+          <!-- Password-Error -->
+          <div
+            *ngIf="
+              loginForm.get('password')?.invalid &&
+              loginForm.get('password')?.touched
+            "
+            class="d-flex justify-content-center text-danger"
+          >
+            Password is required and must be at least 6 characters.
+          </div>
+     
+
+        <div class="forget">
+          <a
+            href="#"
+            class="fw-semibold txt-color"
+            (click)="openResetPasswordDialog()"
+            >Forgot password?</a
+          >
+        </div>
+
+        <div class="d-flex justify-content-center">
+          <button
+            type="submit"
+            class="form-control bg-color btn btn-primary rounded-pill px-3 py-3 text-white shadow-sm"
+            [disabled]="loginForm.invalid"
+          >
+            Login
+          </button>
+        </div>
+      </form>
+
+      <p class="mt-4 text-center text-muted">
+        Don’t have an account?
+        <a href="#" class="fw-semibold text-decoration-underline txt-color"
+          >Signup</a
+        >
+      </p>
+    </div>
+  </div>
 </div>
