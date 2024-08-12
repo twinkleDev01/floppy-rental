@@ -1,2 +1,111 @@
 <app-header></app-header>
-<!-- <p>home works!</p> -->
+
+<!-- hero section -->
+<div class="hero_section">
+    <div class="banner_text">
+        <h1>Expert Professional <span>Home Services,</span> Book Online</h1>
+        <p>Service On Wheel helps you live smarter, giving you time to focus what's most
+            important.</p>
+        <div class="location_search">
+            <i class="fa-solid fa-location-dot"></i>
+            <select class="select_box" name="" id="">
+                <option value="">select</option>
+                <option value="">nagpur</option>
+            </select>
+            <i class="fa-solid fa-magnifying-glass search_glass"></i>
+            <input type="search" placeholder="Search Item" class="search_box">
+        </div>
+        <button>Contact us</button>
+    </div>
+    <div id="carouselExampleControls" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="banner1">
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="banner2">
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="banner3">
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev " type="button" data-bs-target="#carouselExampleControls"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon carousel_button" aria-hidden="true">
+                <i class="fa-solid fa-chevron-left"></i>
+            </span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next " type="button" data-bs-target="#carouselExampleControls"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon carousel_button" aria-hidden="true">
+                <i class="fa-solid fa-chevron-right"></i>
+            </span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
+<!-- content -->
+<div class="container">
+
+    <!-- what are you looking for -->
+    <div class="owl_container">
+        <div class="row">
+            <div class="col-lg-3">
+                <h2><span>What are you</span> looking for?</h2>
+            </div>
+            <div class="col-lg-9">
+                <div class="card_background"></div>
+                <div class="owl_section">
+                    <owl-carousel-o [options]="customOptions">
+                        <ng-template carouselSlide class="owl_card">
+                            <div class="card">
+                                <div class="card_img">
+                                    <img src="images/IT-rental.png" alt="">
+                                </div>
+                                <h3 class="fw-bold fs-5">IT-rental</h3>
+                            </div>
+                        </ng-template>
+                        <ng-template carouselSlide class="owl_card">
+                            <div class="card">
+                                <div class="card_img">
+                                    <img src="images/IT-rental.png" alt="">
+                                </div>
+                                <h3 class="fw-bold fs-5">IT-rental</h3>
+                            </div>
+                        </ng-template>
+                        <ng-template carouselSlide class="owl_card">
+                            <div class="card">
+                                <div class="card_img">
+                                    <img src="images/IT-rental.png" alt="">
+                                </div>
+                                <h3 class="fw-bold fs-5">IT-rental</h3>
+                            </div>
+                        </ng-template>
+                        <ng-template carouselSlide class="owl_card">
+                            <div class="card">
+                                <div class="card_img">
+                                    <img src="images/IT-rental.png" alt="">
+                                </div>
+                                <h3 class="fw-bold fs-5">IT-rental</h3>
+                            </div>
+                        </ng-template>
+                        <ng-template carouselSlide class="owl_card">
+                            <div class="card">
+                                <div class="card_img">
+                                    <img src="images/IT-rental.png" alt="">
+                                </div>
+                                <h3 class="fw-bold fs-5">IT-rental</h3>
+                            </div>
+                        </ng-template>
+                    </owl-carousel-o>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
