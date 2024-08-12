@@ -1,0 +1,26 @@
+<div class="row">
+
+    <ng-container *ngFor="let data of blog">
+        <div class="col-3">
+<div class="blog-card mb-3" (click)="NavigateToBlockDetail(data)">
+    <div class="position-relative">
+
+        <img [src]="data.primaryImage" alt="blog image" class="img-fluid">
+        <span class="category_badge">{{data.category}}</span>
+
+    </div>
+    
+    <div class="px-3 pb-1">
+        
+        <h6 class="mb-3">{{data.title}}</h6>
+  
+    <div class="content-Div">
+        
+        <p class="pt-1"><i class="fa-solid fa-user"></i> &nbsp; by {{data.author.name}}</p>
+    </div>
+</div>
+</div>
+        </div>
+    </ng-container>
+    
+</div>
