@@ -8,12 +8,14 @@ import { ResetPasswordComponent } from './Components/reset-password/reset-passwo
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgSelectModule } from '@ng-select/ng-select';
+import { SignupComponent } from './Components/signup/signup.component';
+
 
 @NgModule({
   declarations: [
     LoginComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    SignupComponent
   ],
   imports: [
     CommonModule,
@@ -23,7 +25,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     LoginRoutingModule,
     MatDialogModule,
     MatFormFieldModule,
-    NgSelectModule
+    
   ]
 })
 export class LoginModule { }

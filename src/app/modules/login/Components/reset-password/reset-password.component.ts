@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmPasswordValidator } from '../../confirm-password.validator';
 import { HttpClient } from '@angular/common/http';
@@ -10,6 +10,8 @@ import { Observable } from 'rxjs';
   styleUrl: './reset-password.component.scss'
 })
 export class ResetPasswordComponent {
+  @Output() handleNavigation = new EventEmitter<'login'>()
+
   selectedCountry: string = 'IN'; 
   // countries: any;
    countries: any[] = [];
@@ -61,17 +63,6 @@ ngOnInit(){
     }
     return true;
   }
-
-  // handleValidation(){
-  //   const input = this.loginForm.get('emailOrPhone')
-  //   input?.setValidators([Validators.required])
-  //   // input?.clearValidators();
-  //   if(isNaN(+input?.value)){
-  //     input?.addValidators(Validators.pattern(/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i))
-  //   } else {
-  //     input?.addValidators([Validators.pattern('[0-9]*'), Validators.minLength(10), Validators.maxLength(10)])
-  //   }
-  // }
   
   onSubmit() {
     console.log(this.loginForm.value);

@@ -1,69 +1,37 @@
+
+.clickable {
+  cursor: pointer;
+}
+ .loginContainer {
+  padding: 1.5rem 4rem !important;
+  width: 100%;
+  max-width: 700px; /* Ensure the container can take up full width */
+  box-sizing: border-box; /* Include padding in the width calculation */
+}
+
+.dataContainer {
+  // padding: 2rem 0 !important;
+  min-width: 430px;
+  width: 100%; /* Ensure the container can take up full width */
+  box-sizing: border-box; /* Include padding in the width calculation */
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
 // .custom-container {
-//     max-width: 700px;
-//     width: 100%;
-//   }
+//   max-width: 700px;
+//   width: 100%;
+// }
+
+// .custom-container .form-control {
+//   width: calc(90% - 1rem); /* Adjust the width of the input fields */
+// }
   
-//   .custom-container .form-control {
-//     width: calc(90% - 1rem); /* Adjust the width of the input fields */
-//   }
-.custom-container {
-    max-width: 700px;
-    width: 100%;
-  }
-  
-//   .custom-container .form-control {
-//     width: 100%;
-//   }
-  .custom-container .form-control {
-    width: calc(90% - 1rem); /* Adjust the width of the input fields */
-  }
-  
-  .position-relative input {
-    padding-left: 2.5rem; /* Adjust as needed to accommodate icon */
-  }
-  
-  .position-relative .fa-envelope,
-  .position-relative .fa-lock,
-  .position-relative .fa-eye,
-  .position-relative .fa-eye-slash {
-    font-size: 1.25rem; /* Adjust icon size if needed */
-  }
-   
-  .position-relative {
-    position: relative;
-  }
-  
-  .form-control {
-    padding-left: 2.5rem; /* Adjust based on icon width */
-    width: 100%;
-  }
-  
-  .position-absolute {
-    position: absolute;
-  }
-  
-  .ps-5 {
-    padding-left: 3rem; /* Additional padding for icon */
-  }
-  
-  .ps-4 {
-    padding-left: 2.5rem; /* Adjust as needed */
-  }
-  
-  .pe-5 {
-    padding-right: 3rem; /* Additional padding for icon */
-  }
-  
-  .translate-middle-y {
-    transform: translateY(-50%);
-  }
-  
-  .d-flex {
-    display: flex;
-  }
-  
-  .align-items-center {
-    align-items: center;
+  .item-align, .item-align-new {
+    pointer-events: none; /* Ensure icons don't interfere with the input field */
   }
   
   .bg-dark {
@@ -72,6 +40,17 @@
   
   .bg-opacity-10 {
     background-color: rgba(0, 0, 0, 0.1); /* Adjust opacity */
+  }
+  .mat-display-medium.welcome-back {
+    margin-bottom: 0 !important; 
+    font-size: 2rem; /* h5 size */
+    font-weight: 500; /* Adjust the weight if needed */
+  }
+  .mat-typography p, p.mat-typography  {
+    font-size: 0.575rem; /* Adjust font size */
+    line-height: 1.5; /* Adjust line height */
+    // color: #333; /* Adjust text color if needed */
+    // margin-bottom: 1rem; /* Adjust the margin */
   }
   
   .rounded-pill {
@@ -84,22 +63,29 @@
     color: #008CAC;
   }
   .item-align{
-    left:55px;
+    left:15px;
   }
-
+ 
   .item-align-new{
-    right:50px;
+    right:25px;
   }
   .forget{
     display: flex;
     justify-content: end;
     margin-bottom:15px;
     padding-top:15px;
-    margin-right:50px
+    margin-right:20px
   }
 
   /* Media Queries for Responsive Design */
 @media (max-width: 768px) {
+  .loginContainer {
+    padding: 1rem 2rem !important; /* Reduce padding for smaller screens */
+  }
+
+  .dataContainer {
+    min-width: 100%; /* Set minimum width to 100% for full-screen width */
+  }
   .item-align {
     left: 50px; /* Adjust icon position for smaller screens */
   }
@@ -108,8 +94,11 @@
     right: 50px; /* Adjust eye icon position for smaller screens */
   }
 
+  // .form-control {
+  //   padding-left: 2rem; /* Adjust input padding for smaller screens */
+  // }
   .form-control {
-    padding-left: 2rem; /* Adjust input padding for smaller screens */
+    padding: 0.75rem 1rem; /* Adjust padding inside form controls */
   }
 
   .forget {
@@ -126,8 +115,19 @@
     right: 35px; /* Further adjust eye icon position for very small screens */
   }
 
+  // .form-control {
+  //   padding-left: 1.5rem; /* Further adjust input padding for very small screens */
+  // }
+  .loginContainer {
+    padding: 1rem !important; /* Further reduce padding for very small screens */
+  }
+
+  .dataContainer {
+    padding: 0 1rem; /* Add padding inside the data container */
+  }
+
   .form-control {
-    padding-left: 1.5rem; /* Further adjust input padding for very small screens */
+    padding: 0.5rem 0.75rem; /* Further adjust padding inside form controls */
   }
 
   .forget {

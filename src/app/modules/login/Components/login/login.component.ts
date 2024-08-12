@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
-import { ResetPasswordComponent } from '../reset-password/reset-password.component';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
-  AbstractControl,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import {
   FormBuilder,
   FormGroup,
   Validators,
@@ -12,26 +13,43 @@ import {
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
   passwordType: string = 'password';
   loginForm: FormGroup;
-  keyChar:any;
-  
-  constructor(public dialog: MatDialog, private fb: FormBuilder) {
+  keyChar: any;
+  stage : 'login'|'signup'|'reset'='login'
+
+  readonly dialogRef = inject(MatDialogRef<LoginComponent>);
+
+  constructor(
+    public dialog: MatDialog,
+    private fb: FormBuilder,
+  ) {
+    console.log("login")
     this.loginForm = this.fb.group({
-      emailOrPhone : ['', [Validators.required, Validators.pattern(/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)]],
-      // Number : ['', [Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(10), Validators.maxLength(10)]],
+      emailOrPhone: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+          ),
+        ],
+      ],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
   togglePassword(): void {
+    console.log('hiii')
     this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
+    console.log(this.passwordType);
   }
 
-  noSpace(event:any) {
-    console.log(event,"keyyyy");
+  noSpace(event: any) {
+    console.log(event, 'keyyyy');
     // if (event.keyCode === 32 && !event.target.value) return false;
     if (event.key === ' ' && !event.ctrlKey && !event.metaKey) {
       event.preventDefault();
@@ -40,17 +58,25 @@ export class LoginComponent {
     return true;
   }
 
-  handleValidation(){
-    const input = this.loginForm.get('emailOrPhone')
-    input?.setValidators([Validators.required])
+  handleValidation() {
+    const input = this.loginForm.get('emailOrPhone');
+    input?.setValidators([Validators.required]);
     // input?.clearValidators();
-    if(isNaN(+input?.value)){
-      input?.addValidators(Validators.pattern(/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i))
+    if (isNaN(+input?.value)) {
+      input?.addValidators(
+        Validators.pattern(
+          /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+        )
+      );
     } else {
-      input?.addValidators([Validators.pattern('[0-9]*'), Validators.minLength(10), Validators.maxLength(10)])
+      input?.addValidators([
+        Validators.pattern('[0-9]*'),
+        Validators.minLength(10),
+        Validators.maxLength(10),
+      ]);
     }
   }
-  
+
   onSubmit() {
     console.log(this.loginForm.value);
     if (this.loginForm.valid) {
@@ -63,13 +89,11 @@ export class LoginComponent {
   }
   //
   openResetPasswordDialog(): void {
-    const dialogRef = this.dialog.open(ResetPasswordComponent, {
-      width: '400px',
-    });
-
-    dialogRef.afterClosed().subscribe((result: any) => {
-      console.log('The dialog was closed');
-      // Handle the result if needed
-    });
+    this.stage = 'reset';
+    console.log("ResetPassword",this.stage)
+  }
+  openSignupDialog() {
+    this.stage = 'signup';
+    console.log("SIGNUP COMP",this.stage)
   }
 }
