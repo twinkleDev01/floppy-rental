@@ -189,11 +189,101 @@
         </div>
     </div>
 
-
-    
 </div>
 <!-- Appliance repare & service -->
 <div class="appliance_repair_section">
     <h2><span>Appliance Repair </span>& Services</h2>
     <!-- <div class="service_box"></div> -->
 </div>
+
+<!-- Salon at home -->
+<div class="salon_at_home">
+    <div class="container">
+        <h2 class="text-center"><span>Salon</span> At Home</h2>
+        <owl-carousel-o [options]="customOptions">
+            <ng-template carouselSlide>
+                <div class="card_salon">
+                    <img src="images/pedicure.png" alt="">
+                    <h3>Pedicure</h3>
+                </div>
+            </ng-template>
+            <ng-template carouselSlide>
+                <div class="card_salon">
+                    <img src="images/facial.png" alt="">
+                    <h3>Facials & Cleanups</h3>
+                </div>
+            </ng-template>
+
+            <ng-template carouselSlide>
+                <div class="card_salon">
+                    <img src="images/salon.png" alt="">
+                    <h3>Classic Salon</h3>
+                </div>
+            </ng-template>
+
+            <ng-template carouselSlide>
+                <div class="card_salon">
+                    <img src="images/hair.png" alt="">
+                    <h3>Hair Care</h3>
+                </div>
+            </ng-template>
+
+
+
+        </owl-carousel-o>
+    </div>
+</div>
+
+<!-- discount carousel -->
+<div class="container mt-5 pt-5">
+    <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2"
+                aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="10000">
+                <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
+                            aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active" data-bs-interval="10000">
+                            <div class="discount_banner1">
+                                <span>Try Our Trending Services With Upto 50% Off !</span>
+                            </div>
+                        </div>
+                        <div class="carousel-item" data-bs-interval="10000">
+                            <div class="discount_banner2">
+                                <span>Try Our Trending Services With Upto 50% Off !</span>
+                            </div>
+                        </div>
+                        <div class="carousel-item" data-bs-interval="10000">
+                            <div class="discount_banner3">
+                                <span>Try Our Trending Services With Upto 50% Off !</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
