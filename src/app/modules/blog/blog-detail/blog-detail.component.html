@@ -7,20 +7,55 @@
 </div>
 <div class="container">
  <div class="row">
-    <div class="col-7 detail_div">
+    <div class="col-lg-8 col-md-7 col-sm-6 detail_div">
         <img  [src]="selectedBlog.primaryImage" alt="">
-        <p>It is a long established fact that a reader will be distracted by the readable content of a page when
-             looking at its layout. The point of using Lorem Ipsum The man, who is in a stable condition inhospital,
-              has “potentia ly life-changing injuries” after the overnight attack in Garvagh, County Lonodonderry. He was shot in the arms and legs.”What sort of men would think it is accepttable to subject a young girl to this level of brutality and violence?”Every child has the right to feel safe and protected in their own home – how is this poor child going to sleep tonight or in coming nights? What are the long term effects on her going to be?” As a app web crawler expert, I help organizations adjust to the It is a long established fact that a reader will be distracted Lorem ipsum dolor sit amet, 
-            consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            <p>
-                “She came out petrified with her Piggy Bank, HER PIGGY BANK! hoping that the men would take it and leave her dad alone,” one outraged officer wrote. especially in capital projects and the suppliers and consultants that work for you know the value of a customer like that. As a consultant executing two projects for a large multinational, I realise
-                 how very difficult it sometimes can be on the receiving-end.
+        <p>{{selectedBlog.contentHtml.para1}}</p>
+        <div>
+            <img [src]="selectedBlog.contentHtml.img1" class="detail_img" alt="">
+            <img [src]="selectedBlog.contentHtml.img2" class="detail_img" alt="">
+        </div>
+            <p>{{selectedBlog.contentHtml.para2}}
             </p>
+            <div class="Comment_section">
+                <h5>Leave A Comment</h5>
+        <textarea name="" id="" rows="6" class="comment_box" placeholder="Comment" ></textarea>
+        <div class="row">
+            <div class="col-4">
+               <input type="text" placeholder="Name">
+            </div>
+            <div class="col-4">
+               <input type="text" placeholder="Email">
+            </div>
+            <div class="col-4">
+               <input type="text" placeholder="Website">
+            </div>
+        </div>
+        <div class="d-flex">
+            <input type="checkbox"><span>Save my name, email, and website in this browser for the next time I comment.</span>
+
+        </div>
+            <button class="post_btn mt-4">Post Comment</button>
+            </div>
     </div>
-    <div class="col-5">
-<div>
-    <!-- <app-blog-list></app-blog-list> -->
+    <div class="col-lg-4 col-md-5 col-sm-6">
+<div class="mt-sm-0 mt-3">
+    <div class="position-relative">
+        <span class="search_icon"><i class="fa-solid fa-magnifying-glass "></i></span>
+        <input type="text" class="form-control input_search" placeholder="Search">
+    </div>
+    <div class="Blog_list">
+        <h5 class="ms-2">Recent Post</h5>
+        <app-blog-list [BlogNumber]="number"></app-blog-list>
+    </div>
+    
+     <div class="category_box">
+        <h5>Categories</h5>
+        <ul>
+        <ng-container *ngFor="let category of Categories">
+<li>{{category}}</li>
+        </ng-container>
+    </ul>
+     </div>
 </div>
     </div>
  </div>
