@@ -12,14 +12,21 @@
   font-size: 13px;
   color: #008cac;
 }
-.card_backgroundImg {
-    // background-image: url('images/serviceBackground.svg');
+.card_backgroundImg::after {
+    content: "";
+    background: url('../../../../../../public/images/serviceBackground.svg');
     background-size: cover;
-    background-position: center; 
-    background-repeat: no-repeat; 
-    padding: 20px; 
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 20px;
     border-radius: 10px;
-  }
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 32%;
+    right: 0;
+    z-index: -1;
+}
   
 .card_background {
   background-color: #008cac;
