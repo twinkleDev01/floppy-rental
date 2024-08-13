@@ -15,4 +15,82 @@
     }
     .detail_div img{
          width: 100%;
+         border-radius: 30px;
+    }
+    .input_search{
+            border: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            padding-left: 33px;
+    }
+    .input_search::placeholder {
+        color: grey;
+        margin-left: 20px;
+    }
+    .search_icon{
+        position: absolute;
+        top: 6px;
+        left: 10px;
+        color: grey;
+    }
+    .category_box{
+        margin: 20px 0px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 12px 7px 5px;
+    border-radius: 12px;
+    }
+    .category_box ul li{
+        color: grey;
+        padding: 5px 0;
+        font-weight: 600;
+    }
+    .category_box h5{
+       margin-left: 12px;
+        font-weight: 700;
+    }
+
+    .Comment_section h5{
+        font-weight: 700;
+        }
+    .comment_box{
+        padding: 10px 16px;
+        width: 100%;
+        border-radius: 17px;
+        border: none;
+        background-color: #f7f7f7;
+    }
+    .Comment_section  input[type="text"]{
+        padding: 5px 16px;
+        width: 100%;
+        border-radius: 17px;
+        border: none;
+        background-color: #f7f7f7;
+    }
+    .Comment_section  span{
+        color: #008cac;
+    font-size: 12px;
+    margin: 9px;
+    }
+    .post_btn{
+        padding: 8px 28px;
+        border: none;
+        font-size: 14px;
+        border-radius: 25px;
+        background-color: #008CAC;
+        color: white;
+    }
+    .Blog_list{
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 12px;
+    }
+    .Blog_list h5{
+        font-weight: 700;
+    }
+    .detail_img{
+        width: 50% !important;
+    }
+    .detail_div p{
+        font-size: 12px;
+        margin: 10px 0;
     }

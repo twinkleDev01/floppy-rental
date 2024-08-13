@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, HostBinding, HostListener, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,8 +7,27 @@ import { Router } from '@angular/router';
   styleUrl: './blog-list.component.scss'
 })
 export class BlogListComponent {
+  @Input()
+  BlogNumber!: number;
+  @HostBinding('class.small-parent') isSmallParent = false;
 
-  constructor(private router: Router){
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.checkParentSize();
+  }
+
+  ngOnInit() {
+    this.checkParentSize();
+  }
+
+  checkParentSize() {
+    const parentWidth = (this.el.nativeElement as HTMLElement).parentElement?.clientWidth;
+    this.isSmallParent = parentWidth ? parentWidth < 600 : false; // Example threshold
+    console.log(parentWidth + 'px', this.isSmallParent);
+  }
+
+
+  constructor(private router: Router,private el: ElementRef){
 
   }
   blog=[
@@ -21,7 +40,12 @@ export class BlogListComponent {
         "avatar": ""
     },
       "primaryImage": 'images/blog-img/blog1.png',
-      "contentHtml": "",
+      "contentHtml": {
+        para1:'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum The man, who is in a stable condition inhospital, has “potentia ly life-changing injuries” after the overnight attack in Garvagh, County Lonodonderry. He was shot in the arms and legs.”What sort of men would think it is accepttable to subject a young girl to this level of brutality and violence?”Every child has the right to feel safe and protected in their own home – how is this poor child going to sleep tonight or in coming nights? What are the long term effects on her going to be?” As a app web crawler expert, I help organizations adjust to the It is a long established fact that a reader will be distracted Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        para2:'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don’t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn’t quite anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.',
+        img1:'images/blog-img/blog1.png',
+         img2:'images/blog-img/blog3.png'
+      },
     },
     {
       id:2,
@@ -32,7 +56,12 @@ export class BlogListComponent {
         "avatar": ""
     },
       "primaryImage": 'images/blog-img/blog2.png',
-      "contentHtml": "",
+      "contentHtml": {
+        para1:'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum The man, who is in a stable condition inhospital, has “potentia ly life-changing injuries” after the overnight attack in Garvagh, County Lonodonderry. He was shot in the arms and legs.”What sort of men would think it is accepttable to subject a young girl to this level of brutality and violence?”Every child has the right to feel safe and protected in their own home – how is this poor child going to sleep tonight or in coming nights? What are the long term effects on her going to be?” As a app web crawler expert, I help organizations adjust to the It is a long established fact that a reader will be distracted Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        para2:'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don’t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn’t quite anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.',
+        img1:'images/blog-img/blog1.png',
+         img2:'images/blog-img/blog3.png'
+      },
     },
     {
       id:3,
@@ -43,7 +72,12 @@ export class BlogListComponent {
         "avatar": ""
     },
       "primaryImage": 'images/blog-img/blog3.png',
-      "contentHtml": "",
+      "contentHtml": {
+        para1:'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum The man, who is in a stable condition inhospital, has “potentia ly life-changing injuries” after the overnight attack in Garvagh, County Lonodonderry. He was shot in the arms and legs.”What sort of men would think it is accepttable to subject a young girl to this level of brutality and violence?”Every child has the right to feel safe and protected in their own home – how is this poor child going to sleep tonight or in coming nights? What are the long term effects on her going to be?” As a app web crawler expert, I help organizations adjust to the It is a long established fact that a reader will be distracted Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        para2:'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don’t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn’t quite anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.',
+        img1:'images/blog-img/blog1.png',
+         img2:'images/blog-img/blog3.png'
+      },
     },
     {
       id:4,
@@ -54,7 +88,12 @@ export class BlogListComponent {
         "avatar": ""
     },
       "primaryImage": 'images/blog-img/blog4.png',
-      "contentHtml": "",
+      "contentHtml": {
+        para1:'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum The man, who is in a stable condition inhospital, has “potentia ly life-changing injuries” after the overnight attack in Garvagh, County Lonodonderry. He was shot in the arms and legs.”What sort of men would think it is accepttable to subject a young girl to this level of brutality and violence?”Every child has the right to feel safe and protected in their own home – how is this poor child going to sleep tonight or in coming nights? What are the long term effects on her going to be?” As a app web crawler expert, I help organizations adjust to the It is a long established fact that a reader will be distracted Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        para2:'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don’t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn’t quite anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.',
+        img1:'images/blog-img/blog1.png',
+         img2:'images/blog-img/blog3.png'
+      },
     },
     {
       id:5,
@@ -65,7 +104,12 @@ export class BlogListComponent {
         "avatar": ""
     },
       "primaryImage": 'images/blog-img/blog5.png',
-      "contentHtml": "",
+     "contentHtml": {
+        para1:'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum The man, who is in a stable condition inhospital, has “potentia ly life-changing injuries” after the overnight attack in Garvagh, County Lonodonderry. He was shot in the arms and legs.”What sort of men would think it is accepttable to subject a young girl to this level of brutality and violence?”Every child has the right to feel safe and protected in their own home – how is this poor child going to sleep tonight or in coming nights? What are the long term effects on her going to be?” As a app web crawler expert, I help organizations adjust to the It is a long established fact that a reader will be distracted Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        para2:'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don’t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn’t quite anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.',
+        img1:'images/blog-img/blog1.png',
+         img2:'images/blog-img/blog3.png'
+      },
     },
     {
       id:6,
@@ -76,7 +120,12 @@ export class BlogListComponent {
         "avatar": ""
     },
       "primaryImage": 'images/blog-img/blog6.png',
-      "contentHtml": "",
+      "contentHtml": {
+        para1:'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum The man, who is in a stable condition inhospital, has “potentia ly life-changing injuries” after the overnight attack in Garvagh, County Lonodonderry. He was shot in the arms and legs.”What sort of men would think it is accepttable to subject a young girl to this level of brutality and violence?”Every child has the right to feel safe and protected in their own home – how is this poor child going to sleep tonight or in coming nights? What are the long term effects on her going to be?” As a app web crawler expert, I help organizations adjust to the It is a long established fact that a reader will be distracted Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        para2:'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don’t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn’t quite anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.',
+        img1:'images/blog-img/blog1.png',
+         img2:'images/blog-img/blog3.png'
+      },
     },
     {
       id:7,
@@ -87,7 +136,12 @@ export class BlogListComponent {
         "avatar": ""
     },
       "primaryImage": 'images/blog-img/blog7.png',
-      "contentHtml": "",
+      "contentHtml": {
+        para1:'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum The man, who is in a stable condition inhospital, has “potentia ly life-changing injuries” after the overnight attack in Garvagh, County Lonodonderry. He was shot in the arms and legs.”What sort of men would think it is accepttable to subject a young girl to this level of brutality and violence?”Every child has the right to feel safe and protected in their own home – how is this poor child going to sleep tonight or in coming nights? What are the long term effects on her going to be?” As a app web crawler expert, I help organizations adjust to the It is a long established fact that a reader will be distracted Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        para2:'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don’t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn’t quite anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.',
+        img1:'images/blog-img/blog1.png',
+         img2:'images/blog-img/blog3.png'
+      },
     },
     {
       id:8,
@@ -98,7 +152,12 @@ export class BlogListComponent {
         "avatar": ""
     },
       "primaryImage": 'images/blog-img/blog8.png',
-      "contentHtml": "",
+      "contentHtml": {
+        para1:'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum The man, who is in a stable condition inhospital, has “potentia ly life-changing injuries” after the overnight attack in Garvagh, County Lonodonderry. He was shot in the arms and legs.”What sort of men would think it is accepttable to subject a young girl to this level of brutality and violence?”Every child has the right to feel safe and protected in their own home – how is this poor child going to sleep tonight or in coming nights? What are the long term effects on her going to be?” As a app web crawler expert, I help organizations adjust to the It is a long established fact that a reader will be distracted Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        para2:'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don’t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn’t quite anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.',
+        img1:'images/blog-img/blog1.png',
+         img2:'images/blog-img/blog3.png'
+      },
     },
     {
       id:9,
@@ -109,7 +168,12 @@ export class BlogListComponent {
         "avatar": ""
     },
       "primaryImage": 'images/blog-img/blog9.png',
-      "contentHtml": "",
+    "contentHtml": {
+        para1:'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum The man, who is in a stable condition inhospital, has “potentia ly life-changing injuries” after the overnight attack in Garvagh, County Lonodonderry. He was shot in the arms and legs.”What sort of men would think it is accepttable to subject a young girl to this level of brutality and violence?”Every child has the right to feel safe and protected in their own home – how is this poor child going to sleep tonight or in coming nights? What are the long term effects on her going to be?” As a app web crawler expert, I help organizations adjust to the It is a long established fact that a reader will be distracted Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        para2:'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don’t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn’t quite anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.',
+        img1:'images/blog-img/blog1.png',
+         img2:'images/blog-img/blog3.png'
+      },
     },
     {
       id:10,
@@ -120,7 +184,12 @@ export class BlogListComponent {
         "avatar": ""
     },
       "primaryImage": 'images/blog-img/blog10.png',
-      "contentHtml": "",
+      "contentHtml": {
+        para1:'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum The man, who is in a stable condition inhospital, has “potentia ly life-changing injuries” after the overnight attack in Garvagh, County Lonodonderry. He was shot in the arms and legs.”What sort of men would think it is accepttable to subject a young girl to this level of brutality and violence?”Every child has the right to feel safe and protected in their own home – how is this poor child going to sleep tonight or in coming nights? What are the long term effects on her going to be?” As a app web crawler expert, I help organizations adjust to the It is a long established fact that a reader will be distracted Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        para2:'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don’t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn’t quite anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.',
+        img1:'images/blog-img/blog1.png',
+         img2:'images/blog-img/blog3.png'
+      },
     },
     {
       id:11,
@@ -131,7 +200,12 @@ export class BlogListComponent {
         "avatar": ""
     },
       "primaryImage": 'images/blog-img/blog11.png',
-      "contentHtml": "",
+      "contentHtml": {
+        para1:'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum The man, who is in a stable condition inhospital, has “potentia ly life-changing injuries” after the overnight attack in Garvagh, County Lonodonderry. He was shot in the arms and legs.”What sort of men would think it is accepttable to subject a young girl to this level of brutality and violence?”Every child has the right to feel safe and protected in their own home – how is this poor child going to sleep tonight or in coming nights? What are the long term effects on her going to be?” As a app web crawler expert, I help organizations adjust to the It is a long established fact that a reader will be distracted Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        para2:'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don’t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn’t quite anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.',
+        img1:'images/blog-img/blog1.png',
+         img2:'images/blog-img/blog3.png'
+      },
     },
     {
       id:12,
@@ -142,7 +216,12 @@ export class BlogListComponent {
         "avatar": ""
     },
       "primaryImage": 'images/blog-img/blog12.png',
-      "contentHtml": "",
+      "contentHtml": {
+        para1:'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum The man, who is in a stable condition inhospital, has “potentia ly life-changing injuries” after the overnight attack in Garvagh, County Lonodonderry. He was shot in the arms and legs.”What sort of men would think it is accepttable to subject a young girl to this level of brutality and violence?”Every child has the right to feel safe and protected in their own home – how is this poor child going to sleep tonight or in coming nights? What are the long term effects on her going to be?” As a app web crawler expert, I help organizations adjust to the It is a long established fact that a reader will be distracted Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        para2:'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don’t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn’t quite anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.',
+        img1:'images/blog-img/blog1.png',
+         img2:'images/blog-img/blog3.png'
+      },
     },
   ]
   NavigateToBlockDetail(blog:any){
