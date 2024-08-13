@@ -1,8 +1,8 @@
 <div class="row">
 
-    <ng-container *ngFor="let data of blog">
-        <div class="col-3">
-<div class="blog-card mb-3" (click)="NavigateToBlockDetail(data)">
+    <ng-container *ngFor="let data of blog | slice:-BlogNumber">
+        <div *ngIf="!isSmallParent" class="col-lg-3 col-sm-6 col-12" >
+<div  class="blog-card mb-3" (click)="NavigateToBlockDetail(data)">
     <div class="position-relative">
 
         <img [src]="data.primaryImage" alt="blog image" class="img-fluid">
@@ -12,7 +12,7 @@
     
     <div class="px-3 pb-1">
         
-        <h6 class="mb-3">{{data.title}}</h6>
+        <h6 class="mb-3 mt-md-0 mt-2">{{data.title}}</h6>
    
     <div class="content-Div">
         
@@ -20,6 +20,14 @@
     </div>
 </div>
 </div>
+
+        </div>
+        <div *ngIf="isSmallParent" >
+            <div class="d-flex align-items-center m-2">
+                <img [src]="data.primaryImage" class="responsive-Img" alt="">
+                <h6 class="mb-3 mt-md-0 m-2 text-muted">{{data.title}}</h6>
+            </div>
+            
         </div>
     </ng-container>
     

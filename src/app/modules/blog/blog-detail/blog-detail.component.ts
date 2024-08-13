@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
   styleUrl: './blog-detail.component.scss'
 })
 export class BlogDetailComponent {
+  number=4
   selectedBlog: any;
 
   constructor(private router: Router) {
@@ -14,5 +15,9 @@ export class BlogDetailComponent {
     this.selectedBlog = navigation?.extras?.state?.['blog']; 
     console.log(this.selectedBlog);
   }
+
+  Categories=[
+    'Housekeeping Staff','Beauty','Air Conditioning','Lifestyle','Electrician/ Plumber/ Carpenter','Horticulture And Landscaping Service'
+  ]
 
 }

@@ -13,12 +13,17 @@ border-top: 1px solid rgb(210, 206, 206);
 font-weight: 700;
 }
 .category_badge{
-    position: relative;
+    position: absolute;
     background-color: #008bab;
-    bottom: 166px;
+    top: 10px;
     left: 10px;
     font-size: 13px;
     color: white;
     padding: 3px 9px;
-    border-radius: 20px;
+    border-radius: 21px;
+}
+// ............................................................
+.responsive-Img{
+    max-width: 100px;
+    border-radius: 7px;
 }
