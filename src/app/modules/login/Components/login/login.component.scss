@@ -52,7 +52,26 @@
     // color: #333; /* Adjust text color if needed */
     // margin-bottom: 1rem; /* Adjust the margin */
   }
-  
+
+.position-relative input {
+  padding-left: 2.5rem; /* Adjust as needed to accommodate icon */
+}
+
+.position-relative .fa-envelope,
+.position-relative .fa-lock,
+.position-relative .fa-eye,
+.position-relative .fa-eye-slash {
+  font-size: 1.25rem; /* Adjust icon size if needed */
+}
+.translate-middle-y {
+  transform: translateY(-50%);
+}
+.position-absolute {
+  position: absolute;
+}
+.position-relative {
+  position: relative;
+}
   .rounded-pill {
     border-radius: 50rem;
   }
