@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrl: './services-category.component.scss'
 })
 export class ServicesCategoryComponent {
-
+  favoriteSeason!: string;
+  seasons: string[] = ['Winter', 'Spring', 'Summer', 'Autumn'];
 }
+
