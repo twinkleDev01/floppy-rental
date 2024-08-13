@@ -29,8 +29,8 @@ export class ResetPasswordComponent {
       contactNumber : ['', [Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(10), Validators.maxLength(10)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['',[Validators.required, Validators.minLength(6)]],
-      country: ['', Validators.required],
-      selectedCountry: ['+91'],
+      // country: ['', Validators.required],
+      selectedCountry: [this.selectedCountry],
     }, {
       validator: ConfirmPasswordValidator('password', 'confirmPassword')
     });
@@ -46,24 +46,22 @@ ngOnInit(){
       code: country.idd.root + (country.idd.suffixes ? country.idd.suffixes[0] : ''),
       flag: country.flags.svg
     }));
-    const defaultCountry = this.countries.find(country => {console.log(country.code); return country.code === '+91'});
-  
-       
-    if (defaultCountry) {
-      this.onCountryChange(defaultCountry);
-    }
-    this.cdr.detectChanges();
-    console.log(this.countries,"countriesss", this.selectedCountryFlag,"flag")
+    this.loginForm?.get("selectedCountry")?.setValue(this.countries.find(d=> d.name == "India"));
   });
 }
 
 
 onCountryChange(selectedCountry: any) {
+  console.log(selectedCountry,"selectedCountry")
   if (selectedCountry) {
     this.selectedCountryFlag = selectedCountry.flag;
+    this.loginForm?.get("selectedCountry")?.setValue(this.selectedCountry);
+    this.loginForm?.get("selectedCountry")?.updateValueAndValidity();
+    
   } else {
     this.selectedCountryFlag = null;
   }
+ 
 }
 
   togglePassword(): void {
