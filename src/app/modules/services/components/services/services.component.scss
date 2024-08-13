@@ -1,0 +1,101 @@
+.page-scrum {
+  background-color: #f7f7f7;
+  padding: 10px;
+}
+
+.page-scrum p {
+  font-size: 13px;
+  color: grey;
+}
+
+.page-scrum span {
+  font-size: 13px;
+  color: #008cac;
+}
+.card_backgroundImg::after {
+    content: "";
+    background: url('../../../../../../public/images/serviceBackground.svg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 20px;
+    border-radius: 10px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 32%;
+    right: 0;
+    z-index: -1;
+}
+  
+.card_background {
+  background-color: #008cac;
+  width: 100%;
+  height: 120px;
+  border-radius: 20px;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.card {
+  width: 100%;
+  padding: 15px;
+  background: #ffffff;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Center content vertically */
+  aspect-ratio: 1 / 1; /* Keeps the card square-shaped */
+  transition: transform 0.2s ease-in-out;
+  text-align: center;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card_h3 {
+  font-size: 14px; /* Reduced font size */
+  font-weight: bold;
+  text-align: center;
+//   margin-top: 10px;
+  flex-grow: 1; /* Make the text take equal space with the image */
+  display: flex;
+  align-items: flex-start; /* Vertically center the text within its space */
+  justify-content: center;
+//   padding-bottom: 20px;
+}
+
+.card_img {
+  width: 100%;
+  display: flex;
+  justify-content: center; /* Center image horizontally */
+  align-items: center; /* Center image vertically */
+  flex-grow: 1; /* Allow image to take up the remaining space */
+}
+
+.card_img img {
+  max-width: 60px; /* Reduced image size */
+  max-height: 60px;
+}
+.addPlacement{
+padding-top: 30rem;
+}
+@media (max-width: 576px) {
+  .card_h3 {
+    font-size: 12px;
+  }
+
+  .card_img img {
+    max-width: 50px;
+    max-height: 50px;
+  }
+  .addPlacement{
+    padding-top: 65rem;
+    }
+}
+.clickable {
+  cursor: pointer;
+}

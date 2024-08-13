@@ -7,6 +7,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { AdPlacementComponent } from './components/ad-placement/ad-placement.component';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { TestimonialComponent } from './components/testimonial/testimonial.component';
+import {MatRadioModule} from '@angular/material/radio';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { TestimonialComponent } from './components/testimonial/testimonial.compo
     CommonModule,
     SharedRoutingModule,
     MatDialogModule,
-    CarouselModule
+    CarouselModule,
+    MatRadioModule
   ],
   exports: [
     HeaderComponent,
