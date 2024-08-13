@@ -13,20 +13,20 @@
             <div class="row justify-content-center w-100 mt-4">
               <!-- Row 1: 5 cards -->
               <div class="col-md-2 col-sm-4 col-6 mb-3">
-                <div class="card text-center">
+                <div class="card text-center clickable" (click)="goToRental()">
                   <div class="card_img mx-auto">
                     <img src="images/rental.png" alt="IT-rental" />
                   </div>
                   <h3 class="card_h3">IT-rental</h3>
-                  <!-- <div class="bg-background="images/serviceBackground.svg"></div> -->
                 </div>
               </div>
               <div class="col-md-2 col-sm-4 col-6 mb-3">
-                <div class="card text-center">
+                <div class="card text-center clickable" (click)="goToPatientCare()">
                   <div class="card_img mx-auto">
                     <img src="images/patient-care.png" alt="Patient Care" />
                   </div>
                   <h3 class="card_h3">Patient Care At Home & Physiotherapy</h3>
+                  
                 </div>
               </div>
               <div class="col-md-2 col-sm-4 col-6 mb-3">
@@ -34,7 +34,7 @@
                   <div class="card_img mx-auto">
                     <img src="images/appliance-repair.png" alt="Appliance Repair" />
                   </div>
-                  <h3 class="card_h3">Appliance Repair & Services</h3>
+                  <h3 class="card_h3 clickable" (click)="goToApplianceRepair()">Appliance Repair & Services</h3>
                 </div>
               </div>
               <div class="col-md-2 col-sm-4 col-6 mb-3">
@@ -42,7 +42,7 @@
                   <div class="card_img mx-auto">
                     <img src="images/professionals.png" alt="Professionals" />
                   </div>
-                  <h3 class="card_h3">Professionals</h3>
+                  <h3 class="card_h3 clickable"  (click)="goToProfessionals()">Professionals</h3>
                 </div>
               </div>
               <div class="col-md-2 col-sm-4 col-6 mb-3">
@@ -50,7 +50,7 @@
                   <div class="card_img mx-auto">
                     <img src="images/houseKeeping.svg" alt="House Keeping" />
                   </div>
-                  <h3 class="card_h3">House Keeping</h3>
+                  <h3 class="card_h3 clickable"  (click)="goToHouseKeeping()">House Keeping</h3>
                 </div>
               </div>
             </div>
@@ -62,7 +62,7 @@
                   <div class="card_img mx-auto">
                     <img src="images/securityServices.png" alt="IT-rental" />
                   </div>
-                  <h3 class="card_h3">Security Services</h3>
+                  <h3 class="card_h3 clickable" (click)="goToSecurityServices()">Security Services</h3>
                 </div>
               </div>
               <div class="col-md-2 col-sm-4 col-6 mb-3">
@@ -70,7 +70,7 @@
                   <div class="card_img mx-auto">
                     <img src="images/furniture.svg" alt="Patient Care" />
                   </div>
-                  <h3 class="card_h3">Furniture On Hire</h3>
+                  <h3 class="card_h3 clickable" (click)="goToFurniture()">Furniture On Hire</h3>
                 </div>
               </div>
               <div class="col-md-2 col-sm-4 col-6 mb-3">

@@ -7,7 +7,8 @@ import { ServicesCategoryComponent } from './components/services-category/servic
 import { ServicesDetailsComponent } from './components/services-details/services-details.component';
 import { SharedModule } from '../../shared/shared.module';
 import {MatRadioModule} from '@angular/material/radio';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 @NgModule({
   declarations: [
     ServicesComponent,
@@ -19,7 +20,9 @@ import {FormsModule} from '@angular/forms';
     ServicesRoutingModule,
     SharedModule,
     MatRadioModule,
-    FormsModule
+    FormsModule,
+    MatCheckboxModule,
+    ReactiveFormsModule
     ]
 })
 export class ServicesModule { }

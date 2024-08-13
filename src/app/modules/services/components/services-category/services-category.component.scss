@@ -8,4 +8,39 @@
   .example-radio-button {
     margin: 5px;
   }
-  
+  .clickable {
+    cursor: pointer;
+  }
+  .location_search {
+    width: 40%;
+    height: 50px;
+    background-color: #ffffff52;
+    border-radius: 25px;
+    border: 1px solid #cecece;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 10px;
+    margin-top: 30px;
+}
+
+.select_box {
+    width: 30%;
+    border: none;
+    height: 80%;
+    background-color: #ffffff00;
+    padding-left: 10px;
+}
+
+.search_box {
+    width: 30%;
+    padding-left: 10px;
+    border: none;
+    height: 80%;
+    background-color: #ffffff00;
+}
+
+.search_glass {
+    color: #a3a3a3;
+    margin-left: 30px;
+}
