@@ -4,9 +4,11 @@
   font-size: 14px;
   height: 50px;
 }
+
 .clickable {
   cursor: pointer;
 }
+
 .header_top {
   display: flex;
   justify-content: space-between;
@@ -33,12 +35,6 @@ nav {
   width: 100%;
 }
 
-.nav_container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 100px;
-}
 
 .nav_menu {
   display: flex;
@@ -62,9 +58,24 @@ nav {
   text-align: center;
 }
 
-
-
 .login i {
+  color: #008CAC;
+}
+
+.login2 {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.login2 a {
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.login2 i {
   color: #008CAC;
 }
 
@@ -75,24 +86,40 @@ nav {
 
   .navbar-collapse {
     width: 100%;
-    z-index: 1040;
+    z-index: 3;
     margin-top: 10px;
     margin-bottom: 20px;
     background-color: #fff;
+    padding-left: 20px;
   }
 
   .navbar-nav .nav-item {
     margin-bottom: 0.5rem;
   }
-  .mobile_menu{
+
+  .mobile_menu {
     display: flex;
     flex-direction: column;
     justify-content: left;
   }
 
+  .login2 {
+    justify-content: start;
+  }
+
+  .login2 a {
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+  }
+
+  .login2 i {
+    margin: 5px
+  }
+
+  .mobile_menu{
+    padding-left: 8px;
+  }
 
 }
-
-/* Rectangle 1462 */
-
-

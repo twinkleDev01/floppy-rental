@@ -25,6 +25,7 @@
 
 h1 {
     font-size: 50px;
+    font-weight: bold;
 }
 
 h1 span {
@@ -145,7 +146,11 @@ h2 span {
     margin-bottom: 25px;
 }
 
-.card_h3{
+.card:hover {
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card_h3 {
     font-size: 20px;
     font-weight: bold;
     text-align: center;
@@ -199,15 +204,21 @@ h2 span {
 }
 
 .fridge_repair {
-    background: url("../../../../../../public/images/fridge-repair.png") no-repeat;
+    background: url("../../../../../../public/images/fridge-repair.png");
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .ac_service {
-    background: url("../../../../../../public/images/ac-servicing.png") no-repeat;
+    background: url("../../../../../../public/images/ac-servicing.png");
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .electrician {
-    background: url("../../../../../../public/images/need-electrician.png") no-repeat;
+    background: url("../../../../../../public/images/need-electrician.png");
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .electrician span,
@@ -231,6 +242,8 @@ h2 span {
     align-items: center;
     box-shadow: 0px 5px 0px -1px #008cac;
 }
+
+
 
 // how it works
 
@@ -369,54 +382,173 @@ h2 span {
 }
 
 
-
-
-
-
-
-
 .house_keeping {
     margin-top: 80px;
     padding-top: 50px;
     padding-bottom: 50px;
 }
 
-.appliance_repair{
-    clip-path: polygon(0 25%, 100% 1%, 100% 81%, 0 81%);
-    background-color: #fff;
-    color: #008CAC;
-    padding: 20px;
-    margin-top: 350px;
+.ac_repair_margin {
+    margin-top: 210px;
+}
+
+.fridge_repair_margin {
+    margin-top: 120px;
+}
+
+.washing_repair_margin {
+    margin-top: 170px;
+}
+
+.water_repair_margin {
+    margin-top: 190px;
+}
+
+.appliance_repair {
+    background-image: url("../../../../../../public/images/ac-union.svg");
+    background-size: cover;
+    height: 190px;
+    width: 190px;
+    display: flex;
+    flex-direction: column;
+    padding-top: 8px;
+    animation: bounce 1.5s infinite;
 }
 
 
 
+.appliance_repair_img {
+    width: 65px;
+    height: 65px;
+    border: 1px solid #008cac;
+    border-radius: 50%;
+    margin-left: 62px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+        /* Adjust the distance as needed */
+    }
+
+}
+
+
+// ===========================================//
+// *******************responsive++****************************
+
 @media (max-width: 1280px) {
-    .container{
+    .container {
         max-width: 992px;
     }
-    .card{
+
+    .card {
         width: 170px;
         height: 170px;
     }
-    .card h3{
+
+    .card h3 {
         font-size: 16px;
     }
 
-    .banner1, .banner2, .banner3{
+    .banner1,
+    .banner2,
+    .banner3 {
         height: 500px;
     }
 
-    .banner_text{
+    .banner_text {
         padding-top: 65px;
     }
 
-    h1{
+    h1 {
         font-size: 36px;
     }
 
-    .owl_section{
+    .owl_section {
         padding: 10px 45px;
     }
- 
+}
+
+@media (max-width: 992px) {
+
+    .banner1,
+    .banner2,
+    .banner3 {
+        height: 400px;
+    }
+
+    .container {
+        max-width: 850px;
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+
+    .banner_text p {
+        font-size: 14px;
+    }
+
+    h2 {
+        font-size: 32px;
+    }
+
+    .card_background {
+        height: 125px;
+    }
+
+    .electrician,
+    .ac_service,
+    .fridge_repair {
+        width: 100%;
+        padding-top: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 5px;
+        height: 180px;
+    }
+
+    .electrician h3,
+    .ac_service h3,
+    .fridge_repair h3 {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .electrician span,
+    .ac_service span {
+        font-size: 14px;
+    }
+
+    .book_now_btn {
+        margin-top: 40px;
+        padding: 5px 30px;
+        border: none;
+        border-radius: 20px;
+        background-color: #008CAC;
+        color: white;
+    }
+
+    .book_now_btn:hover {
+        background-color: #007e9a;
+    }
+
+    .card_salon {
+        width: 190px;
+    }
+
+    .card_salon h3 {
+        line-height: 40px;
+        font-size: 14px;
+    }
 }
