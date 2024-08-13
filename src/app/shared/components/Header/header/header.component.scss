@@ -73,6 +73,14 @@ nav {
     text-align: left;
   }
 
+  .navbar-collapse {
+    width: 100%;
+    z-index: 1040;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    background-color: #fff;
+  }
+
   .navbar-nav .nav-item {
     margin-bottom: 0.5rem;
   }
@@ -81,6 +89,8 @@ nav {
     flex-direction: column;
     justify-content: left;
   }
+
+
 }
 
 /* Rectangle 1462 */
