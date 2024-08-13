@@ -12,11 +12,19 @@
   font-size: 13px;
   color: #008cac;
 }
-
+.card_backgroundImg {
+    // background-image: url('images/serviceBackground.svg');
+    background-size: cover;
+    background-position: center; 
+    background-repeat: no-repeat; 
+    padding: 20px; 
+    border-radius: 10px;
+  }
+  
 .card_background {
   background-color: #008cac;
   width: 100%;
-  height: 120px; /* Adjusted to cover only half of the card */
+  height: 120px;
   border-radius: 20px;
   padding: 10px;
   margin-bottom: 20px;
