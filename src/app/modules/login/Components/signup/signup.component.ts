@@ -41,8 +41,8 @@ export class SignupComponent {
       firstName: ['',[Validators.required]],
       lastName: ['',[Validators.required]],
       contactNumber : ['', [Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(10), Validators.maxLength(10)]],
-      country: ['', Validators.required],
-      selectedCountry: [],
+      // country: [this.selectedCountry],
+      selectedCountry: [this.selectedCountry],
     });
   }
 
@@ -68,6 +68,7 @@ export class SignupComponent {
     console.log('login signup')
     this.handleNavigationSignup.emit('login')
   }
+
   onCountryChange(selectedCountry: any) {
     console.log(selectedCountry,"selectedCountry")
     if (selectedCountry) {
@@ -80,6 +81,7 @@ export class SignupComponent {
     }
    
   }
+  
   noSpace(event: any) {
     console.log(event, 'keyyyy');
     if (event.keyCode === 32 && !event.target.value) return false;

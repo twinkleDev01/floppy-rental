@@ -28,7 +28,7 @@
             (keypress)="noSpace($event)"
           />
           <div class="position-absolute item-align">
-            <i class="fa-solid fa-envelope"></i>
+            <i class="fa-solid fa-user"></i>
           </div>
         </div>
         <!-- FirstName-Error -->
@@ -74,7 +74,7 @@
             (keypress)="noSpace($event)"
           />
           <div class="position-absolute item-align">
-            <i class="fa-solid fa-envelope"></i>
+            <i class="fa-solid fa-user"></i>
           </div>
         </div>
         <!-- LastName-Error -->
@@ -147,6 +147,7 @@
             Invalid email or phone
           </span>
         </div>
+
         <!-- ContactNumber -->
         <div class="pt-3">
         
@@ -191,6 +192,7 @@
                 </span>
               </mat-option>
             </mat-select>
+
             <span class="country-code px-2">{{signup.get('selectedCountry')?.value?.code}}</span>
             <input
               id="contactNumber"
@@ -203,6 +205,7 @@
               placeholder=""
               style="height: 42px"
               class="w-100 border-0 text-muted bg-transparent"
+              style="outline: none; box-shadow: none;"
               (keypress)="noSpace($event)"
             />
           </div>
@@ -253,6 +256,7 @@
             Contact Number cannot exceed 10 digits
           </span>
         </div>
+
         <!-- Passoword -->
         <div
           class="position-relative pt-4 d-flex justify-content-center align-items-center"
@@ -294,7 +298,7 @@
           Password is required and must be at least 6 characters.
         </div>
 
-        <div class="d-flex justify-content-center pt-4">
+        <div class="d-flex justify-content-center pt-4 clickable">
           <button
             type="submit"
             class="form-control bg-color btn btn-primary rounded-pill px-3 py-3 text-white shadow-sm"
@@ -305,7 +309,7 @@
         </div>
       </form>
 
-      <p class="mt-4 text-center text-muted">
+      <p class="mt-4 text-center text-muted clickable">
         Already have an account?
         <a
           class="fw-semibold text-decoration-underline txt-color"
