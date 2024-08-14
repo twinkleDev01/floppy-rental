@@ -93,9 +93,29 @@ padding-top: 30rem;
     max-height: 50px;
   }
   .addPlacement{
-    padding-top: 65rem;
+    padding-top: 70rem;
+    }
+    .mobileRow{
+      margin-left: 3px;
     }
 }
+@media (max-width: 768px) {
+  .card_h3 {
+    font-size: 12px;
+  }
+
+  .card_img img {
+    max-width: 50px;
+    max-height: 50px;
+  }
+  .addPlacement{
+    padding-top: 70rem;
+    }
+    .mobileRow{
+      margin-left: 3px;
+    }
+}
+
 .clickable {
   cursor: pointer;
 }
