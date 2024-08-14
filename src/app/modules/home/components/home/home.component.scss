@@ -1,3 +1,7 @@
+
+.container{
+    max-width: 85%;
+}
 .banner1 {
     width: 100%;
     height: 600px;
@@ -38,9 +42,9 @@ h1 span {
 
 .banner_text {
     padding-left: 100px;
-    padding-top: 150px;
-    width: 50%;
+    width: 60%;
     position: absolute;
+    top: 70px;
     z-index: 2;
 }
 
@@ -76,7 +80,7 @@ h1 span {
 }
 
 .location_search {
-    width: 100%;
+    width: 80%;
     height: 50px;
     background-color: #ffffff52;
     border-radius: 25px;
@@ -136,14 +140,14 @@ h2 span {
 }
 
 .card {
-    width: 200px;
+    // width: 200px;
     height: 200px;
     padding: 20px 10px;
     background: #FFFFFF;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
     border: none;
-    margin-bottom: 25px;
+    margin: 1px 20px 20px 1px;
 }
 
 .card:hover {
@@ -185,9 +189,9 @@ h2 span {
     margin-top: -100px;
 }
 
-.owl_card {
-    width: 200px;
-}
+// .owl_card {
+//     width: 200px;
+// }
 
 .owl_carousel .owl-carousel .owl-nav {
     position: absolute;
@@ -202,6 +206,27 @@ h2 span {
     background-color: #008CAC;
     color: white;
 }
+
+.book_now_btn:hover {
+    background-color: #006d86;
+}
+
+
+.custom-nav {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.custom-nav button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    margin: 0 5px;
+}
+
 
 .fridge_repair {
     background: url("../../../../../../public/images/fridge-repair.png");
@@ -287,6 +312,13 @@ h2 span {
     align-items: center;
 }
 
+.inner_circle h3{
+    font-size: 21px;
+    font-weight: bold;
+    margin-top: 10px;
+    text-align: center;
+}
+
 .inner_circle_img {
     width: 70px;
     height: 70px;
@@ -358,12 +390,12 @@ h2 span {
 }
 
 .card_salon {
-    width: 300px;
+    // width: 300px;
     height: fit-content;
     border-radius: 20px;
     background-color: #fff;
     box-shadow: 0px 5px 0px -1px #008cac;
-    margin-top: 30px;
+    margin: 1px 20px 20px 1px;
 }
 
 .card_salon img {
@@ -371,14 +403,13 @@ h2 span {
 }
 
 .card_salon h3 {
-    line-height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: bold;
+    height: 50px;
     font-size: 18px;
-    padding-right: 10px;
-    padding-left: 10px;
+    text-align: center;
 }
 
 
@@ -387,6 +418,8 @@ h2 span {
     padding-top: 50px;
     padding-bottom: 50px;
 }
+
+// appliance repair
 
 .ac_repair_margin {
     margin-top: 210px;
@@ -415,6 +448,12 @@ h2 span {
     animation: bounce 1.5s infinite;
 }
 
+.appliance_repair h3 {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 0px 15px;
+    margin-top: 15px;
+}
 
 
 .appliance_repair_img {
@@ -426,6 +465,11 @@ h2 span {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 16px;
+}
+
+.appliance_repair_img img {
+    width: 100%;
 }
 
 @keyframes bounce {
@@ -436,7 +480,7 @@ h2 span {
     }
 
     50% {
-        transform: translateY(-10px);
+        transform: translateY(-30px);
         /* Adjust the distance as needed */
     }
 
@@ -447,12 +491,9 @@ h2 span {
 // *******************responsive++****************************
 
 @media (max-width: 1280px) {
-    .container {
-        max-width: 992px;
-    }
 
     .card {
-        width: 170px;
+        // width: 170px;
         height: 170px;
     }
 
@@ -467,7 +508,7 @@ h2 span {
     }
 
     .banner_text {
-        padding-top: 65px;
+        top: 40px;
     }
 
     h1 {
@@ -488,11 +529,12 @@ h2 span {
     }
 
     .container {
-        max-width: 850px;
+        max-width: 80%;
     }
 
     h1 {
-        font-size: 30px;
+        font-size: 28px;
+        width: 90%;
     }
 
     .banner_text p {
@@ -505,6 +547,15 @@ h2 span {
 
     .card_background {
         height: 125px;
+    }
+
+    .location_search {
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    .banner_text button {
+        margin-top: 15px;
     }
 
     .electrician,
@@ -539,16 +590,277 @@ h2 span {
         color: white;
     }
 
-    .book_now_btn:hover {
-        background-color: #007e9a;
-    }
 
-    .card_salon {
-        width: 190px;
-    }
+
+    // .card_salon {
+    //     // width: 170px;
+    // }
 
     .card_salon h3 {
-        line-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        height: 40px;
+        padding: 5px;
         font-size: 14px;
+        text-align: center;
+    }
+
+    .appliance_repair {
+        height: 120px;
+        width: 120px;
+        padding-top: 5px;
+    }
+
+    .appliance_repair_img {
+        width: 40px;
+        height: 40px;
+        margin-left: 40px;
+        padding: 10px;
+    }
+
+    .ac_repair_margin {
+        margin-top: 78px;
+    }
+
+    .appliance_repair_section {
+        margin-top: 80px;
+        height: 400px;
+    }
+
+    .fridge_repair_margin {
+        margin-top: 45px;
+    }
+
+    .washing_repair_margin {
+        margin-top: 55px;
+    }
+
+    .water_repair_margin {
+        margin-top: 70px;
+    }
+
+    .appliance_repair h3 {
+        font-size: 12px;
+        font-weight: bold;
+        padding: 0px 10px;
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 767px) {
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .card {
+        // width: 215px;
+        height: 200px;
+    }
+
+    .card h3 {
+        font-size: 20px;
+    }
+
+    .banner1,
+    .banner2,
+    .banner3 {
+        height: 350px;
+    }
+
+    .banner_text {
+        width: 70%;
+        top: 30px;
+    }
+
+    .banner_text button {
+        padding: 8px 40px;
+        border-radius: 20px;
+    }
+
+    .electrician,
+    .ac_service,
+    .fridge_repair {
+        margin-top: 20px;
+        width: 80%;
+        height: 250px;
+        height: 215px;
+        padding: 10px 30px;
+    }
+
+    .electrician h3,
+    .ac_service h3,
+    .fridge_repair h3 {
+        font-size: 24px;
+    }
+
+    // .card_salon {
+    //     width: 250px;
+    // }
+
+    .book_now_btn {
+        padding: 15px 70px;
+        border-radius: 40px;
+    }
+
+    .appliance_repair_section {
+        height: 500px;
+        padding: 10px 30px;
+    }
+
+    .row_mobile_response {
+        margin-top: 50px;
+    }
+
+    .ac_repair_margin {
+        margin-top: 210px;
+    }
+
+    .fridge_repair_margin {
+        margin-top: 120px;
+    }
+
+    .washing_repair_margin {
+        margin-top: 170px;
+    }
+
+    .water_repair_margin {
+        margin-top: 190px;
+    }
+
+    .appliance_repair_section {
+        height: inherit;
+        background-image: none;
+        margin-bottom: 50px;
+    }
+
+    .appliance_repair {
+        background-image: none;
+        height: 150px;
+        width: 280px;
+        display: flex;
+        flex-direction: column;
+        padding-top: 0px;
+        animation: none;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px 0px #9e9e9e;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .appliance_repair h3 {
+        font-size: 18px;
+        font-weight: bold;
+        padding: 0px 15px;
+        margin-top: 15px;
+    }
+
+
+    .appliance_repair_img {
+        width: 65px;
+        height: 65px;
+        border: 1px solid #008cac;
+        border-radius: 50%;
+        margin-left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+    }
+
+    .appliance_repair_img img {
+        width: 100%;
+    }
+
+    .ac_repair_margin,
+    .fridge_repair_margin,
+    .washing_repair_margin,
+    .water_repair_margin {
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 679px) {
+    .carousel {
+        display: none;
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+
+    .banner_text {
+        padding: 20px 30px;
+        width: 100%;
+        position: inherit;
+        top: inherit;
+        z-index: inherit;
+        background-color: rgb(220, 220, 220);
+        text-align: center;
+    }
+
+    .location_search,
+    h1,
+    .banner_text p {
+        width: 100%;
+    }
+
+    .appliance_repair_section {
+        margin-top: 80px;
+        text-align: center;
+        background-image: none;
+        height: inherit;
+        width: 100%;
+        padding-top: 0px;
+        position: relative;
+        margin-bottom: 50px;
+    }
+
+    .row_mobile_response {
+        margin-top: 0px;
+
+    }
+
+    .location_search {
+        background-color: #fff;
+    }
+}
+
+@media (max-width: 480px) {
+    .border_circle {
+        width: 180px;
+        height: 180px;
+    }
+
+    .container {
+        max-width: 95%;
+    }
+
+    .inner_circle {
+        width: 160px;
+        height: 160px;
+    }
+
+    .number_circle{
+        width: 90px;
+        height: 90px;
+    }
+
+    .number_circle_inner{
+        width: 70px;
+        height: 70px;
+    }
+
+    .inner_circle h3{
+        font-size: 16px;
+    }
+
+    .inner_circle_img{
+        width: 50px;
+        height: 50px;
     }
 }

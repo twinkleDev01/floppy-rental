@@ -5,7 +5,7 @@
 }
 
 .card_testimonial{
-    width: 400px;
+    // width: 400px;
     background-color: white;
     box-shadow: 0px 1px 15px 0px #e4e4e4;
     margin-top: 40px;
@@ -73,3 +73,9 @@ h2{
     font-weight: bold;
     text-align: center;
 }
+
+// @media (max-width: 992px) {
+//     .card_testimonial{
+//         width: 500px;
+//     }
+// }

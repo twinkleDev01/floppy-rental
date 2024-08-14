@@ -39,6 +39,7 @@
 
 .card {
   width: 100%;
+  height: 170px;
   padding: 15px;
   background: #ffffff;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
@@ -47,7 +48,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center; /* Center content vertically */
-  aspect-ratio: 1 / 1; /* Keeps the card square-shaped */
   transition: transform 0.2s ease-in-out;
   text-align: center;
 }

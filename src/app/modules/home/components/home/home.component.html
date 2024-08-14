@@ -1,20 +1,6 @@
 <!-- hero section -->
 <div class="hero_section">
-    <div class="banner_text">
-        <h1>Expert Professional <span>Home Services,</span> Book Online</h1>
-        <p>Service On Wheel helps you live smarter, giving you time to focus what's most
-            important.</p>
-        <div class="location_search">
-            <i class="fa-solid fa-location-dot"></i>
-            <select class="select_box" name="" id="">
-                <option value="">select</option>
-                <option value="">nagpur</option>
-            </select>
-            <i class="fa-solid fa-magnifying-glass search_glass"></i>
-            <input type="search" placeholder="Search Item" class="search_box">
-        </div>
-        <button>Contact us</button>
-    </div>
+
     <div id="carouselExampleControls" class="carousel slide carousel-fade" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
@@ -45,10 +31,25 @@
             <span class="visually-hidden">Next</span>
         </button>
     </div>
+    <div class="banner_text">
+        <h1>Expert Professional <span>Home Services,</span> Book Online</h1>
+        <p>Service On Wheel helps you live smarter, giving you time to focus what's most
+            important.</p>
+        <div class="location_search">
+            <i class="fa-solid fa-location-dot"></i>
+            <select class="select_box" name="" id="">
+                <option value="">select</option>
+                <option value="">nagpur</option>
+            </select>
+            <i class="fa-solid fa-magnifying-glass search_glass"></i>
+            <input type="search" placeholder="Search Item" class="search_box">
+        </div>
+        <button>Contact us</button>
+    </div>
 </div>
 
 <!-- content -->
-<div class="container">
+<div class="container mt-5">
 
     <!-- what are you looking for -->
     <div class="owl_container">
@@ -61,7 +62,15 @@
             <div class="col-lg-9">
                 <div class="card_background"></div>
                 <div class="owl_section">
-                    <owl-carousel-o [options]="customOptions" class="owl_carousel">
+                    <!-- <div class="custom-nav">
+                        <button class="custom-prev" (click)="onPrevClick()">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="custom-next">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div> -->
+                    <owl-carousel-o #owlElement [options]="customOptions" class="owl_carousel">
                         <ng-template carouselSlide class="owl_card">
                             <div class="card">
                                 <div class="card_img">
@@ -97,9 +106,81 @@
                         <ng-template carouselSlide class="owl_card">
                             <div class="card">
                                 <div class="card_img">
-                                    <img src="images/IT-rental.png" alt="">
+                                    <img src="images/houseKeeping.svg" alt="">
                                 </div>
-                                <h3 class="card_h3">IT-rental</h3>
+                                <h3 class="card_h3">House Keeping</h3>
+                            </div>
+                        </ng-template>
+                        <ng-template carouselSlide class="owl_card">
+                            <div class="card">
+                                <div class="card_img">
+                                    <img src="images/securityServices.png" alt="">
+                                </div>
+                                <h3 class="card_h3">Security Services</h3>
+                            </div>
+                        </ng-template>
+                        <ng-template carouselSlide class="owl_card">
+                            <div class="card">
+                                <div class="card_img">
+                                    <img src="images/furniture.svg" alt="">
+                                </div>
+                                <h3 class="card_h3">Furniture On Hire</h3>
+                            </div>
+                        </ng-template>
+                        <ng-template carouselSlide class="owl_card">
+                            <div class="card">
+                                <div class="card_img">
+                                    <img src="images/transport.svg" alt="">
+                                </div>
+                                <h3 class="card_h3">Transport Services</h3>
+                            </div>
+                        </ng-template>
+                        <ng-template carouselSlide class="owl_card">
+                            <div class="card">
+                                <div class="card_img">
+                                    <img src="images/weddingServices.png" alt="">
+                                </div>
+                                <h3 class="card_h3">Wedding Services</h3>
+                            </div>
+                        </ng-template>
+                        <ng-template carouselSlide class="owl_card">
+                            <div class="card">
+                                <div class="card_img">
+                                    <img src="images/webDeveloper.svg" alt="">
+                                </div>
+                                <h3 class="card_h3">Web Developer & Designer</h3>
+                            </div>
+                        </ng-template>
+                        <ng-template carouselSlide class="owl_card">
+                            <div class="card">
+                                <div class="card_img">
+                                    <img src="images/professionals.svg" alt="">
+                                </div>
+                                <h3 class="card_h3">Professional Cleaning Expert</h3>
+                            </div>
+                        </ng-template>
+                        <ng-template carouselSlide class="owl_card">
+                            <div class="card">
+                                <div class="card_img">
+                                    <img src="images/co-workingSpace.svg" alt="">
+                                </div>
+                                <h3 class="card_h3">Co-Working Space & Estate Agent</h3>
+                            </div>
+                        </ng-template>
+                        <ng-template carouselSlide class="owl_card">
+                            <div class="card">
+                                <div class="card_img">
+                                    <img src="images/Salon.svg" alt="">
+                                </div>
+                                <h3 class="card_h3">Salon At Home</h3>
+                            </div>
+                        </ng-template>
+                        <ng-template carouselSlide class="owl_card">
+                            <div class="card">
+                                <div class="card_img">
+                                    <img src="images/HomePainting.svg" alt="">
+                                </div>
+                                <h3 class="card_h3">Home Painting</h3>
                             </div>
                         </ng-template>
                     </owl-carousel-o>
@@ -109,21 +190,21 @@
     </div>
 
     <!-- home repair services -->
-    <div class="row mt-5 pt-5">
-        <div class="col-lg-4 col-md-4">
+    <div class="row mt-5">
+        <div class="col-lg-4 col-md-4 d-flex justify-content-center">
             <div class="fridge_repair">
                 <h3 class="text-center text-white">Looking for Fridge Repair Expert?</h3>
                 <button class="book_now_btn">Book Now</button>
             </div>
         </div>
-        <div class="col-lg-4 col-md-4">
+        <div class="col-lg-4 col-md-4 d-flex justify-content-center">
             <div class="ac_service">
                 <h3 class="text-center text-white">AC Servicing</h3>
                 <span class="text-white">Ac Service repair at your doorstep</span>
                 <button class="book_now_btn">Book Now</button>
             </div>
         </div>
-        <div class="col-lg-4 col-md-4">
+        <div class="col-lg-4 col-md-4 d-flex justify-content-center">
             <div class="electrician">
                 <h3 class="text-center text-white">Need For Electrician</h3>
                 <span class="text-white">Electric Service at your doorstep</span>
@@ -144,7 +225,7 @@
                             <div class="inner_circle_img">
                                 <img src="images/book-online.svg" alt="">
                             </div>
-                            <h3 class="fs-5 text-center fw-bold">Book Online or Phone</h3>
+                            <h3>Book Online or Phone</h3>
                         </div>
                         <div class="number_circle">
                             <div class="number_circle_inner">
@@ -159,7 +240,7 @@
                             <div class="inner_circle_img">
                                 <img src="images/sms.svg" alt="">
                             </div>
-                            <h3 class="fs-5 text-center fw-bold">Get Booking Details Via SMS</h3>
+                            <h3>Get Booking Details Via SMS</h3>
                         </div>
                         <div class="number_circle">
                             <div class="number_circle_inner">
@@ -174,7 +255,7 @@
                             <div class="inner_circle_img">
                                 <img src="images/work-done.svg" alt="">
                             </div>
-                            <h3 class="fs-5 text-center fw-bold">Pay After Work is Done</h3>
+                            <h3>Pay After Work is Done</h3>
                         </div>
                         <div class="number_circle">
                             <div class="number_circle_inner">
@@ -192,37 +273,39 @@
 <!-- Appliance repare & service -->
 <div class="appliance_repair_section">
     <h2><span>Appliance Repair </span>& Services</h2>
-    <div class="row">
+    <div class="row row_mobile_response">
         <div class="col-lg-2 col-md-2"></div>
-        <div class="col-lg-2 col-md-2">
+        <div class="col-lg-2 col-md-2 d-flex justify-content-center">
             <div class="ac_repair_margin">
                 <div class="appliance_repair">
-                    <div class="appliance_repair_img"><img src="images/ac-repair.svg" alt=""></div>
-                    <h3 class="fs-5 mt-3 px-2 fw-bold">Ac Service & Repair</h3>
+                    <div class="appliance_repair_img">
+                        <img src="images/ac-repair.svg" alt="">
+                    </div>
+                    <h3>Ac Service & Repair</h3>
                 </div>
             </div>
         </div>
-        <div class="col-lg-2 col-md-2">
+        <div class="col-lg-2 col-md-2 d-flex justify-content-center">
             <div class="fridge_repair_margin">
                 <div class="appliance_repair">
                     <div class="appliance_repair_img"><img src="images/fridge-repair.svg" alt=""></div>
-                    <h3 class="fs-5 mt-3 px-2 fw-bold">Refrigerator Repair</h3>
+                    <h3>Refrigerator Repair</h3>
                 </div>
             </div>
         </div>
-        <div class="col-lg-2 col-md-2">
+        <div class="col-lg-2 col-md-2 d-flex justify-content-center">
             <div class="washing_repair_margin">
                 <div class="appliance_repair">
                     <div class="appliance_repair_img"><img src="images/washing-repair.svg" alt=""></div>
-                    <h3 class="fs-5 mt-3 px-2 fw-bold">Washing Mashine Repair</h3>
+                    <h3>Washing Mashine Repair</h3>
                 </div>
             </div>
         </div>
-        <div class="col-lg-2 col-md-2">
+        <div class="col-lg-2 col-md-2 d-flex justify-content-center">
             <div class="water_repair_margin">
                 <div class="appliance_repair">
                     <div class="appliance_repair_img"><img src="images/water-repair.svg" alt=""></div>
-                    <h3 class="fs-5 mt-3 px-2 fw-bold">Water Purifier Repair</h3>
+                    <h3>Water Purifier Repair</h3>
                 </div>
             </div>
         </div>
