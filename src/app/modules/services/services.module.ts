@@ -9,6 +9,10 @@ import { SharedModule } from '../../shared/shared.module';
 import {MatRadioModule} from '@angular/material/radio';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTabsModule} from '@angular/material/tabs';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 @NgModule({
@@ -25,6 +29,10 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
     FormsModule,
     MatCheckboxModule,
     ReactiveFormsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatSnackBarModule,
+    MatTooltipModule,
     MatTabsModule,
     CarouselModule
     

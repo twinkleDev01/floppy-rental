@@ -7,6 +7,7 @@ import { OwlOptions } from 'ngx-owl-carousel-o';
   styleUrl: './services-details.component.scss'
 })
 export class ServicesDetailsComponent {
+  currentRating = 3; 
   public doctorSlider: OwlOptions = {
     loop: true,
       margin: 10,

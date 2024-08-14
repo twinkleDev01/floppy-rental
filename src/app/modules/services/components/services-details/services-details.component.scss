@@ -110,3 +110,27 @@ margin-bottom: 8px;
     margin: 10px 0px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
  }
+ .charge{
+    font-size: 12px;
+    }
+.price{
+        color: #008cac;
+        }
+        .distance{
+            color: green;
+            font-size: 12px !important;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            }
+
+            .grid-item {
+                padding: 16px;
+                border-radius: 8px;
+                text-align: center;
+            }
+
+            .card{
+                border: none !important;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            }
