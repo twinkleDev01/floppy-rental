@@ -20,13 +20,13 @@ export class TestimonialComponent {
         items: 1
       },
       400: {
-        items: 2
+        items: 1
       },
       740: {
-        items: 4
+        items: 1
       },
       940: {
-        items: 4
+        items: 3
       },
     },
     nav: true

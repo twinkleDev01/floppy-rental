@@ -11,14 +11,16 @@
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
+        <div class="logo_img">
         <img src="Icons/floppyLogo.png" alt="Brand Logo">
+      </div>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mx-auto centered">
+        <ul class="navbar-nav mx-auto centered mobile_menu">
           <li class="nav-item active">
             <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
           </li>
@@ -33,10 +35,10 @@
           </li>
         </ul>
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item login">
+          <li class="nav-item login2">
             <a class="nav-link" href="#"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
           </li>
-          <li class="nav-item login">
+          <li class="nav-item login2">
             <a class="nav-link clickable"   (click)="openDialog()"><i class="fa-solid fa-user"></i> Login</a>
           </li>
         </ul>
