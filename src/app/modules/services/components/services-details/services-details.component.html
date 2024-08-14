@@ -1,1 +1,175 @@
-<p>services-details works!</p>
+
+<div class="page-scrum">
+    <div class="container">
+      <p class="m-0">
+        <i class="fa-solid fa-house"></i> Home &nbsp; > &nbsp; Services  &nbsp; > &nbsp; House Keeping  &nbsp; > &nbsp;
+        <span>
+            Niti Group Facility Services</span>
+   
+      </p>
+    </div>
+   
+  </div>
+  <div class="mt-4">
+    <div class="container">
+        <div class="row">
+        <div class="col-md-6">
+            <img class="service_img" src="images/Service-detail-img/room_cleaning.png" alt="">
+        </div>
+        <div class="col-md-6 service_detail pt-4" >
+            <p>House Keeping </p>
+            <h3>Niti Group Facility Services</h3>
+            <p></p>
+            <table>
+                <tr>
+                    <td class="price_detail">
+                        Monthly Charge for 8 Hrs.
+
+                    </td>
+                    <td class="price">
+                        INR 8590
+                    </td>
+                </tr>
+                <tr>
+                    <td class="price_detail">
+                        Monthly Charge for 12 Hrs.
+
+                    </td>
+                    <td class="price">
+                        INR 14,490
+                    </td>
+                </tr>
+                <div class="features mt-2">
+                    <div class="d-flex mt-2">
+                        <img src="images/Service-detail-img/green_tick.png" alt="">
+                        <p class="m-0"> Housekeeping Lady</p>
+                        
+                    </div>
+                    <div class="d-flex  mt-2">
+                        <img src="images/Service-detail-img/green_tick.png" alt="">
+                        <p class="m-0"> Housekeeping Boy</p>
+                        
+                    </div>
+                    <div class="d-flex  mt-2">
+                        <img src="images/Service-detail-img/green_tick.png" alt="">
+                        <p class="m-0"> 4 Year Experience</p>
+                        
+                    </div>
+                </div>
+              
+                
+                   
+                <div class="mt-3">
+                    <Button class="rate_btn me-2">Spare part rate</Button>
+                    <button class="cart_btn">Add to Cart</button>
+                </div>
+            </table>
+        </div>
+    </div>
+    </div>
+</div>
+<div class="tab_content my-4 py-4">
+    <div class="container">
+        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+            <mat-tab label="Description">
+                <div class="py-3">
+                 <ul>
+                    <li>
+                        A clean home is a happy home, so they say. But it doesn't have to be tiring or day long job for you. If you think you are the only one who finds cleaning to be less than thrilling,don't worry. Almost everyone does. Hence,the need for professionals armed with their supplies,who can finish the job quickly and tastefully,so that you can do things you love to do. Choose from a variety of cleaning jobs listed on Service On Wheel platform.Get Cleaning services in Nagpur near you within 90 minutes .
+                    </li>
+                    <li>
+                        So if you are searching House Keeping, Cleaning services near me in Nagpur,Home Cleaning services in Nagpur,Maids Cleaning services in Nagpur,House cleaners near me in Nagpur,Best Carpet Cleaning services in Nagpur,House Cleaning services near me in Nagpur,Cleaning companies in Nagpur,Home Cleaning services near me in Nagpur.Then Service On Wheel is the one stop that provides a solution for all your Cleaning problems in Nagpur . Experts at Service On Wheel provide you with basic Cleaning services in Nagpur.We provide All Type of Cleaning service in Nagpur at the comfort of your home, choose a slot according to your convenience and leave the rest on us.Our Services are -- House Cleaning services in Nagpur,Sofa Cleaning service in Nagpur,Carpet Cleaning services in Nagpur,Water Tank Cleaning service in Nagpur,Or any Cleaning job in Nagpur...!!
+                    </li>
+                 </ul>
+                </div>
+            </mat-tab>
+            <mat-tab label="Reviews">
+                <div class="reviews py-3">
+                    <h5 class="fw-bolder">Reviews</h5>
+                    <ng-container *ngFor="let Review of reviews">
+                      <div class="review_card">
+                   <div class="d-flex mb-2">
+                    <div><img [src]="Review.profileImg" class="me-3 " alt=""></div>
+                    <div>
+                        <p class="m-0 fw-bold">{{Review.name}}</p>
+                        <span>{{Review.address}}</span>
+                    </div>
+                   </div>
+                   <p class="m-0 description_text">{{Review.description}}</p>
+                      </div>
+                    </ng-container>
+                    <div class="d-flex justify-content-center">
+                        <button class="cart_btn">Load more</button>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold mt-5">Write Your Reviews</h5>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="d-block" for="">Name*</label>
+                            <input type="text">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="d-block" for="">Email*</label>
+                                <input type="text">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="d-block" for="">Phone Number*</label>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <label class="d-block mt-4" for="">Message*</label>
+                        <textarea name="" id="" rows="6"></textarea>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button class="cart_btn">Submit Review </button>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="Seller Info">
+                <div class="seller_info py-3">
+                    <h5 class="fw-bolder">Seller Info</h5>
+                    <div class="d-flex info_card">
+                        <div><img src="images/Service-detail-img/profile_img.png" alt=""></div>
+                        <div class="p-3 ">
+                            <p class="fw-bold m-0">Floyd Miles</p>
+                            <span class="location">London,UK</span>
+                            <p class="m-0 des_text"><span class="fw-bold">Services:</span> <span class="text-muted">120</span> </p>
+                            <p class="m-0 des_text"><span class="fw-bold">Category:</span> <span class="text-muted">Housekeeping Staff, Pantry Boy, Electrician/Plumber/Carpenter</span></p>
+                        </div>
+                    </div>
+                </div>
+               
+            </mat-tab>
+          </mat-tab-group>
+
+    </div>
+</div>
+<div class="p-5">
+    <div class="container">
+<h3>Similar Products</h3>
+<div>
+    <ng-container *ngFor="let data of Products">
+        <div class="product_cart">
+            <img [src]="data.image" alt="">
+            <h5>{{data.title}}</h5>
+            <p>{{data.staff}}</p>
+            <p>{{data.distance}}</p>
+            <p>{{data.rate}}</p>
+            <p>{{data.price}}</p>
+        </div>
+    </ng-container>
+
+        <owl-carousel-o [options]="doctorSlider">
+            @for (data of Products; track data) {
+            <ng-template carouselSlide>
+            <div>
+                jhjh
+            </div>
+            </ng-template>
+            }
+          </owl-carousel-o> 
+</div>
+<!-- discount carousel -->
+<app-ad-placement></app-ad-placement>
+    </div>
+</div>

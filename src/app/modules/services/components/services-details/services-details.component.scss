@@ -1,0 +1,112 @@
+.page-scrum {
+    background-color: #f7f7f7;
+    padding: 10px;
+  }
+  
+  .page-scrum p {
+    font-size: 13px;
+    color: grey;
+  }
+  
+  .page-scrum span {
+    font-size: 13px;
+    color: #008cac;
+  }
+
+  .service_img{
+    width: 100%;
+  }
+  .service_detail p{
+color: grey;
+line-height: none;
+margin-bottom: 8px;
+  }
+  .service_detail h3{
+    font-weight: 700;
+  }
+  .price_detail{
+    font-weight: 600;
+  }
+  .price{
+    color: #008cac;
+  }
+  .features p{
+    font-size: 12px !important;
+  }
+  .rate_btn{
+    color: black;
+    background-color: white;
+    border: 1.5px solid black;
+    border-radius: 25px;
+    padding: 2px 16px;
+    font-weight: 600;
+  }
+  .cart_btn{
+    color: white;
+    background-color: #008cac;
+    border: 2px solid  #008cac;
+    border-radius: 25px;
+    padding: 2px 16px;
+    font-weight: 500;
+  }
+  .tab_content{
+    background-color: #f7f7f7;
+  }
+  .tab_content ul li {
+    font-size: 13px;
+    margin-top: 10px;
+  }
+  .review_card{
+    background: white;
+    padding: 17px;
+    border-radius: 10px;
+    margin: 10px 0px;
+  }
+  .review_card img{
+    max-width: 55px;
+  }
+  .review_card span{
+    color: grey;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .description_text{
+    font-size: 13px;
+    color: grey
+  }
+  .info_card{
+      background: white;
+    padding: 17px;
+    border-radius: 10px;
+  }
+  .location{
+     font-size: 13px;
+     color: grey;
+  }
+  .des_text{
+    font-size: 13px;
+  }
+
+  .reviews input{
+    width: 100%;
+    border: none;
+    border-radius: 17px;
+    padding: 7px 10px;
+  }
+  .reviews textarea{
+    width: 100%;
+    border: none;
+    border-radius: 17px;
+    padding: 7px 10px;
+  }
+  .reviews label{
+    font-size: 13px;
+    font-weight: 600;
+  }
+ .product_cart{
+    background: white;
+    padding: 17px;
+    border-radius: 10px;
+    margin: 10px 0px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+ }

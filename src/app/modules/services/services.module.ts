@@ -9,6 +9,8 @@ import { SharedModule } from '../../shared/shared.module';
 import {MatRadioModule} from '@angular/material/radio';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatTabsModule} from '@angular/material/tabs';
+import { CarouselModule } from 'ngx-owl-carousel-o';
 @NgModule({
   declarations: [
     ServicesComponent,
@@ -22,7 +24,10 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatRadioModule,
     FormsModule,
     MatCheckboxModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTabsModule,
+    CarouselModule
+    
     ]
 })
 export class ServicesModule { }
