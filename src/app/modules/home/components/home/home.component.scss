@@ -492,6 +492,10 @@ h2 span {
 
 @media (max-width: 1280px) {
 
+    .inner_container {
+        width: 100%;
+    }
+
     .card {
         // width: 170px;
         height: 170px;
@@ -517,6 +521,20 @@ h2 span {
 
     .owl_section {
         padding: 10px 45px;
+    }
+}
+
+@media (max-width: 1080px){
+    .container{
+        max-width: 95%;
+    }
+    .inner_container {
+        width: 100%;
+    }
+
+    .appliance_repair{
+        height: 180px;
+        width: 180px;
     }
 }
 
@@ -572,7 +590,7 @@ h2 span {
     .electrician h3,
     .ac_service h3,
     .fridge_repair h3 {
-        font-size: 20px;
+        font-size: 18px;
         font-weight: bold;
     }
 
@@ -582,7 +600,7 @@ h2 span {
     }
 
     .book_now_btn {
-        margin-top: 40px;
+        margin-top: 20px;
         padding: 5px 30px;
         border: none;
         border-radius: 20px;

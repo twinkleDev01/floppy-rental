@@ -130,33 +130,38 @@
         height: 200px;
     }
 
- 
 
     .discount_bg {
         height: 300px;
     }
-    .discount_banner_text{
+
+    .discount_banner_text {
         text-align: center;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding-top: 0px; 
+        padding-top: 0px;
         padding-left: 0px;
         padding: 20px;
     }
 
-    .service_btn, .service_btn2{
+    .service_btn,
+    .service_btn2 {
         margin-top: 10px;
     }
 
     .disc_img {
-        bottom: -116px;
+        bottom: -21px;
         left: -25px;
     }
 
-    .disc_img2{
+    .disc_img2 {
         left: -40px;
     }
 }
 
-
+@media (max-width: 768px) {
+    .disc_banner_img {
+        display: none;
+    }
+}
