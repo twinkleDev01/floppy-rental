@@ -9,6 +9,10 @@ import { SharedModule } from '../../shared/shared.module';
 import {MatRadioModule} from '@angular/material/radio';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatTooltipModule} from '@angular/material/tooltip';
 @NgModule({
   declarations: [
     ServicesComponent,
@@ -22,7 +26,11 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatRadioModule,
     FormsModule,
     MatCheckboxModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatSnackBarModule,
+    MatTooltipModule
     ]
 })
 export class ServicesModule { }

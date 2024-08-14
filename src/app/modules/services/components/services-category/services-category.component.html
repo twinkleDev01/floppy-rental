@@ -1,39 +1,136 @@
-<div class="container">
-  <h2>Categories</h2>
-<mat-radio-group
-  aria-labelledby="example-radio-group-label"
-  class="example-radio-group"
-  [(ngModel)]="selectedCategory">
-  @for (category of categories; track category) {
-    <mat-radio-button class="example-radio-button" [value]="category">{{category}}</mat-radio-button>
-  }
-</mat-radio-group>
+<div class="page-scrum">
+  <div class="container">
+    <p class="m-0 fw-bold fs-6">
+      <i class="fa-solid fa-house"></i> Home &nbsp; > &nbsp; Services &nbsp; >
+      &nbsp;
+      <span class="fs-6 page">House Keeping</span>
+      <!-- <span>Services</span> -->
+    </p>
+  </div>
 </div>
-<hr>
+<!--  -->
+<div class="container p-2">
+  <div class="row gapCard">
+    <div class="col-3 me-5">
+      <!--  -->
+      <div class="container mt-5">
+        <h2 class="fw-bold fs-4">CATEGORY</h2>
+        <mat-radio-group
+          aria-labelledby="example-radio-group-label"
+          class="example-radio-group"
+          [(ngModel)]="selectedCategory"
+        >
+          @for (category of categories; track category) {
+          <mat-radio-button class="example-radio-button" [value]="category">{{
+            category
+          }}</mat-radio-button>
+          }
+        </mat-radio-group>
+      </div>
+      <hr />
 
-<!-- LocationArea -->
- <div class="container">
-  <h2>Area</h2>
-<div class="location_search">
-  <i class="fa-solid fa-location-dot"></i>
-  <select class="select_box" name="" id="">
-      <option value="">select</option>
-      <option value="">nagpur</option>
-  </select>
-  <span>|</span>
-  <i class="fa-solid fa-magnifying-glass search_glass"></i>
-  <input type="search" placeholder="Search Item" class="search_box">
+      <!-- LocationArea -->
+      <div class="container">
+        <h2 class="fw-bold fs-4">AREA</h2>
+        <div class="location_search">
+          <i class="fa-solid fa-location-dot"></i>
+          <select class="select_box" name="" id="">
+            <option value="">select</option>
+            <option value="">nagpur</option>
+          </select>
+          <span>|</span>
+          <i class="fa-solid fa-magnifying-glass search_glass"></i>
+          <input type="search" placeholder="Search Item" class="search_box" />
+        </div>
+      </div>
+      <hr />
+      <div class="container">
+        <h2 class="fw-bold fs-4">SUB CATEGORY</h2>
+        <section class="example-section" [formGroup]="toppings">
+          <mat-checkbox formControlName="DryClean">Dry Clean Up</mat-checkbox>
+          <mat-checkbox formControlName="MechanisedWaterTankCleaning"
+            >Mechanised Water Tank Cleaning</mat-checkbox
+          >
+          <mat-checkbox formControlName="EcoFriendlyHousekeeping"
+            >Eco Friendly Housekeeping</mat-checkbox
+          >
+          <mat-checkbox formControlName="IndustrialWaterTankCleaning"
+            >Industrial Water Tank Cleaning</mat-checkbox
+          >
+        </section>
+      </div>
+      <hr />
+      <!--  -->
+      <div class="container bg-offer">
+        <img src="images/SpecialOffer.svg" alt="" class="mb-4 mt-4" />
+        <div class="fw-bold fs-6">20% OFF On Kotak Silk Cards</div>
+        <p>20% OFF up to INR 400</p>
+      </div>
+
+      <!--  -->
+    </div>
+    <!-- ServiceDetail -->
+
+    <div class="col-8 card_backgroundImg pt-5">
+      <div class="row">
+        <section>
+          <div class="example-button-row">
+            <!-- <button mat-raised-button>Basic</button> -->
+            <a mat-raised-button href="https://www.google.com/" target="_blank"
+              >Spare part rate</a
+            >
+          </div>
+        </section>
+        <!-- GridContainer -->
+        <div class="grid-container">
+          <div
+          class="grid-item card serviceDetail"
+          *ngFor="let card of servicesDetails"
+        >
+          <div>
+            <img [src]="card.image" [alt]="card.title" class="img-fluid" />
+            <h6 class="card_h3 fw-bold pt-3">{{ card.title }}</h6>
+            <div class="Staff">
+              Housekeeping Staff <span>{{ card.staff }}</span>
+            </div>
+            <div class="charge pt-2">Monthly Charge for</div>
+            <p class="price">{{ card.price }}</p>
+            <hr />
+            <div class="distance">
+              Distance : {{ card.distance }} KM
+            <app-rating-star [rating]="currentRating" [starCount]="5" [color]="'yellow'" (ratingUpdated)="onRatingUpdated($event)">
+            </app-rating-star>
+          </div>
+        </div>
+      </div>
+        <!-- <div
+          class="card serviceDetail col-md-4 col-sm-6 col-12 mb-3"
+          *ngFor="let card of servicesDetails"
+        >
+          <div class="g-4">
+            <img [src]="card.image" [alt]="card.title" class="img-fluid" />
+            <h6 class="card_h3 fw-bold pt-3">{{ card.title }}</h6>
+            <div class="Staff">
+              Housekeeping Staff <span>{{ card.staff }}</span>
+            </div>
+            <div class="charge pt-2">Monthly Charge for</div>
+            <p class="price">{{ card.price }}</p>
+            <hr />
+            <div class="distance">
+              Distance : {{ card.distance }} KM
+            <app-rating-star [rating]="currentRating" [starCount]="5" [color]="'yellow'" (ratingUpdated)="onRatingUpdated($event)">
+            </app-rating-star>
+          </div>
+        </div>
+      </div> -->
+    </div>
+    <!-- ContainerGridClosed -->
+    </div>
+  </div>
+  <!--  -->
 </div>
-</div>
-<hr>
-<div class="container">
-  <h2>Sub Category</h2>
-  <section class="example-section" [formGroup]="toppings">
-  
-    <p><mat-checkbox formControlName="DryClean">Dry Clean Up</mat-checkbox></p>
-    <p><mat-checkbox formControlName="MechanisedWaterTankCleaning">Mechanised Water Tank Cleaning</mat-checkbox></p>
-    <p><mat-checkbox formControlName="EcoFriendlyHousekeeping">Eco Friendly Housekeeping</mat-checkbox></p>
-    <p><mat-checkbox formControlName="IndustrialWaterTankCleaning">Industrial Water Tank Cleaning</mat-checkbox></p>
-  </section>
-  
-</div>
+<!-- </div> -->
+
+  <div class="addPlacement mb-5">
+    <app-ad-placement></app-ad-placement>
+  </div>
