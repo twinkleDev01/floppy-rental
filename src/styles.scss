@@ -81,3 +81,36 @@
 }
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
+
+.mat-mdc-tab-body div.mat-mdc-tab-body-content{
+  height:100%;
+  overflow:hidden;
+}
+.mat-mdc-radio-button .mdc-radio__native-control:enabled:checked+.mdc-radio__background .mdc-radio__outer-circle, .mat-mdc-radio-button .mdc-radio__native-control:enabled:checked+.mdc-radio__background .mdc-radio__inner-circle {
+  border-color: #008CAC !important;
+}
+.mat-mdc-radio-button .mat-internal-form-field{
+  color: rgba(0, 0, 0, 0.6) !important;
+  font-size: 16px !important;
+}
+.mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background, .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background{
+  background-color: #008CAC !important;
+  border-color: #008CAC !important;
+}
+.mat-mdc-checkbox .mat-internal-form-field{
+  color: rgba(0, 0, 0, 0.6) !important;
+  font-size: 16px !important;
+}
+.mat-mdc-raised-button:not(:disabled) {
+  // color:#008CAC;
+  color: black !important;
+}
+.mat-mdc-raised-button:not(:disabled) {
+  border: 1px solid black !important;
+}
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
+.mat-mdc-tab-body div.mat-mdc-tab-body-content{
+  height:100%;
+  overflow:hidden;
+}
