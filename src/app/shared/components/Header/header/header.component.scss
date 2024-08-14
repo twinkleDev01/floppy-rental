@@ -9,6 +9,15 @@
   cursor: pointer;
 }
 
+.logo_img{
+  width: 200px;
+  height: fit-content;
+}
+
+.logo_img img{
+  width: 100%;
+}
+
 .header_top {
   display: flex;
   justify-content: space-between;
