@@ -110,6 +110,7 @@ export class ServicesCategoryComponent {
   ]
   private readonly _formBuilder = inject(FormBuilder);
   rating = 8;
+  showFilter: boolean = false;
   selectedCategory: string = 'Housekeeping Staff';
   categories: string[] = ['Housekeeping Staff', 'Pantry Boy', 'Supervisor/Floor Manager', 'Multitasking Staff', 'Electrician/Plumber/Carpenter', 'Horticulter And Landscaping Service'];
   toppings: FormGroup;
@@ -130,5 +131,8 @@ export class ServicesCategoryComponent {
     this.currentRating = newRating;
   }
 
+  toggleViewMobile() {
+    this.showFilter = !this.showFilter;
+  }
 }
 

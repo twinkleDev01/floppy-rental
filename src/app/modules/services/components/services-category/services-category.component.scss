@@ -168,6 +168,7 @@ column-gap: 20px;
 .addPlacement{
   padding-top: 1rem;
   }
+
 /* Media queries for different screen sizes */
 
 /* For tablets and large screens (up to 1024px) */
@@ -177,6 +178,10 @@ column-gap: 20px;
   }
   .addPlacement{
     padding-top: 10rem;
+    }
+    .show-filter-btn {
+      display: block;
+      margin-bottom: 1rem;
     }
 }
 
@@ -189,6 +194,10 @@ column-gap: 20px;
   .addPlacement{
     padding-top: 10rem;
     }
+    .show-filter-btn{
+      display: block;
+      margin-bottom: 1rem;
+    }
 }
 
 /* For extra-large screens (1441px and above) */
@@ -198,5 +207,8 @@ column-gap: 20px;
   }
   .addPlacement{
     padding-top: 0.5rem;
+    }
+    .show-filter-btn {
+      display: none;
     }
 }
