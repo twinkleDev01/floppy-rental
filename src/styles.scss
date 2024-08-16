@@ -108,6 +108,21 @@
 .mat-mdc-raised-button:not(:disabled) {
   border: 1px solid black !important;
 }
+.mat-mdc-paginator .mat-mdc-mini-fab{
+    margin: 2%;
+    border-radius: 50%;
+    border-color: #008CAC !important;
+    background-color:white !important;
+    width: 40px;
+    height: 40px;
+}
+.mat-mdc-paginator .mat-mdc-paginator-page-size{
+  display: none
+}
+.mat-mdc-paginator .mat-mdc-paginator-range-actions{
+  margin:auto !important;
+  border-color: #008CAC !important;
+}
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
 .mat-mdc-tab-body div.mat-mdc-tab-body-content{
