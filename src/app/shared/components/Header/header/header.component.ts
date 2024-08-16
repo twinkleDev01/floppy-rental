@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { LoginComponent } from '../../../../modules/login/Components/login/login.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 declare var bootstrap: any;  
 @Component({
   selector: 'app-header',
@@ -9,7 +10,7 @@ declare var bootstrap: any;
 })
 export class HeaderComponent {
   readonly dialog = inject(MatDialog)
-  // constructor(public dialog: MatDialog) {}
+  constructor(private route:Router) {}
   ngAfterViewInit() {
     // Initialize Bootstrap components manually if needed
     var myCollapse = document.getElementById('navbarNav');
@@ -24,5 +25,9 @@ export class HeaderComponent {
       width: '450',
       // disableClose: true
     });
+  }
+
+  goToMyCart(){
+  this.route.navigate(['cart'])
   }
 }
