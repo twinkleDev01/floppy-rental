@@ -87,6 +87,7 @@ export class MyCartComponent {
     }, 0
     )
   }
+  //getter for tax amount
   get totalTaxAmount() {
     return this.cartItems.reduce((totalAmount, cart) => {
       return totalAmount + ((cart.price-(cart.price*cart.discount/100))  * cart.tex / 100);
