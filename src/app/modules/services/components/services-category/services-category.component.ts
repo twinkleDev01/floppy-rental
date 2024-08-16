@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-services-category',
@@ -115,7 +116,7 @@ export class ServicesCategoryComponent {
   categories: string[] = ['Housekeeping Staff', 'Pantry Boy', 'Supervisor/Floor Manager', 'Multitasking Staff', 'Electrician/Plumber/Carpenter', 'Horticulter And Landscaping Service'];
   toppings: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router) {
     // Initialize the FormGroup with default values
     this.toppings = this.fb.group({
       DryClean: [true], // Default selected
@@ -133,6 +134,10 @@ export class ServicesCategoryComponent {
 
   toggleViewMobile() {
     this.showFilter = !this.showFilter;
+  }
+  goToDetail(card:{}){
+    console.log(card,"CardDetail")
+    this.router.navigate(['services/serviceDetails']);
   }
 }
 

@@ -94,7 +94,7 @@
           class="grid-item card serviceDetail"
           *ngFor="let card of servicesDetails"
         >
-          <div>
+          <div (click)="goToDetail(card)" class="clickable">
             <img [src]="card.image" [alt]="card.title" class="img-fluid" />
             <h6 class="card_h3 fw-bold pt-3">{{ card.title }}</h6>
             <div class="Staff">
