@@ -1,4 +1,3 @@
-
 .page-scrum {
   background-color: #f7f7f7;
   padding: 10px;
@@ -13,68 +12,76 @@
 //   font-size: 13px;
 //   color: #008cac;
 // }
-.page{
+.page {
   font-size: 13px;
   color: #008cac;
 }
+
 // _______________.....
 .example-radio-group {
-    display: flex;
-    flex-direction: column;
-    margin: 15px 0;
-    align-items: flex-start;
-  }
-  
-  // .example-radio-button {
-  //   margin: 5px;
-  // }
-  .clickable {
-    cursor: pointer;
-  }
-  .location_search {
-    width: 110%;
-    height: 50px;
-    background-color: #ffffff52;
-    border-radius: 25px;
-    border: 1px solid #cecece;
-    display: flex;
-    align-items: center;
-    padding-left: 20px;
-    padding-right: 10px;
-    margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  align-items: flex-start;
+}
+
+// .example-radio-button {
+//   margin: 5px;
+// }
+.clickable {
+  cursor: pointer;
+}
+
+.location_search {
+  width: 110%;
+  height: 50px;
+  background-color: #ffffff52;
+  border-radius: 25px;
+  border: 1px solid #cecece;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 10px;
+  margin-top: 30px;
 }
 
 .select_box {
-    width: 30%;
-    border: none;
-    height: 80%;
-    background-color: #ffffff00;
-    padding-left: 10px;
+  width: 30%;
+  border: none;
+  height: 80%;
+  background-color: #ffffff00;
+  padding-left: 10px;
 }
 
 .search_box {
-    width: 30%;
-    padding-left: 10px;
-    border: none;
-    height: 80%;
-    background-color: #ffffff00;
+  width: 30%;
+  padding-left: 10px;
+  border: none;
+  height: 80%;
+  background-color: #ffffff00;
 }
 
 .search_glass {
-    color: #a3a3a3;
-    margin-left: 30px;
+  color: #a3a3a3;
+  margin-left: 30px;
 }
-.text-dark-bg{
+
+.text-dark-bg {
   // background-color: rgba(0, 0, 0, 0.6); /* 000000 with 60% opacity */
-  color: rgba(0, 0, 0, 0.6); /* Text color, adjust as needed */
-  padding: 5px; /* Optional: Add padding to make the background more visible */
+  color: rgba(0, 0, 0, 0.6);
+  /* Text color, adjust as needed */
+  padding: 5px;
+  /* Optional: Add padding to make the background more visible */
 }
-.bg-offer{
+
+.bg-offer {
   background-color: rgba(0, 140, 172, 0.05);
 }
-.serviceDetail{
+
+.serviceDetail {
   padding: 25px;
 }
+
 // MatButton
 section {
   display: table;
@@ -111,26 +118,34 @@ section {
   justify-content: center;
   width: 120px;
 }
+
 // --------------------
-.Staff{
-font-size: 12px !important;
-display: flex;
-justify-content: space-between;
-align-items: center;
+.Staff {
+  font-size: 12px !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.price{
-color: #008cac;
+
+.price {
+  color: #008cac;
+  font-weight: 600;
+  text-align: start;
 }
-.charge{
-font-size: 12px;
+
+.charge {
+  font-size: 12px;
+  text-align: start;
 }
-.distance{
-color: green;
-font-size: 12px !important;
-display: flex;
-justify-content: space-between;
-align-items: center;
+
+.distance {
+  color: green;
+  font-size: 12px !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
+
 // ----
 .card_backgroundImg::after {
   content: "";
@@ -147,15 +162,20 @@ align-items: center;
   right: 0;
   z-index: -1;
 }
-.gapCard{
-column-gap: 20px;
+
+.gapCard {
+  column-gap: 20px;
 }
+
 // Grid
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(1, 1fr); /* Default to 1 column */
-  gap: 16px; /* Gap between grid items */
-  padding: 16px; /* Optional padding around the grid */
+  grid-template-columns: repeat(1, 1fr);
+  /* Default to 1 column */
+  gap: 16px;
+  /* Gap between grid items */
+  padding: 16px;
+  /* Optional padding around the grid */
 }
 
 .grid-item {
@@ -165,50 +185,60 @@ column-gap: 20px;
   text-align: center;
   /* Add more styles as needed */
 }
-.addPlacement{
+
+.addPlacement {
   padding-top: 1rem;
-  }
+}
 
 /* Media queries for different screen sizes */
 
 /* For tablets and large screens (up to 1024px) */
 @media (min-width: 768px) and (max-width: 1024px) {
   .grid-container {
-    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 columns */
   }
-  .addPlacement{
+
+  .addPlacement {
     padding-top: 10rem;
-    }
-    .show-filter-btn {
-      display: block;
-      margin-bottom: 1rem;
-    }
+  }
+
+  .show-filter-btn {
+    display: block;
+    margin-bottom: 1rem;
+  }
 }
 
 
 /* For large screens (more than 1024px) */
 @media (min-width: 1025px) and (max-width: 1440px) {
   .grid-container {
-    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 columns */
   }
-  .addPlacement{
+
+  .addPlacement {
     padding-top: 10rem;
-    }
-    .show-filter-btn{
-      display: block;
-      margin-bottom: 1rem;
-    }
+  }
+
+  .show-filter-btn {
+    display: block;
+    margin-bottom: 1rem;
+  }
 }
 
 /* For extra-large screens (1441px and above) */
 @media (min-width: 1441px) {
   .grid-container {
-    grid-template-columns: repeat(3, 1fr); /* 5 columns */
+    grid-template-columns: repeat(3, 1fr);
+    /* 5 columns */
   }
-  .addPlacement{
+
+  .addPlacement {
     padding-top: 0.5rem;
-    }
-    .show-filter-btn {
-      display: none;
-    }
+  }
+
+  .show-filter-btn {
+    display: none;
+  }
 }
