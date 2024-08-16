@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 
 @Component({
@@ -8,6 +9,14 @@ import { OwlOptions } from 'ngx-owl-carousel-o';
 })
 export class ServicesDetailsComponent {
   currentRating = 3; 
+  selectedCard: any;
+
+  constructor(private router: Router) {
+    const navigation = this.router.getCurrentNavigation();
+    this.selectedCard = navigation?.extras?.state?.['card']; 
+    console.log(this.selectedCard);
+  }
+
   public doctorSlider: OwlOptions = {
     loop: true,
       margin: 10,

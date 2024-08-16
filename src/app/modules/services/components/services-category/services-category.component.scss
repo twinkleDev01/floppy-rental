@@ -242,3 +242,29 @@ section {
     display: none;
   }
 }
+// ----
+.spaceBetweenFlex {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1em;
+  align-items: center;
+  align-content: center;
+}
+
+:host ::ng-deep .mat-mdc-paginator-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 8px;
+  align-content: center;
+  align-items: center;
+}
+
+:host ::ng-deep .mat-mdc-paginator-range-actions {
+  display: grid;
+  grid-auto-flow: column;
+  grid-column-gap: 1%;
+  justify-items: center;
+  align-content: center;
+  align-items: center;
+  min-width: 25rem;
+}

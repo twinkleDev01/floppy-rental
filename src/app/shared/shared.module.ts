@@ -15,13 +15,17 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { StylePaginatorDirective } from './directives/style-paginator.directive';
+import { PageBreadcrumbComponent } from './components/page-breadcrumb/page-breadcrumb.component';
 @NgModule({
   declarations: [
     HeaderComponent,
     FooterComponent,
     AdPlacementComponent,
     TestimonialComponent,
-    RatingStarComponent
+    RatingStarComponent,
+    StylePaginatorDirective,
+    PageBreadcrumbComponent
   ],
   imports: [
     CommonModule,
@@ -39,7 +43,9 @@ import { MatInputModule } from '@angular/material/input';
     FooterComponent,
     AdPlacementComponent,
     TestimonialComponent,
-    RatingStarComponent
+    RatingStarComponent,
+    StylePaginatorDirective,
+    PageBreadcrumbComponent
   ]
 })
 export class SharedModule { }

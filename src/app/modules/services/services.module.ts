@@ -15,6 +15,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTabsModule} from '@angular/material/tabs';
 import { CarouselModule } from 'ngx-owl-carousel-o';
+import {MatPaginatorModule} from '@angular/material/paginator';
 @NgModule({
   declarations: [
     ServicesComponent,
@@ -34,8 +35,8 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
     MatSnackBarModule,
     MatTooltipModule,
     MatTabsModule,
-    CarouselModule
-    
+    CarouselModule,
+    MatPaginatorModule
     ]
 })
 export class ServicesModule { }
