@@ -1,0 +1,370 @@
+<div class="page-scrum mb-5">
+  <div class="container">
+    <p class="m-0">
+      <i class="fa-solid fa-house"></i> Home &nbsp; > &nbsp  &nbsp; > &nbsp; My Cart  &nbsp; > &nbsp;
+      <span>Checkout</span>
+    </p>
+  </div>
+</div>
+<!--  -->
+<div class="container pt-5">
+    <div class="left-column">
+      <!-- Select Address Section -->
+      <div class="select-address shadow-lg p-5 rounded-4">
+        <h3>Select Your Address</h3>
+        <!--  -->
+        <div class="mt-4">
+          <form [formGroup]="checkout" (ngSubmit)="onSubmit()">
+            <!-- Name -->
+        <label for="">FullName</label>
+        <div
+        class="position-relative d-flex justify-content-center align-items-center"
+      >
+        <input
+          id="fullName"
+          name="fullName"
+          type="text"
+          autocomplete="fullName"
+          formControlName="fullName"
+          required
+          placeholder="Full Name"
+          class="form-control pe-3 rounded-2 border-1 text-muted"
+          (keypress)="noSpace($event)"
+        />
+
+      </div>
+        <!-- FirstName-Error -->
+        <div
+          *ngIf="
+            checkout.get('fullName')?.invalid && checkout.get('fullName')?.touched
+          "
+          class="d-flex justify-content-end text-danger"
+        >
+          <span *ngIf=" checkout.get('fullName')?.errors?.['required']">
+            <i
+              class="fa fa-exclamation-triangle"
+              style="color: #fe3061"
+              aria-hidden="true"
+            ></i
+            >Required
+          </span>
+          <span
+            *ngIf="checkout.get('fullName')?.errors?.['pattern'] && !checkout.get('fullName')?.errors?.['required']"
+          >
+            <i
+              class="fa fa-exclamation-triangle"
+              style="color: #fe3061"
+              aria-hidden="true"
+            ></i>
+            Invalid FirstName
+          </span>
+        </div>
+        <!-- NewAddress -->
+        <div class="form-grid-container">
+          <!-- Address -->
+          <div class="form-grid-item">
+            <label for="address">Address</label>
+            <input
+              id="address"
+              name="address"
+              type="text"
+              autocomplete="address"
+              formControlName="address"
+              required
+              placeholder=""
+              class="form-control pe-3 rounded-2 border-1 text-muted"
+            />
+            <div
+              *ngIf="
+                checkout.get('address')?.invalid && checkout.get('address')?.touched
+              "
+              class="d-flex justify-content-end text-danger"
+            >
+              <span *ngIf="checkout.get('address')?.errors?.['required']">
+                <i
+                  class="fa fa-exclamation-triangle"
+                  style="color: #fe3061"
+                  aria-hidden="true"
+                ></i>
+                Required
+              </span>
+              <span
+                *ngIf="checkout.get('address')?.errors?.['pattern'] && !checkout.get('address')?.errors?.['required']"
+              >
+                <i
+                  class="fa fa-exclamation-triangle"
+                  style="color: #fe3061"
+                  aria-hidden="true"
+                ></i>
+                Invalid Address
+              </span>
+            </div>
+          </div>
+        
+          <!-- Email -->
+          <div class="form-grid-item">
+            <label for="email">Email</label>
+            <input
+              id="email"
+              name="email"
+              type="text"
+              autocomplete="email"
+              formControlName="email"
+              required
+              placeholder="Email"
+              class="form-control pe-3 rounded-2 border-1 text-muted"
+              (keypress)="noSpace($event)"
+            />
+            <div
+              *ngIf="checkout.get('email')?.invalid && checkout.get('email')?.touched"
+              class="d-flex justify-content-end text-danger"
+            >
+              <span *ngIf="checkout.get('email')?.errors?.['required']">
+                <i
+                  class="fa fa-exclamation-triangle"
+                  style="color: #fe3061"
+                  aria-hidden="true"
+                ></i>
+                Required
+              </span>
+              <span
+                *ngIf="checkout.get('email')?.errors?.['pattern'] && !checkout.get('email')?.errors?.['required']"
+              >
+                <i
+                  class="fa fa-exclamation-triangle"
+                  style="color: #fe3061"
+                  aria-hidden="true"
+                ></i>
+                Invalid email
+              </span>
+            </div>
+          </div>
+        
+          <!-- Phone Number -->
+          <div class="form-grid-item">
+            <label for="contactNumber">Phone Number</label>
+            <input
+              id="contactNumber"
+              name="contactNumber"
+              type="text"
+              autocomplete="contactNumber"
+              formControlName="contactNumber"
+              required
+              maxlength="12"
+              placeholder="Phone Number"
+              class="form-control pe-3 rounded-2 border-1 text-muted"
+              (keypress)="noSpace($event)"
+            />
+            <div
+              *ngIf="
+                checkout.get('contactNumber')?.invalid &&
+                checkout.get('contactNumber')?.touched
+              "
+              class="d-flex justify-content-end text-danger"
+            >
+              <span *ngIf="checkout.get('contactNumber')?.errors?.['required']">
+                <i
+                  class="fa fa-exclamation-triangle"
+                  style="color: #fe3061"
+                  aria-hidden="true"
+                ></i>
+                Contact Required
+              </span>
+              <span
+                *ngIf="checkout.get('contactNumber')?.errors?.['minlength'] && !checkout.get('contactNumber')?.errors?.['required']"
+              >
+                <i
+                  class="fa fa-exclamation-triangle"
+                  style="color: #fe3061"
+                  aria-hidden="true"
+                ></i>
+                Contact Number must be at least 10 digits
+              </span>
+              <span
+                *ngIf="checkout.get('contactNumber')?.errors?.['maxlength'] && !checkout.get('contactNumber')?.errors?.['required']"
+              >
+                <i
+                  class="fa fa-exclamation-triangle"
+                  style="color: #fe3061"
+                  aria-hidden="true"
+                ></i>
+                Contact Number cannot exceed 10 digits
+              </span>
+            </div>
+          </div>
+        </div>
+      <!-- Region -->
+      <div class="form-grid-container">
+        <!-- Region -->
+        <div class="form-grid-item">
+          <label for="address">Region/State</label>
+          <input
+            id="region"
+            name="region"
+            type="text"
+            autocomplete="region"
+            formControlName="region"
+            required
+            placeholder="region"
+            class="form-control pe-3 rounded-2 border-1 text-muted"
+          />
+          <div
+            *ngIf="
+              checkout.get('region')?.invalid && checkout.get('region')?.touched
+            "
+            class="d-flex justify-content-end text-danger"
+          >
+            <span *ngIf="checkout.get('region')?.errors?.['required']">
+              <i
+                class="fa fa-exclamation-triangle"
+                style="color: #fe3061"
+                aria-hidden="true"
+              ></i>
+              Required
+            </span>
+            <span
+              *ngIf="checkout.get('address')?.errors?.['pattern'] && !checkout.get('address')?.errors?.['required']"
+            >
+              <i
+                class="fa fa-exclamation-triangle"
+                style="color: #fe3061"
+                aria-hidden="true"
+              ></i>
+              Invalid Region
+            </span>
+          </div>
+        </div>
+      
+        <!-- City -->
+        <div class="form-grid-item">
+          <label for="address">City</label>
+          <input
+            id="city"
+            name="city"
+            type="text"
+            autocomplete="city"
+            formControlName="city"
+            required
+            placeholder="city"
+            class="form-control pe-3 rounded-2 border-1 text-muted"
+          />
+          <div
+            *ngIf="
+              checkout.get('city')?.invalid && checkout.get('city')?.touched
+            "
+            class="d-flex justify-content-end text-danger"
+          >
+            <span *ngIf="checkout.get('city')?.errors?.['required']">
+              <i
+                class="fa fa-exclamation-triangle"
+                style="color: #fe3061"
+                aria-hidden="true"
+              ></i>
+              Required
+            </span>
+            <span
+              *ngIf="checkout.get('city')?.errors?.['pattern'] && !checkout.get('city')?.errors?.['required']"
+            >
+              <i
+                class="fa fa-exclamation-triangle"
+                style="color: #fe3061"
+                aria-hidden="true"
+              ></i>
+              Invalid City
+            </span>
+          </div>
+        </div>
+      
+        <!-- ZipCode -->
+        <div class="form-grid-item mb-4">
+          <label for="contactNumber">Zip Code</label>
+          <input
+            id="zip"
+            name="zip"
+            type="text"
+            autocomplete="zip"
+            formControlName="zip"
+            required
+            maxlength="8"
+            placeholder="zip"
+            class="form-control pe-3 rounded-2 border-1 text-muted"
+            (keypress)="noSpace($event)"
+          />
+          <div
+            *ngIf="
+              checkout.get('zip')?.invalid &&
+              checkout.get('zip')?.touched
+            "
+            class="d-flex justify-content-end text-danger"
+          >
+            <span *ngIf="checkout.get('zip')?.errors?.['required']">
+              <i
+                class="fa fa-exclamation-triangle"
+                style="color: #fe3061"
+                aria-hidden="true"
+              ></i>
+              ZipCode Required
+            </span>
+            <span
+              *ngIf="checkout.get('zip')?.errors?.['minlength'] && !checkout.get('zip')?.errors?.['required']"
+            >
+              <i
+                class="fa fa-exclamation-triangle"
+                style="color: #fe3061"
+                aria-hidden="true"
+              ></i>
+              Zip must be at least 8 digits
+            </span>
+            <span
+              *ngIf="checkout.get('zip')?.errors?.['maxlength'] && !checkout.get('zip')?.errors?.['required']"
+            >
+              <i
+                class="fa fa-exclamation-triangle"
+                style="color: #fe3061"
+                aria-hidden="true"
+              ></i>
+              Zip cannot exceed 8 digits
+            </span>
+          </div>
+        </div>
+      </div>
+      <!-- Select Date & Time -->
+             <!--  -->
+             <label for="">Select Date & Time</label>
+             <div
+             class="position-relative d-flex justify-content-center align-items-center"
+           >
+             <input
+               id="date"
+               name="date"
+               type="text"
+               autocomplete="fullName"
+               formControlName="date"
+               required
+               placeholder=""
+               class="form-control pe-3 rounded-2 border-1 text-muted"
+               (keypress)="noSpace($event)"
+             />
+     
+           </div>
+        <!--  -->
+      </form>
+      </div>
+      </div>
+      <!--  -->
+      <!-- Payment Section -->
+      <div class="payment shadow-lg p-5">
+        <h3>Payment</h3>
+        <!-- Payment content here -->
+      </div>
+    </div>
+  
+    <!-- Booking Summary Section -->
+    <div class="right-column">
+      <div class="booking-summary">
+        <h3>Booking Summary</h3>
+        <!-- Booking summary content here -->
+      </div>
+    </div>
+  </div>
+  
