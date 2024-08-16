@@ -17,4 +17,8 @@ export const routes: Routes = [
         path: 'services',
         loadChildren: () => import('./modules/services/services.module').then(r=> r.ServicesModule)
       },
+      {
+        path: 'cart',
+        loadChildren: () => import('./modules/cart/cart.module').then(r=> r.CartModule)
+      },
 ];
