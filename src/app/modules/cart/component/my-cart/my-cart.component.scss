@@ -1,0 +1,53 @@
+.cards {
+    box-shadow: 0px 0px 4px 0px rgb(128 128 128 / 34%);
+    border-radius: 13px;
+}
+
+.update-cart {
+    button {
+        color: black;
+        padding: 4px 14px;
+        font-size: 0.9rem;
+        border-radius: 25px;
+        border: 1px solid black;
+        background-color: white;
+    }
+}
+
+.proceedToCheckout {
+    display: flex;
+    justify-content: center;
+
+    button {
+        padding: 5px 30px;
+        border: none;
+        font-size: 14px;
+        border-radius: 25px;
+        background-color: #008CAC;
+        color: #ffff;
+    }
+}
+
+.apply-coupon {
+    button {
+        color: black;
+        padding: 4px 14px;
+        font-size: 0.9rem;
+        border-radius: 25px;
+        border: 1px solid black;
+        background-color: white;
+    }
+}
+
+.font {
+    font-size: 0.9rem;
+}
+
+.font-small{
+font-size: small;
+}
+
+.fa-regular,
+.far {
+    color: gray;
+}
