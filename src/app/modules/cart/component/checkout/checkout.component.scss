@@ -1,0 +1,57 @@
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal-width columns */
+    gap: 20px; /* Space between columns */
+  }
+  
+  .left-column {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .select-address,
+  .payment {
+    margin-bottom: 25px; /* Space between sections */
+  }
+  
+  .right-column {
+    /* You can add specific styles for the booking summary column here */
+  }
+  
+  .booking-summary {
+    background-color: #f8f8f8; /* Example background color */
+    padding: 20px;
+    border-radius: 8px;
+  }
+  // -------------------
+  .page-scrum{
+    background-color: #f7f7f7;
+    padding: 10px;
+    }
+    .page-scrum p{
+        font-size: 13px;
+        color: grey;
+    }
+    .page-scrum span{
+        font-size: 13px;
+        color: #008CAC;
+    }
+    // ...............................................
+    .form-grid-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+      gap: 20px; /* Adjust gap between items */
+      padding-top:20px;
+    }
+    
+    .form-grid-item {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    @media (max-width: 768px) {
+      .form-grid-container {
+        grid-template-columns: 1fr; /* Stack items on smaller screens */
+      }
+    }
+    
