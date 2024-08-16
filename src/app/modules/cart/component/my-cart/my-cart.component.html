@@ -12,9 +12,9 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @if (cartItems.length) {
                     @for(cart of cartItems; track cart){
                     <tr>
-                        @if (cartItems.length) {
                         <td>
                             <div class="d-flex align-items-center">
                                 <span class="mx-1" (click)="removeCartItems(cart)"><i
@@ -34,13 +34,13 @@
                                 <button class="input-group-text" (click)="changeQuantity(cart, 1)">+</button>
                             </div>
                         </td>
-                        <td>{{cart.currency}} {{cart.price * (+cart.quantity)}}</td>
-                        }
-                        @else {
-                    <tr>
-                        <td> <strong class="text-danger">Data Not Found</strong> </td>
+                         <td>{{cart.currency}} {{cart.price * (+cart.quantity)}}</td>
                     </tr>
                     }
+                    }
+                    @else {
+                    <tr class="text-center">
+                        <td colspan="4"> <strong class="text-danger">Data Not Found</strong> </td>
                     </tr>
                     }
                 </tbody>
@@ -50,36 +50,31 @@
             </div>
         </div>
         <div class="col-md-4 order-3 order-md-1 cards mb-2">
-            @for(cart of cartItems; track cart){
-            @if (cartItems.length) {
+
             <div class="p-2">
                 <h5> <strong>Card Totals</strong></h5>
                 <div class="d-flex justify-content-between font py-1">
                     <span>Sub-total</span>
-                    <strong> {{cart.currency}} {{cart.price * (+cart.quantity)}}</strong>
+                    <strong>{{sabTotal}}</strong>
                 </div>
                 <div class="d-flex justify-content-between font">
                     <span>Your total Saving</span>
-                    <strong> {{cart.currency}} {{cart.price * (+cart.quantity)}} ({{cart.discount}}%)</strong>
+                    <strong> {{sabTotalSaving}}</strong>
                 </div>
                 <div class="d-flex justify-content-between font py-1">
                     <span>Taxes & Fee</span>
-                    <strong> {{cart.currency}} {{cart.tex}}</strong>
+                    <strong> {{totalTaxAmount}}</strong>
                 </div>
                 <hr>
                 <b class="d-flex justify-content-between">
                     <span>Total</span>
-                    <span> {{cart.currency}} {{cart.price * (cart.quantity)}}</span>
+                    <span> {{AmountToCheckout}}</span>
                 </b>
                 <div class="proceedToCheckout py-2">
-                    <button (click)="proceedToCheckout(cart)">Proceed To Checkout <i
+                    <button (click)="proceedToCheckout(cartItems)">Proceed To Checkout <i
                             class="fa-solid fa-arrow-right-long"></i></button>
                 </div>
             </div>
-            } @else {
-            <strong class="text-danger">Data Not Found</strong>
-            }
-            }
         </div>
         <div class="col-md-4 order-2 order-md-3 cards mb-2">
             @for (item of OfferAndCoupon; track item) {
