@@ -1,6 +1,4 @@
-import { Component } from "@angular/core";
-import { CartService } from "../../../../shared/services/cart.service";
-
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-my-cart',
@@ -8,11 +6,5 @@ import { CartService } from "../../../../shared/services/cart.service";
   styleUrl: './my-cart.component.scss'
 })
 export class MyCartComponent {
-  cartItems:any[]= [];
- constructor(private cartService:CartService){
-  cartService.getAllCartItems().subscribe((data)=>{
-    console.log(data)
-    this.cartItems = data
-  })
- }
+
 }
