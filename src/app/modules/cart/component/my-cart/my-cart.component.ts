@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { CartService } from "../../../../shared/services/cart.service";
+import { Router } from "@angular/router";
 
 
 @Component({
@@ -11,7 +12,7 @@ export class MyCartComponent {
   cartItems: any[] = []
   OfferAndCoupon: any
   isUpdate: boolean = false
-  constructor(private cartService: CartService) {
+  constructor(private cartService: CartService, private router:Router) {
     this.getCartItems()
     this.getOfferAndCoupon()
   }
@@ -68,6 +69,7 @@ export class MyCartComponent {
 
   proceedToCheckout(item: any) {
     console.log(item)
+    this.router.navigate(['cart/checkout']);
     if (this.isUpdate) {
       alert('Are you sure you want to checkout this item')
     } else {
