@@ -24,7 +24,10 @@ export class PageBreadcrumbComponent {
         this.page = 'AboutUs';
       } else if (res === 'blog') {
         this.page = 'blog';
-      } else {
+      } else if (res === 'profile') {
+        this.page = 'profile';
+      }
+      else {
         this.last = this.page;
         this.page = res?.replaceAll('-', ' ');
       }

@@ -1,0 +1,59 @@
+.profile_details {
+    width: 100%;
+    border-radius: 25px;
+}
+
+.profile_img {
+    width: 200px;
+    height: 200px;
+}
+
+.profile_img img {
+    width: 100%;
+    border-radius: 50%;
+}
+
+select{
+    width: 100%;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+
+
+.input-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.input-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d; /* Match the color with the input text color */
+}
+
+.input_name, .input_box {
+    width: 100%;
+    border-radius: 25px; 
+    border: 0;
+    color: #6c757d; 
+    background-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 12px;
+}
+
+.input_box{
+    padding-left: 20px; 
+    padding-right: 10px; 
+}
+
+.input_name{
+    padding-left: 40px; 
+    padding-right: 10px; 
+}

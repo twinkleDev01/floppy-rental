@@ -21,4 +21,8 @@ export const routes: Routes = [
         path: 'cart',
         loadChildren: () => import('./modules/cart/cart.module').then(r=> r.CartModule)
       },
+      {
+        path: 'profile',
+        loadChildren: () => import('./modules/profile/profile.module').then(r=> r.ProfileModule)
+      }
 ];
