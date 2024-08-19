@@ -17,6 +17,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { StylePaginatorDirective } from './directives/style-paginator.directive';
 import { PageBreadcrumbComponent } from './components/page-breadcrumb/page-breadcrumb.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatSelectModule} from '@angular/material/select';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { DatePickerDialogComponent } from './components/date-picker-dialog/date-picker-dialog.component';
+import { LocationDialogComponent } from './components/location-dialog/location-dialog.component';
+import { GoogleMapsModule } from '@angular/google-maps';
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -25,7 +31,10 @@ import { PageBreadcrumbComponent } from './components/page-breadcrumb/page-bread
     TestimonialComponent,
     RatingStarComponent,
     StylePaginatorDirective,
-    PageBreadcrumbComponent
+    PageBreadcrumbComponent,
+    DatePickerDialogComponent,
+    LocationDialogComponent,
+
   ],
   imports: [
     CommonModule,
@@ -36,7 +45,12 @@ import { PageBreadcrumbComponent } from './components/page-breadcrumb/page-bread
     MatIconModule,
     MatButtonModule,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+    GoogleMapsModule
   ],
   exports: [
     HeaderComponent,
@@ -45,7 +59,9 @@ import { PageBreadcrumbComponent } from './components/page-breadcrumb/page-bread
     TestimonialComponent,
     RatingStarComponent,
     StylePaginatorDirective,
-    PageBreadcrumbComponent
+    PageBreadcrumbComponent,
+    DatePickerDialogComponent,
+    LocationDialogComponent
   ]
 })
 export class SharedModule { }

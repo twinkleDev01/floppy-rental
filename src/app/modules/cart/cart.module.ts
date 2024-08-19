@@ -7,6 +7,9 @@ import { CheckoutComponent } from './component/checkout/checkout.component';
 import { SharedModule } from '../../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatRadioModule} from '@angular/material/radio';
+import { MatNativeDateModule } from '@angular/material/core'; // Import this
+import { MatDatepickerModule } from '@angular/material/datepicker'; // Import this
+import { MatDialogModule } from '@angular/material/dialog'; //
 
 @NgModule({
   declarations: [
@@ -19,7 +22,10 @@ import {MatRadioModule} from '@angular/material/radio';
     CartRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    MatRadioModule
+    MatRadioModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatDialogModule
   ]
 })
 export class CartModule { }

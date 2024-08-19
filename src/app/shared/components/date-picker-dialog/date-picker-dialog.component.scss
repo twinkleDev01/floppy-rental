@@ -1,0 +1,32 @@
+.day-selection, .time-selection {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px; /* Adjust as needed */
+  }
+  
+  .day-button, .time-button {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 26px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    text-align: center;
+    font-size: 10px;
+  }
+  
+  .day-button.selected, .time-button.selected {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+  }
+  
+  .day-button:hover, .time-button:hover {
+    background-color: #e2e6ea;
+  }
+  .example-full-width {
+    width: 100%;
+  }
+  .labelFont{
+    font-size: 12px;
+  }
+  // 

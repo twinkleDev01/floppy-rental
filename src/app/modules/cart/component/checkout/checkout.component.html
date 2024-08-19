@@ -323,6 +323,10 @@
             class="form-control pe-3 rounded-2 border-1 text-muted"
             (keypress)="noSpace($event)"
           />
+          <!-- OpenFunction LocationDialog -->
+          <!--  (click)="openLocationDialog()"
+            readonly -->
+            <!-- ZipError -->
           <div
             *ngIf="
               checkout.get('zip')?.invalid &&
@@ -361,6 +365,7 @@
           </div>
         </div>
       </div>
+
       <!-- Select Date & Time -->
              <!--  -->
              <label for="">Select Date & Time</label>
@@ -371,12 +376,14 @@
                id="date"
                name="date"
                type="text"
-               autocomplete="fullName"
+               autocomplete="date"
                formControlName="date"
                required
                placeholder=""
                class="form-control pe-3 rounded-2 border-1 text-muted"
                (keypress)="noSpace($event)"
+               (click)="openDateTimePicker()"
+               readonly
              />
      
            </div>

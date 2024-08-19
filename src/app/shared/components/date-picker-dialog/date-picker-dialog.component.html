@@ -1,0 +1,49 @@
+    <h5 mat-dialog-title>Select Date & Time</h5>
+    <div mat-dialog-content>
+      <!-- Which day of the week do you want the service? -->
+      <mat-label  class="fw-bold labelFont">Which days of the week do you want the service?</mat-label>
+      <div style="font-size: 10px;">Choose as many as apply.</div>
+      <div class="day-selection pt-1 mb-4">
+        <div *ngFor="let day of daysOfWeek" 
+             class="day-button" 
+             [ngClass]="{'selected': selectedDay === day}" 
+             (click)="selectDay(day)">
+          {{ day }}
+        </div>
+      </div>
+  
+      <!-- When do you need the service? -->
+      <!-- <mat-form-field>
+        <mat-label>When do you need the service?</mat-label>
+        <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field> -->
+      <mat-label class="fw-bold labelFont">When do you need the service?</mat-label>
+      <mat-form-field class="example-full-width">
+        <mat-label>12 June,2024</mat-label>
+        <input matInput>
+      </mat-form-field>
+  
+      <!-- What Time? -->
+       <div class="pt-2">
+             <mat-label  class="fw-bold labelFont">What Time?</mat-label>
+      <div class="time-selection pt-2">
+        <button *ngFor="let time of officeHours" 
+                class="time-button" 
+                [ngClass]="{'selected': selectedTime === time}" 
+                (click)="selectTime(time)">
+          {{ time }}
+        </button>
+      </div>
+    </div>
+ <!--  -->
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button (click)="onCancel()">Cancel</button>
+      <button mat-button (click)="onConfirm()">OK</button>
+    </div>
+  
+  <!--  -->
+
+  

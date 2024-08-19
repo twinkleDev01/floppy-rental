@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>Select Location</h2>
+<mat-dialog-content>
+  <div class="map-container">
+    <google-map
+      height="400px"
+      width="100%"
+      [options]="mapOptions"
+      (mapClick)="onMapClick($event)">
+      <map-marker *ngIf="markerPosition" [position]="markerPosition"></map-marker>
+    </google-map>
+  </div>
+  <mat-form-field appearance="fill">
+    <mat-label>Address</mat-label>
+    <input matInput [(ngModel)]="address" placeholder="Selected address will appear here">
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button (click)="onConfirm()">Confirm</button>
+</mat-dialog-actions>

@@ -139,7 +139,6 @@
 .mat-mdc-paginator .mat-mdc-mini-fab:not([disabled]) {
   border: 1px solid gray; /* Your custom border color */
 }
-
-
-
-
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: white !important;
+}

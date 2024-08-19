@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { DatePickerDialogComponent } from '../../../../shared/components/date-picker-dialog/date-picker-dialog.component';
+import { LocationDialogComponent } from '../../../../shared/components/location-dialog/location-dialog.component';
 
 @Component({
   selector: 'app-checkout',
@@ -14,7 +17,8 @@ export class CheckoutComponent {
   
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ){
     this.checkout = this.fb.group({
     fullName: ['',[Validators.required]],
@@ -70,5 +74,32 @@ export class CheckoutComponent {
     } else {
       // Handle form errors
     }
+  }
+  // dateDialog
+  openDateTimePicker(): void {
+    console.log("OpenDateDialog")
+    // const dialogRef = this.dialog.open(DatePickerDialogComponent);
+    const dialogRef = this.dialog.open(DatePickerDialogComponent, {
+      disableClose: true, // Prevent closing the dialog by clicking outside or pressing ESC
+       width: '80%'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Selected date and time:', result);
+        // Handle the selected date and time
+      }
+    });
+  }
+  // LocationDialog
+  openLocationDialog(): void {
+    const dialogRef = this.dialog.open(LocationDialogComponent, {
+      width: '500px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Selected Location:', result);
+      }
+    });
   }
 }
