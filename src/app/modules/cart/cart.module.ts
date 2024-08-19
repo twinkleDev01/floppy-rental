@@ -6,7 +6,7 @@ import { MyCartComponent } from './component/my-cart/my-cart.component';
 import { CheckoutComponent } from './component/checkout/checkout.component';
 import { SharedModule } from '../../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -19,6 +19,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CartRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    MatRadioModule
   ]
 })
 export class CartModule { }

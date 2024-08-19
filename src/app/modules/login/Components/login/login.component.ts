@@ -96,4 +96,9 @@ export class LoginComponent {
     this.stage = 'signup';
     console.log("SIGNUP COMP",this.stage)
   }
+  // closeLogin
+  closeDialog(): void {
+    console.log("CloseLogin")
+    this.dialogRef.close(); // This will close the dialog
+  }
 }

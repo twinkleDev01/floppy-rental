@@ -9,12 +9,13 @@
 <!--  -->
 <div class="container pt-5">
     <div class="left-column">
+      <form [formGroup]="checkout" (ngSubmit)="onSubmit()">
       <!-- Select Address Section -->
       <div class="select-address shadow-lg p-5 rounded-4">
         <h3>Select Your Address</h3>
         <!--  -->
         <div class="mt-4">
-          <form [formGroup]="checkout" (ngSubmit)="onSubmit()">
+          
             <!-- Name -->
         <label for="">FullName</label>
         <div
@@ -33,7 +34,7 @@
         />
 
       </div>
-        <!-- FirstName-Error -->
+        <!-- FUllName-Error -->
         <div
           *ngIf="
             checkout.get('fullName')?.invalid && checkout.get('fullName')?.touched
@@ -198,7 +199,7 @@
         <!-- Region -->
         <div class="form-grid-item">
           <label for="address">Region/State</label>
-          <input
+          <!-- <input
             id="region"
             name="region"
             type="text"
@@ -207,7 +208,26 @@
             required
             placeholder="region"
             class="form-control pe-3 rounded-2 border-1 text-muted"
-          />
+          /> -->
+       
+            <div class="custom-select-wrapper">
+              <select id="region" class="form-control pe-3 rounded-2 border-1 text-muted">
+                <option value="" disabled selected>Select a region</option>
+                <option value="northAmerica">North America</option>
+                <option value="southAmerica">South America</option>
+                <option value="europe">Europe</option>
+                <option value="asia">Asia</option>
+                <option value="africa">Africa</option>
+                <option value="australia">Australia</option>
+                <option value="antarctica">Antarctica</option>
+              </select>
+              <i class="fa-solid fa-angle-down"></i>
+            </div>
+        
+          
+          
+          
+          <!-- RegionError -->
           <div
             *ngIf="
               checkout.get('region')?.invalid && checkout.get('region')?.touched
@@ -238,7 +258,7 @@
         <!-- City -->
         <div class="form-grid-item">
           <label for="address">City</label>
-          <input
+          <!-- <input
             id="city"
             name="city"
             type="text"
@@ -247,7 +267,20 @@
             required
             placeholder="city"
             class="form-control pe-3 rounded-2 border-1 text-muted"
-          />
+          /> -->
+          <div class="custom-select-wrapper">
+            <select id="city" class="form-control pe-3 rounded-2 border-1 text-muted">
+              <option value="" disabled selected>Select a city</option>
+              <option value="newYork">New York</option>
+              <option value="losAngeles">Los Angeles</option>
+              <option value="chicago">Chicago</option>
+              <option value="houston">Houston</option>
+              <option value="miami">Miami</option>
+              <!-- Add more cities as needed -->
+            </select>
+            <i class="fa-solid fa-angle-down"></i>
+          </div>
+          <!-- CityError -->
           <div
             *ngIf="
               checkout.get('city')?.invalid && checkout.get('city')?.touched
@@ -348,7 +381,7 @@
      
            </div>
         <!--  -->
-      </form>
+      
       </div>
       </div>
       <!--  -->
@@ -356,14 +389,192 @@
       <div class="payment shadow-lg p-5">
         <h3>Payment</h3>
         <!-- Payment content here -->
+        <div class="payment-card">
+          <div class="payment-option">
+            <!-- <img src="path/to/payment1.png" alt="Payment Option 1" /> -->
+            <i class="fa-solid fa-dollar-sign mb-2" style="color: #008cac;"></i>
+            <div class="fw-bold mb-2">Cash On Delivery</div>
+            <input type="radio" name="paymentOption" value="option1" />
+
+          </div>
+        
+          <div class="vertical-bar"></div>
+        
+          <div class="payment-option">
+            <!-- <img src="path/to/payment2.png" alt="Payment Option 2" /> -->
+            <i class="fa-solid fa-v mb-2" style="color: #008cac;"></i>
+            <div class="fw-bold mb-2">Venmo</div>
+            <input type="radio" name="paymentOption" value="option2" />
+
+          </div>
+        
+          <div class="vertical-bar"></div>
+        
+          <div class="payment-option">
+            <!-- <img src="path/to/payment3.png" alt="Payment Option 3" /> -->
+            <i class="fa-brands fa-paypal mb-2" style="color: #008cac;"></i>
+            <div class="fw-bold mb-2">Paypal</div>
+            <input type="radio" name="paymentOption" value="option3" />
+
+          </div>
+        
+          <div class="vertical-bar"></div>
+        
+          <div class="payment-option">
+            <!-- <img src="path/to/payment4.png" alt="Payment Option 4" /> -->
+            <i class="fa-brands fa-amazon mb-2" style="color: #008cac;"></i>
+            <div class="fw-bold mb-2">Amazon Pay</div>
+            <input type="radio" name="paymentOption" value="option4" />
+          </div>
+        
+          <div class="vertical-bar"></div>
+        
+          <div class="payment-option">
+            <i class="fa-regular fa-credit-card mb-2" style="color: #008cac;"></i>
+            <div class="fw-bold mb-2">Debit/Credit Card</div>
+            <input type="radio" name="paymentOption" value="option5" checked />
+          </div>
+        </div>
+        <!-- Code With Mat-Radio-Button -->
+        <!-- <div class="payment-option">
+          <i class="fa-regular fa-credit-card mb-2" style="color: #008cac;"></i>
+          <div class="fw-bold mb-2">Debit/Credit Card</div>
+          <mat-radio-group name="paymentOption" [(ngModel)]="selectedPaymentOption">
+            <mat-radio-button value="option5" checked></mat-radio-button>
+          </mat-radio-group>
+        </div>
+        </div> -->
+        
+              <!-- Name -->
+        <label class="pt-4" for="">Name on Card</label>
+        <div
+        class="position-relative d-flex justify-content-center align-items-center"
+      >
+        <input
+          id="nameOnCard"
+          name="nameOnCard"
+          type="text"
+          autocomplete="nameOnCard"
+          formControlName="nameOnCard"
+          required
+          placeholder=""
+          class="form-control pe-3 rounded-2 border-1 text-muted"
+          (keypress)="noSpace($event)"
+        />
+
       </div>
+        <!-- FUllName-Error -->
+        <div
+          *ngIf="
+            checkout.get('nameOnCard')?.invalid && checkout.get('nameOnCard')?.touched
+          "
+          class="d-flex justify-content-end text-danger"
+        >
+          <span *ngIf=" checkout.get('nameOnCard')?.errors?.['required']">
+            <i
+              class="fa fa-exclamation-triangle"
+              style="color: #fe3061"
+              aria-hidden="true"
+            ></i
+            >Required
+          </span>
+          <span
+            *ngIf="checkout.get('nameOnCard')?.errors?.['pattern'] && !checkout.get('nameOnCard')?.errors?.['required']"
+          >
+            <i
+              class="fa fa-exclamation-triangle"
+              style="color: #fe3061"
+              aria-hidden="true"
+            ></i>
+            Invalid Name On Card
+          </span>
+        </div>
+      <!-- cardNumber -->
+      <label for="cardNumber" class="pt-4">Card Number</label>
+      <input
+        type="text"
+        id="cardNumber"
+        formControlName="cardNumber"
+        placeholder="Enter your card number"
+        class="form-control"
+      />
+      <div *ngIf="cardNumber?.invalid && (cardNumber?.dirty || cardNumber?.touched)" class="text-danger">
+        <div *ngIf="cardNumber?.errors?.['required']">Card number is required.</div>
+        <div *ngIf="cardNumber?.errors?.['pattern']">Card number must be 16 digits.</div>
+      </div>
+    
+  
+    <div class="form-grid-containerPay">
+      <div class="form-grid-itemPay">
+        <label for="expiryDate">Expiry Date</label>
+        <input
+          type="text"
+          id="expiryDate"
+          formControlName="expiryDate"
+          placeholder="MM/YY"
+          class="form-control"
+        />
+        <div *ngIf="expiryDate?.invalid && (expiryDate?.dirty || expiryDate?.touched)" class="text-danger">
+          <div *ngIf="expiryDate?.errors?.['required']">Expiry date is required.</div>
+          <div *ngIf="expiryDate?.errors?.['pattern']">Enter a valid expiry date (MM/YY).</div>
+        </div>
+      </div>
+  
+      <div class="form-grid-itemPay">
+        <label for="cvc">CVC</label>
+        <input
+          type="text"
+          id="cvc"
+          formControlName="cvc"
+          placeholder="CVC"
+          class="form-control"
+        />
+        <div *ngIf="cvc?.invalid && (cvc?.dirty || cvc?.touched)" class="text-danger">
+          <div *ngIf="cvc?.errors?.['required']">CVC is required.</div>
+          <div *ngIf="cvc?.errors?.['pattern']">CVC must be 3 or 4 digits.</div>
+        </div>
+      </div>
+    </div>
+        <!--  -->
+      </div>
+    </form>
     </div>
   
     <!-- Booking Summary Section -->
     <div class="right-column">
-      <div class="booking-summary">
+      <div class="booking-summary cards shadow-lg">
         <h3>Booking Summary</h3>
         <!-- Booking summary content here -->
+        <div class="p-2">
+          <img class="mx-1 img-fluid rounded" style="max-width:40px; height: 100%" [src]="cartItems[0].img" alt="">
+          <b>{{cartItems[0].productTitle}}</b>
+       
+          <div class="d-flex justify-content-between font pt-3">
+              <p>Address</p>
+            </div>
+              <div>
+                <p>2, 3, cityWalk, Dubai</p>
+              </div>
+         
+          <hr>
+          <div class="d-flex justify-content-between">
+              <span>Sub-Total</span>
+              <strong>INR {{cartItems[0].price}}</strong>
+          </div>
+          <div class="d-flex justify-content-between">
+            <span>Your Total Saving</span>
+            <strong>INR {{cartItems[0].price}}(11.1%)</strong>
+        </div>
+        <hr>
+        <div class="d-flex justify-content-between">
+          <span> Total </span>
+          <strong>INR 13000</strong>
+      </div>
+      <!--  -->
+          <div class="cardButton d-flex justify-content-center pt-4">
+              <button>Complete Booking</button>
+          </div>
+      </div>
       </div>
     </div>
   </div>

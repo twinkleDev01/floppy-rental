@@ -16,7 +16,7 @@ export class ServicesCategoryComponent {
       "staff":"Housekepping Lady",
       "price" : "20 Hrs.INR 14000",
       "distance":"5",
-      "rate":4
+      "rate":6
     },
     {
       "title":"A.P.Securitas Pvt.Ltd.",
@@ -136,7 +136,7 @@ export class ServicesCategoryComponent {
     },
   ]
   private readonly _formBuilder = inject(FormBuilder);
-  rating = 8;
+  currentRating = this.servicesDetails[0].rate; // Initial rating value
   showFilter: boolean = false;
   selectedCategory: string = 'Housekeeping Staff';
   categories: string[] = ['Housekeeping Staff', 'Pantry Boy', 'Supervisor/Floor Manager', 'Multitasking Staff', 'Electrician/Plumber/Carpenter', 'Horticulter And Landscaping Service'];
@@ -160,9 +160,12 @@ export class ServicesCategoryComponent {
       IndustrialWaterTankCleaning: [false]
     });
   }
-  currentRating = 3; // Initial rating value
+  ngOnInit(){
+    this.onRatingUpdated(this.currentRating);
+  }
 
   onRatingUpdated(newRating: number) {
+    console.log(this.currentRating, "currentRating")
     console.log("New Rating: ", newRating);
     this.currentRating = newRating;
   }

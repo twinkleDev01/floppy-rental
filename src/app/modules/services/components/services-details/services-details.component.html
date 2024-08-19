@@ -3,8 +3,7 @@
     <div class="container">
       <p class="m-0">
         <i class="fa-solid fa-house"></i> Home &nbsp; > &nbsp; Services  &nbsp; > &nbsp; House Keeping  &nbsp; > &nbsp;
-        <span>
-            Niti Group Facility Services</span>
+        <span>{{selectedCard.title}}</span>
    
       </p>
     </div>
@@ -19,7 +18,10 @@
         <div class="col-md-6 service_detail pt-4" >
             <p>House Keeping </p>
             <h3>{{selectedCard.title}}</h3>
-            <p></p>
+            <p>
+                <app-rating-star [rating]="currentRating" [starCount]="5" [color]="'yellow'" (ratingUpdated)="onRatingUpdated($event)">
+                </app-rating-star>
+            </p>
             <table>
                 <tr>
                     <td class="price_detail">

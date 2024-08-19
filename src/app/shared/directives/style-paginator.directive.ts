@@ -160,6 +160,7 @@ import {
                     "box-shadow",
                     "grey 2px 5px 9px"
                   );
+                  this.ren.setStyle(nodeArray[i], "border", "1px solid #008CAC");
                   this.ren.setStyle(
                     nodeArray[i],
                     "color",
@@ -182,19 +183,20 @@ import {
                     "box-shadow",
                     "grey 2px 5px 9px"
                   );
+                  this.ren.setStyle(nodeArray[i], "border", "1px solid #008CAC");
                   this.ren.setStyle(
                     nodeArray[i],
                     "color",
                     "rgba(0, 0, 0, 0.87);"
                   );
-                  this.ren.setStyle(nodeArray[i], "margin", "5%");
-                  this.ren.setStyle(nodeArray[i], "height", "39px");
+                  // this.ren.setStyle(nodeArray[i], "margin", "5%");
+                  // this.ren.setStyle(nodeArray[i], "height", "39px");
                 } else if (nodeArray[i].disabled) {
                   this.ren.setStyle(nodeArray[i], "color", "white");
                   this.ren.setStyle(
                     nodeArray[i],
                     "background-image",
-                    "linear-gradient(#de0039, #e63260)"
+                    "linear-gradient(#008CAC, #008CAC)"
                   );
                 }
               }

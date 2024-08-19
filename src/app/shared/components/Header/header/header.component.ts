@@ -23,7 +23,7 @@ export class HeaderComponent {
     console.log("hhhhhh")
     this.dialog.open(LoginComponent, {
       width: '450',
-      // disableClose: true
+      disableClose: true
     });
   }
 

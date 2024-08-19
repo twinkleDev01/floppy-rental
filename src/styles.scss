@@ -1,3 +1,4 @@
+@import 'bootstrap/scss/bootstrap';
 /* You can add global styles to this file, and also import other style files */
 @import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
 @import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
@@ -74,10 +75,10 @@
 }
 .mat-mdc-raised-button:not(:disabled) {
   // color:#008CAC;
-  color: black !important;
+  // color: black !important;
 }
 .mat-mdc-raised-button:not(:disabled) {
-  border: 1px solid black !important;
+  // border: 1px solid black !important;
 }
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
@@ -103,15 +104,20 @@
 }
 .mat-mdc-raised-button:not(:disabled) {
   // color:#008CAC;
-  color: black !important;
+  // color: black !important;
 }
 .mat-mdc-raised-button:not(:disabled) {
-  border: 1px solid black !important;
+  // border: 1px solid black !important;
 }
+.mat-mdc-icon-button[disabled] .mat-mdc-paginator-icon {
+  fill:#008CAC !important;
+}
+.mat-mdc-icon-button:not([disabled]) .mat-mdc-paginator-icon {
+  fill: #008CAC !important;
+}
+
 .mat-mdc-paginator .mat-mdc-mini-fab{
-    margin: 2%;
     border-radius: 50%;
-    border-color: #008CAC !important;
     background-color:white !important;
     width: 40px;
     height: 40px;
@@ -121,11 +127,19 @@
 }
 .mat-mdc-paginator .mat-mdc-paginator-range-actions{
   margin:auto !important;
-  border-color: #008CAC !important;
 }
+
 /* Importing Bootstrap SCSS file. */
-@import 'bootstrap/scss/bootstrap';
+
 .mat-mdc-tab-body div.mat-mdc-tab-body-content{
   height:100%;
   overflow:hidden;
 }
+
+.mat-mdc-paginator .mat-mdc-mini-fab:not([disabled]) {
+  border: 1px solid gray; /* Your custom border color */
+}
+
+
+
+

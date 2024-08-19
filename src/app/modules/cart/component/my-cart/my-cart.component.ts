@@ -69,7 +69,12 @@ export class MyCartComponent {
 
   proceedToCheckout(item: any) {
     console.log(item)
-    this.router.navigate(['cart/checkout']);
+    const navigationExtras = {
+      state: {
+        item: item,
+      }
+    };
+    this.router.navigate(['cart/checkout'], navigationExtras);
     if (this.isUpdate) {
       alert('Are you sure you want to checkout this item')
     } else {

@@ -21,7 +21,7 @@ export interface couponCodesType{
 const cartItems = [
   {
     id:0,
-    img:'https://static01.nyt.com/images/2023/07/10/well/00ASKWELL-EXPIRED-SKINCARE3/00ASKWELL-EXPIRED-SKINCARE3-articleLarge.jpg?quality=75&auto=webp&disable=upscale',
+    img:'images/nitiGroup.svg',
     productTitle: 'Niti Group Facility Services',
     price: 14000,
     currency: 'INR',
@@ -31,9 +31,19 @@ const cartItems = [
   },
   {
     id:1,
-    img:'https://static01.nyt.com/images/2023/07/10/well/00ASKWELL-EXPIRED-SKINCARE3/00ASKWELL-EXPIRED-SKINCARE3-articleLarge.jpg?quality=75&auto=webp&disable=upscale',
-    productTitle: 'Niti Group Facility Services',
-    price: 14000,
+    img:'images/apSecurity.svg',
+    productTitle: 'A.P.Securitas Pvt.Ltd.',
+    price: 16000,
+    currency: 'INR',
+    quantity: 1,
+    discount :1,
+    tex:2,
+  },
+  {
+    id:2,
+    img:'images/addbivSecurer.svg',
+    productTitle: 'Addbiv Securer Pvt.Ltd.',
+    price: 18000,
     currency: 'INR',
     quantity: 1,
     discount :1,

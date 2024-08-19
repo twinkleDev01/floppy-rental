@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SignupComponent } from './Components/signup/signup.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MatSelectModule } from "@angular/material/select"
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { MatSelectModule } from "@angular/material/select"
     MatDialogModule,
     MatFormFieldModule,
     NgSelectModule,
-    MatSelectModule
+    MatSelectModule,
+    MatIconModule
   ]
 })
 export class LoginModule { }

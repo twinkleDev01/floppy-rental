@@ -1,6 +1,7 @@
 @if(stage == 'login') {
 <div class="container loginContainer d-flex">
   <div class="dataContainer custom-container">
+    <div class="iconCancel pt-1"><mat-icon (click)="closeDialog()">cancel</mat-icon></div>
     <div class="text-center">
       <div class="logo">
         <img class="" src="Icons/floppyLogo.png" alt="Your Company" />
@@ -12,7 +13,6 @@
     <div class="mt-5">
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <!-- div -->
-
         <!-- LoginEmail -->
         <div class="position-relative d-flex justify-content-center align-items-center">
           <input id="email" name="email" type="text" autocomplete="email" formControlName="emailOrPhone" required

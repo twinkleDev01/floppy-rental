@@ -8,7 +8,7 @@ import { OwlOptions } from 'ngx-owl-carousel-o';
   styleUrl: './services-details.component.scss'
 })
 export class ServicesDetailsComponent {
-  currentRating = 3; 
+  currentRating:any
   selectedCard: any;
 
   constructor(private router: Router) {
@@ -16,6 +16,18 @@ export class ServicesDetailsComponent {
     this.selectedCard = navigation?.extras?.state?.['card']; 
     console.log(this.selectedCard);
   }
+
+  ngOnInit(){
+    this.currentRating = this.selectedCard.rate;
+    console.log(this.currentRating,"currentRating")
+    this.onRatingUpdated(this.currentRating)
+  }
+// Rating
+
+onRatingUpdated(newRating: number) {
+  console.log("New Rating: ", newRating);
+  this.currentRating = newRating;
+}
 
   public doctorSlider: OwlOptions = {
     loop: true,
