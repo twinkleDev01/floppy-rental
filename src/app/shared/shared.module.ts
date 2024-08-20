@@ -22,7 +22,6 @@ import {MatSelectModule} from '@angular/material/select';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { DatePickerDialogComponent } from './components/date-picker-dialog/date-picker-dialog.component';
 import { LocationDialogComponent } from './components/location-dialog/location-dialog.component';
-import { GoogleMapsModule } from '@angular/google-maps';
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -49,8 +48,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
     MatDatepickerModule,
     MatSelectModule,
     FormsModule,
-    ReactiveFormsModule,
-    GoogleMapsModule
+    ReactiveFormsModule
   ],
   exports: [
     HeaderComponent,
