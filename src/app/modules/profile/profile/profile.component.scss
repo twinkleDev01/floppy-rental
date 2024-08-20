@@ -1,6 +1,37 @@
 .profile_details {
     width: 100%;
-    border-radius: 25px;
+    border-radius: 20px;
+    box-shadow: 0px 1px 35px 0px rgba(0, 0, 0, 0.08);
+    padding: 40px;
+    background-color: #fff;
+}
+
+.profile_navigation {
+    width: 100%;
+    border-radius: 20px;
+    box-shadow: 0px 1px 35px 0px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+}
+
+.profile_navigation a {
+    color: rgba(0, 0, 0, 0.6);
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.profile_navigation a:hover,
+.profile_navigation a.active-link {
+    color: #ffffff;
+    background-color: #008CAC;
+}
+
+.profile_navigation i {
+    margin-right: 10px;
 }
 
 .profile_img {
@@ -8,19 +39,27 @@
     height: 200px;
 }
 
+
+
+
 .profile_img img {
     width: 100%;
     border-radius: 50%;
 }
 
-select{
+select {
     width: 100%;
     padding: 10px 20px;
     border: none;
+    font-size: 12px;
     border-radius: 25px;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
+
+input:focus, textarea:focus {
+    outline: none;
+} 
 
 
 .input-wrapper {
@@ -33,27 +72,56 @@ select{
     left: 20px;
     top: 50%;
     transform: translateY(-50%);
-    color: #6c757d; /* Match the color with the input text color */
+    color: #6c757d;
+    /* Match the color with the input text color */
 }
 
-.input_name, .input_box {
+.input_name,
+.input_box {
     width: 100%;
-    border-radius: 25px; 
+    border-radius: 25px;
     border: 0;
-    color: #6c757d; 
-    background-color: rgba(0, 0, 0, 0.1);
+    color: #6c757d;
+    background: rgba(0, 0, 0, 0.05);
     box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
     padding-top: 10px;
     padding-bottom: 10px;
     font-size: 12px;
 }
 
-.input_box{
-    padding-left: 20px; 
-    padding-right: 10px; 
+.input_box {
+    padding-left: 20px;
+    padding-right: 10px;
 }
 
-.input_name{
-    padding-left: 40px; 
-    padding-right: 10px; 
+.input_name {
+    padding-left: 40px;
+    padding-right: 10px;
+}
+
+
+.card_backgroundImg::after {
+    content: "";
+    background: url('../../../../../public/images/serviceBackground.svg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 20px;
+    border-radius: 10px;
+    position: absolute;
+    width: 30%;
+    height: 100%;
+    top: 50;
+    right: 0;
+    z-index: -1;
+}
+
+
+@media (max-width: 991px){
+    .mt_2{
+        margin-top: 16px;
+    }
+    h2{
+        text-align: center;
+    }
 }

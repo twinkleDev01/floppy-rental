@@ -2,13 +2,23 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-lg-3"></div>
+        <div class="col-lg-3">
+            <div class="profile_navigation">
+                <a routerLink="" routerLinkActive="active-link"><i class="fa-solid fa-user-gear"></i> Account
+                    Setting</a>
+                <a routerLink="my-bookings" routerLinkActive="active-link"><i class="fa-solid fa-clock-rotate-left"></i>
+                    My Bookings</a>
+                <a routerLink="log-out" routerLinkActive="active-link"><i
+                        class="fa-solid fa-arrow-right-from-bracket"></i> Log-out</a>
+            </div>
+        </div>
         <div class="col-lg-9">
+            <div class="card_backgroundImg"></div>
             <div class="profile_details">
                 <h2>Account Setting</h2>
                 <form action="">
                     <div class="row">
-                        <div class="col-lg-3">
+                        <div class="col-lg-3 d-flex justify-content-center align-items-center">
                             <div class="profile_img">
                                 <img src="images/profile_pic.png" alt="">
                             </div>
@@ -16,7 +26,7 @@
                         <div class="col-lg-9">
                             <div class="row">
                                 <div class="col-lg-6 d-flex flex-column">
-                                    <span class="fs-6 fw-bold">Full Name</span>
+                                    <span class="fs-6 fw-bold mb-2">Full Name</span>
                                     <!-- <div class="name_icon">
                                         <input id="fullName" name="fullName" type="text" autocomplete="fullName"
                                             formControlName="fullName" required placeholder="Enter Full Name"
@@ -32,10 +42,10 @@
                                             class="input_name" (keypress)="noSpace($event)" />
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <span class="fs-6 fw-bold">Phone Number</span>
+                                <div class="col-lg-6 mt_2">
+                                    <span class="fs-6 fw-bold ">Phone Number</span>
                                     <div
-                                        class="w-100 position-relative d-flex justify-content-center align-items-center bg-dark rounded-pill bg-opacity-10 shadow-sm">
+                                        class="w-100 mt-2 position-relative d-flex justify-content-center align-items-center bg-dark rounded-pill bg-opacity-10 shadow-sm">
 
                                         <div class="image-field">
                                             @if (
@@ -71,23 +81,23 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-3 mt-3 d-flex flex-column">
-                                    <span class="fs-6 fw-bold">State</span>
+                                    <span class="fs-6 fw-bold mb-2">State</span>
                                     <select class="custom-select" name="state" id="state">
                                         <option value="dhaka">Dhaka</option>
                                         <option value="kolkata">Kolkata</option>
                                     </select>
                                 </div>
                                 <div class="col-lg-3 mt-3 d-flex flex-column">
-                                    <span class="fs-6 fw-bold">Pincode</span>
+                                    <span class="fs-6 fw-bold mb-2">Pincode</span>
                                     <input type="number" placeholder="Pincode" class="input_box">
                                 </div>
                                 <div class="col-lg-3 mt-3 d-flex flex-column">
-                                    <span class="fs-6 fw-bold">Locality/Town</span>
+                                    <span class="fs-6 fw-bold mb-2">Locality/Town</span>
                                     <input type="text" placeholder="Locality/Town" class="input_box">
                                 </div>
                                 <div class="col-lg-3 mt-3">
-                                    <span class="fs-6 fw-bold">City</span>
-                                    <select class="custom-select" name="city" id="city">
+                                    <span class="fs-6 fw-bold ">City</span>
+                                    <select class="custom-select mt-2" name="city" id="city">
                                         <option value="delhi">Delhi</option>
                                         <option value="pune">Pune</option>
                                     </select>
