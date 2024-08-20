@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -20,6 +21,7 @@ export class SignupComponent {
   // countries: any;
    countries: any[] = [];
    private apiUrl = 'https://restcountries.com/v3.1/all';
+   readonly dialogRef = inject(MatDialogRef<SignupComponent>);
 
   constructor(
     private fb: FormBuilder,
@@ -97,5 +99,11 @@ export class SignupComponent {
       // Handle form errors
       console.log('Form is invalid');
     }
+  }
+
+   // closeLogin
+   closeDialog(): void {
+    console.log("CloseLogin")
+    this.dialogRef.close(); // This will close the dialog
   }
 }
