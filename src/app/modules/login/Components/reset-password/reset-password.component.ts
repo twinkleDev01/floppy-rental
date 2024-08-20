@@ -1,8 +1,9 @@
-import { ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmPasswordValidator } from '../../confirm-password.validator';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-reset-password',
@@ -22,7 +23,7 @@ export class ResetPasswordComponent {
   keyChar:any;
   private apiUrl = 'https://restcountries.com/v3.1/all';
 
-  
+  readonly dialogRef = inject(MatDialogRef<ResetPasswordComponent>);
   constructor(private fb: FormBuilder, private http:HttpClient,private cdr:ChangeDetectorRef) {
     this.loginForm = this.fb.group({
       emailOrPhone : ['', [Validators.required, Validators.pattern(/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)]],
@@ -88,5 +89,10 @@ onCountryChange(selectedCountry: any) {
       // Handle form errors
       console.log('Form is invalid');
     }
+  }
+   // closeLogin
+   closeDialog(): void {
+    console.log("CloseLogin")
+    this.dialogRef.close(); // This will close the dialog
   }
   }
