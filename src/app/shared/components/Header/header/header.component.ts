@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { LoginComponent } from '../../../../modules/login/Components/login/login.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
 declare var bootstrap: any;  
 @Component({
   selector: 'app-header',
@@ -9,8 +10,14 @@ declare var bootstrap: any;
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
+
+  isLoggedIn$ = inject(AuthService).isLoggedIn$;
+
   readonly dialog = inject(MatDialog)
-  constructor(private route:Router) {}
+  constructor(private route:Router) {
+    
+  }
+  ngOnInit() {  }
   ngAfterViewInit() {
     // Initialize Bootstrap components manually if needed
     var myCollapse = document.getElementById('navbarNav');

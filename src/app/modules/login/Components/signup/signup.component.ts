@@ -3,6 +3,9 @@ import { ChangeDetectorRef, Component, EventEmitter, inject, Output } from '@ang
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { AuthService } from '../../../../shared/services/auth.service';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-signup',
@@ -26,7 +29,10 @@ export class SignupComponent {
   constructor(
     private fb: FormBuilder,
     private http:HttpClient,
-    private cdr:ChangeDetectorRef
+    private cdr:ChangeDetectorRef,
+    private auth:AuthService,
+    private router:Router,
+    private toaster:ToastrService
   ) {
     console.log("Signup")
     this.signup = this.fb.group({
@@ -39,7 +45,11 @@ export class SignupComponent {
           ),
         ],
       ],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [
+        Validators.required,
+        Validators.minLength(6),
+        // Validators.pattern('^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{6,}$')
+      ]],
       firstName: ['',[Validators.required]],
       lastName: ['',[Validators.required]],
       contactNumber : ['', [Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(10), Validators.maxLength(10)]],
@@ -92,15 +102,42 @@ export class SignupComponent {
 
   onSubmit() {
     console.log(this.signup.value);
+  
     if (this.signup.valid) {
-      // Handle successful login
+      // Handle successful form submission
       console.log('Form Submitted!', this.signup.value);
+  
+      const registerValue = {
+        firstName: this.signup.value.firstName,
+        lastName: this.signup.value.lastName,
+        email: this.signup.value.email,
+        mobileNumber: this.signup.value.selectedCountry.code + this.signup.value.contactNumber,
+        password: this.signup.value.password
+      };
+  
+      // Call the register method from AuthService
+      this.auth.register(registerValue).subscribe(
+        (response: any) => {
+          console.log(response, "101");
+  
+          if (response.success) {
+            this.toaster.success('Registration successful!');
+            localStorage.setItem("token",response.data.token)
+            this.auth.updateLoginStatus(true);
+            this.dialogRef.close(); 
+          } 
+        },
+        (error: any) => {
+          console.error('Registration error', error);
+          this.toaster.error('An error occurred. Please try again later.');
+        }
+      );
     } else {
       // Handle form errors
       console.log('Form is invalid');
     }
   }
-
+  
    // closeLogin
    closeDialog(): void {
     console.log("CloseLogin")

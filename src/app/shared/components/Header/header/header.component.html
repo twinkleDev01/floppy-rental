@@ -39,8 +39,13 @@
             <a class="nav-link" (click)="goToMyCart()"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
           </li>
           <li class="nav-item">
-            <a (click)="openDialog()" class="nav-link clickable login_button">Login</a>
-            <!-- <a class="nav-link clickable" routerLink="/profile"><i class="fa-solid fa-user"></i> Profile</a> -->
+            @if (isLoggedIn$ | async) {
+              <a class="nav-link clickable" routerLink="/profile"><i class="fa-solid fa-user"></i> Profile</a>
+            }
+            @else {
+              <a (click)="openDialog()" class="nav-link clickable login_button">Login</a>
+            }
+
           </li>
         </ul>
       </div>

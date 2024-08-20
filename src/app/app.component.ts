@@ -5,10 +5,9 @@ import { SharedService } from './shared/services/shared.service';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet,SharedModule],
+  
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   title = 'firstFloppyRentalApp';

@@ -22,6 +22,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { DatePickerDialogComponent } from './components/date-picker-dialog/date-picker-dialog.component';
 import { LocationDialogComponent } from './components/location-dialog/location-dialog.component';
+// import { ToastrModule } from 'ngx-toastr'; 
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -49,6 +50,7 @@ import { LocationDialogComponent } from './components/location-dialog/location-d
     MatSelectModule,
     FormsModule,
     ReactiveFormsModule
+    // ToastrModule.forRoot(),
   ],
   exports: [
     HeaderComponent,

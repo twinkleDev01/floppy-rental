@@ -164,11 +164,21 @@
           </div>
         </div>
         <!-- Password-Error -->
-        <div *ngIf="
-            signup.get('password')?.invalid && signup.get('password')?.touched
-          " class="d-flex justify-content-end text-danger">
-          Password is required and must be at least 6 characters.
-        </div>
+        <div *ngIf="signup.get('password')?.invalid && signup.get('password')?.touched" class="d-flex justify-content-end text-danger">
+          <!-- Required Error -->
+          <div *ngIf="signup.get('password')?.errors?.['required']">
+            Password is required.
+          </div>
+          <!-- Minimum Length Error -->
+          <div *ngIf="!signup.get('password')?.errors?.['required'] && signup.get('password')?.errors?.['minlength']">
+            Password must be at least 6 characters long.
+          </div>
+          <!-- Pattern Error -->
+          <div *ngIf="!signup.get('password')?.errors?.['required'] && !signup.get('password')?.errors?.['minlength'] && signup.get('password')?.errors?.['pattern']">
+            Password must start with an uppercase letter and contain at least one special character.
+          </div>
+        </div>        
+        
 
         <div class="d-flex justify-content-center pt-4 clickable">
           <button type="submit"

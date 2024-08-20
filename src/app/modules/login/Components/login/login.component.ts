@@ -8,6 +8,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { AuthService } from '../../../../shared/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
 @Component({
@@ -27,8 +29,11 @@ export class LoginComponent {
   constructor(
     public dialog: MatDialog,
     private fb: FormBuilder,
+    private auth: AuthService,
+    private toastr: ToastrService
   ) {
     console.log("login")
+
     this.loginForm = this.fb.group({
       emailOrPhone: [
         '',
@@ -44,13 +49,11 @@ export class LoginComponent {
   }
 
   togglePassword(): void {
-    console.log('hiii')
     this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
     console.log(this.passwordType);
   }
 
   noSpace(event: any) {
-    console.log(event, 'keyyyy');
     // if (event.keyCode === 32 && !event.target.value) return false;
     if (event.key === ' ' && !event.ctrlKey && !event.metaKey) {
       event.preventDefault();
@@ -79,10 +82,26 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    console.log(this.loginForm.value);
     if (this.loginForm.valid) {
-      // Handle successful login
+      const logInValue = {
+        email: this.loginForm.value.emailOrPhone,
+  password: this.loginForm.value.password
+      }
       console.log('Form Submitted!', this.loginForm.value);
+this.auth.logIn(logInValue).subscribe((response:any)=>{
+  console.log(response,"88")
+  if(response.success){
+    localStorage.setItem("token",response.data.token)
+    this.auth.updateLoginStatus(true);
+    this.toastr.success('Successfully Login')
+    this.dialogRef.close();
+  }
+},
+ (error: any) => {
+  console.error('Login error', error);
+  this.toastr.error(error.message);
+}
+)
     } else {
       // Handle form errors
       console.log('Form is invalid');
