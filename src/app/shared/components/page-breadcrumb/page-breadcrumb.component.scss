@@ -1,0 +1,33 @@
+.page-scrum {
+    background-color: #f7f7f7;
+    padding: 10px;
+  }
+  
+  .page-scrum p {
+    font-size: 13px;
+    color: grey;
+    margin: 0;
+  }
+  
+  .page-scrum a {
+    color: grey;
+    font-size: 14px;
+    text-decoration: none;
+  }
+  
+  .page-scrum a:hover {
+    color: #008CAC;
+  }
+  
+  .page-scrum span {
+    font-size: 16px;
+  }
+
+  .page-scrum i{
+    margin-right: 5px;
+  }
+  
+  .page-scrum .current-breadcrumb {
+    color: #008CAC;
+    font-weight: bold;
+  }

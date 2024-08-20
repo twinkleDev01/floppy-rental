@@ -5,37 +5,25 @@ import { routes } from '../../../app.routes';
 @Component({
   selector: 'app-page-breadcrumb',
   templateUrl: './page-breadcrumb.component.html',
-  styleUrl: './page-breadcrumb.component.scss'
+  styleUrls: ['./page-breadcrumb.component.scss'] // Corrected styleUrl to styleUrls
 })
 export class PageBreadcrumbComponent {
-
-  public routes = routes;
   base = '';
   page = '';
   last = '';
-  constructor(private srevice:SharedService) {
-    this.srevice.base.subscribe((res: string) => {
+
+  constructor(private sharedService: SharedService) {
+    this.sharedService.base.subscribe((res: string) => {
       this.base = res?.replaceAll('-', ' ');
+      console.log('Base:', this.base); // De
     });
-    this.srevice.page.subscribe((res: string) => {
-      if (res === 'services') {
-        this.page = 'services';
-      } else if (res === 'AboutUs') {
-        this.page = 'AboutUs';
-      } else if (res === 'blog') {
-        this.page = 'blog';
-      } else if (res === 'profile') {
-        this.page = 'profile';
-      }
-      else {
-        this.last = this.page;
-        this.page = res?.replaceAll('-', ' ');
-      }
+    this.sharedService.page.subscribe((res: string) => {
+      this.page = res?.replaceAll('-', ' ');
+      console.log('Page:', this.page); // De
     });
-    this.srevice.last.subscribe((res: string) => {
+    this.sharedService.last.subscribe((res: string) => {
       this.last = res?.replaceAll('-', ' ');
+      console.log('Last:', this.last); // De
     });
   }
 }
-
-
