@@ -7,11 +7,13 @@ import { SharedModule } from "../../shared/shared.module";
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { MyBookingComponent } from './my-booking/my-booking.component';
 
 
 @NgModule({
   declarations: [
-    ProfileComponent
+    ProfileComponent,
+    MyBookingComponent
   ],
   imports: [
     CommonModule,
