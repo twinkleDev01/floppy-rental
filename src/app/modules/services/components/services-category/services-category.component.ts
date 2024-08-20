@@ -180,7 +180,7 @@ export class ServicesCategoryComponent {
       }
     };
     console.log(card,"CardDetail")
-    this.router.navigate(['services/serviceDetails'], navigationExtras);
+    this.router.navigate(['services/service-Details'], navigationExtras);
   }
   // Paginator
   itemsPerPage() {

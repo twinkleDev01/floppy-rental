@@ -1,79 +1,92 @@
-.head{
-    font-weight: bold;
+.head {
+  font-weight: bold;
 }
+
 .table-container {
-    background-color: white;
-    border-radius: 30px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-  }
-  
+  background-color: white;
+  border-radius: 30px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+
+
 //   .table-responsive {
 //     overflow-x: auto;
 //   }
-  
-  .table td, .table th {
-    vertical-align: middle;
-  }
-  
-  .status-badge {
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-weight: bold;
-  }
-  
-  .status-pending {
-    color: red;
-    background-color: #ffe5e5;
-  }
-  
-  .status-complete {
-    color: green;
-    background-color: #e5ffe5;
-  }
-  
-  .action-buttons .btn {
-    margin-right: 5px;
-  }
-  
-  .table img {
-    width: 50px;
-    border-radius: 5px;
-  }
-  
-  @media (max-width: 768px) {
-    .table img {
-      width: 30px;
-    }
-    
-    .action-buttons .btn {
-      margin-right: 0;
-      margin-bottom: 5px;
-    }
+
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+.status-badge {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.status-pending {
+  color: red;
+  background-color: #ffe5e5;
+}
+
+.status-complete {
+  color: green;
+  background-color: #e5ffe5;
+}
+
+.action-buttons .btn {
+  margin-right: 5px;
+}
+
+.table img {
+  width: 50px;
+  border-radius: 5px;
+}
+
+.table-container .table thead tr th {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+
+.review {
+  border: 1px solid #008CAC;
+  border-radius: 100px;
+  color: #008CAC;
+  background-color: #fff;
+}
+
+.reorder {
+  border: 1px solid #008CAC;
+  border-radius: 100px;
+  color: #fff;
+  background-color: #008CAC;
+}
+
+.table tbody tr td {
+  font-size: 15px !important;
+}
+
+
+
+@media (max-width: 991px) {
+  .table-responsive {
+    overflow-x: auto;
   }
 
-  @media (max-width: 991px) {
-    .table-responsive {
-        overflow-x: auto;
-      }
-    }
-  
-  .table-container .table thead tr th{
-    background-color: rgba(0, 0, 0, 0.03) !important;
+  .container{
+    max-width: 95%;
   }
-  
-.review{
-    border: 1px solid #008CAC;
-border-radius: 100px;
-color: #008CAC;
-background-color: #fff;
 }
-.reorder{
-    border: 1px solid #008CAC;
-    border-radius: 100px;
-    color: #fff;
-    background-color: #008CAC;   
+
+@media (max-width: 768px) {
+  .table img {
+    width: 30px;
+  }
+
+  .action-buttons .btn {
+    margin-right: 0;
+    margin-bottom: 5px;
+  }
 }
-.table tbody tr td{
-    font-size: 15px !important;
-}
+

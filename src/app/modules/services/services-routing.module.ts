@@ -14,7 +14,7 @@ const routes: Routes = [
     component:ServicesCategoryComponent
   },
   {
-    path: 'serviceDetails',
+    path: 'service-Details',
     component: ServicesDetailsComponent
   }
 ];

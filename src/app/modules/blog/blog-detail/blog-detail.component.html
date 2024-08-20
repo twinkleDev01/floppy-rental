@@ -1,64 +1,61 @@
+<app-page-breadcrumb></app-page-breadcrumb>
 
-<div class="page-scrum mb-4">
-    <div class="container">
-        <p class="m-0"><i class="fa-solid fa-house"></i> Home &nbsp; > &nbsp; Blog > &nbsp;<span>{{selectedBlog.title}}</span></p>
-    </div>
-    
-</div>
-<div class="container">
- <div class="row">
-    <div class="col-lg-8 col-md-7 col-sm-6 detail_div">
-        <img  [src]="selectedBlog.primaryImage" alt="">
-        <p>{{selectedBlog.contentHtml.para1}}</p>
-        <div>
-            <img [src]="selectedBlog.contentHtml.img1" class="detail_img" alt="">
-            <img [src]="selectedBlog.contentHtml.img2" class="detail_img" alt="">
-        </div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8 col-md-7 col-sm-6 detail_div">
+            <img [src]="selectedBlog.primaryImage" alt="">
+            <p>{{selectedBlog.contentHtml.para1}}</p>
+            <div>
+                <img [src]="selectedBlog.contentHtml.img1" class="detail_img" alt="">
+                <img [src]="selectedBlog.contentHtml.img2" class="detail_img" alt="">
+            </div>
             <p>{{selectedBlog.contentHtml.para2}}
             </p>
             <div class="Comment_section">
                 <h5>Leave A Comment</h5>
-        <textarea name="" id="" rows="6" class="comment_box" placeholder="Comment" ></textarea>
-        <div class="row">
-            <div class="col-4">
-               <input type="text" placeholder="Name">
-            </div>
-            <div class="col-4">
-               <input type="text" placeholder="Email">
-            </div>
-            <div class="col-4">
-               <input type="text" placeholder="Website">
-            </div>
-        </div>
-        <div class="d-flex">
-            <input type="checkbox"><span>Save my name, email, and website in this browser for the next time I comment.</span>
+                <textarea name="" id="" rows="6" class="comment_box" placeholder="Comment"></textarea>
+                <div class="row">
+                    <div class="col-4">
+                        <input type="text" placeholder="Name">
+                    </div>
+                    <div class="col-4">
+                        <input type="text" placeholder="Email">
+                    </div>
+                    <div class="col-4">
+                        <input type="text" placeholder="Website">
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <input type="checkbox"><span>Save my name, email, and website in this browser for the next time I
+                        comment.</span>
 
-        </div>
-            <button class="post_btn mt-4">Post Comment</button>
+                </div>
+                <button class="post_btn mt-4">Post Comment</button>
             </div>
+        </div>
+        <div class="col-lg-4 col-md-5 col-sm-6">
+            <div class="mt-sm-0 mt-3">
+                <div class="position-relative">
+                    <span class="search_icon"><i class="fa-solid fa-magnifying-glass "></i></span>
+                    <input type="text" class="form-control input_search" placeholder="Search">
+                </div>
+                <div class="Blog_list">
+                    <h5 class="ms-2">Recent Post</h5>
+                    <app-blog-list [BlogNumber]="number"></app-blog-list>
+                </div>
+
+                <div class="category_box">
+                    <h5>Categories</h5>
+                    <ul>
+                        <ng-container *ngFor="let category of Categories">
+                            <li>{{category}}</li>
+                        </ng-container>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-lg-4 col-md-5 col-sm-6">
-<div class="mt-sm-0 mt-3">
-    <div class="position-relative">
-        <span class="search_icon"><i class="fa-solid fa-magnifying-glass "></i></span>
-        <input type="text" class="form-control input_search" placeholder="Search">
-    </div>
-    <div class="Blog_list">
-        <h5 class="ms-2">Recent Post</h5>
-        <app-blog-list [BlogNumber]="number"></app-blog-list>
-    </div>
-    
-     <div class="category_box">
-        <h5>Categories</h5>
-        <ul>
-        <ng-container *ngFor="let category of Categories">
-<li>{{category}}</li>
-        </ng-container>
-    </ul>
-     </div>
-</div>
-    </div>
- </div>
-    
-    
+
+
 </div>
