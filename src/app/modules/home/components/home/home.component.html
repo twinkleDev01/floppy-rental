@@ -6,15 +6,25 @@
             <div class="carousel-item active">
                 <div class="banner1">
                 </div>
-            </div>
+            </div> 
             <div class="carousel-item">
                 <div class="banner2">
                 </div>
             </div>
-            <div class="carousel-item">
+             <div class="carousel-item">
                 <div class="banner3">
                 </div>
             </div>
+            <!-- <div class="carousel-inner">
+                <div 
+                  *ngFor="let item of sortedTopData; let i = index" 
+                  class="carousel-item" 
+                  [class.active]="i === 0"
+                >
+                  <img [src]="apiUrl + item.image" [alt]="item.title" class="d-block w-100" style="size: 20px;">
+                </div>
+              </div> -->
+              
         </div>
         <button class="carousel-control-prev " type="button" data-bs-target="#carouselExampleControls"
             data-bs-slide="prev">
