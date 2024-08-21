@@ -9,6 +9,7 @@ import { environment } from '../../../../environments/environment.development';
 export class HomeService {
 
   subcategoryUrl = environment.ApiBaseUrl + 'Category/SubCategories'
+  
   constructor(private http: HttpClient) { }
   getHomeDetails(): Observable<any> {
     const headers = new HttpHeaders({

@@ -1,13 +1,3 @@
-<!-- <div class="page-scrum">
-    <div class="container">
-        <p class="m-0">
-            <i class="fa-solid fa-house"></i> Home &nbsp; > &nbsp; Services &nbsp; > &nbsp; House Keeping &nbsp; >
-            &nbsp;
-            <span>{{selectedCard.title}}</span>
-
-        </p>
-    </div>
-</div> -->
 
 <app-page-breadcrumb></app-page-breadcrumb>
 
@@ -18,14 +8,18 @@
                 <img class="service_img" src="images/Service-detail-img/room_cleaning.png" alt="">
             </div>
             <div class="col-md-6 service_detail pt-4">
-                <p>House Keeping </p>
-                <h3>{{selectedCard.title}}</h3>
+                    <h2>{{ serviceDetail?.item.vendorname }}</h2>
+                    <p><strong>Rate:</strong> {{ serviceDetail?.item.rate }}</p>
+                    <p><strong>Main Group:</strong> {{ serviceDetail?.item.maingroupname }}</p>
+                    <p><strong>Sub Group:</strong> {{ serviceDetail?.item.subgroupname }}</p>
+                    <p><strong>Specification:</strong> {{ serviceDetail?.item.specicationname }}</p>
+                    <p><strong>ID:</strong> {{ serviceDetail?.item.id }}</p>
                 <p>
                     <app-rating-star [rating]="currentRating" [starCount]="5" [color]="'yellow'"
                         (ratingUpdated)="onRatingUpdated($event)">
                     </app-rating-star>
                 </p>
-                <table>
+                <!-- <table>
                     <tr>
                         <td class="price_detail">
                             Monthly Charge for 8 Hrs.
@@ -68,7 +62,7 @@
                         <Button class="rate_btn me-2">Spare part rate</Button>
                         <button class="cart_btn">Add to Cart</button>
                     </div>
-                </table>
+                </table> -->
             </div>
         </div>
     </div>
