@@ -2,6 +2,8 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { HomeService } from '../../services/home.service';
 import { environment } from '../../../../../environments/environment.development';
+import { MatDialog } from '@angular/material/dialog';
+import { ServiceDialogComponent } from './service-dialog.component';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -13,7 +15,7 @@ export class HomeComponent {
   serviceDataList:any[]=[];
    apiUrl: string = environment.ApiBaseUrl;
    
-  constructor(private homeService: HomeService){}
+  constructor(private homeService: HomeService, public dialog: MatDialog){}
   customOptions: OwlOptions = {
     loop: true,
     mouseDrag: true,
@@ -83,6 +85,14 @@ export class HomeComponent {
         console.log("58")
         this.owlElement.next(); // Move to next slide
       }
+    }
+
+    openDialog(item: any){
+      this.dialog.open(ServiceDialogComponent, {
+        // width: '300px', // Adjust dialog size if needed
+        // height: ''
+        data: { item } // Pass the clicked card data to the dialog
+      });
     }
   
 }

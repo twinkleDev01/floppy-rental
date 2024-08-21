@@ -82,7 +82,7 @@
                     </div> -->
                     <owl-carousel-o #owlElement [options]="customOptions" class="owl_carousel">
                         <ng-template carouselSlide class="owl_card" *ngFor="let item of serviceDataList">
-                            <div class="card">
+                            <div class="card" (click)="openDialog(item)">
                                 <div class="card_img">
                                     <img [src]="apiUrl + item.image"  alt="">
                                 </div>
