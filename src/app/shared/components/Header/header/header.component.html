@@ -40,7 +40,15 @@
           </li>
           <li class="nav-item">
             @if (isLoggedIn$ | async) {
-              <a class="nav-link clickable" routerLink="/profile"><i class="fa-solid fa-user"></i> Profile</a>
+              <div class="profile-menu">
+               <div class="login2"><a class="nav-link clickable" routerLink="/profile"><i class="fa-solid fa-user" style="color: #008CAC;"></i> Profile</a></div> 
+                <div class="profile-navigation">
+                  <a routerLink="profile" routerLinkActive="active-link"><i class="fa-solid fa-user-gear"></i> Account Setting</a>
+                  <a routerLink="my-booking" routerLinkActive="active-link"><i class="fa-solid fa-clock-rotate-left"></i> My Bookings</a>
+                  <a routerLink="log-out" routerLinkActive="active-link" (click)="logOut()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Log-out</a>
+                </div>
+              </div>
+              
             }
             @else {
               <a (click)="openDialog()" class="nav-link clickable login_button">Login</a>

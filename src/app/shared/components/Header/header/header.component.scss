@@ -112,6 +112,45 @@ nav {
   outline: none;
 }
 
+
+.profile-navigation {
+  display: none; /* Hide the options by default */
+  position: absolute; /* Position the dropdown relative to the parent container */
+  background-color: #fff; /* Background color for the dropdown */
+  // border: 1px solid #ccc; /* Border for the dropdown */
+  padding: 10px; /* Padding for the dropdown content */
+  z-index: 1000; /* Ensure it appears above other elements */
+  border-radius: 0px 0 10px 10px;
+    width: 220px;
+    left: -92px;
+    top: 39px;
+    padding-top: 50px;
+    padding-left: 10px;
+}
+
+.profile-menu {
+  position: relative; /* Create a positioning context for the dropdown */
+}
+
+.profile-menu:hover .profile-navigation {
+  display: block; /* Show the options when hovering over the profile link */
+}
+
+.profile-navigation a {
+  display: block; /* Each link on its own line */
+  padding: 10px; /* Space between links */
+  color: #333; /* Link color */
+  text-decoration: none; /* Remove underline */
+}
+
+.profile-navigation a:hover {
+  background-color: #008CAC; /* Highlight option on hover */
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+
 @media (max-width: 992px) {
   .navbar-nav {
     text-align: left;

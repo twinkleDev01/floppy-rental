@@ -48,7 +48,7 @@ export class SignupComponent {
       password: ['', [
         Validators.required,
         Validators.minLength(6),
-        Validators.pattern('^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*[A-Z])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{6,}$')
+        Validators.pattern('^[A-Z](?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{5,}$')
       ]],
       firstName: ['',[Validators.required]],
       lastName: ['',[Validators.required]],
@@ -95,7 +95,6 @@ export class SignupComponent {
   }
   
   noSpace(event: any) {
-    console.log(event, 'keyyyy');
     if (event.keyCode === 32 && !event.target.value) return false;
     return true;
   }
@@ -118,11 +117,11 @@ export class SignupComponent {
       // Call the register method from AuthService
       this.auth.register(registerValue).subscribe(
         (response: any) => {
-          console.log(response, "101");
   
           if (response.success) {
             this.toaster.success('Registration successful!');
-            localStorage.setItem("token",response.data.token)
+            localStorage.setItem("token",response.data.token);
+            localStorage.setItem("userId",response.data.userId)
             this.auth.updateLoginStatus(true);
             this.dialogRef.close(); 
           } 

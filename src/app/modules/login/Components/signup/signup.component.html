@@ -175,7 +175,7 @@
           </div>
           <!-- Pattern Error -->
           <div *ngIf="!signup.get('password')?.errors?.['required'] && !signup.get('password')?.errors?.['minlength'] && signup.get('password')?.errors?.['pattern']">
-            Password must start with an uppercase letter and contain at least one special character.
+            Password must start with an uppercase letter and contain at least one special character & number.
           </div>
         </div>        
         
