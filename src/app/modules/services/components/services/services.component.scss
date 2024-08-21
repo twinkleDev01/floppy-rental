@@ -2,7 +2,11 @@
   background-color: #f7f7f7;
   padding: 10px;
 }
-
+.card-wrapper {
+  flex: 0 0 19%; /* Allows 5 items per row; 100% / 5 = 20%, subtract a little for spacing */
+  max-width: 19%;
+  margin: 0.5%;
+}
 .page-scrum p {
   font-size: 13px;
   color: grey;

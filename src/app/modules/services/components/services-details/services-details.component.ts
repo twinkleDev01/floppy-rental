@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { OwlOptions } from 'ngx-owl-carousel-o';
+import { ServicesDetailService } from '../../service/services-detail.service';
 
 @Component({
   selector: 'app-services-details',
@@ -10,17 +11,26 @@ import { OwlOptions } from 'ngx-owl-carousel-o';
 export class ServicesDetailsComponent {
   currentRating:any
   selectedCard: any;
+  serviceDetailId:any;
+  serviceDetail:any;
 
-  constructor(private router: Router) {
+  constructor(private router: Router,private service:ServicesDetailService) {
     const navigation = this.router.getCurrentNavigation();
     this.selectedCard = navigation?.extras?.state?.['card']; 
-    console.log(this.selectedCard);
+    console.log(this.selectedCard,"selectedCard");
+    this.serviceDetailId = this.selectedCard.item.id;
+    console.log(this.serviceDetailId,"serviceDetailId")
   }
 
   ngOnInit(){
     this.currentRating = this.selectedCard.rate;
     console.log(this.currentRating,"currentRating")
     this.onRatingUpdated(this.currentRating)
+    this.service.getServiceDetailsById(this.serviceDetailId).subscribe((res)=>{
+      console.log(res.data,"res")
+      this.serviceDetail = res.data;
+      console.log(this.serviceDetail,"serviceDetail")
+    })
   }
 // Rating
 

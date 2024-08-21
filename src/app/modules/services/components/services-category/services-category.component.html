@@ -1,13 +1,3 @@
-<!-- <div class="page-scrum">
-  <div class="container">
-    <p class="m-0 fw-bold fs-6">
-      <i class="fa-solid fa-house"></i> Home &nbsp; > &nbsp; Services &nbsp; >
-      &nbsp;
-      <span class="fs-6 page">House Keeping</span> -->
-      <!-- <span>Services</span> -->
-    <!-- </p>
-  </div>
-</div> -->
 
 <app-page-breadcrumb></app-page-breadcrumb>
 <!--  -->
@@ -29,10 +19,11 @@
           aria-labelledby="example-radio-group-label"
           class="example-radio-group"
           [(ngModel)]="selectedCategory"
+          (change)="onCategoryChange($event.value)"
         >
           @for (category of categories; track category) {
-          <mat-radio-button class="example-radio-button" [value]="category">{{
-            category
+          <mat-radio-button class="example-radio-button" [value]="category.SubClassificationName">{{
+            category.SubClassificationName
           }}</mat-radio-button>
           }
         </mat-radio-group>
@@ -56,7 +47,7 @@
       <hr />
       <div class="container">
         <h2 class="fw-bold fs-4">SUB CATEGORY</h2>
-        <section class="example-section" [formGroup]="toppings">
+        <!-- <section class="example-section" [formGroup]="toppings">
           <mat-checkbox formControlName="DryClean">Dry Clean Up</mat-checkbox>
           <mat-checkbox formControlName="MechanisedWaterTankCleaning"
             >Mechanised Water Tank Cleaning</mat-checkbox
@@ -67,7 +58,19 @@
           <mat-checkbox formControlName="IndustrialWaterTankCleaning"
             >Industrial Water Tank Cleaning</mat-checkbox
           >
-        </section>
+        </section> -->
+        <!--  -->
+        <mat-checkbox-group
+          aria-labelledby="example-radio-group-label"
+          class="example-radio-group"
+          [(ngModel)]="selectedCategory"
+        >
+          @for (subCategory of subCategories; track subCategory) {
+          <mat-checkbox class="example-radio-button" [value]="subCategory.SubClassificationName">{{
+            subCategory.SubClassificationName
+          }}</mat-checkbox>
+          }
+        </mat-checkbox-group>
       </div>
       <hr />
       <!--  -->
@@ -98,18 +101,21 @@
           *ngFor="let card of servicesDetails"
         >
           <div (click)="goToDetail(card)" class="clickable">
-            <img [src]="card.image" [alt]="card.title" class="img-fluid" />
-            <h6 class="text-start fw-bold pt-3">{{ card.title }}</h6>
+            <!-- <img [src]="card.image" [alt]="card.title" class="img-fluid" /> -->
+            <h6 class="text-start fw-bold pt-3">{{ card.item.vendorname }}</h6>
             <div class="Staff">
-              Housekeeping Staff <span>{{ card.staff }}</span>
+              SubGroupName <span>{{ card.item.subgroupname }}</span>
+            </div>
+            <div class="Staff">
+               <span>{{ card.item.maingroupname }}</span>
             </div>
             <div class="charge pt-2">Monthly Charge for</div>
-            <p class="price">{{ card.price }}</p>
+            <p class="price">{{ card.item.rate }}</p>
             <hr />
             <div class="distance">
               Distance : {{ card.distance }} KM
-            <app-rating-star [rating]="currentRating" [starCount]="5" [color]="'yellow'" (ratingUpdated)="onRatingUpdated($event)">
-            </app-rating-star>
+            <!-- <app-rating-star [rating]="currentRating" [starCount]="5" [color]="'yellow'" (ratingUpdated)="onRatingUpdated($event)">
+            </app-rating-star> -->
           </div>
         </div>
       </div>
@@ -121,9 +127,9 @@
 
 <div>&nbsp;</div>
 <div class="originalPaginator">
-    <mat-paginator style-paginator [pageSize]="pageSize" [pageIndex]="pageIndex" [pageSizeOptions]="pageSizeOptions"  (page)="onPageEvent($event)" [length]="servicesDetails?.length"
+    <!-- <mat-paginator style-paginator [pageSize]="pageSize" [pageIndex]="pageIndex" [pageSizeOptions]="pageSizeOptions"  (page)="onPageEvent($event)" [length]="servicesDetails?.length"
     aria-label="Select page">
-</mat-paginator>
+</mat-paginator> -->
 </div>
 
   <div class="addPlacement mb-5">
