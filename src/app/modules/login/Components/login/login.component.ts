@@ -92,6 +92,7 @@ this.auth.logIn(logInValue).subscribe((response:any)=>{
   console.log(response,"88")
   if(response.success){
     localStorage.setItem("token",response.data.token)
+    localStorage.setItem("userId",response.data.userId)
     this.auth.updateLoginStatus(true);
     this.toastr.success('Successfully Login')
     this.dialogRef.close();

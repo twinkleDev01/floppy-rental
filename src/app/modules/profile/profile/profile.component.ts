@@ -2,6 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { AuthService } from '../../../shared/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -23,7 +26,10 @@ export class ProfileComponent {
   constructor(
     private fb: FormBuilder,
     private http:HttpClient,
-    private cdr:ChangeDetectorRef
+    private cdr:ChangeDetectorRef,
+    private auth:AuthService,
+    private toastr:ToastrService,
+    private route:Router
   ) {
     console.log("Signup")
     this.signup = this.fb.group({
@@ -95,6 +101,27 @@ export class ProfileComponent {
     } else {
       // Handle form errors
       console.log('Form is invalid');
+    }
+  }
+
+  logOut(){
+    const userId = localStorage.getItem('userId');
+    if(userId){
+      this.auth.logout(userId).subscribe((response:any)=>{
+        console.log(response)
+        if(response.success){
+          localStorage.removeItem('token')
+          localStorage.removeItem('userId')
+          this.toastr.success('Successfully Login')
+          this.route.navigateByUrl('')
+          this.auth.updateLoginStatus(false);
+        }
+      },
+      (error: any) => {
+        console.error('Registration error', error);
+        this.toastr.error('An error occurred. Please try again later.');
+      }
+    )
     }
   }
 }

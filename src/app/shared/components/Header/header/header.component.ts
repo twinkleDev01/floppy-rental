@@ -3,6 +3,7 @@ import { LoginComponent } from '../../../../modules/login/Components/login/login
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 declare var bootstrap: any;  
 @Component({
   selector: 'app-header',
@@ -14,7 +15,7 @@ export class HeaderComponent {
   isLoggedIn$ = inject(AuthService).isLoggedIn$;
 
   readonly dialog = inject(MatDialog)
-  constructor(private route:Router) {
+  constructor(private route:Router, private auth:AuthService, private toastr:ToastrService) {
     
   }
   ngOnInit() {  }
@@ -36,5 +37,26 @@ export class HeaderComponent {
 
   goToMyCart(){
   this.route.navigate(['cart'])
+  }
+
+  logOut(){
+    const userId = localStorage.getItem('userId');
+    if(userId){
+      this.auth.logout(userId).subscribe((response:any)=>{
+        console.log(response)
+        if(response.success){
+          localStorage.removeItem('token')
+          localStorage.removeItem('userId')
+          this.toastr.success('Successfully Logout')
+          this.route.navigateByUrl('')
+          this.auth.updateLoginStatus(false);
+        }
+      },
+      (error: any) => {
+        console.error('Registration error', error);
+        this.toastr.error('An error occurred. Please try again later.');
+      }
+    )
+    }
   }
 }
