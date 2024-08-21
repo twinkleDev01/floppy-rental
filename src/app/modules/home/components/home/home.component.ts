@@ -10,6 +10,7 @@ import { environment } from '../../../../../environments/environment.development
 export class HomeComponent {
   homeData:any[]=[];
   sortedTopData:any[]=[];
+  serviceDataList:any[]=[];
    apiUrl: string = environment.ApiBaseUrl;
    
   constructor(private homeService: HomeService){}
@@ -67,6 +68,8 @@ export class HomeComponent {
     // ServiceCategoryList
     this.homeService.getServiceList().subscribe((res:any)=>{
       console.log("SErviceList",res)
+      this.serviceDataList = res.data;
+      console.log(this.serviceDataList,"serviceDataListtt")
     })
   }
     onPrevClick() {
