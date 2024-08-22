@@ -10,7 +10,7 @@ import { HomeService } from "../../services/home.service";
       <h2>{{ selectedCategory?.classificationName }}</h2>
       <i class="fa fa-times close-icon" (click)="closeDialog()"></i>
     </div>
-<div class="row mt-4">
+<div class="row mt-4 justify-content-center">
               <div class="col-sm-3" *ngFor="let subcategory of subcategoryData">
                   <div class="dialog-card text-center clickable">
                     <div class="dialog_card_img mx-auto">
