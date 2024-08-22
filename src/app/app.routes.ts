@@ -25,6 +25,10 @@ export const routes: Routes = [
       {
         path: 'profile',
         loadChildren: () => import('./modules/profile/profile.module').then(r=> r.ProfileModule)
+      },
+      {
+        path: 'about',
+        loadChildren: () => import('./modules/about-us/about-us.module').then(r=> r.AboutUSModule)
       }
 ];
 @NgModule({
