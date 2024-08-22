@@ -8,7 +8,7 @@
               <div class="col-md-2 col-sm-4 col-6 mb-3" *ngFor="let card of serviceDataList">
                   <div class="card text-center clickable" (click)="goToRental(card.mainId)">
                     <div class="card_img mx-auto">
-                      <img [src]="apiUrl + card.image" [alt]="card.classificationName"/>
+                      <img [src]="card.image ? (apiUrl + card.image) : 'images/rental.png'" [alt]="card.classificationName" />
                     </div>
                     <h3 class="card_h3">{{card.classificationName}}</h3>
                   </div>

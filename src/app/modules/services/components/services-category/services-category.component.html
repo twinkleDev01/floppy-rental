@@ -6,7 +6,7 @@
   style="color:#008CAC; border:1px solid #008CAC">Show Filters</button>
   <div class="row gapCard">
     <div 
-      class="col-sm-3 me-5 bg-light position-relative d-sm-block"
+      class="col-sm-3 me-5 position-relative d-sm-block"
       style="z-index: 1;"
       [class.d-none]="!showFilter"
     >
@@ -86,24 +86,25 @@
         <div class="grid-container">
           <div
           class="grid-item card serviceDetail"
-          *ngFor="let card of servicesDetails"
+          *ngFor="let card of servicesDetails | paginate:paginator"
         >
           <div (click)="goToDetail(card)" class="clickable">
-            <!-- <img [src]="card.image" [alt]="card.title" class="img-fluid" /> -->
+            <!-- <img [src]=" apiUrl + card.image" [alt]="card.title" class="img-fluid" /> -->
+          <img [src] = "card.image ? (apiUrl + card.image) : 'images/nitiGroup.svg'" class="img-fluid" />
             <h6 class="text-start fw-bold pt-3">{{ card.item.vendorname }}</h6>
-            <div class="Staff">
+            <!-- <div class="Staff">
               SubGroupName <span>{{ card.item.subgroupname }}</span>
-            </div>
-            <div class="Staff">
+            </div> -->
+            <div class="Staff mb-2">
                <span>{{ card.item.maingroupname }}</span>
             </div>
-            <div class="charge pt-2">Monthly Charge for</div>
-            <p class="price">{{ card.item.rate }}</p>
+            <div class="charge pt-2">Monthly Charge For</div>
+            <div class="price">{{ card.item.rate }}</div>
             <hr />
             <div class="distance">
               Distance : {{ card.distance }} KM
-            <!-- <app-rating-star [rating]="currentRating" [starCount]="5" [color]="'yellow'" (ratingUpdated)="onRatingUpdated($event)">
-            </app-rating-star> -->
+            <app-rating-star [rating]="card.reviews" [starCount]="5" [color]="'yellow'" (ratingUpdated)="onRatingUpdated($event)">
+            </app-rating-star>
           </div>
         </div>
       </div>
@@ -115,9 +116,9 @@
 
 <div>&nbsp;</div>
 <div class="originalPaginator">
-    <!-- <mat-paginator style-paginator [pageSize]="pageSize" [pageIndex]="pageIndex" [pageSizeOptions]="pageSizeOptions"  (page)="onPageEvent($event)" [length]="servicesDetails?.length"
+    <mat-paginator style-paginator [pageSize]="pageSize" [pageIndex]="pageIndex" [pageSizeOptions]="pageSizeOptions"  (page)="onPageEvent($event)" [length]="servicesDetails.length"
     aria-label="Select page">
-</mat-paginator> -->
+</mat-paginator>
 </div>
 
   <div class="addPlacement mb-5">
