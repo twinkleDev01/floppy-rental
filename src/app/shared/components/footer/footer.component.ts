@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { LoginComponent } from '../../../modules/login/Components/login/login.component';
 
 @Component({
   selector: 'app-footer',
@@ -7,4 +9,12 @@ import { Component } from '@angular/core';
 })
 export class FooterComponent {
 
+  readonly dialog = inject(MatDialog)
+  
+  openDialog(): void {
+    this.dialog.open(LoginComponent, {
+      width: '450',
+      disableClose: true
+    });
+  }
 }
