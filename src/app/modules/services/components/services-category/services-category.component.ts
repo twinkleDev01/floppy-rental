@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { ServicesDetailService } from '../../service/services-detail.service';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-services-category',
@@ -10,6 +11,7 @@ import { ServicesDetailService } from '../../service/services-detail.service';
   styleUrl: './services-category.component.scss'
 })
 export class ServicesCategoryComponent {
+  apiUrl: string = environment.ApiBaseUrl;
   // servicesDetails:any = [
   //   {
   //     "title":"Niti Group Facility Services",
@@ -139,6 +141,7 @@ export class ServicesCategoryComponent {
   servicesDetails:any[]=[];
   private readonly _formBuilder = inject(FormBuilder);
   // currentRating = this.servicesDetails[0].rate; // Initial rating value
+  currentRating:any;
   showFilter: boolean = false;
   // selectedCategory: string = 'Housekeeping Staff';
   selectedCategory:any;
@@ -197,6 +200,7 @@ export class ServicesCategoryComponent {
     this.service.getItemByCategory(catId, subCatId).subscribe((res) => {
       this.servicesDetails = res.data;
       console.log(this.servicesDetails)
+      // this.currentRating = this.servicesDetails.reviews
       if (this.servicesDetails.length > 0) {
         this.vendorName = this.servicesDetails[0]?.item?.vendorname;
       }
@@ -226,11 +230,11 @@ export class ServicesCategoryComponent {
   //     this.servicesDetails = res.data;
   //   })
   // }
-  // onRatingUpdated(newRating: number) {
-  //   console.log(this.currentRating, "currentRating")
-  //   console.log("New Rating: ", newRating);
-  //   this.currentRating = newRating;
-  // }
+  onRatingUpdated(newRating: number) {
+    console.log(this.currentRating, "currentRating")
+    console.log("New Rating: ", newRating);
+    this.currentRating = newRating;
+  }
 
   toggleViewMobile() {
     this.showFilter = !this.showFilter;

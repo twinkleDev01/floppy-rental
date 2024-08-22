@@ -22,6 +22,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { DatePickerDialogComponent } from './components/date-picker-dialog/date-picker-dialog.component';
 import { LocationDialogComponent } from './components/location-dialog/location-dialog.component';
+import { PaginatePipe } from './components/Pipe/paginate.pipe';
 // import { ToastrModule } from 'ngx-toastr'; 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { LocationDialogComponent } from './components/location-dialog/location-d
     PageBreadcrumbComponent,
     DatePickerDialogComponent,
     LocationDialogComponent,
+    PaginatePipe,
 
   ],
   imports: [
@@ -61,7 +63,8 @@ import { LocationDialogComponent } from './components/location-dialog/location-d
     StylePaginatorDirective,
     PageBreadcrumbComponent,
     DatePickerDialogComponent,
-    LocationDialogComponent
+    LocationDialogComponent,
+    PaginatePipe
   ]
 })
 export class SharedModule { }
