@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 
 @Component({
@@ -7,6 +8,7 @@ import { OwlOptions } from 'ngx-owl-carousel-o';
   styleUrl: './ad-placement.component.scss'
 })
 export class AdPlacementComponent {
+  constructor(private router:Router){}
   customOptions: OwlOptions = {
     loop: true,
     mouseDrag: false,
@@ -30,5 +32,9 @@ export class AdPlacementComponent {
       },
     },
     nav: true
+  }
+
+  goToService(){
+    this.router.navigate(['services'])
   }
 }
