@@ -54,9 +54,7 @@ export class HomeComponent {
     }
 
     ngOnInit(){
-      console.log("Home")
       this.homeService.getHomeDetails().subscribe((res:any)=>{
-        console.log(res,"res");
         this.homeData = res.data;
         console.log(this.homeData,"AAAA")
       
@@ -89,8 +87,8 @@ export class HomeComponent {
 
     openDialog(item: any){
       this.dialog.open(ServiceDialogComponent, {
-        // width: '300px', // Adjust dialog size if needed
-        // height: ''
+        minWidth: '300px', // Minimum width of the dialog
+    maxWidth: '70vw', // Maximum width set to 90% of the viewport width
         data: { item } // Pass the clicked card data to the dialog
       });
     }

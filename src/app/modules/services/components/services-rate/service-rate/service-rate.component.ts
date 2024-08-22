@@ -7,7 +7,7 @@ import { ServicesDetailService } from '../../../service/services-detail.service'
   styleUrl: './service-rate.component.scss'
 })
 export class ServiceRateComponent {
-
+serviceListRate:any;
   constructor(private serviceDetail:ServicesDetailService){
 
   }
@@ -19,6 +19,7 @@ export class ServiceRateComponent {
   serviceRateList(){
     this.serviceDetail.getServicePage().subscribe((response:any)=>{
       console.log(response)
+      this.serviceListRate = response.data
     })
   }
 }
