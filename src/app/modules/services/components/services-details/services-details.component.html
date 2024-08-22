@@ -8,17 +8,18 @@
                 <img class="service_img" src="images/Service-detail-img/room_cleaning.png" alt="">
             </div>
             <div class="col-md-6 service_detail pt-4">
-                    <h2>{{ serviceDetail?.item.vendorname }}</h2>
+                    <h2 class="fw-bold">{{ serviceDetail?.item.vendorname }}</h2>
+                    <p>
+                        <app-rating-star [rating]="currentRating" [starCount]="5" [color]="'yellow'"
+                            (ratingUpdated)="onRatingUpdated($event)">
+                        </app-rating-star>
+                    </p>
                     <p><strong>Rate:</strong> {{ serviceDetail?.item.rate }}</p>
                     <p><strong>Main Group:</strong> {{ serviceDetail?.item.maingroupname }}</p>
                     <p><strong>Sub Group:</strong> {{ serviceDetail?.item.subgroupname }}</p>
                     <p><strong>Specification:</strong> {{ serviceDetail?.item.specicationname }}</p>
                     <p><strong>ID:</strong> {{ serviceDetail?.item.id }}</p>
-                <p>
-                    <app-rating-star [rating]="currentRating" [starCount]="5" [color]="'yellow'"
-                        (ratingUpdated)="onRatingUpdated($event)">
-                    </app-rating-star>
-                </p>
+               
                 <div class="mt-3">
                     <Button class="rate_btn me-2" routerLink="/services/service-rate">Spare part rate</Button>
                     <button class="cart_btn">Add to Cart</button>

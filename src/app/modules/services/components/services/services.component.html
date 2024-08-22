@@ -2,7 +2,7 @@
   
   
   
-  <div class="container p-4 mb-3">
+  <div class="container p-4">
     <div class="card_background card_backgroundImg">
             <div class="row d-flex flex-wrap justify-content-center w-100 mt-4 mobileRow">
               <div class="col-md-2 col-sm-4 col-6 mb-3" *ngFor="let card of serviceDataList">
@@ -14,45 +14,8 @@
                   </div>
                 </div>
               </div>
-              <!--  -->
-              <!-- <div class="container p-4 mb-3">
-                <div class="d-flex flex-wrap justify-content-center">
-                    <div class="card-wrapper" *ngFor="let card of serviceDataList">
-                        <div class="card text-center clickable" (click)="goToRental()">
-                            <div class="card_img mx-auto">
-                                <img [src]="card.image ? (apiUrl + card.image) : 'path-to-default-image.jpg'" [alt]="card.classificationName" />
-                            </div>
-                            <h3 class="card_h3">{{ card.classificationName }}</h3>
-                        </div>
-                    </div>
-            
-                
-            
-            
-              <  -->
-              <!-- Row 1: 5 cards -->
-              <!-- <div class="row justify-content-center w-100 mt-4 mobileRow">
-                <div class="col-md-2 col-sm-4 col-6 mb-3" *ngFor="let card of serviceDataList">
-                    <div class="card text-center clickable" (click)="goToRental()">
-                      <div class="card_img mx-auto">
-                        <img [src]="apiUrl + card.image" [alt]="card.classificationName"/>
-                      </div>
-                      <h3 class="card_h3">{{card.classificationName}}</h3>
-                    </div>
-                  </div>
-                </div> -->
-                <!-- Row 2: 4 cards -->
-              <!-- <div class="row justify-content-center w-100 mt-4 mobileRow">
-                <div class="col-md-2 col-sm-4 col-6 mb-3" *ngFor="let card of serviceDataList">
-                    <div class="card text-center clickable" (click)="goToRental()">
-                      <div class="card_img mx-auto">
-                        <img [src]="card.image" [alt]="card.title"/>
-                      </div>
-                      <h3 class="card_h3">{{card.title}}</h3>
-                    </div>
-                  </div>
-                </div> -->
-             </div>
+          
+            </div>
              </div>
               
   <div class="addPlacement">
