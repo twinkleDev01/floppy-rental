@@ -16,11 +16,13 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTabsModule} from '@angular/material/tabs';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { ServiceRateComponent } from './components/services-rate/service-rate/service-rate.component';
 @NgModule({
   declarations: [
     ServicesComponent,
     ServicesCategoryComponent,
-    ServicesDetailsComponent
+    ServicesDetailsComponent,
+    ServiceRateComponent
   ],
   imports: [
     CommonModule,

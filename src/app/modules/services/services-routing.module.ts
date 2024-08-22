@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ServicesComponent } from './components/services/services.component';
 import { ServicesCategoryComponent } from './components/services-category/services-category.component';
 import { ServicesDetailsComponent } from './components/services-details/services-details.component';
+import { ServiceRateComponent } from './components/services-rate/service-rate/service-rate.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'service-Details',
     component: ServicesDetailsComponent
+  },
+  {
+    path: 'service-rate',
+    component: ServiceRateComponent
   }
 ];
 

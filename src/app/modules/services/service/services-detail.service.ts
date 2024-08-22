@@ -88,6 +88,22 @@ export class ServicesDetailService {
         catchError(error => this.handleError(error)));
   }
 
+  getServicePage(){
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      // "Authorization": 'Bearer ' + localStorage.getItem('token')
+    });
+    const httpOptions = {
+      headers: headers
+    };
+    const url = environment.ApiBaseUrl.concat(`Service/service_page`);
+    return this.http.get<any>(url, httpOptions)
+      .pipe(map((response:any) => {
+        return response;
+      }),
+        catchError(error => this.handleError(error)));
+  }
+
   handleError(error: any): any {
     throw new Error('Method not implemented.');
   }
