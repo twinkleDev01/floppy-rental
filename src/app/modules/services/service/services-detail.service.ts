@@ -25,7 +25,21 @@ export class ServicesDetailService {
       }),
         catchError(error => this.handleError(error)));
   }
-
+  getCategoryList():Observable<any>{
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      // "Authorization": 'Bearer ' + localStorage.getItem('token')
+    });
+    const httpOptions = {
+      headers: headers
+    };
+    const url = environment.ApiBaseUrl.concat(`Category/CategoryList`);
+    return this.http.get<any>(url, httpOptions)
+      .pipe(map((response:any) => {
+        return response;
+      }),
+        catchError(error => this.handleError(error)));
+  }
   getSubCategoryList(id:string):Observable<any>{
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

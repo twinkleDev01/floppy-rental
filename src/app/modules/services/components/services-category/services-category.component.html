@@ -21,9 +21,9 @@
           [(ngModel)]="selectedCategory"
           (change)="onCategoryChange($event.value)"
         >
-          @for (category of categories; track category) {
-          <mat-radio-button class="example-radio-button" [value]="category.SubClassificationName">{{
-            category.SubClassificationName
+          @for (category of categoriesList; track category) {
+          <mat-radio-button class="example-radio-button" [value]="category.classificationName">{{
+            category.classificationName
           }}</mat-radio-button>
           }
         </mat-radio-group>
@@ -47,25 +47,13 @@
       <hr />
       <div class="container">
         <h2 class="fw-bold fs-4">SUB CATEGORY</h2>
-        <!-- <section class="example-section" [formGroup]="toppings">
-          <mat-checkbox formControlName="DryClean">Dry Clean Up</mat-checkbox>
-          <mat-checkbox formControlName="MechanisedWaterTankCleaning"
-            >Mechanised Water Tank Cleaning</mat-checkbox
-          >
-          <mat-checkbox formControlName="EcoFriendlyHousekeeping"
-            >Eco Friendly Housekeeping</mat-checkbox
-          >
-          <mat-checkbox formControlName="IndustrialWaterTankCleaning"
-            >Industrial Water Tank Cleaning</mat-checkbox
-          >
-        </section> -->
         <!--  -->
         <mat-checkbox-group
           aria-labelledby="example-radio-group-label"
           class="example-radio-group"
           [(ngModel)]="selectedCategory"
         >
-          @for (subCategory of subCategories; track subCategory) {
+          @for (subCategory of categories; track subCategory) {
           <mat-checkbox class="example-radio-button" [value]="subCategory.SubClassificationName">{{
             subCategory.SubClassificationName
           }}</mat-checkbox>

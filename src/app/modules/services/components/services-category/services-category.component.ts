@@ -143,12 +143,14 @@ export class ServicesCategoryComponent {
   // selectedCategory: string = 'Housekeeping Staff';
   selectedCategory:any;
   selectedServiceCategoryId:any;
+  serviceCatId :any;
   catId:any;
   subCatId:any;
   itemDetails: any;
   vendorName:any
   // categories: string[] = ['Housekeeping Staff', 'Pantry Boy', 'Supervisor/Floor Manager', 'Multitasking Staff', 'Electrician/Plumber/Carpenter', 'Horticulter And Landscaping Service'];
   categories:any[]=[];
+  categoriesList:any[]=[];
   subCategories:any[]=[];
   // toppings: FormGroup;
   // Paginator
@@ -166,16 +168,14 @@ export class ServicesCategoryComponent {
     const navigation = this.router.getCurrentNavigation();
     this.selectedServiceCategoryId = navigation?.extras?.state?.['serviceId']; 
     console.log(this.selectedServiceCategoryId,"selectedServiceCategoryId");
-
-    // Initialize the FormGroup with default values
-    // this.toppings = this.fb.group({
-    //   DryClean: [true], // Default selected
-    //   MechanisedWaterTankCleaning: [false],
-    //   EcoFriendlyHousekeeping: [false],
-    //   IndustrialWaterTankCleaning: [false]
-    // });
   }
+
   ngOnInit(){
+    // getCategoryList
+    this.service.getCategoryList().subscribe((res)=>{
+      console.log(res,"categoryList")
+      this.categoriesList = res.data;
+    })
     // this.onRatingUpdated(this.currentRating);
     this.service.getSubCategoryList(this.selectedServiceCategoryId).subscribe((res)=>{
       console.log(res,"res")
