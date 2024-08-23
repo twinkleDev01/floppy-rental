@@ -261,7 +261,7 @@
         <owl-carousel-o [options]="customOptions2">
             <ng-container *ngFor="let subcategory of section2Subcategories">
               <ng-template carouselSlide>
-                <div class="card_salon" (click)="goCategory(subcategory)">
+                <div class="salon" (click)="goCategory(subcategory)">
                   <img [src]="subcategory.ImageUrl || 'images/salon.png'" alt="{{subcategory.SubClassificationName}}" class="carousel-image">
                   <h3>{{subcategory.SubClassificationName}}</h3>
                 </div>
