@@ -59,6 +59,24 @@ section3Subcategories: any[] = [];
     },
     nav: false
   }
+  customOptions2: OwlOptions = {
+    loop: true,
+    margin: 10,
+    nav: true,
+    autoWidth: true, // Adjust this based on your needs
+    responsive: {
+      0: {
+        items: 1
+      },
+      600: {
+        items: 3
+      },
+      1000: {
+        items: 5
+      }
+    }
+  }
+  
   private prevButton!: HTMLButtonElement;
   private nextButton!: HTMLButtonElement;
   private owl!: any; // Adjust the type if needed
