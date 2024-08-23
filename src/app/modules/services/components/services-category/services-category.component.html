@@ -18,11 +18,12 @@
         <mat-radio-group
           aria-labelledby="example-radio-group-label"
           class="example-radio-group"
-          [(ngModel)]="selectedCategory"
-          (change)="onCategoryChange($event.value)"
+          [(ngModel)]="selectedServiceCategory"
+          (change)="onCategoryChange($event)"
         >
           @for (category of categoriesList; track category) {
-          <mat-radio-button class="example-radio-button" [value]="category.classificationName">{{
+        
+          <mat-radio-button class="example-radio-button" [value]="category.mainId">{{
             category.classificationName
           }}</mat-radio-button>
           }
@@ -52,9 +53,11 @@
           aria-labelledby="example-radio-group-label"
           class="example-radio-group"
           [(ngModel)]="selectedCategory"
-        >
+          (click)="onCheckboxChange(selectedCategory)"
+          
+        >{{selectedCategory}}
           @for (subCategory of categories; track subCategory) {
-          <mat-checkbox class="example-radio-button" [value]="subCategory.SubClassificationName">{{
+          <mat-checkbox class="example-radio-button" [value]="subCategory.subId">{{
             subCategory.SubClassificationName
           }}</mat-checkbox>
           }
