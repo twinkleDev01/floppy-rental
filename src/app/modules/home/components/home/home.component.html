@@ -80,8 +80,8 @@
                             <i class="fas fa-chevron-right"></i>
                         </button>
                     </div> -->
-                    <owl-carousel-o #owlElement [options]="customOptions" class="owl_carousel">
-                        <ng-template carouselSlide class="owl_card" *ngFor="let item of serviceDataList">
+                    <owl-carousel-o #owlElement [options]="customOptions">
+                        <ng-template carouselSlide *ngFor="let item of serviceDataList">
                             <div class="card" (click)="openDialog(item)">
                                 <div class="card_img">
                                     <!-- <img [src]="apiUrl + item.image"  alt=""> -->
@@ -259,7 +259,7 @@
         </owl-carousel-o> -->
 
         <owl-carousel-o [options]="customOptions">
-            <ng-template carouselSlide *ngFor="let subcategory of section2Subcategories  | slice:0:4">
+            <ng-template carouselSlide *ngFor="let subcategory of section2Subcategories">
                 <div class="card_salon" (click)="goCategory(subcategory)">
                     <!-- <img [src]="subcategory.Image" alt="{{ subcategory.SubClassificationName }}"> -->
                     <img src="images/salon.png" alt="">

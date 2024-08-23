@@ -153,31 +153,43 @@
             formControlName="password" required placeholder="Enter Password"
             class="form-control ps-5 pe-5 rounded-pill border-0 text-muted bg-dark bg-opacity-10 shadow-sm"
             (keypress)="noSpace($event)" />
-          <div class="position-absolute item-align">
+        
+          <div class="position-absolute" style="left: 15px;">
             <i class="fa-solid fa-lock"></i>
           </div>
-          <div class="position-absolute item-align-new" (click)="togglePassword()">
+        
+          <div class="position-absolute" style="right: 15px; cursor: pointer; z-index: 10;" (click)="togglePassword()">
             <i [ngClass]="{
                 'fa-eye-slash': passwordType === 'password',
                 'fa-eye': passwordType === 'text'
               }" class="fa-solid"></i>
           </div>
         </div>
+        
         <!-- Password-Error -->
-        <div *ngIf="signup.get('password')?.invalid && signup.get('password')?.touched" class="d-flex justify-content-end text-danger">
+        <div *ngIf="signup.get('password')?.invalid && signup.get('password')?.touched" class="text-danger">
           <!-- Required Error -->
-          <div *ngIf="signup.get('password')?.errors?.['required']">
+          <div *ngIf="signup.get('password')?.errors?.['required']" style="font-size: 10px;">
             Password is required.
           </div>
+          
           <!-- Minimum Length Error -->
-          <div *ngIf="!signup.get('password')?.errors?.['required'] && signup.get('password')?.errors?.['minlength']">
+          <div *ngIf="signup.get('password')?.errors?.['minlength'] && !signup.get('password')?.errors?.['required']" style="font-size: 10px;">
             Password must be at least 6 characters long.
           </div>
-          <!-- Pattern Error -->
-          <div *ngIf="!signup.get('password')?.errors?.['required'] && !signup.get('password')?.errors?.['minlength'] && signup.get('password')?.errors?.['pattern']">
-            Password must start with an uppercase letter and contain at least one special character & number.
+        
+          <!-- Maximum Length Error -->
+          <div *ngIf="signup.get('password')?.errors?.['maxlength'] && !signup.get('password')?.errors?.['required']" style="font-size: 10px;">
+            Password must not exceed 8 characters.
           </div>
-        </div>        
+        
+          <!-- Pattern Error -->
+          <div *ngIf="signup.get('password')?.errors?.['pattern'] && !signup.get('password')?.errors?.['required']" style="font-size: 10px;">
+            Password must start with an uppercase letter and contain one special character & number, [e.g., Ranjan1$].
+          </div>
+        </div>
+        
+          
         
 
         <div class="d-flex justify-content-center pt-4 clickable">

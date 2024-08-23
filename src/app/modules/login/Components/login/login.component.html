@@ -42,22 +42,25 @@
             formControlName="password" required placeholder="Enter Password"
             class="form-control ps-5 pe-5 py-3 rounded-pill border-0 text-muted bg-dark bg-opacity-10 shadow-sm"
             (keypress)="noSpace($event)" />
-          <div class="position-absolute item-align">
+        
+          <div class="position-absolute" style="left: 15px;">
             <i class="fa-solid fa-lock"></i>
           </div>
-          <div class="position-absolute item-align-new" (click)="togglePassword()">
+        
+          <div class="position-absolute" style="right: 15px; cursor: pointer; z-index: 10;" (click)="togglePassword()">
             <i [ngClass]="{
-        'fa-eye-slash': passwordType === 'password',
-        'fa-eye': passwordType === 'text'
-      }" class="fa-solid"></i>
+                'fa-eye-slash': passwordType === 'password',
+                'fa-eye': passwordType === 'text'
+              }" class="fa-solid"></i>
           </div>
         </div>
+        
         <!-- Password-Error -->
         <div *ngIf="
       loginForm.get('password')?.invalid &&
       loginForm.get('password')?.touched
-    " class="d-flex justify-content-end text-danger">
-          Password is required and must be at least 6 characters.
+    " class="d-flex justify-content-end text-danger" style="font-size: 10px;">
+          Password is required[Ranjan1$].Must be Min(6) and Max(8) characters long With a number and a Soecial character.
         </div>
 
 

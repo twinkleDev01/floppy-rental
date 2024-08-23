@@ -48,6 +48,7 @@ export class SignupComponent {
       password: ['', [
         Validators.required,
         Validators.minLength(6),
+        Validators.maxLength(8),
         Validators.pattern('^[A-Z](?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{5,}$')
       ]],
       firstName: ['',[Validators.required]],

@@ -36,6 +36,7 @@ section3Subcategories: any[] = [];
     pullDrag: true,
     dots: false,
     autoplay: true,
+    autoWidth: true,
     autoplaySpeed: 1000,
     navSpeed: 700,
     responsive: {
