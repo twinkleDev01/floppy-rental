@@ -38,7 +38,8 @@ import { ServiceRateComponent } from './components/services-rate/service-rate/se
     MatTooltipModule,
     MatTabsModule,
     CarouselModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatCheckboxModule
     ]
 })
 export class ServicesModule { }

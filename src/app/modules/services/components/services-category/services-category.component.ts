@@ -4,6 +4,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { ServicesDetailService } from '../../service/services-detail.service';
 import { environment } from '../../../../../environments/environment.development';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-services-category',
@@ -145,7 +146,9 @@ export class ServicesCategoryComponent {
   showFilter: boolean = false;
   // selectedCategory: string = 'Housekeeping Staff';
   selectedCategory:any;
+  selectedServiceCategory:any
   selectedServiceCategoryId:any;
+
   serviceCatId :any;
   catId:any;
   subCatId:any;
@@ -178,25 +181,24 @@ export class ServicesCategoryComponent {
     this.service.getCategoryList().subscribe((res)=>{
       console.log(res,"categoryList")
       this.categoriesList = res.data;
+
+         // Set the selectedCategory based on selectedServiceCategoryId
+         if (this.selectedServiceCategoryId) {
+          const selectedCategoryObj = this.categoriesList.find(
+            (category) => category.mainId === this.selectedServiceCategoryId
+          );
+          this.selectedServiceCategory = selectedCategoryObj
+            ? selectedCategoryObj.mainId
+            : null;
+        }
+        console.log(this.selectedServiceCategory,"selectedServiceCategory")
     })
     // this.onRatingUpdated(this.currentRating);
-    this.service.getSubCategoryList(this.selectedServiceCategoryId).subscribe((res)=>{
-      console.log(res,"res")
-      this.categories = res.data;
-
-       // Set the first category as the default selected
-    if (this.categories && this.categories.length > 0) {
-      this.selectedCategory = this.categories[0].SubClassificationName;
-      this.subCatId = this.categories[0].SubId;
-      this.catId = this.categories[0].MainId;
-
-      // Fetch items for the default category
-      this.fetchItems(this.catId, this.subCatId);
-    }
-    })
+   this.getFilterSubCategory(this.selectedServiceCategoryId);
   }
   // Fetch items based on selected category
   fetchItems(catId: any, subCatId: any) {
+    console.log(catId,"catId",subCatId,"subCatId")
     this.service.getItemByCategory(catId, subCatId).subscribe((res) => {
       this.servicesDetails = res.data;
       console.log(this.servicesDetails)
@@ -208,28 +210,39 @@ export class ServicesCategoryComponent {
   }
 
     // Handle category change
-    onCategoryChange(selectedValue: string) {
-      this.selectedCategory = this.categories.find(
-        (category) => category.SubClassificationName === selectedValue
-      );
-      this.subCatId = this.selectedCategory.SubId;
-      this.catId = this.selectedCategory.MainId;
-      this.fetchItems(this.catId, this.subCatId);
+    onCategoryChange(selectedValue: any) {
+      console.log(selectedValue.value,"Selected Value")
+      this.getFilterSubCategory(selectedValue.value);
+      this.subCatId = this.categories.filter(a=>a.SubId);
+      this.catId = this.categories.filter((a)=>a.MainId);
+      console.log(this.subCatId, this.catId)
     }
-   // Handle the change in selected category
-  //  onCategoryChange(selectedValue: string) {
-  //   this.selectedCategory = this.categories.find(
-  //     (category) => category.SubClassificationName === selectedValue
-  //   );
-  //   this.subCatId = this.selectedCategory.SubId;
-  //   this.catId = this.selectedCategory.MainId;
-  //   console.log(this.selectedCategory,"selectedCategory", this.catId, this.subCatId)
-  //    // getItem by category
-  //   this.service.getItemByCategory(this.catId, this.subCatId).subscribe((res)=>{
-  //     console.log(res,"res");
-  //     this.servicesDetails = res.data;
-  //   })
-  // }
+
+ getFilterSubCategory(id:any){
+  this.service.getSubCategoryList(id).subscribe((res)=>{
+    console.log(res,"res")
+    this.categories = res.data;
+    console.log(this.categories,"categories")
+
+     // Set the first category as the default selected
+  if (this.categories && this.categories.length > 0) {
+    this.selectedCategory = this.categories[0].SubId;
+    console.log(this.selectedCategory,"selectedCategory")
+    this.subCatId = this.categories[0].SubId;
+    this.catId = this.categories[0].MainId;
+
+    // Fetch items for the default category
+    this.fetchItems(this.catId, this.subCatId);
+  }
+  })
+ }
+
+ onCheckboxChange(event: MatCheckboxChange) {
+  console.log('Checkbox changed:', event.checked);
+
+  // Handle checkbox change logic here
+   this.fetchItems(this.selectedServiceCategory, event);
+}
   onRatingUpdated(newRating: number) {
     console.log(this.currentRating, "currentRating")
     console.log("New Rating: ", newRating);
