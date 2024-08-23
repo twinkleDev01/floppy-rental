@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from '../../../environments/environment.development';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +11,9 @@ export class SharedService {
   public page: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public last: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
-  constructor() {}
+   private TestmonialsUrl = environment.ApiBaseUrl + 'Testimonial/testimonial-list'
+
+  constructor(private http: HttpClient) {}
 
   // Method to update the full breadcrumb path
   updateBreadcrumb(url: string) {
@@ -22,5 +26,9 @@ export class SharedService {
       this.page.next('');
       this.last.next('');
     }
+  }
+
+  getTestimonials(): Observable<any> {
+    return this.http.get<any>(this.TestmonialsUrl);
   }
 }

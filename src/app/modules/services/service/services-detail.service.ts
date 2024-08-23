@@ -56,7 +56,7 @@ export class ServicesDetailService {
         catchError(error => this.handleError(error)));
   }
 
-  getItemByCategory(catId:string, subCategoriesId:string):Observable<any>{
+  getItemByCategory(catId:string, subCategoriesId:string,latitude:any, longitude:any):Observable<any>{
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       // "Authorization": 'Bearer ' + localStorage.getItem('token')
@@ -64,7 +64,7 @@ export class ServicesDetailService {
     const httpOptions = {
       headers: headers
     };
-    const url = environment.ApiBaseUrl.concat(`Service/GetItemsByCategory/${catId}/${subCategoriesId}`);
+    const url = environment.ApiBaseUrl.concat(`Service/GetItemsByCategory/${catId}/${subCategoriesId}/${latitude}/${longitude}`);
     return this.http.get<any>(url, httpOptions)
       .pipe(map((response:any) => {
         return response;

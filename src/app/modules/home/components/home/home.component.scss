@@ -1003,4 +1003,8 @@ h2 span {
     text-align: center;
     margin-top: 20px;
   }
+  .custom-dialog-container {
+    overflow-y: auto;  /* Enables vertical scrolling */
+  }
+  
   

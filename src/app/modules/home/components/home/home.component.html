@@ -21,7 +21,7 @@
                   class="carousel-item" 
                   [class.active]="i === 0"
                 >
-                  <img [src]="apiUrl + item.image" [alt]="item.title" class="d-block w-100" style="size: 20px;">
+                  <img [src]="item.Image" [alt]="item.title" class="d-block w-100" style="size: 20px;">
                 </div>
               </div> -->
               
@@ -180,13 +180,13 @@
 <div id="lazy-load-target" >
     <ng-container *ngIf="contentLoaded">
         <!-- Appliance repare & service -->
-<div class="appliance_repair_section" *ngIf="categoryList.length > 1" [attr.id]="getSectionId(1)">
+<div class="appliance_repair_section" *ngIf="categoryList.length > 2" [attr.id]="getSectionId(2)">
     <!-- <h2><span>Appliance Repair </span>& Services</h2> -->
-     <h2><span>{{ categoryList[1]?.classificationName }}</span></h2>
+     <h2><span>{{ categoryList[2]?.classificationName }}</span></h2>
     <div class="row row_mobile_response m-0">
         <div class="col-lg-2 col-md-2"></div>
         <div class="col-lg-2 col-md-2 d-flex justify-content-center" *ngFor="let subcategory of section1Subcategories | slice:0:4">
-            <div class="ac_repair_margin">
+            <div class="ac_repair_margin" (click)="goCategory(subcategory)">
                 <div class="appliance_repair">
                     <div class="appliance_repair_img">
                         <img src="images/ac-repair.svg" alt="">
@@ -225,10 +225,10 @@
 
 
 <!-- Salon at home -->
-<div class="salon_at_home" *ngIf="categoryList.length > 11" [attr.id]="getSectionId(11)">
+<div class="salon_at_home" *ngIf="categoryList.length > 12" [attr.id]="getSectionId(12)">
     <div class="container">
         <!-- <h2 class="text-center"><span>Salon</span> At Home</h2> -->
-        <h2 class="text-center"><span>{{ categoryList[11]?.classificationName }}</span></h2>
+        <h2 class="text-center"><span>{{ categoryList[12]?.classificationName }}</span></h2>
         <!-- <owl-carousel-o [options]="customOptions">
             <ng-template carouselSlide>
                 <div class="card_salon">
@@ -260,7 +260,7 @@
 
         <owl-carousel-o [options]="customOptions">
             <ng-template carouselSlide *ngFor="let subcategory of section2Subcategories  | slice:0:4">
-                <div class="card_salon">
+                <div class="card_salon" (click)="goCategory(subcategory)">
                     <!-- <img [src]="subcategory.Image" alt="{{ subcategory.SubClassificationName }}"> -->
                     <img src="images/salon.png" alt="">
                     <h3>{{ subcategory.SubClassificationName }}</h3>
@@ -275,10 +275,10 @@
 
 
 <!-- house keeping -->
-<div class="house_keeping" *ngIf="categoryList.length > 3" [attr.id]="getSectionId(11)">
+<div class="house_keeping" *ngIf="categoryList.length > 4" [attr.id]="getSectionId(4)">
     <div class="container">
         <!-- <h2 class="text-center"><span>House</span> Keeping</h2> -->
-        <h2 class="text-center"><span>{{ categoryList[3]?.classificationName }}</span></h2>
+        <h2 class="text-center"><span>{{ categoryList[4]?.classificationName }}</span></h2>
         <!-- <owl-carousel-o [options]="customOptions">
             <ng-template carouselSlide>
                 <div class="card_salon">
@@ -309,7 +309,7 @@
         </owl-carousel-o> -->
         <owl-carousel-o [options]="customOptions">
             <ng-template carouselSlide *ngFor="let subcategory of section3Subcategories | slice:0:4">
-                <div class="card_salon">
+                <div class="card_salon" (click)="goCategory(subcategory)">
                     <!-- <img [src]="subcategory.Image" alt="{{ subcategory.SubClassificationName }}"> -->
                     <img src="images/sofa-cleaning.png" alt="">
                     <h3>{{ subcategory.SubClassificationName }}</h3>

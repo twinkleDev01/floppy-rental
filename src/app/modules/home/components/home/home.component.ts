@@ -6,14 +6,17 @@ import { MatDialog } from '@angular/material/dialog';
 import { ServiceDialogComponent } from './service-dialog.component';
 import { ServicesDetailService } from '../../../services/service/services-detail.service';
 import { ScrollService } from '../../../../shared/services/scroll.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  homeData:any[]=[];
-  sortedTopData:any[]=[];
+  homeBannerData: any;
+sortedTopData:any[]=[];
+sortedMiddleData:any[]=[];
+sortedBottomData:any[]=[];
   serviceDataList:any[]=[];
   categoryList:any[]=[]
   subcategoryData:any;
@@ -25,7 +28,7 @@ section2Subcategories: any[] = [];
 section3Subcategories: any[] = [];
 
    
-  constructor(private homeService: HomeService, public dialog: MatDialog, private service:ServicesDetailService,private scrollService:ScrollService){}
+  constructor(private homeService: HomeService, public dialog: MatDialog, private service:ServicesDetailService,private scrollService:ScrollService, private router:Router){}
   customOptions: OwlOptions = {
     loop: true,
     mouseDrag: true,
@@ -66,17 +69,10 @@ section3Subcategories: any[] = [];
     }
 
     ngOnInit(){
-      this.homeService.getHomeDetails().subscribe((res:any)=>{
-        this.homeData = res.data;
-        console.log(this.homeData,"AAAA")
+
+     this.getBannerData()
       
-      console.log(this.homeData,"BBBB")
-     // Assuming `this.homeData` contains the array you posted
-    const topData = this.homeData?.filter((item: any) => item.type === "Top");
-    console.log(topData, "topImages");
-    this.sortedTopData = topData.sort((a: any, b: any) => a.seqno - b.seqno);
-    console.log(this.sortedTopData,"sortedTopData")
-  })
+      
     // ServiceCategoryList
     this.homeService.getServiceList().subscribe((res:any)=>{
       console.log("SErviceList",res)
@@ -110,8 +106,45 @@ section3Subcategories: any[] = [];
       this.dialog.open(ServiceDialogComponent, {
         minWidth: '300px', // Minimum width of the dialog
     maxWidth: '70vw', // Maximum width set to 90% of the viewport width
-        data: { item } // Pass the clicked card data to the dialog
+    maxHeight: '95vh',
+        data: { item },// Pass the clicked card data to the dialog
+        panelClass: 'custom-dialog-container' // Optional: custom class for additional styling
       });
+    }
+
+    getBannerData(){
+      this.homeService.getHomeDetails().subscribe((res: any) => {
+        // Treat res.data as an object with dynamic keys
+        this.homeBannerData = res.data as { [key: string]: any };
+      
+        // Accessing the Top section and sorting
+        const topData = this.homeBannerData['Top'];
+        if (topData) {
+          this.sortedTopData = topData.sort((a: any, b: any) => a.Seqno - b.Seqno);
+          console.log(this.sortedTopData, "Sorted Top Data");
+        } else {
+          console.error('Top data not found:', this.homeBannerData);
+        }
+      
+        // Accessing the Middle section and sorting
+        const middleData = this.homeBannerData['Middle'];
+        if (middleData) {
+          this.sortedMiddleData = middleData.sort((a: any, b: any) => a.Seqno - b.Seqno);
+          console.log(this.sortedMiddleData, "Sorted Middle Data");
+        } else {
+          console.error('Middle data not found:', this.homeBannerData);
+        }
+      
+        // Accessing the Bottom section and sorting
+        const bottomData = this.homeBannerData['Bottom'];
+        if (bottomData) {
+          this.sortedBottomData = bottomData.sort((a: any, b: any) => a.Seqno - b.Seqno);
+          console.log(this.sortedBottomData, "Sorted Bottom Data");
+        } else {
+          console.error('Bottom data not found:', this.homeBannerData);
+        }
+      });
+      
     }
   
     // fetchCategories(){
@@ -158,21 +191,30 @@ section3Subcategories: any[] = [];
     fetchSubCategoriesForSections() {
       if (this.categoryList.length > 1) {
         // Fetch subcategories for Section 1
-        this.fetchSubCategories(this.categoryList[1].mainId, 'section1Subcategories');
+        this.fetchSubCategories(this.categoryList[2].mainId, 'section1Subcategories');
       }
       if (this.categoryList.length > 11) {
         // Fetch subcategories for Section 2
-        this.fetchSubCategories(this.categoryList[11].mainId, 'section2Subcategories');
+        this.fetchSubCategories(this.categoryList[12].mainId, 'section2Subcategories');
       }
       if (this.categoryList.length > 3) {
         // Fetch subcategories for Section 3
-        this.fetchSubCategories(this.categoryList[3].mainId, 'section3Subcategories');
+        this.fetchSubCategories(this.categoryList[4].mainId, 'section3Subcategories');
       }
     }
   
     getSectionId(index: number): string {
       return this.categoryList[index]?.classificationName.toLowerCase().replace(/ /g, '-') + '-section';
     } 
+
+    goCategory(subcategory: any){
+      this.router.navigate(['/services/category'], {
+        state: {
+          serviceId: subcategory.MainId,
+          subId: subcategory.SubId
+        }
+      });
+    }
     
   //   sectionCarouselOptions: { [key: string]: any } = {
   //     section1Subcategories: {},

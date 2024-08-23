@@ -1,6 +1,7 @@
 import { Component, Inject } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { HomeService } from "../../services/home.service";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "app-landing-page",
@@ -12,7 +13,7 @@ import { HomeService } from "../../services/home.service";
     </div>
 <div class="row mt-4 justify-content-center">
               <div class="col-sm-3" *ngFor="let subcategory of subcategoryData">
-                  <div class="dialog-card text-center clickable">
+                  <div class="dialog-card text-center clickable" (click)="goCategory(subcategory)">
                     <div class="dialog_card_img mx-auto">
                       <img src="images/ac-servicing.png" [alt]="subcategory.SubClassificationName"/>
                     </div>
@@ -30,7 +31,7 @@ import { HomeService } from "../../services/home.service";
     selectedCategory:any;
     subcategoryData:any;
 
-    constructor(public dialogRef: MatDialogRef<ServiceDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private homeService: HomeService,){
+    constructor(public dialogRef: MatDialogRef<ServiceDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private homeService: HomeService, private router:Router){
 console.log(data,'dialog')
       this.selectedCategory = data.item
     }
@@ -49,6 +50,16 @@ console.log(data,'dialog')
           console.error('Error fetching subcategories', error);
         }
       );
+    }
+
+    goCategory(subcategory: any){
+      this.router.navigate(['/services/category'], {
+        state: {
+          serviceId: subcategory.MainId,
+          subId: subcategory.SubId
+        }
+      });
+      this.dialogRef.close();
     }
 
     closeDialog(): void {

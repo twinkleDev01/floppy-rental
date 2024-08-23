@@ -158,6 +158,8 @@ export class ServicesCategoryComponent {
   categories:any[]=[];
   categoriesList:any[]=[];
   subCategories:any[]=[];
+  latitude:any;
+  longitude:any;
   // toppings: FormGroup;
   // Paginator
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -177,6 +179,7 @@ export class ServicesCategoryComponent {
   }
 
   ngOnInit(){
+    this.getCurrentLocation()
     // getCategoryList
     this.service.getCategoryList().subscribe((res)=>{
       console.log(res,"categoryList")
@@ -199,7 +202,7 @@ export class ServicesCategoryComponent {
   // Fetch items based on selected category
   fetchItems(catId: any, subCatId: any) {
     console.log(catId,"catId",subCatId,"subCatId")
-    this.service.getItemByCategory(catId, subCatId).subscribe((res) => {
+    this.service.getItemByCategory(catId, subCatId, this.latitude, this.longitude).subscribe((res) => {
       this.servicesDetails = res.data;
       console.log(this.servicesDetails)
       // this.currentRating = this.servicesDetails.reviews
@@ -293,6 +296,33 @@ export class ServicesCategoryComponent {
       console.log(event.pageSize);
       this.pageSize = event.pageSize;
     }
+  }
+
+  getCurrentLocation(){
+    // Check if the browser supports Geolocation API
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(
+      (position) => {
+          // Success callback
+          this.latitude = position.coords.latitude;
+          this.longitude = position.coords.longitude;
+
+          console.log(`Latitude: ${this.latitude}, Longitude: ${this.longitude}`);
+      },
+      (error) => {
+          // Error callback
+          console.error('Error getting location: ', error);
+      },
+      {
+          // Optional settings
+          enableHighAccuracy: true, // Use high accuracy mode if available
+          timeout: 10000, // Set a timeout in milliseconds
+          maximumAge: 0 // Do not use a cached position
+      }
+  );
+} else {
+  console.error("Geolocation is not supported by this browser.");
+}
   }
 }
 

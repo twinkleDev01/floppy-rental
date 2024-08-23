@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-testimonial',
@@ -7,6 +8,10 @@ import { OwlOptions } from 'ngx-owl-carousel-o';
   styleUrl: './testimonial.component.scss'
 })
 export class TestimonialComponent {
+  testimonials:any;
+  
+constructor(private sharedService:SharedService){}
+
   customOptions: OwlOptions = {
     loop: true,
     mouseDrag: false,
@@ -30,5 +35,16 @@ export class TestimonialComponent {
       },
     },
     nav: true
+  }
+
+  ngOnInit(){
+this.getTestimonials()
+  }
+
+  getTestimonials(){
+this.sharedService.getTestimonials().subscribe((response:any)=>{
+  console.log(response)
+  this.testimonials = response.data
+})
   }
 }

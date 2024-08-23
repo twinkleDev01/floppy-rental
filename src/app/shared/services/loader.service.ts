@@ -10,7 +10,6 @@ export class LoaderService {
   constructor(private spinner: NgxSpinnerService) {}
 
   show() {
-    console.log("spinner")
     this.spinner.show();
   }
 
