@@ -4,6 +4,8 @@ import { HomeService } from '../../services/home.service';
 import { environment } from '../../../../../environments/environment.development';
 import { MatDialog } from '@angular/material/dialog';
 import { ServiceDialogComponent } from './service-dialog.component';
+import { ServicesDetailService } from '../../../services/service/services-detail.service';
+import { ScrollService } from '../../../../shared/services/scroll.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -13,15 +15,25 @@ export class HomeComponent {
   homeData:any[]=[];
   sortedTopData:any[]=[];
   serviceDataList:any[]=[];
+  categoryList:any[]=[]
+  subcategoryData:any;
+  categoryId:any
+  contentLoaded = false;
    apiUrl: string = environment.ApiBaseUrl;
+   section1Subcategories: any[] = [];
+section2Subcategories: any[] = [];
+section3Subcategories: any[] = [];
+
    
-  constructor(private homeService: HomeService, public dialog: MatDialog){}
+  constructor(private homeService: HomeService, public dialog: MatDialog, private service:ServicesDetailService,private scrollService:ScrollService){}
   customOptions: OwlOptions = {
     loop: true,
     mouseDrag: true,
     touchDrag: true,
     pullDrag: true,
     dots: false,
+    autoplay: true,
+    autoplaySpeed: 1000,
     navSpeed: 700,
     responsive: {
       0: {
@@ -71,6 +83,15 @@ export class HomeComponent {
       this.serviceDataList = res.data;
       console.log(this.serviceDataList,"serviceDataListtt")
     })
+    this.fetchCategories()
+    // this.fetchSubCategories(this.categoryId)
+    this.scrollService.contentVisible.subscribe(() => {
+      this.contentLoaded = true; // Show the content
+      console.log('content')
+
+    this.fetchSubCategoriesForSections();
+
+    });
   }
     onPrevClick() {
      console.log(this.owlElement,"previous")
@@ -93,4 +114,117 @@ export class HomeComponent {
       });
     }
   
+    // fetchCategories(){
+    //   this.service.getCategoryList().subscribe((res)=>{
+    //     console.log(res,"categoryList")
+    //     this.categoryList = res.data;
+    //   })
+    // }
+
+    // fetchSubCategories(categoryId: number) {
+    //   this.homeService.getSubCategories(categoryId).subscribe(
+    //     (response: any) => {
+    //       this.subcategoryData = response.data; // Adjust according to your API's response structure
+    //       console.log(this.subcategoryData)
+    //     },
+    //     (error) => {
+    //       console.error('Error fetching subcategories', error);
+    //     }
+    //   );
+    // }
+
+
+    fetchCategories() {
+      this.service.getCategoryList().subscribe((res) => {
+        this.categoryList = res.data;
+        // Call subcategory fetch methods for specific categories after fetching categories
+        // this.fetchSubCategoriesForSections();
+      });
+    }
+  
+    fetchSubCategories(categoryId: number, section: 'section1Subcategories' | 'section2Subcategories' | 'section3Subcategories') {
+      console.log('Fetching subcategories for:', section);
+      this.homeService.getSubCategories(categoryId).subscribe(
+        (response: any) => {
+          (this as any)[section] = (this as any)[section] = Array.isArray(response.data) ? response.data : []; // Adjust according to your API's response structure
+          console.log((this as any)[section]);
+        },
+        (error) => {
+          console.error('Error fetching subcategories', error);
+        }
+      );
+    }
+  
+    fetchSubCategoriesForSections() {
+      if (this.categoryList.length > 1) {
+        // Fetch subcategories for Section 1
+        this.fetchSubCategories(this.categoryList[1].mainId, 'section1Subcategories');
+      }
+      if (this.categoryList.length > 11) {
+        // Fetch subcategories for Section 2
+        this.fetchSubCategories(this.categoryList[11].mainId, 'section2Subcategories');
+      }
+      if (this.categoryList.length > 3) {
+        // Fetch subcategories for Section 3
+        this.fetchSubCategories(this.categoryList[3].mainId, 'section3Subcategories');
+      }
+    }
+  
+    getSectionId(index: number): string {
+      return this.categoryList[index]?.classificationName.toLowerCase().replace(/ /g, '-') + '-section';
+    } 
+    
+  //   sectionCarouselOptions: { [key: string]: any } = {
+  //     section1Subcategories: {},
+  //     section2Subcategories: {},
+  //     section3Subcategories: {}
+  // };
+  
+
+//   adjustCarouselOptions() {
+//     const sections = ['section1Subcategories', 'section2Subcategories', 'section3Subcategories'];
+//     // const minItemsForAutoplay = 2; // Minimum number of items needed to enable autoplay
+
+//     sections.forEach((section) => {
+//         const subcategories = (this as any)[section] || [];
+//         if (subcategories.length <= 1) {
+//             this.sectionCarouselOptions[section] = {
+//                 loop: false,
+//                 margin: 10,
+//                 nav: false,
+//                 autoplay: false,
+//                 responsive: {
+//                     0: {
+//                         items: 1
+//                     }
+//                 }
+//             };
+//         } else {
+//             this.sectionCarouselOptions[section] = {
+//                 loop: true,
+//                 margin: 10,
+//                 nav: false,
+//                 autoplay: true,
+//                 autoplayTimeout: 3000,
+//                 autoplayHoverPause: true,
+//                 autoplaySpeed: 1000,
+//                 responsive: {
+//                     0: {
+//                         items: 1
+//                     },
+//                     600: {
+//                         items: 2
+//                     },
+//                     1000: {
+//                         items: 4
+//                     }
+//                 }
+//             };
+//         }
+//     });
+// }
+
+
+
+
 }
