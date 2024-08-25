@@ -9,7 +9,7 @@
                                 <span class="header_text">Try Our Trending Services With
                                     Upto 50% Off !</span>
                                 <span class="subtext">On any service you book</span>
-                                <div class="text-center">
+                                <div class="text-center" *ngIf="isOnHomePage()">
                                     <button class="service_btn" (click)="goToService()">Book A Service</button>
                                 </div>
                             </div>
@@ -43,7 +43,7 @@
                                 <span class="header_text">Try Our Trending Services With
                                     Upto 50% Off !</span>
                                 <span class="subtext">On any service you book</span>
-                                <div class="text-center">
+                                <div class="text-center" *ngIf="isOnHomePage()">
                                     <button class="service_btn">Book A Service</button>
                                 </div>
                             </div>
@@ -60,7 +60,7 @@
                                 <span class="header_text">Try Our Trending Services With
                                     Upto 50% Off !</span>
                                 <span class="subtext">On any service you book</span>
-                                <div class="text-center">
+                                <div class="text-center" *ngIf="isOnHomePage()">
                                     <button class="service_btn2">Book A Service</button>
                                 </div>
                             </div>

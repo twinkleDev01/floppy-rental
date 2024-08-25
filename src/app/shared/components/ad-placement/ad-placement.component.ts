@@ -37,4 +37,8 @@ export class AdPlacementComponent {
   goToService(){
     this.router.navigate(['services'])
   }
+  // Check if the current route is the home page
+  isOnHomePage(): boolean {
+    return this.router.url === '/';
+  }
 }

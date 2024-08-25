@@ -1,17 +1,26 @@
-
 <app-page-breadcrumb></app-page-breadcrumb>
 <!--  -->
 <div class="container p-2">
-  <button (click)="showFilter = true" *ngIf="!showFilter" class="btn show-filter-btn fw-bold d-block d-sm-none" 
-  style="color:#008CAC; border:1px solid #008CAC">Show Filters</button>
+  <button
+    (click)="showFilter = true"
+    *ngIf="!showFilter"
+    class="btn show-filter-btn fw-bold d-block d-sm-none"
+    style="color: #008cac; border: 1px solid #008cac"
+  >
+    Show Filters
+  </button>
   <div class="row gapCard">
-    <div 
+    <div
       class="col-sm-3 me-5 position-relative d-sm-block"
-      style="z-index: 1;"
+      style="z-index: 1"
       [class.d-none]="!showFilter"
     >
-      <mat-icon (click)="showFilter = false" class="position-absolute d-sm-none d-block" 
-      style="color: black; right: 1rem; top: 1rem">cancel</mat-icon>
+      <mat-icon
+        (click)="showFilter = false"
+        class="position-absolute d-sm-none d-block"
+        style="color: black; right: 1rem; top: 1rem"
+        >cancel</mat-icon
+      >
       <!--  -->
       <div class="container mt-5">
         <h2 class="fw-bold fs-4">CATEGORY</h2>
@@ -22,10 +31,12 @@
           (change)="onCategoryChange($event)"
         >
           @for (category of categoriesList; track category) {
-        
-          <mat-radio-button class="example-radio-button" [value]="category.mainId">{{
-            category.classificationName
-          }}</mat-radio-button>
+
+          <mat-radio-button
+            class="example-radio-button"
+            [value]="category.mainId"
+            >{{ category.classificationName }}</mat-radio-button
+          >
           }
         </mat-radio-group>
       </div>
@@ -53,13 +64,16 @@
           aria-labelledby="example-radio-group-label"
           class="example-radio-group"
           [(ngModel)]="selectedCategory"
-          (click)="onCheckboxChange(selectedCategory)"
-          
-        >{{selectedCategory}}
+          >{{ selectedServiceCategory }}-{{ selectedCategory }}
+          <!--  (click)="onCheckboxChange(selectedCategory)" -->
           @for (subCategory of categories; track subCategory) {
-          <mat-checkbox class="example-radio-button" [value]="subCategory.subId">{{
-            subCategory.SubClassificationName
-          }}</mat-checkbox>
+          <mat-checkbox
+            class="example-radio-button"
+            [value]="subCategory.subId"
+            [checked]="subCategory.isChecked"
+            (change)="onCheckboxChange(subCategory.SubId, $event)"
+            >{{ subCategory.SubClassificationName }}</mat-checkbox
+          >
           }
         </mat-checkbox-group>
       </div>
@@ -88,46 +102,62 @@
         <!-- GridContainer -->
         <div class="grid-container">
           <div
-          class="grid-item card serviceDetail"
-          *ngFor="let card of servicesDetails | paginate:paginator"
-        >
-          <div (click)="goToDetail(card)" class="clickable">
-            <!-- <img [src]=" apiUrl + card.image" [alt]="card.title" class="img-fluid" /> -->
-          <img [src] = "card.image ? (apiUrl + card.image) : 'images/nitiGroup.svg'" class="img-fluid" />
-            <h6 class="text-start fw-bold pt-3">{{ card.item.vendorname }}</h6>
-            <!-- <div class="Staff">
+            class="grid-item card serviceDetail"
+            *ngFor="let card of servicesDetails | paginate : paginator"
+          >
+            <div (click)="goToDetail(card)" class="clickable">
+              <!-- <img [src]=" apiUrl + card.image" [alt]="card.title" class="img-fluid" /> -->
+              <img
+                [src]="
+                  card.image ? apiUrl + card.image : 'images/nitiGroup.svg'
+                "
+                class="img-fluid"
+              />
+              <h6 class="text-start fw-bold pt-3">
+                {{ card.item.vendorname }}
+              </h6>
+              <!-- <div class="Staff">
               SubGroupName <span>{{ card.item.subgroupname }}</span>
             </div> -->
-            <div class="Staff mb-2">
-               <span>{{ card.item.maingroupname }}</span>
+              <div class="Staff mb-2">
+                <span>{{ card.item.maingroupname }}</span>
+              </div>
+              <div class="charge pt-2">Monthly Charge For</div>
+              <div class="price">{{ card.item.rate }}</div>
+              <hr />
+              <div class="distance">
+                Distance : {{ card.distance }} KM
+                <app-rating-star
+                  [rating]="card.reviews"
+                  [starCount]="5"
+                  [color]="'yellow'"
+                  (ratingUpdated)="onRatingUpdated($event)"
+                >
+                </app-rating-star>
+              </div>
             </div>
-            <div class="charge pt-2">Monthly Charge For</div>
-            <div class="price">{{ card.item.rate }}</div>
-            <hr />
-            <div class="distance">
-              Distance : {{ card.distance }} KM
-            <app-rating-star [rating]="card.reviews" [starCount]="5" [color]="'yellow'" (ratingUpdated)="onRatingUpdated($event)">
-            </app-rating-star>
           </div>
         </div>
+        <!-- ContainerGridClosed -->
       </div>
     </div>
-    <!-- ContainerGridClosed -->
-    </div>
   </div>
-</div>
 
-<div>&nbsp;</div>
-<div class="originalPaginator">
-    <mat-paginator style-paginator [pageSize]="pageSize" [pageIndex]="pageIndex" [pageSizeOptions]="pageSizeOptions"  (page)="onPageEvent($event)" [length]="servicesDetails.length"
-    aria-label="Select page">
-</mat-paginator>
-</div>
+  <div>&nbsp;</div>
+  <div class="originalPaginator">
+    <mat-paginator
+      style-paginator
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="onPageEvent($event)"
+      [length]="servicesDetails.length"
+      aria-label="Select page"
+    >
+    </mat-paginator>
+  </div>
 
   <div class="addPlacement mb-5">
     <app-ad-placement></app-ad-placement>
   </div>
-
-
-
-  
+</div>

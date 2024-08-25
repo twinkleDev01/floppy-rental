@@ -13,132 +13,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 })
 export class ServicesCategoryComponent {
   apiUrl: string = environment.ApiBaseUrl;
-  // servicesDetails:any = [
-  //   {
-  //     "title":"Niti Group Facility Services",
-  //     "image":"images/nitiGroup.svg",
-  //     "staff":"Housekepping Lady",
-  //     "price" : "20 Hrs.INR 14000",
-  //     "distance":"5",
-  //     "rate":6
-  //   },
-  //   {
-  //     "title":"A.P.Securitas Pvt.Ltd.",
-  //     "image":"images/apSecurity.svg",
-  //     "staff":"Housekepping Lady",
-  //     "price" : "20 Hrs.INR 9500",
-  //     "distance":"6",
-  //     "rate":3
-  //   },
-  //   {
-  //     "title":"Addbiv Securer Pvt.Ltd.",
-  //     "image":"images/addbivSecurer.svg",
-  //     "staff":"Housekepping Lady",
-  //     "price" : "20 Hrs.INR 14000",
-  //     "distance":"7",
-  //     "rate":4.2
-  //   },
-  //   // ----
-  //   {
-  //     "title":"Ahon Security Services Pvt.Ltd",
-  //     "image":"images/Ahon.svg",
-  //     "staff":"Housekepping Lady",
-  //     "price" : "20 Hrs.INR 14000",
-  //     "distance":"5",
-  //     "rate":4
-  //   },
-  //   {
-  //     "title":"Aman Security Service(Regd.)",
-  //     "image":"images/Aman.svg",
-  //     "staff":"Housekepping Lady",
-  //     "price" : "20 Hrs.INR 9500",
-  //     "distance":"6",
-  //     "rate":3
-  //   },
-  //   {
-  //     "title":"Bujrang Security Service",
-  //     "image":"images/Bajrang.svg",
-  //     "staff":"Housekepping Lady",
-  //     "price" : "20 Hrs.INR 14000",
-  //     "distance":"7",
-  //     "rate":4.2
-  //   },
-  //   // ----
-  //   {
-  //     "title":"BCS Security Group",
-  //     "image":"images/bcs.svg",
-  //     "staff":"Housekepping Lady",
-  //     "price" : "20 Hrs.INR 14000",
-  //     "distance":"5",
-  //     "rate":4
-  //   },
-  //   {
-  //     "title":"Bhartiya Security Services",
-  //     "image":"images/bhartiya.svg",
-  //     "staff":"Housekepping Boy",
-  //     "price" : "20 Hrs.INR 9500",
-  //     "distance":"6",
-  //     "rate":3
-  //   },
-  //   {
-  //     "title":"Black Valk Security Pvt.Ltd.",
-  //     "image":"images/blackValk.svg",
-  //     "staff":"Housekepping Boy",
-  //     "price" : "20 Hrs.INR 14000",
-  //     "distance":"7",
-  //     "rate":4.2
-  //   },
-  //   // ----
-  //   {
-  //     "title":"Bvg India Ltd.",
-  //     "image":"images/bvgIndia.svg",
-  //     "staff":"Housekepping Lady",
-  //     "price" : "20 Hrs.INR 14000",
-  //     "distance":"5",
-  //     "rate":4
-  //   },
-  //   {
-  //     "title":"Clean Way",
-  //     "image":"images/cleanWay.svg",
-  //     "staff":"Housekepping Lady",
-  //     "price" : "20 Hrs.INR 9500",
-  //     "distance":"6",
-  //     "rate":3
-  //   },
-  //   {
-  //     "title":"Com Security Services Pvt.Ltd.",
-  //     "image":"images/comSecurity.svg",
-  //     "staff":"Housekepping Lady",
-  //     "price" : "20 Hrs.INR 14000",
-  //     "distance":"7",
-  //     "rate":4.2
-  //   },
-  //   // ---Repeate for Paginator
-  //   {
-  //     "title":"Niti Group Facility Services",
-  //     "image":"images/nitiGroup.svg",
-  //     "staff":"Housekepping Lady",
-  //     "price" : "20 Hrs.INR 14000",
-  //     "distance":"5",
-  //     "rate":4
-  //   },
-  //   {
-  //     "title":"A.P.Securitas Pvt.Ltd.",
-  //     "image":"images/apSecurity.svg",
-  //     "staff":"Housekepping Lady",
-  //     "price" : "20 Hrs.INR 9500",
-  //     "distance":"6",
-  //     "rate":3
-  //   },
-  //   {
-  //     "title":"Addbiv Securer Pvt.Ltd.",
-  //     "image":"images/addbivSecurer.svg",
-  //     "staff":"Housekepping Lady",
-  //     "price" : "20 Hrs.INR 14000",
-  //     "distance":"7",
-  //     "rate":4.2
-  //   },
-  // ]
+ 
   servicesDetails:any[]=[];
   private readonly _formBuilder = inject(FormBuilder);
   // currentRating = this.servicesDetails[0].rate; // Initial rating value
@@ -230,6 +105,11 @@ export class ServicesCategoryComponent {
      // Set the first category as the default selected
   if (this.categories && this.categories.length > 0) {
     this.selectedCategory = this.categories[0].SubId;
+    
+    this.categories.forEach((category) => {
+      category.isChecked = category.SubId === this.selectedCategory;
+    });
+
     console.log(this.selectedCategory,"selectedCategory")
     this.subCatId = this.categories[0].SubId;
     this.catId = this.categories[0].MainId;
@@ -240,12 +120,26 @@ export class ServicesCategoryComponent {
   })
  }
 
- onCheckboxChange(event: MatCheckboxChange) {
-  console.log('Checkbox changed:', event.checked);
+//  onCheckboxChange(event: any) {
+//   console.log('Checkbox changed:', event.checked);
 
-  // Handle checkbox change logic here
-   this.fetchItems(this.selectedServiceCategory, event);
+//   // Handle checkbox change logic here
+//    this.fetchItems(this.selectedServiceCategory, event);
+// }
+
+onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
+  if (event.checked) {
+    // Set the selectedCategory to the newly checked checkbox's value
+
+       // Uncheck all other checkboxes by setting the selectedCategory as the only selected one
+    this.categories.forEach((category) => {
+      category.isChecked = category.SubId === subCategoryId;
+    });
+    // 
+    this.fetchItems(this.selectedServiceCategory, subCategoryId);
+  }
 }
+
   onRatingUpdated(newRating: number) {
     console.log(this.currentRating, "currentRating")
     console.log("New Rating: ", newRating);
