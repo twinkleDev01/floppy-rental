@@ -64,8 +64,8 @@
           aria-labelledby="example-radio-group-label"
           class="example-radio-group"
           [(ngModel)]="selectedCategory"
-          >{{ selectedServiceCategory }}-{{ selectedCategory }}
-          <!--  (click)="onCheckboxChange(selectedCategory)" -->
+          >
+          <!--  (click)="onCheckboxChange(selectedCategory)" //{{ selectedServiceCategory }}-{{ selectedCategory }}-->
           @for (subCategory of categories; track subCategory) {
           <mat-checkbox
             class="example-radio-button"
@@ -126,7 +126,7 @@
               <div class="price">{{ card.item.rate }}</div>
               <hr />
               <div class="distance">
-                Distance : {{ card.distance }} KM
+                Distance : {{ card.vendor.distance }} KM
                 <app-rating-star
                   [rating]="card.reviews"
                   [starCount]="5"

@@ -152,7 +152,7 @@ onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
   goToDetail(card:{}){
     const navigationExtras = {
       state: {
-        card: card,
+        card: card
       }
     };
     console.log(card,"CardDetail")

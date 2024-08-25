@@ -175,17 +175,17 @@
           
           <!-- Minimum Length Error -->
           <div *ngIf="signup.get('password')?.errors?.['minlength'] && !signup.get('password')?.errors?.['required']" style="font-size: 10px;">
-            Password must be at least 6 characters long.
+            Password must be at least 8 characters long.
           </div>
         
           <!-- Maximum Length Error -->
           <div *ngIf="signup.get('password')?.errors?.['maxlength'] && !signup.get('password')?.errors?.['required']" style="font-size: 10px;">
-            Password must not exceed 8 characters.
+            Password must not exceed 14 characters.
           </div>
         
           <!-- Pattern Error -->
           <div *ngIf="signup.get('password')?.errors?.['pattern'] && !signup.get('password')?.errors?.['required']" style="font-size: 10px;">
-            Password must start with an uppercase letter and contain one special character & number, [e.g., Ranjan1$].
+            Password must contain at least one uppercase letter and one special character.[e.g., Ranjan$].
           </div>
         </div>
         
