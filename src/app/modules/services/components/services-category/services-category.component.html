@@ -103,7 +103,7 @@
         <div class="grid-container">
           <div
             class="grid-item card serviceDetail"
-            *ngFor="let card of servicesDetails | paginate : paginator"
+            *ngFor="let card of servicesDetails | paginate : ((paginator$) | async)"
           >
             <div (click)="goToDetail(card)" class="clickable">
               <!-- <img [src]=" apiUrl + card.image" [alt]="card.title" class="img-fluid" /> -->
@@ -150,7 +150,7 @@
       [pageSize]="pageSize"
       [pageIndex]="pageIndex"
       [pageSizeOptions]="pageSizeOptions"
-      (page)="onPageEvent($event)"
+      (page)="paginator$.next($event)"
       [length]="servicesDetails.length"
       aria-label="Select page"
     >

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ServicesDetailService } from '../../service/services-detail.service';
 import { environment } from '../../../../../environments/environment.development';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-services-category',
@@ -44,7 +45,8 @@ export class ServicesCategoryComponent {
   @Input() pageIndex = 0;
   @Input() pageSize = 10; //default page size
   @Input() pageSizeOptions: number[] = [5, 10, 25, 100];
-  @Input() showPageSizeField = true
+  @Input() showPageSizeField = true;
+  paginator$ = new BehaviorSubject<{pageIndex:number,pageSize:number}|null>({pageIndex:0,pageSize:10})
 
   constructor(private fb: FormBuilder, private router: Router, private service:ServicesDetailService) {
 

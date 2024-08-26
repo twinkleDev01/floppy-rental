@@ -104,6 +104,22 @@ export class ServicesDetailService {
         catchError(error => this.handleError(error)));
   }
 
+  addNewReview(){
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      // "Authorization": 'Bearer ' + localStorage.getItem('token')
+    });
+    const httpOptions = {
+      headers: headers
+    };
+    const url = environment.ApiBaseUrl.concat(`Rating/insert-rating-review`);
+    return this.http.post<any>(url, httpOptions)
+      .pipe(map((response:any) => {
+        return response;
+      }),
+        catchError(error => this.handleError(error)));
+  }
+
   // SellerInfo
   getSellerInfo(id:string){
     const headers = new HttpHeaders({

@@ -65,6 +65,11 @@ export class ServicesDetailsComponent {
 
   }
 // Rating
+addReview(){
+this.service.addNewReview().subscribe((res:any)=>{
+  console.log(res,"res")
+})
+}
 
 onRatingUpdated(newRating: number) {
   console.log("New Rating: ", newRating);

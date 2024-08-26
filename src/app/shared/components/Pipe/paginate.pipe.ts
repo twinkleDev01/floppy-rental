@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class PaginatePipe implements PipeTransform {
 
-  transform(items: any[], pageObject: { pageIndex: number, pageSize: number }): any[] {
+  transform(items: any[], pageObject: { pageIndex: number, pageSize: number }|null): any[] {
     if (!items || !pageObject) {
       return [];
     }
