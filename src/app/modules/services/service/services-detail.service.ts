@@ -7,6 +7,7 @@ import { environment } from '../../../../environments/environment.development';
   providedIn: 'root'
 })
 export class ServicesDetailService {
+  locationServiceWiseUrl = environment.ApiBaseUrl + 'Service/searchItems'
 
   constructor(private http: HttpClient) { }
 
@@ -139,5 +140,13 @@ export class ServicesDetailService {
 
   handleError(error: any): any {
     throw new Error('Method not implemented.');
+  }
+
+  getServiceLocationWise(subgroupName: string, location: string): Observable<any> {
+    // Construct the URL with the provided parameters
+    const url = `${this.locationServiceWiseUrl}/${subgroupName}/${location}`;
+    
+    // Make the GET request and return the observable
+    return this.http.get<any>(url);
   }
 }

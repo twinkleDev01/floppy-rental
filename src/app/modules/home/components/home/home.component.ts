@@ -7,6 +7,7 @@ import { ServiceDialogComponent } from './service-dialog.component';
 import { ServicesDetailService } from '../../../services/service/services-detail.service';
 import { ScrollService } from '../../../../shared/services/scroll.service';
 import { Router } from '@angular/router';
+import { Item, SubCategories } from '../../_models/home.model';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -18,7 +19,7 @@ sortedTopData:any[]=[];
 sortedMiddleData:any[]=[];
 sortedBottomData:any[]=[];
   serviceDataList:any[]=[];
-  categoryList:any[]=[]
+  categorySucategotyList:any[]=[]
   subcategoryData:any;
   categoryId:any
   contentLoaded = false;
@@ -26,6 +27,10 @@ sortedBottomData:any[]=[];
    section1Subcategories: any[] = [];
 section2Subcategories: any[] = [];
 section3Subcategories: any[] = [];
+firstCategory!:SubCategories;
+secondCategory!:SubCategories;
+thirdCategory!:SubCategories
+  itemList: Item[]=[];
 
    
   constructor(private homeService: HomeService, public dialog: MatDialog, private service:ServicesDetailService,private scrollService:ScrollService, private router:Router){}
@@ -36,7 +41,7 @@ section3Subcategories: any[] = [];
     pullDrag: true,
     dots: false,
     autoplay: true,
-    autoWidth: true,
+    autoWidth: false,
     autoplaySpeed: 1000,
     navSpeed: 700,
     responsive: {
@@ -50,32 +55,16 @@ section3Subcategories: any[] = [];
         items: 4
       },
       940: {
-        items: 8
+        items: 4
       },
 
       1200: {
-        items: 8
+        items: 4
       },
     },
     nav: false
   }
-  customOptions2: OwlOptions = {
-    loop: true,
-    margin: 10,
-    nav: true,
-    autoWidth: true, // Adjust this based on your needs
-    responsive: {
-      0: {
-        items: 1
-      },
-      600: {
-        items: 3
-      },
-      1000: {
-        items: 5
-      }
-    }
-  }
+  
   
   private prevButton!: HTMLButtonElement;
   private nextButton!: HTMLButtonElement;
@@ -90,7 +79,7 @@ section3Subcategories: any[] = [];
     ngOnInit(){
 
      this.getBannerData()
-      
+     this.getItemlist()
       
     // ServiceCategoryList
     this.homeService.getServiceList().subscribe((res:any)=>{
@@ -100,13 +89,11 @@ section3Subcategories: any[] = [];
     })
     this.fetchCategories()
     // this.fetchSubCategories(this.categoryId)
-    this.scrollService.contentVisible.subscribe(() => {
-      this.contentLoaded = true; // Show the content
-      console.log('content')
+    // this.scrollService.contentVisible.subscribe(() => {
+    //   this.contentLoaded = true; // Show the content
+    //   console.log('content')
 
-    this.fetchSubCategoriesForSections();
-
-    });
+    // });
   }
     onPrevClick() {
      console.log(this.owlElement,"previous")
@@ -165,127 +152,70 @@ section3Subcategories: any[] = [];
       });
       
     }
-  
-    // fetchCategories(){
-    //   this.service.getCategoryList().subscribe((res)=>{
-    //     console.log(res,"categoryList")
-    //     this.categoryList = res.data;
-    //   })
-    // }
-
-    // fetchSubCategories(categoryId: number) {
-    //   this.homeService.getSubCategories(categoryId).subscribe(
-    //     (response: any) => {
-    //       this.subcategoryData = response.data; // Adjust according to your API's response structure
-    //       console.log(this.subcategoryData)
-    //     },
-    //     (error) => {
-    //       console.error('Error fetching subcategories', error);
-    //     }
-    //   );
-    // }
-
 
     fetchCategories() {
-      this.service.getCategoryList().subscribe((res) => {
-        this.categoryList = res.data;
-        // Call subcategory fetch methods for specific categories after fetching categories
-        // this.fetchSubCategoriesForSections();
+      this.homeService.getAllCategorySubcategory().subscribe((res) => {
+          this.categorySucategotyList = res.data;
+  
+          // Filter categories to only include those that should be shown on the dashboard
+          const filteredCategories = this.categorySucategotyList
+              .filter(category => category.showOnDashboard === 1)
+              .map(category => {
+                  // Filter subcategories to only include those that should be shown on the dashboard
+                  const filteredSubcategories = category.subcategories.filter((subcategory:any) => subcategory.showOnDashboard === 1);
+  
+                  // Return the complete category object with subcategories included
+                  return {
+                      classificationName: category.classificationName,
+                      subcategories: filteredSubcategories // Keep all properties here
+                  };
+              });
+  
+          // Assign categories to section variables
+          this.firstCategory = filteredCategories[0];
+          this.secondCategory = filteredCategories[1];
+          this.thirdCategory = filteredCategories[2];
       });
-    }
-  
-    fetchSubCategories(categoryId: number, section: 'section1Subcategories' | 'section2Subcategories' | 'section3Subcategories') {
-      console.log('Fetching subcategories for:', section);
-      this.homeService.getSubCategories(categoryId).subscribe(
-        (response: any) => {
-          (this as any)[section] = (this as any)[section] = Array.isArray(response.data) ? response.data : []; // Adjust according to your API's response structure
-          console.log((this as any)[section]);
-        },
-        (error) => {
-          console.error('Error fetching subcategories', error);
-        }
-      );
-    }
-  
-    fetchSubCategoriesForSections() {
-      if (this.categoryList.length > 1) {
-        // Fetch subcategories for Section 1
-        this.fetchSubCategories(this.categoryList[2].mainId, 'section1Subcategories');
-      }
-      if (this.categoryList.length > 11) {
-        // Fetch subcategories for Section 2
-        this.fetchSubCategories(this.categoryList[12].mainId, 'section2Subcategories');
-      }
-      if (this.categoryList.length > 3) {
-        // Fetch subcategories for Section 3
-        this.fetchSubCategories(this.categoryList[4].mainId, 'section3Subcategories');
-      }
-    }
-  
-    getSectionId(index: number): string {
-      return this.categoryList[index]?.classificationName.toLowerCase().replace(/ /g, '-') + '-section';
-    } 
+  }
 
     goCategory(subcategory: any){
       this.router.navigate(['/services/category'], {
         state: {
-          serviceId: subcategory.MainId,
-          subId: subcategory.SubId
+          serviceId: subcategory.mainId,
+          subId: subcategory.subId
         }
       });
     }
-    
-  //   sectionCarouselOptions: { [key: string]: any } = {
-  //     section1Subcategories: {},
-  //     section2Subcategories: {},
-  //     section3Subcategories: {}
-  // };
+
+    getItemlist(){
+      this.homeService.getItemlist().subscribe((response:any)=>{
+        this.itemList = response.data
+      })
+    }
+
+    goToServiceDetail(item:any){
+      this.router.navigate(['/services/service-Details'], {
+        state: {
+          card: item,
+        }
+      });
+    }
+
+    searchServices() {
+      // Get the selected location
+      const location = (document.getElementById('location') as HTMLSelectElement).value;
   
-
-//   adjustCarouselOptions() {
-//     const sections = ['section1Subcategories', 'section2Subcategories', 'section3Subcategories'];
-//     // const minItemsForAutoplay = 2; // Minimum number of items needed to enable autoplay
-
-//     sections.forEach((section) => {
-//         const subcategories = (this as any)[section] || [];
-//         if (subcategories.length <= 1) {
-//             this.sectionCarouselOptions[section] = {
-//                 loop: false,
-//                 margin: 10,
-//                 nav: false,
-//                 autoplay: false,
-//                 responsive: {
-//                     0: {
-//                         items: 1
-//                     }
-//                 }
-//             };
-//         } else {
-//             this.sectionCarouselOptions[section] = {
-//                 loop: true,
-//                 margin: 10,
-//                 nav: false,
-//                 autoplay: true,
-//                 autoplayTimeout: 3000,
-//                 autoplayHoverPause: true,
-//                 autoplaySpeed: 1000,
-//                 responsive: {
-//                     0: {
-//                         items: 1
-//                     },
-//                     600: {
-//                         items: 2
-//                     },
-//                     1000: {
-//                         items: 4
-//                     }
-//                 }
-//             };
-//         }
-//     });
-// }
-
-
-
+      // Get the search term
+      const searchTerm = (document.getElementById('searchBox') as HTMLInputElement).value;
+  
+      // Navigate to the desired route with the selected location and search term
+      this.router.navigate(['/services/category'], {
+          state: {
+              location: location,
+              subCategory: searchTerm
+          }
+      });
+  }
+  
 
 }

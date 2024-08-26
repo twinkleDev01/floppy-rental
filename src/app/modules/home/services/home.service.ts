@@ -9,6 +9,8 @@ import { environment } from '../../../../environments/environment.development';
 export class HomeService {
 
   subcategoryUrl = environment.ApiBaseUrl + 'Category/SubCategories'
+  ctegorySubcategoryUrl =  environment.ApiBaseUrl + 'Home/Category-with-subcategory-list';
+  itemlistUrl = environment.ApiBaseUrl + 'Home/item-list'
   
   constructor(private http: HttpClient) { }
   getHomeDetails(): Observable<any> {
@@ -50,5 +52,11 @@ export class HomeService {
 
   handleError(error: any): any {
     throw new Error('Method not implemented.');
+  }
+  getAllCategorySubcategory(): Observable<any> {
+    return this.http.get<any>(this.ctegorySubcategoryUrl);
+  }
+  getItemlist(){
+    return this.http.get<any>(this.itemlistUrl);
   }
 }
