@@ -33,8 +33,10 @@ export class ServicesCategoryComponent {
   categories:any[]=[];
   categoriesList:any[]=[];
   subCategories:any[]=[];
-  latitude:any;
-  longitude:any;
+  latitude:any = 0;
+  longitude:any = 0;
+  location:any;
+  subCategory:any;
   // toppings: FormGroup;
   // Paginator
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -50,10 +52,20 @@ export class ServicesCategoryComponent {
 
     const navigation = this.router.getCurrentNavigation();
     this.selectedServiceCategoryId = navigation?.extras?.state?.['serviceId']; 
+    
+    const state = navigation?.extras?.state ?? {};
+    this.location = state['location'] ; // Provide a default value if needed
+    this.subCategory = state['subCategory'] ; // Provide a default value if needed
+    
     console.log(this.selectedServiceCategoryId,"selectedServiceCategoryId");
+        console.log('Location:', this.location);
+        console.log('SubCategory:', this.subCategory);
   }
 
   ngOnInit(){
+    // if(this.location && this.subCategory){
+    //   this.getLocationwiseService(this.subCategory, this.location)
+    // }
     this.getCurrentLocation()
     // getCategoryList
     this.service.getCategoryList().subscribe((res)=>{
@@ -73,12 +85,14 @@ export class ServicesCategoryComponent {
     })
     // this.onRatingUpdated(this.currentRating);
    this.getFilterSubCategory(this.selectedServiceCategoryId);
-  }
+  
+}
   // Fetch items based on selected category
   fetchItems(catId: any, subCatId: any) {
     console.log(catId,"catId",subCatId,"subCatId")
     this.service.getItemByCategory(catId, subCatId, this.latitude, this.longitude).subscribe((res) => {
       this.servicesDetails = res.data;
+      this.servicesDetails  = this.servicesDetails.map((iterable)=>iterable.item);
       console.log(this.servicesDetails)
       // this.currentRating = this.servicesDetails.reviews
       if (this.servicesDetails.length > 0) {
@@ -86,7 +100,7 @@ export class ServicesCategoryComponent {
       }
     });
   }
-
+ 
     // Handle category change
     onCategoryChange(selectedValue: any) {
       console.log(selectedValue.value,"Selected Value")
@@ -217,6 +231,15 @@ if (navigator.geolocation) {
 } else {
   console.error("Geolocation is not supported by this browser.");
 }
+  }
+
+  getLocationwiseService(subCategory: string, location: string){
+    this.service.getServiceLocationWise(subCategory, location).subscribe((response:any)=>{
+      this.servicesDetails = response.data;
+      console.log(this.servicesDetails,"238")
+      
+      console.log(this.servicesDetails,"233")
+    })
   }
 }
 

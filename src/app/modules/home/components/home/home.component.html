@@ -41,7 +41,7 @@
             <span class="visually-hidden">Next</span>
         </button>
     </div>
-    <div class="banner_text">
+    <!-- <div class="banner_text">
         <h1>Expert Professional <span>Home Services,</span> Book Online</h1>
         <p>Service On Wheel helps you live smarter, giving you time to focus what's most
             important.</p>
@@ -49,13 +49,29 @@
             <i class="fa-solid fa-location-dot"></i>
             <select class="select_box" name="" id="">
                 <option value="">select</option>
-                <option value="">nagpur</option>
+                <option value="">Dwarka</option>
             </select>
             <i class="fa-solid fa-magnifying-glass search_glass"></i>
             <input type="search" placeholder="Search Item" class="search_box">
         </div>
-        <button>Contact us</button>
+        <button (click)="searchServices()">Search</button>
+    </div> -->
+    <div class="banner_text">
+        <h1>Expert Professional <span>Home Services,</span> Book Online</h1>
+        <p>Service On Wheel helps you live smarter, giving you time to focus on what's most
+            important.</p>
+        <div class="location_search">
+            <i class="fa-solid fa-location-dot"></i>
+            <select class="select_box" name="location" id="location">
+                <option value="">select</option>
+                <option value="Dwarka">Dwarka</option>
+            </select>
+            <i class="fa-solid fa-magnifying-glass search_glass"></i>
+            <input type="search" placeholder="Search Item" class="search_box" id="searchBox">
+        </div>
+        <button (click)="searchServices()">Search</button>
     </div>
+    
 </div>
 
 <!-- content -->
@@ -97,7 +113,7 @@
     </div>
 
     <!-- home repair services -->
-    <div class="row mt-5">
+    <!-- <div class="row mt-5">
         <div class="col-lg-4 col-md-4 d-flex justify-content-center">
             <div class="fridge_repair">
                 <h3 class="text-center text-white">Looking for Fridge Repair Expert?</h3>
@@ -118,7 +134,19 @@
                 <button class="book_now_btn">Book Now</button>
             </div>
         </div>
+    </div> -->
+    <div class="row mt-5">
+        <div class="col-lg-4 col-md-6 col-sm-12 d-flex justify-content-center" *ngFor="let item of itemList | slice:0:3">
+            <div class="fridge_repair service-card" [ngStyle]="{'background-image': item.imagepath ? 'url(' + item.imagepath + ')' : 'url(images/fridge-repair.png)', 'background-repeat': 'no-repeat', 'background-size': 'cover'}" *ngIf="item.showOnDastboard == 1">
+                <h3 class="text-center text-white">{{ item.itemName }}</h3>
+                <span class="text-white text-center">{{ item.specicationname }}</span>
+                <button class="book_now_btn" (click)="goToServiceDetail(item)">Book Now</button>
+            </div>
+        </div>
     </div>
+    
+    
+    
 
 
     <!-- How it works -->
@@ -177,21 +205,22 @@
 
 </div>
 
-<div id="lazy-load-target" >
-    <ng-container *ngIf="contentLoaded">
+<!-- <div id="lazy-load-target" >
+    <ng-container *ngIf="contentLoaded"> -->
         <!-- Appliance repare & service -->
-<div class="appliance_repair_section" *ngIf="categoryList.length > 2" [attr.id]="getSectionId(2)">
+<div class="appliance_repair_section" >
     <!-- <h2><span>Appliance Repair </span>& Services</h2> -->
-     <h2><span>{{ categoryList[2]?.classificationName }}</span></h2>
+     <h2><span>{{ firstCategory?.classificationName }}</span></h2>
     <div class="row row_mobile_response m-0">
         <div class="col-lg-2 col-md-2"></div>
-        <div class="col-lg-2 col-md-2 d-flex justify-content-center" *ngFor="let subcategory of section1Subcategories | slice:0:4">
+        <div class="col-lg-2 col-md-2 d-flex justify-content-center" *ngFor="let subcategory of firstCategory?.subcategories | slice:0:4">
             <div class="ac_repair_margin" (click)="goCategory(subcategory)">
                 <div class="appliance_repair">
                     <div class="appliance_repair_img">
-                        <img src="images/ac-repair.svg" alt="">
+                        <!-- <img src="images/ac-repair.svg" alt=""> -->
+                        <img [src]="subcategory.image || 'images/ac-repair.svg'" alt="{{subcategory.subClassificationName}}">
                     </div>
-                    <h3>{{ subcategory?.SubClassificationName }}</h3>
+                    <h3>{{ subcategory?.subClassificationName}}</h3>
                 </div>
             </div>
         </div>
@@ -225,10 +254,10 @@
 
 
 <!-- Salon at home -->
-<div class="salon_at_home" *ngIf="categoryList.length > 12" [attr.id]="getSectionId(12)">
+<div class="salon_at_home">
     <div class="container">
         <!-- <h2 class="text-center"><span>Salon</span> At Home</h2> -->
-        <h2 class="text-center"><span>{{ categoryList[12]?.classificationName }}</span></h2>
+        <h2 class="text-center"><span>{{ this.secondCategory?.classificationName }}</span></h2>
         <!-- <owl-carousel-o [options]="customOptions">
             <ng-template carouselSlide>
                 <div class="card_salon">
@@ -258,12 +287,13 @@
             </ng-template>
         </owl-carousel-o> -->
 
-        <owl-carousel-o [options]="customOptions2">
-            <ng-container *ngFor="let subcategory of section2Subcategories">
+        <owl-carousel-o [options]="customOptions">
+            <ng-container *ngFor="let subcategory of secondCategory?.subcategories">
               <ng-template carouselSlide>
-                <div class="salon" (click)="goCategory(subcategory)">
-                  <img [src]="subcategory.ImageUrl || 'images/salon.png'" alt="{{subcategory.SubClassificationName}}" class="carousel-image">
-                  <h3>{{subcategory.SubClassificationName}}</h3>
+                <div class="card_salon" (click)="goCategory(subcategory)">
+                  <!-- <img [src]="subcategory.image || 'images/salon.png'" alt="{{subcategory.subClassificationName}}" class="carousel-image"> -->
+                  <img src="images/sofa-cleaning.png" alt="">
+                  <h3>{{subcategory.subClassificationName}}</h3>
                 </div>
               </ng-template>
             </ng-container>
@@ -274,14 +304,14 @@
 </div>
 
 <!-- discount carousel -->
-<app-ad-placement></app-ad-placement>
+<app-ad-placement [sortedBottomData]="sortedBottomData"></app-ad-placement>
 
 
 <!-- house keeping -->
-<div class="house_keeping" *ngIf="categoryList.length > 4" [attr.id]="getSectionId(4)">
+<div class="house_keeping" >
     <div class="container">
         <!-- <h2 class="text-center"><span>House</span> Keeping</h2> -->
-        <h2 class="text-center"><span>{{ categoryList[4]?.classificationName }}</span></h2>
+        <h2 class="text-center"><span>{{ thirdCategory?.classificationName }}</span></h2>
         <!-- <owl-carousel-o [options]="customOptions">
             <ng-template carouselSlide>
                 <div class="card_salon">
@@ -311,11 +341,11 @@
             </ng-template>
         </owl-carousel-o> -->
         <owl-carousel-o [options]="customOptions">
-            <ng-template carouselSlide *ngFor="let subcategory of section3Subcategories | slice:0:4">
+            <ng-template carouselSlide *ngFor="let subcategory of thirdCategory?.subcategories | slice:0:4">
                 <div class="card_salon" (click)="goCategory(subcategory)">
-                    <!-- <img [src]="subcategory.Image" alt="{{ subcategory.SubClassificationName }}"> -->
-                    <img src="images/sofa-cleaning.png" alt="">
-                    <h3>{{ subcategory.SubClassificationName }}</h3>
+                    <!-- <img [src]="subcategory.image || 'images/sofa-cleaning.png'" alt="{{ subcategory.subClassificationName }}"> -->
+                    <img src="images/facial.png" alt="">
+                    <h3>{{ subcategory?.subClassificationName }}</h3>
                 </div>
             </ng-template>
         </owl-carousel-o>
@@ -323,5 +353,5 @@
 </div>
 
 <app-testimonial></app-testimonial>
-</ng-container>
-</div>
+<!-- </ng-container>
+</div> -->
