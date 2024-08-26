@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 
@@ -8,6 +8,7 @@ import { OwlOptions } from 'ngx-owl-carousel-o';
   styleUrl: './ad-placement.component.scss'
 })
 export class AdPlacementComponent {
+  @Input() sortedBottomData: any;
   constructor(private router:Router){}
   customOptions: OwlOptions = {
     loop: true,
@@ -33,6 +34,14 @@ export class AdPlacementComponent {
     },
     nav: true
   }
+
+  ngOnChanges(changes: any): void {
+    if (changes['sortedBottomData'] && this.sortedBottomData.length > 0) {
+      // Data is available, perform actions with sortedBottomData
+      console.log('Data received in child component:', this.sortedBottomData);
+    }
+  }
+  
 
   goToService(){
     this.router.navigate(['services'])

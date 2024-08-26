@@ -261,23 +261,23 @@ h2 span {
 }
 
 
-.fridge_repair {
-    background: url("../../../../../../public/images/fridge-repair.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-}
+// .fridge_repair {
+//     background: url("../../../../../../public/images/fridge-repair.png");
+//     background-repeat: no-repeat;
+//     background-size: cover;
+// }
 
-.ac_service {
-    background: url("../../../../../../public/images/ac-servicing.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-}
+// .ac_service {
+//     background: url("../../../../../../public/images/ac-servicing.png");
+//     background-repeat: no-repeat;
+//     background-size: cover;
+// }
 
-.electrician {
-    background: url("../../../../../../public/images/need-electrician.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-}
+// .electrician {
+//     background: url("../../../../../../public/images/need-electrician.png");
+//     background-repeat: no-repeat;
+//     background-size: cover;
+// }
 
 .electrician span,
 .ac_service span {
@@ -1017,7 +1017,7 @@ h2 span {
   }
   
   .card_salon {
-    // width: 200px; /* Adjust based on your design */
+    // width: 100%; /* Adjust based on your design */
     height: fit-content;
     border-radius: 20px;
     background-color: #fff;
@@ -1027,7 +1027,7 @@ h2 span {
     // text-align: center; /* Centers text inside the card */
   }
   .salon {
-    width: 200px; /* Adjust based on your design */
+    width: 320px; /* Adjust based on your design */
     height: fit-content;
     border-radius: 20px;
     background-color: #fff;
@@ -1054,4 +1054,16 @@ h2 span {
     padding: 5px;
     font-size: 14px;
     text-align: center;
+}
+
+
+// ----------------------------------------------------------------
+
+.service-card h3,
+.service-card span {
+    white-space: nowrap;       /* Prevents text from wrapping to the next line */
+    overflow: hidden;          /* Hides the overflow text */
+    text-overflow: ellipsis;   /* Adds ellipses ('...') at the end of the text */
+    width: 100%;               /* Ensure it takes up the full width of the container */
+    display: block;            /* Make sure the text is treated as a block element */
 }

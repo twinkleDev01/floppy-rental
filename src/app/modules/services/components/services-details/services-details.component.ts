@@ -27,7 +27,7 @@ export class ServicesDetailsComponent {
     const navigation = this.router.getCurrentNavigation();
     this.selectedCard = navigation?.extras?.state?.['card']; 
     console.log(this.selectedCard,"selectedCard");
-    this.serviceDetailId = this.selectedCard.item.id;
+    this.serviceDetailId = this.selectedCard.item?this.selectedCard.item.id:this.selectedCard.id;
     console.log(this.serviceDetailId,"serviceDetailId")
   }
 
