@@ -100,8 +100,7 @@
                         <ng-template carouselSlide *ngFor="let item of serviceDataList">
                             <div class="card" (click)="openDialog(item)">
                                 <div class="card_img">
-                                    <!-- <img [src]="apiUrl + item.image"  alt=""> -->
-                                    <img [src]="item.image ? (apiUrl + item.image) : 'images/rental.png'" [alt]="item.classificationName" />
+                                    <img [src]="item.image ? (item.image) : 'images/rental.png'" [alt]="item.classificationName" />
                                 </div>
                                 <h3 class="card_h3">{{item.classificationName}}</h3>
                             </div>

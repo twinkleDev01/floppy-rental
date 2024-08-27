@@ -106,7 +106,6 @@
             *ngFor="let card of servicesDetails | paginate : ((paginator$) | async)"
           >
             <div (click)="goToDetail(card)" class="clickable">
-              <!-- <img [src]=" apiUrl + card.image" [alt]="card.title" class="img-fluid" /> -->
               <img
                 [src]="
                   card.image ? card.image : 'images/nitiGroup.svg'
