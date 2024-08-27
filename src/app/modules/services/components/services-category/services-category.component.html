@@ -108,18 +108,18 @@
             <div (click)="goToDetail(card)" class="clickable">
               <img
                 [src]="
-                  card.image ? card.image : 'images/nitiGroup.svg'
+                  card.imagepath ? card.imagepath : 'images/No_Image_Available.jpg'
                 "
                 class="img-fluid"
               />
               <h6 class="text-start fw-bold pt-3">
-                {{ card?.vendorname }}
+                {{ card?.vendorname }} {{ card.imagepath | json}}
               </h6>
               <!-- <div class="Staff">
               SubGroupName <span>{{ card.item.subgroupname }}</span>
             </div> -->
-              <div class="Staff mb-2">
-                <span>{{ card?.maingroupname }}</span>
+              <div class="Staff mb-2 text-start">
+                <span class="text-start">{{ card?.maingroupname }}</span>
               </div>
               <div class="charge pt-2">Monthly Charge For</div>
               <div class="price">{{ card?.rate }}</div>

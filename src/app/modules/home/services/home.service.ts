@@ -11,7 +11,7 @@ export class HomeService {
   subcategoryUrl = environment.ApiBaseUrl + 'Category/SubCategories'
   ctegorySubcategoryUrl =  environment.ApiBaseUrl + 'Home/Category-with-subcategory-list';
   itemlistUrl = environment.ApiBaseUrl + 'Home/item-list'
-  
+  locationUrl = environment.ApiBaseUrl + 'Home/Locations'
   constructor(private http: HttpClient) { }
   getHomeDetails(): Observable<any> {
     const headers = new HttpHeaders({
@@ -58,5 +58,8 @@ export class HomeService {
   }
   getItemlist(){
     return this.http.get<any>(this.itemlistUrl);
+  }
+  getLocation(){
+    return this.http.get<any>(this.locationUrl);
   }
 }

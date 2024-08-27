@@ -31,6 +31,8 @@ firstCategory!:SubCategories;
 secondCategory!:SubCategories;
 thirdCategory!:SubCategories
   itemList: Item[]=[];
+  backgroundImage:any;
+  locations: any;
 
    
   constructor(private homeService: HomeService, public dialog: MatDialog, private service:ServicesDetailService,private scrollService:ScrollService, private router:Router){}
@@ -78,8 +80,9 @@ thirdCategory!:SubCategories
 
     ngOnInit(){
 
-     this.getBannerData()
-     this.getItemlist()
+     this.getBannerData();
+     this.getItemlist();
+     this.getLocations();
       
     // ServiceCategoryList
     this.homeService.getServiceList().subscribe((res:any)=>{
@@ -88,12 +91,6 @@ thirdCategory!:SubCategories
       console.log(this.serviceDataList,"serviceDataListtt")
     })
     this.fetchCategories()
-    // this.fetchSubCategories(this.categoryId)
-    // this.scrollService.contentVisible.subscribe(() => {
-    //   this.contentLoaded = true; // Show the content
-    //   console.log('content')
-
-    // });
   }
     onPrevClick() {
      console.log(this.owlElement,"previous")
@@ -103,7 +100,6 @@ thirdCategory!:SubCategories
   
     onNextClick() {
       if (this.owl && this.owl.next) {
-        console.log("58")
         this.owlElement.next(); // Move to next slide
       }
     }
@@ -127,7 +123,6 @@ thirdCategory!:SubCategories
         const topData = this.homeBannerData['Top'];
         if (topData) {
           this.sortedTopData = topData.sort((a: any, b: any) => a.Seqno - b.Seqno);
-          console.log(this.sortedTopData, "Sorted Top Data");
         } else {
           console.error('Top data not found:', this.homeBannerData);
         }
@@ -136,7 +131,7 @@ thirdCategory!:SubCategories
         const middleData = this.homeBannerData['Middle'];
         if (middleData) {
           this.sortedMiddleData = middleData.sort((a: any, b: any) => a.Seqno - b.Seqno);
-          console.log(this.sortedMiddleData, "Sorted Middle Data");
+          this.backgroundImage = this.sortedMiddleData[0]?.Image
         } else {
           console.error('Middle data not found:', this.homeBannerData);
         }
@@ -145,11 +140,11 @@ thirdCategory!:SubCategories
         const bottomData = this.homeBannerData['Bottom'];
         if (bottomData) {
           this.sortedBottomData = bottomData.sort((a: any, b: any) => a.Seqno - b.Seqno);
-          console.log(this.sortedBottomData, "Sorted Bottom Data");
         } else {
           console.error('Bottom data not found:', this.homeBannerData);
         }
       });
+
       
     }
 
@@ -217,5 +212,10 @@ thirdCategory!:SubCategories
       });
   }
   
+  getLocations(){
+    this.homeService.getLocation().subscribe((response:any)=>{
+      this.locations = response.data;
+    })
+  }
 
 }

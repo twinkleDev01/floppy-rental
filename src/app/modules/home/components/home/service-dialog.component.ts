@@ -15,7 +15,7 @@ import { Router } from "@angular/router";
               <div class="col-sm-3" *ngFor="let subcategory of subcategoryData">
                   <div class="dialog-card text-center clickable" (click)="goCategory(subcategory)">
                     <div class="dialog_card_img mx-auto">
-                      <img src="images/ac-servicing.png" [alt]="subcategory.SubClassificationName"/>
+                      <img [src]="subcategory.Image ||'images/No_Image_Available.jpg'" [alt]="subcategory.SubClassificationName"/>
                     </div>
                     <h3 class="card_h3">{{subcategory.SubClassificationName}}</h3>
                   </div>
