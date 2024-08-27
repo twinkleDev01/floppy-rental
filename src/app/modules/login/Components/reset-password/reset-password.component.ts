@@ -32,8 +32,10 @@ export class ResetPasswordComponent {
       contactNumber : ['', [Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(10), Validators.maxLength(10)]],
       password: ['', [
         Validators.required,
-        Validators.minLength(6),
-        Validators.pattern('^[A-Z](?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{5,}$')
+        Validators.minLength(8),
+        Validators.maxLength(14),
+        // Validators.pattern('^[A-Z](?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{5,}$')
+        Validators.pattern('^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,14}$')
       ]],
       confirmPassword: ['',[Validators.required, Validators.minLength(6)]],
       // country: ['', Validators.required],

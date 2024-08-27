@@ -2,18 +2,15 @@
 <div class="hero_section">
 
     <div id="carouselExampleControls" class="carousel slide carousel-fade" data-bs-ride="carousel">
-        <div class="carousel-inner">
             <div class="carousel-inner">
                 <div 
                   *ngFor="let item of sortedTopData; let i = index" 
                   class="carousel-item" 
                   [class.active]="i === 0"
                 >
-                  <img [src]="item.Image" [alt]="item.title" class="d-block w-100" style="size: 20px;">
+                  <img [src]="item.Image || 'images/No_Image_Available.jpg'" [alt]="item.title" class="d-block w-100" style="size: 20px;">
                 </div>
               </div>
-              
-        </div>
         <button class="carousel-control-prev " type="button" data-bs-target="#carouselExampleControls"
             data-bs-slide="prev">
             <span class="carousel-control-prev-icon carousel_button" aria-hidden="true">
