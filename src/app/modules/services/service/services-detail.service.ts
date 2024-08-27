@@ -8,7 +8,7 @@ import { environment } from '../../../../environments/environment.development';
 })
 export class ServicesDetailService {
   locationServiceWiseUrl = environment.ApiBaseUrl + 'Service/searchItems'
-
+   url = environment.ApiBaseUrl
   constructor(private http: HttpClient) { }
 
   getServiceList():Observable<any>{
@@ -105,7 +105,13 @@ export class ServicesDetailService {
         catchError(error => this.handleError(error)));
   }
 
-  addNewReview(){
+  getRatingByItemId(id:string){
+    const header = new Headers({'Content-Type': 'application/json'});
+    const httpOptions = { headers: header}
+    return this.http.get(this.url+`Rating/GetRatingByItemId/${id}`)
+  }
+
+  addNewReview(data:any){
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       // "Authorization": 'Bearer ' + localStorage.getItem('token')
@@ -114,7 +120,7 @@ export class ServicesDetailService {
       headers: headers
     };
     const url = environment.ApiBaseUrl.concat(`Rating/insert-rating-review`);
-    return this.http.post<any>(url, httpOptions)
+    return this.http.post<any>(url,data, httpOptions)
       .pipe(map((response:any) => {
         return response;
       }),

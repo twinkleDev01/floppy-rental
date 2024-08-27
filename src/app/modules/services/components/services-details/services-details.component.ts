@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { ServicesDetailService } from '../../service/services-detail.service';
 import { environment } from '../../../../../environments/environment.development';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-services-details',
@@ -22,13 +23,20 @@ export class ServicesDetailsComponent {
   maingroupid:any;
   latitude:any;
   longitude:any;
+  reviews:any;
+  reviewForm:any =FormGroup
 
-  constructor(private router: Router,private service:ServicesDetailService) {
+  constructor(private router: Router,private service:ServicesDetailService, private fb:FormBuilder) {
     const navigation = this.router.getCurrentNavigation();
     this.selectedCard = navigation?.extras?.state?.['card']; 
-    console.log(this.selectedCard,"selectedCard");
     this.serviceDetailId = this.selectedCard.item?this.selectedCard.item.id:this.selectedCard.id;
-    console.log(this.serviceDetailId,"serviceDetailId")
+    this.reviewForm = fb.group({
+      name: [],
+      email: [],
+      phone: [],
+      review:[],
+      type: "string"
+    })
   }
 
   ngOnInit(){
@@ -38,16 +46,13 @@ export class ServicesDetailsComponent {
     console.log(this.currentRating,"currentRating")
     this.onRatingUpdated(this.currentRating)
     this.service.getServiceDetailsById(this.serviceDetailId).subscribe((res)=>{
-      console.log(res.data,"res")
       this.serviceDetail = res.data;
-      console.log(this.serviceDetail,"serviceDetail")
+      this.getRatingByItemId(res.data.item.itemid)
       this.vendorId = this.serviceDetail.item.vendorid;
-      console.log(this.vendorId,"vendorId");
 
       // Similar Services
       this.maingroupid = this.serviceDetail?.item?.maingroupid;
       this.subgroupid = this.serviceDetail?.item?.subgroupid;
-      console.log(this.maingroupid, this.subgroupid)
 
       this.service.getItemByCategory(this.maingroupid, this.subgroupid,this.latitude, this.longitude).subscribe((SimilarItems:any)=>{
         console.log(SimilarItems,"SimilarItems")
@@ -64,10 +69,26 @@ export class ServicesDetailsComponent {
     })
 
   }
+  // get ratings
+  getRatingByItemId(id:string){
+    this.service.getRatingByItemId(id).subscribe((res:any)=>{
+      console.log(res)
+      this.reviews = res.data;
+    })
+  }
+
 // Rating
 addReview(){
-this.service.addNewReview().subscribe((res:any)=>{
-  console.log(res,"res")
+  const payload = {
+    ...this.reviewForm.value,
+    itemId:this.serviceDetail.item.id,
+    rating:this.serviceDetail?.item.rate,
+    ratingValue:this.serviceDetail?.item.ratingReview | 0,
+  }
+this.service.addNewReview(payload).subscribe((res:any)=>{
+  if(res.success){
+    this.getRatingByItemId(this.serviceDetail.item.id)
+  }
 })
 }
 
@@ -134,68 +155,68 @@ console.error("Geolocation is not supported by this browser.");
         },
       },
     };
-reviews=[
+// reviews=[
+//   {
+//     name:'Floyd Miles',
+//     address:'London,UK',
+//     description:'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet. Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
+//     profileImg:'images/Service-detail-img/profile-icon.png'
+//   },
+//   {
+//     name:'Floyd Miles',
+//     address:'London,UK',
+//     description:'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet. Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
+//     profileImg:'images/Service-detail-img/profile-icon.png'
+//   },
+//  ]
+Products=[
   {
-    name:'Floyd Miles',
-    address:'London,UK',
-    description:'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet. Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
-    profileImg:'images/Service-detail-img/profile-icon.png'
+    "title":"Niti Group Facility Services",
+    "image":"images/nitiGroup.svg",
+    "staff":"Housekepping Lady",
+    "price" : "20 Hrs.INR 14000",
+    "distance":"5",
+    "rate":4
   },
   {
-    name:'Floyd Miles',
-    address:'London,UK',
-    description:'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet. Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
-    profileImg:'images/Service-detail-img/profile-icon.png'
+    "title":"A.P.Securitas Pvt.Ltd.",
+    "image":"images/apSecurity.svg",
+    "staff":"Housekepping Lady",
+    "price" : "20 Hrs.INR 9500",
+    "distance":"6",
+    "rate":3
   },
- ]
-// Products=[
-//   {
-//     "title":"Niti Group Facility Services",
-//     "image":"images/nitiGroup.svg",
-//     "staff":"Housekepping Lady",
-//     "price" : "20 Hrs.INR 14000",
-//     "distance":"5",
-//     "rate":4
-//   },
-//   {
-//     "title":"A.P.Securitas Pvt.Ltd.",
-//     "image":"images/apSecurity.svg",
-//     "staff":"Housekepping Lady",
-//     "price" : "20 Hrs.INR 9500",
-//     "distance":"6",
-//     "rate":3
-//   },
-//   {
-//     "title":"Addbiv Securer Pvt.Ltd.",
-//     "image":"images/addbivSecurer.svg",
-//     "staff":"Housekepping Lady",
-//     "price" : "20 Hrs.INR 14000",
-//     "distance":"7",
-//     "rate":4.2
-//   },
-//   {
-//     "title":"Niti Group Facility Services",
-//     "image":"images/nitiGroup.svg",
-//     "staff":"Housekepping Lady",
-//     "price" : "20 Hrs.INR 14000",
-//     "distance":"5",
-//     "rate":4
-//   },
-//   {
-//     "title":"A.P.Securitas Pvt.Ltd.",
-//     "image":"images/apSecurity.svg",
-//     "staff":"Housekepping Lady",
-//     "price" : "20 Hrs.INR 9500",
-//     "distance":"6",
-//     "rate":3
-//   },
-//   {
-//     "title":"Addbiv Securer Pvt.Ltd.",
-//     "image":"images/addbivSecurer.svg",
-//     "staff":"Housekepping Lady",
-//     "price" : "20 Hrs.INR 14000",
-//     "distance":"7",
-//     "rate":4.2
-//   },
-// ]
+  {
+    "title":"Addbiv Securer Pvt.Ltd.",
+    "image":"images/addbivSecurer.svg",
+    "staff":"Housekepping Lady",
+    "price" : "20 Hrs.INR 14000",
+    "distance":"7",
+    "rate":4.2
+  },
+  {
+    "title":"Niti Group Facility Services",
+    "image":"images/nitiGroup.svg",
+    "staff":"Housekepping Lady",
+    "price" : "20 Hrs.INR 14000",
+    "distance":"5",
+    "rate":4
+  },
+  {
+    "title":"A.P.Securitas Pvt.Ltd.",
+    "image":"images/apSecurity.svg",
+    "staff":"Housekepping Lady",
+    "price" : "20 Hrs.INR 9500",
+    "distance":"6",
+    "rate":3
+  },
+  {
+    "title":"Addbiv Securer Pvt.Ltd.",
+    "image":"images/addbivSecurer.svg",
+    "staff":"Housekepping Lady",
+    "price" : "20 Hrs.INR 14000",
+    "distance":"7",
+    "rate":4.2
+  },
+]
 }
