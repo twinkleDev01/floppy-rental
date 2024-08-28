@@ -24,6 +24,8 @@ export class ServicesCategoryComponent {
   selectedCategory:any;
   selectedServiceCategory:any
   selectedServiceCategoryId:any;
+  selectedServiceCategoryIdThroughLocationSearch:any;
+  selectedServiceSubCategoryIdThroughLocationSearch:any
 
   serviceCatId :any;
   catId:any;
@@ -53,21 +55,33 @@ export class ServicesCategoryComponent {
   constructor(private fb: FormBuilder, private router: Router, private service:ServicesDetailService) {
 
     const navigation = this.router.getCurrentNavigation();
-    this.selectedServiceCategoryId = navigation?.extras?.state?.['serviceId']; 
-    
     const state = navigation?.extras?.state ?? {};
+    this.selectedServiceCategoryId = state?.['serviceId']; 
     this.location = state['location'] ; // Provide a default value if needed
     this.subCategory = state['subCategory'] ; // Provide a default value if needed
+    this.selectedServiceCategoryIdThroughLocationSearch = state['mainId']
+    this.selectedServiceSubCategoryIdThroughLocationSearch = state['subId']
     
-    console.log(this.selectedServiceCategoryId,"selectedServiceCategoryId");
+    console.log(this.selectedServiceCategoryId,"57")
+    console.log(this.selectedServiceCategoryIdThroughLocationSearch,"64");
         console.log('Location:', this.location);
         console.log('SubCategory:', this.subCategory);
   }
-
+private filteringThroughSubcategory(selectedServiceCategoryId:any):void{
+  const selectedCategoryObj = this.categoriesList.find(
+    (category) => category.mainId === this.selectedServiceCategoryId
+  );
+  this.selectedServiceCategory = selectedCategoryObj
+    ? selectedCategoryObj.mainId
+    : null;
+}
   ngOnInit(){
-    // if(this.location && this.subCategory){
-    //   this.getLocationwiseService(this.subCategory, this.location)
-    // }
+    if(this.location && this.subCategory){
+      console.log("is location")
+      this.getLocationwiseService(this.subCategory, this.location)
+    }
+
+
     this.getCurrentLocation()
     // getCategoryList
     this.service.getCategoryList().subscribe((res)=>{
@@ -76,16 +90,15 @@ export class ServicesCategoryComponent {
 
          // Set the selectedCategory based on selectedServiceCategoryId
          if (this.selectedServiceCategoryId) {
-          const selectedCategoryObj = this.categoriesList.find(
-            (category) => category.mainId === this.selectedServiceCategoryId
-          );
-          this.selectedServiceCategory = selectedCategoryObj
-            ? selectedCategoryObj.mainId
-            : null;
+          this.filteringThroughSubcategory(this.selectedServiceCategoryId);
+        }else if(this.selectedServiceCategoryIdThroughLocationSearch){
+          this.filteringThroughSubcategory(this.selectedServiceCategoryIdThroughLocationSearch);
+
         }
         console.log(this.selectedServiceCategory,"selectedServiceCategory")
     })
     // this.onRatingUpdated(this.currentRating);
+    this.selectedServiceCategoryId =  this.selectedServiceCategoryId? this.selectedServiceCategoryId:this.selectedServiceCategoryIdThroughLocationSearch;
    this.getFilterSubCategory(this.selectedServiceCategoryId);
   
 }
@@ -105,6 +118,11 @@ export class ServicesCategoryComponent {
  
     // Handle category change
     onCategoryChange(selectedValue: any) {
+      // Reset all variables to null or default values
+      this.selectedServiceCategoryIdThroughLocationSearch = null;
+      this.location = null;  // Provide a default value if needed
+      this.subCategory = null;  // Provide a default value if needed
+      this.selectedServiceSubCategoryIdThroughLocationSearch = null;
       console.log(selectedValue.value,"Selected Value")
       this.getFilterSubCategory(selectedValue.value);
       this.subCatId = this.categories.filter(a=>a.SubId);
@@ -120,7 +138,7 @@ export class ServicesCategoryComponent {
 
      // Set the first category as the default selected
   if (this.categories && this.categories.length > 0) {
-    this.selectedCategory = this.categories[0].SubId;
+    this.selectedCategory = this.selectedServiceSubCategoryIdThroughLocationSearch?this.selectedServiceSubCategoryIdThroughLocationSearch:this.categories[0].SubId;
     
     this.categories.forEach((category) => {
       category.isChecked = category.SubId === this.selectedCategory;
@@ -131,6 +149,7 @@ export class ServicesCategoryComponent {
     this.catId = this.categories[0].MainId;
 
     // Fetch items for the default category
+    if(!this.location && !this.subCategory)
     this.fetchItems(this.catId, this.subCatId);
   }
   })

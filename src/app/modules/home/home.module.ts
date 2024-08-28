@@ -5,6 +5,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { HomeComponent } from './components/home/home.component';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { ServiceDialogComponent } from './components/home/service-dialog.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { ServiceDialogComponent } from './components/home/service-dialog.compone
     CommonModule,
     SharedModule,
     HomeRoutingModule,
-    CarouselModule
+    CarouselModule,
+    FormsModule
   ]
 })
 export class HomeModule { }

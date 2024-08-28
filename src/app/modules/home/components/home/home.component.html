@@ -52,7 +52,7 @@
   <option *ngFor="let location of locations" [value]="location">{{ location }}</option>
 </select>
             <i class="fa-solid fa-magnifying-glass search_glass"></i>
-            <input type="search" placeholder="Search Item" class="search_box" id="searchBox">
+            <input type="search" [(ngModel)]="searchText" placeholder="Search Item" class="search_box" id="searchBox">
         </div>
         <button (click)="searchServices()">Search</button>
     </div>

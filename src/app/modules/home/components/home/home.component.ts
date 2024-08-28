@@ -171,9 +171,11 @@ thirdCategory!:SubCategories
           this.secondCategory = filteredCategories[1];
           this.thirdCategory = filteredCategories[2];
       });
+      
   }
 
     goCategory(subcategory: any){
+      console.log(subcategory,178)
       this.router.navigate(['/services/category'], {
         state: {
           serviceId: subcategory.mainId,
@@ -196,21 +198,44 @@ thirdCategory!:SubCategories
       });
     }
 
+    searchText: string = '';
     searchServices() {
-      // Get the selected location
-      const location = (document.getElementById('location') as HTMLSelectElement).value;
+      // Check if search text is provided
+      if (this.searchText.trim()) {
+        const matchedSubcategory = this.findSubcategoryBySearch(this.searchText.trim());
+        console.log(matchedSubcategory.mainId)
+        if (matchedSubcategory) {
   
-      // Get the search term
-      const searchTerm = (document.getElementById('searchBox') as HTMLInputElement).value;
-  
-      // Navigate to the desired route with the selected location and search term
-      this.router.navigate(['/services/category'], {
-          state: {
+          // Navigate to the desired route with the selected location and subId
+          const location = (document.getElementById('location') as HTMLSelectElement).value;
+          this.router.navigate(['/services/category'], {
+            state: {
               location: location,
-              subCategory: searchTerm
-          }
-      });
-  }
+              subCategory: this.searchText,
+              subId: matchedSubcategory.subId,  // Pass the found subId as state
+              mainId: matchedSubcategory.mainId,  // Pass the mainId as state
+            }
+          });
+        } else {
+          console.log('No matching subcategory found.');
+        }
+      } else {
+        console.log('Please enter a search term.');  // Handle empty input scenario
+      }
+    }
+  
+    findSubcategoryBySearch(searchTerm: string) {
+      for (const category of this.categorySucategotyList) {
+        const matchedSubcategory = category.subcategories.find(
+          (subcategory: any) =>
+            subcategory.subClassificationName.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        if (matchedSubcategory) {
+          return matchedSubcategory;
+        }
+      }
+      return null;
+    }
   
   getLocations(){
     this.homeService.getLocation().subscribe((response:any)=>{
