@@ -1,4 +1,4 @@
-<div class="footer">
+<!-- <div class="footer">
     <div class="container">
         <footer class="py-5 px">
             <div class="row mt-3">
@@ -83,4 +83,38 @@
             <span>© 2024 first floppy Services Pvt. Ltd. All rights reserved.</span>
         </div>
     </div>
-</div>
+</div> -->
+
+<div class="footer">
+    <div class="container">
+      <footer class="py-5 px">
+        <div class="row mt-3">
+          <div class="col-lg-12 logo_footer">
+            <div class="footer_img">
+              <img src="images/floppy_logo.png" alt="Logo">
+            </div>
+            <button>Become A Partner</button>
+          </div>
+  
+          <!-- Dynamic Footer Sections -->
+          <div class="col-lg-4 col-md-8" *ngFor="let section of footerList">
+            <div class="row">
+              <div class="col-lg-6 col-md-6">
+                <span>{{ section.parameterDetail }}</span>
+                <ul>
+                  <li *ngFor="let item of section.footers">
+                    <a [href]="item.url" class="text-decoration-none text-white">{{ item.tittle }}</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+  
+      <div class="copyright">
+        <span>© 2024 First Floppy Services Pvt. Ltd. All rights reserved.</span>
+      </div>
+    </div>
+  </div>
+  

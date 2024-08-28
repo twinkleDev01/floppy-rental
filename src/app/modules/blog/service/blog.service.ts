@@ -13,8 +13,9 @@ export class BlogService {
 
   constructor(private http: HttpClient) { }
 
-  getBlogList(): Observable<any> {
-    return this.http.get<any>(this.blogListUrl);
+  getBlogList(limit: number): Observable<any> {
+    const url = `${this.blogListUrl}/${limit}`;  // Construct URL with the limit
+    return this.http.get<any>(url);  // Make the GET request
   }
 
     // Method to get blog details by pageName

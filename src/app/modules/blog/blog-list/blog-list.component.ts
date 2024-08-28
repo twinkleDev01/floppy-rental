@@ -13,6 +13,7 @@ export class BlogListComponent {
   @Input()
   BlogNumber!: number;
   blog:Blog[]=[];
+  blogLimit: number = 10
   @HostBinding('class.small-parent') isSmallParent = false;
 
   @HostListener('window:resize', ['$event'])
@@ -37,8 +38,7 @@ export class BlogListComponent {
   }
 
   getBlogList(){
-this.blogService.getBlogList().subscribe((response:any)=>{
-  console.log(response.data,"37")
+this.blogService.getBlogList(this.blogLimit).subscribe((response:any)=>{
   this.blog = response.data
 })
   }
