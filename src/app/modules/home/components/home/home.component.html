@@ -194,7 +194,7 @@
         <!-- Appliance repare & service -->
 <div class="appliance_repair_section" [ngStyle]="{'background-image': 'url(' + backgroundImage + ')'}">
     <!-- <h2><span>Appliance Repair </span>& Services</h2> -->
-     <h2><span>{{ firstCategory?.classificationName }}</span></h2>
+     <h2><span>{{ firstCategory.classificationName }}</span></h2>
     <div class="row row_mobile_response m-0">
         <div class="col-lg-2 col-md-2"></div>
         <div class="col-lg-2 col-md-2 d-flex justify-content-center" *ngFor="let subcategory of firstCategory?.subcategories | slice:0:4">
@@ -241,7 +241,7 @@
 <div class="salon_at_home">
     <div class="container">
         <!-- <h2 class="text-center"><span>Salon</span> At Home</h2> -->
-        <h2 class="text-center"><span>{{ this.secondCategory?.classificationName }}</span></h2>
+        <h2 class="text-center"><span>{{ this.secondCategory.classificationName }}</span></h2>
         <!-- <owl-carousel-o [options]="customOptions">
             <ng-template carouselSlide>
                 <div class="card_salon">
@@ -295,7 +295,7 @@
 <div class="house_keeping" >
     <div class="container">
         <!-- <h2 class="text-center"><span>House</span> Keeping</h2> -->
-        <h2 class="text-center"><span>{{ thirdCategory?.classificationName }}</span></h2>
+        <h2 class="text-center"><span>{{ thirdCategory.classificationName }}</span></h2>
         <!-- <owl-carousel-o [options]="customOptions">
             <ng-template carouselSlide>
                 <div class="card_salon">

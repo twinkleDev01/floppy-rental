@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SharedService {
   public base: BehaviorSubject<string> = new BehaviorSubject<string>('home');
   public page: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public last: BehaviorSubject<string> = new BehaviorSubject<string>('');
-
-   private TestmonialsUrl = environment.ApiBaseUrl + 'Testimonial/testimonial-list'
+  url = environment.ApiBaseUrl;
+  private TestmonialsUrl =
+    environment.ApiBaseUrl + 'Testimonial/testimonial-list';
 
   constructor(private http: HttpClient) {}
 
@@ -30,5 +31,26 @@ export class SharedService {
 
   getTestimonials(): Observable<any> {
     return this.http.get<any>(this.TestmonialsUrl);
+  }
+
+  getFooterList() {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    const httpOptions = {
+      headers: headers,
+    };
+    return this.http
+      .get(this.url + 'Footer/fetch-listData-footer', httpOptions)
+      .pipe(
+        map((res) => {
+          return res;
+        }),
+        catchError((err: any) => this.handleError(err))
+      );
+  }
+
+  handleError(error: any): any {
+    throw new Error('Method not implemented.');
   }
 }
