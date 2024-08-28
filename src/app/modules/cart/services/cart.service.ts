@@ -115,5 +115,16 @@ export class CartService {
     };
     return this.http.get(this.url+'' ,httpOptions)
   }
+
+  // ---------- check out Api's ----------- //
   
+  saveOrderDetails(details:any){
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    const httpOptions = {
+      headers: headers
+    };
+    return this.http.post(this.url+`Order/save_order_details`,details ,httpOptions)
+  }
 }
