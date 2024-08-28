@@ -4,6 +4,9 @@ import { OwlOptions } from 'ngx-owl-carousel-o';
 import { ServicesDetailService } from '../../service/services-detail.service';
 import { environment } from '../../../../../environments/environment.development';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { LoginComponent } from '../../../login/Components/login/login.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-services-details',
@@ -26,7 +29,7 @@ export class ServicesDetailsComponent {
   reviews:any;
   reviewForm:any =FormGroup
 
-  constructor(private router: Router,private service:ServicesDetailService, private fb:FormBuilder) {
+  constructor(private router: Router,private service:ServicesDetailService, private fb:FormBuilder, private dialog:MatDialog, private toastr:ToastrService) {
     const navigation = this.router.getCurrentNavigation();
     this.selectedCard = navigation?.extras?.state?.['card']; 
     this.serviceDetailId = this.selectedCard.item?this.selectedCard.item.id:this.selectedCard.id;
@@ -90,6 +93,34 @@ this.service.addNewReview(payload).subscribe((res:any)=>{
     this.getRatingByItemId(this.serviceDetail.item.id)
   }
 })
+}
+
+// add to cart 
+addToCart(){
+ if(localStorage.getItem("userId")){
+  const payload = {
+    itemId:this.serviceDetail.item.productid||0,
+    id:this.serviceDetail.item.id,
+    itemName:this.serviceDetail.item.itemName,
+    itemRate:this.serviceDetail?.item.price,
+    price:this.serviceDetail?.item.price,
+    quantity: 1,
+    userId:localStorage.getItem("userId"),
+    processStatus:'',
+  }
+  this.service.addCartItem([payload]).subscribe((res:any)=>{
+  if(res.success)
+    this.toastr.success(res.message)
+    this.router.navigate(['cart'])
+  })
+ }else {
+  alert("Please log in before adding items to your cart.")
+  this.dialog.open(LoginComponent, {
+    width: '450',
+    disableClose: true
+  });
+ }
+
 }
 
 onRatingUpdated(newRating: number) {

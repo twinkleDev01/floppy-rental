@@ -22,11 +22,11 @@
                                 <span class="mx-1" (click)="removeCartItems(cart)"><i
                                         class="fa-regular fa-circle-xmark"></i></span>
                                 <img class="mx-1 img-fluid rounded" style="max-width:40px; height: 100%"
-                                    [src]="cart.img">
-                                {{cart.productTitle}}
+                                    [src]="cart.img?cart.img:'images/Service-detail-img/profile-icon.png'">
+                                {{cart.itemName}}
                             </div>
                         </td>
-                        <td>{{cart.currency}} {{cart.price}}</td>
+                        <td>INR {{cart.price}}</td>
                         <td>
                             <div class="input-group mb-3" style="max-width: 200px">
                                 <button class="input-group-text" [disabled]="+cart.quantity <= 1"
@@ -36,7 +36,7 @@
                                 <button class="input-group-text" (click)="changeQuantity(cart, 1)">+</button>
                             </div>
                         </td>
-                         <td>{{cart.currency}} {{cart.price * (+cart.quantity)}}</td>
+                         <td>INR {{cart.price * (+cart.quantity)}}</td>
                     </tr>
                     }
                     }
@@ -57,23 +57,23 @@
                 <h5> <strong>Card Totals</strong></h5>
                 <div class="d-flex justify-content-between font py-1">
                     <span>Sub-total</span>
-                    <strong>{{sabTotal}}</strong>
+                    <strong>INR &nbsp;{{sabTotal}}</strong>
                 </div>
                 <div class="d-flex justify-content-between font">
                     <span>Your total Saving</span>
-                    <strong> {{sabTotalSaving}}</strong>
+                    <strong>INR &nbsp; {{sabTotalSaving}}</strong>
                 </div>
                 <div class="d-flex justify-content-between font py-1">
                     <span>Taxes & Fee</span>
-                    <strong> {{totalTaxAmount}}</strong>
+                    <strong> INR &nbsp;{{totalTaxAmount}}</strong>
                 </div>
                 <hr>
                 <b class="d-flex justify-content-between">
                     <span>Total</span>
-                    <span> {{AmountToCheckout}}</span>
+                    <span>INR &nbsp;{{AmountToCheckout}}</span>
                 </b>
                 <div class="proceedToCheckout py-2">
-                    <button (click)="proceedToCheckout(cartItems)">Proceed To Checkout <i
+                    <button (click)="proceedToCheckout(cartItems)" [disabled]="!isUpdate" [title]="!isUpdate? 'Please press Update cart button first before continuing proceed to checkout':''">Proceed To Checkout <i
                             class="fa-solid fa-arrow-right-long"></i></button>
                 </div>
             </div>
