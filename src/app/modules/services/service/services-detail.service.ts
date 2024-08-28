@@ -155,4 +155,19 @@ export class ServicesDetailService {
     // Make the GET request and return the observable
     return this.http.get<any>(url);
   }
+  addCartItem(data:any){
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      // "Authorization": 'Bearer ' + localStorage.getItem('token')
+    });
+    const httpOptions = {
+      headers: headers
+    };
+    return this.http.post(this.url+'Cart/add-cart-items',data, httpOptions)
+      .pipe(map((response:any) => {
+        return response;
+      }),
+        catchError(error => this.handleError(error)));
+  }
+
 }

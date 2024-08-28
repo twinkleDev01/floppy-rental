@@ -1,5 +1,7 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
+import { environment } from '../../../../environments/environment.development';
 
 export interface cartItemsType {
   productTitle: string,
@@ -66,18 +68,52 @@ const cartItems = [
 })
 export class CartService {
 
-  constructor() { }
+  public cartLength: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  url = environment.ApiBaseUrl
 
-  getAllCartItems(){
-    return of (cartItems)
+  constructor(private http:HttpClient) { }
+
+  getAllCartItems(userId:any){
+    // return of (cartItems)
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    const httpOptions = {
+      headers: headers
+    };
+    return this.http.get(this.url+`Cart/cart-items/${userId}` ,httpOptions)
+  }
+  UpdateCartDetails(CardItemId:any){
+    // return of (cartItems)
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    const httpOptions = {
+      headers: headers
+    };
+    return this.http.post(this.url+`Cart/update-cart-items`,CardItemId ,httpOptions)
+  }
+
+  deleteCart(CardItemId:any){
+    // return of (cartItems)
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    const httpOptions = {
+      headers: headers
+    };
+    return this.http.post(this.url+`Cart/delete-cart-item/${CardItemId}` ,httpOptions)
   }
   
   getOfferAndCoupon(){
     return of (couponCodes)
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    const httpOptions = {
+      headers: headers
+    };
+    return this.http.get(this.url+'' ,httpOptions)
   }
-
-  getUpdateCartDetails(){
-    return of (cartItems)
-  }
-
+  
 }

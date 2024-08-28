@@ -23,6 +23,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { DatePickerDialogComponent } from './components/date-picker-dialog/date-picker-dialog.component';
 import { LocationDialogComponent } from './components/location-dialog/location-dialog.component';
 import { PaginatePipe } from './components/Pipe/paginate.pipe';
+import {MatBadgeModule} from '@angular/material/badge';
 // import { ToastrModule } from 'ngx-toastr'; 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { PaginatePipe } from './components/Pipe/paginate.pipe';
     MatDatepickerModule,
     MatSelectModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatBadgeModule
     // ToastrModule.forRoot(),
   ],
   exports: [

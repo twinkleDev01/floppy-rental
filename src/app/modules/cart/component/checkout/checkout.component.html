@@ -1,11 +1,14 @@
-<div class="page-scrum mb-5">
+<!-- <div class="page-scrum mb-5">
   <div class="container">
     <p class="m-0">
       <i class="fa-solid fa-house"></i> Home &nbsp; > &nbsp  &nbsp; > &nbsp; My Cart  &nbsp; > &nbsp;
       <span>Checkout</span>
     </p>
   </div>
-</div>
+</div> -->
+<app-page-breadcrumb></app-page-breadcrumb>
+
+
 <!--  -->
 <div class="container pt-5">
     <div class="left-column">
@@ -143,13 +146,13 @@
         
           <!-- Phone Number -->
           <div class="form-grid-item">
-            <label for="contactNumber">Phone Number</label>
+            <label for="phone">Phone Number</label>
             <input
-              id="contactNumber"
-              name="contactNumber"
+              id="phone"
+              name="phone"
               type="text"
-              autocomplete="contactNumber"
-              formControlName="contactNumber"
+              autocomplete="phone"
+              formControlName="phone"
               required
               maxlength="12"
               placeholder="Phone Number"
@@ -158,12 +161,12 @@
             />
             <div
               *ngIf="
-                checkout.get('contactNumber')?.invalid &&
-                checkout.get('contactNumber')?.touched
+                checkout.get('phone')?.invalid &&
+                checkout.get('phone')?.touched
               "
               class="d-flex justify-content-end text-danger"
             >
-              <span *ngIf="checkout.get('contactNumber')?.errors?.['required']">
+              <span *ngIf="checkout.get('phone')?.errors?.['required']">
                 <i
                   class="fa fa-exclamation-triangle"
                   style="color: #fe3061"
@@ -172,7 +175,7 @@
                 Contact Required
               </span>
               <span
-                *ngIf="checkout.get('contactNumber')?.errors?.['minlength'] && !checkout.get('contactNumber')?.errors?.['required']"
+                *ngIf="checkout.get('phone')?.errors?.['minlength'] && !checkout.get('phone')?.errors?.['required']"
               >
                 <i
                   class="fa fa-exclamation-triangle"
@@ -182,7 +185,7 @@
                 Contact Number must be at least 10 digits
               </span>
               <span
-                *ngIf="checkout.get('contactNumber')?.errors?.['maxlength'] && !checkout.get('contactNumber')?.errors?.['required']"
+                *ngIf="checkout.get('phone')?.errors?.['maxlength'] && !checkout.get('phone')?.errors?.['required']"
               >
                 <i
                   class="fa fa-exclamation-triangle"
@@ -199,20 +202,9 @@
         <!-- Region -->
         <div class="form-grid-item">
           <label for="address">Region/State</label>
-          <!-- <input
-            id="region"
-            name="region"
-            type="text"
-            autocomplete="region"
-            formControlName="region"
-            required
-            placeholder="region"
-            class="form-control pe-3 rounded-2 border-1 text-muted"
-          /> -->
-       
             <div class="custom-select-wrapper">
-              <select id="region" class="form-control pe-3 rounded-2 border-1 text-muted">
-                <option value="" disabled selected>Select a region</option>
+              <select id="state" class="form-control pe-3 rounded-2 border-1 text-muted">
+                <option value="" disabled selected>Select a State</option>
                 <option value="northAmerica">North America</option>
                 <option value="southAmerica">South America</option>
                 <option value="europe">Europe</option>
@@ -230,11 +222,11 @@
           <!-- RegionError -->
           <div
             *ngIf="
-              checkout.get('region')?.invalid && checkout.get('region')?.touched
+              checkout.get('state')?.invalid && checkout.get('state')?.touched
             "
             class="d-flex justify-content-end text-danger"
           >
-            <span *ngIf="checkout.get('region')?.errors?.['required']">
+            <span *ngIf="checkout.get('state')?.errors?.['required']">
               <i
                 class="fa fa-exclamation-triangle"
                 style="color: #fe3061"
@@ -250,7 +242,7 @@
                 style="color: #fe3061"
                 aria-hidden="true"
               ></i>
-              Invalid Region
+              Invalid State
             </span>
           </div>
         </div>
@@ -310,16 +302,16 @@
       
         <!-- ZipCode -->
         <div class="form-grid-item mb-4">
-          <label for="contactNumber">Zip Code</label>
+          <label for="phone">Zip Code</label>
           <input
-            id="zip"
-            name="zip"
+            id="zipCode"
+            name="zipCode"
             type="text"
-            autocomplete="zip"
-            formControlName="zip"
+            autocomplete="zipCode"
+            formControlName="zipCode"
             required
             maxlength="8"
-            placeholder="zip"
+            placeholder="zipCode"
             class="form-control pe-3 rounded-2 border-1 text-muted"
             (keypress)="noSpace($event)"
           />
@@ -329,12 +321,12 @@
             <!-- ZipError -->
           <div
             *ngIf="
-              checkout.get('zip')?.invalid &&
-              checkout.get('zip')?.touched
+              checkout.get('zipCode')?.invalid &&
+              checkout.get('zipCode')?.touched
             "
             class="d-flex justify-content-end text-danger"
           >
-            <span *ngIf="checkout.get('zip')?.errors?.['required']">
+            <span *ngIf="checkout.get('zipCode')?.errors?.['required']">
               <i
                 class="fa fa-exclamation-triangle"
                 style="color: #fe3061"
@@ -343,24 +335,24 @@
               ZipCode Required
             </span>
             <span
-              *ngIf="checkout.get('zip')?.errors?.['minlength'] && !checkout.get('zip')?.errors?.['required']"
+              *ngIf="checkout.get('zipCode')?.errors?.['minlength'] && !checkout.get('zipCode')?.errors?.['required']"
             >
               <i
                 class="fa fa-exclamation-triangle"
                 style="color: #fe3061"
                 aria-hidden="true"
               ></i>
-              Zip must be at least 8 digits
+              zipCode must be at least 8 digits
             </span>
             <span
-              *ngIf="checkout.get('zip')?.errors?.['maxlength'] && !checkout.get('zip')?.errors?.['required']"
+              *ngIf="checkout.get('zipCode')?.errors?.['maxlength'] && !checkout.get('zipCode')?.errors?.['required']"
             >
               <i
                 class="fa fa-exclamation-triangle"
                 style="color: #fe3061"
                 aria-hidden="true"
               ></i>
-              Zip cannot exceed 8 digits
+              zipCode cannot exceed 8 digits
             </span>
           </div>
         </div>
@@ -553,8 +545,8 @@
         <h3>Booking Summary</h3>
         <!-- Booking summary content here -->
         <div class="p-2">
-          <img class="mx-1 img-fluid rounded" style="max-width:40px; height: 100%" [src]="cartItems[0].img" alt="">
-          <b>{{cartItems[0].productTitle}}</b>
+          <!-- <img class="mx-1 img-fluid rounded" style="max-width:40px; height: 100%" [src]="cartItems[0].img" alt=""> -->
+          <!-- <b>{{cartItems[0].productTitle}}</b> -->
        
           <div class="d-flex justify-content-between font pt-3">
               <p>Address</p>
@@ -566,20 +558,20 @@
           <hr>
           <div class="d-flex justify-content-between">
               <span>Sub-Total</span>
-              <strong>INR {{cartItems[0].price}}</strong>
+              <strong>INR {{sabTotal}}</strong>
           </div>
           <div class="d-flex justify-content-between">
             <span>Your Total Saving</span>
-            <strong>INR {{cartItems[0].price}}(11.1%)</strong>
+            <strong>{{sabTotalSaving}}</strong>
         </div>
         <hr>
         <div class="d-flex justify-content-between">
           <span> Total </span>
-          <strong>INR 13000</strong>
+          <strong>INR {{AmountToCheckout}}</strong>
       </div>
       <!--  -->
           <div class="cardButton d-flex justify-content-center pt-4">
-              <button>Complete Booking</button>
+              <button (click)="onSubmit()">Complete Booking</button>
           </div>
       </div>
       </div>

@@ -26,6 +26,12 @@
         background-color: #008CAC;
         color: #ffff;
     }
+    button:disabled {
+        background-color: #ccc;  /* Gray background for disabled button */
+        color: #666;  /* Darker text color */
+        cursor: not-allowed;  /* Change cursor to 'not-allowed' */
+        opacity: 0.7;  /* Reduce opacity */
+    }
 }
 
 .apply-coupon {

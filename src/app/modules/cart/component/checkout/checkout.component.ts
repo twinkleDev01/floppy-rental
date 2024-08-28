@@ -12,9 +12,10 @@ import { LocationDialogComponent } from '../../../../shared/components/location-
 })
 export class CheckoutComponent {
   checkout: FormGroup;
-  cartItems: any;
   selectedPaymentOption: string = 'option5'; 
-  
+  sabTotalSaving:any
+  AmountToCheckout:any
+   sabTotal:any
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -23,15 +24,15 @@ export class CheckoutComponent {
     this.checkout = this.fb.group({
     fullName: ['',[Validators.required]],
     address: ['',[Validators.required]],
-    region : [''],
+    state : [''],
     city : [''],
-    zip : [''],
+    zipCode : [''],
     date : [''],
     nameOnCard : ['',[Validators.required]],
     cardNumber : ['',[Validators.required,Validators.pattern('^[0-9]{16}$')]],
     expiryDate: ['', [Validators.required, Validators.pattern('(0[1-9]|1[0-2])\\/(\\d{2})')]],
     cvc: ['', [Validators.required, Validators.pattern('^[0-9]{3,4}$')]],
-    contactNumber : ['', [Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(10), Validators.maxLength(10)]],
+    phone : ['', [Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(10), Validators.maxLength(10)]],
     email: [
       '',
       [
@@ -46,8 +47,10 @@ export class CheckoutComponent {
 
   // CartItems
   const navigation = this.router.getCurrentNavigation();
-  this.cartItems = navigation?.extras?.state?.['item']; 
-  console.log(this.cartItems);
+  this.sabTotal = navigation?.extras?.state?.['sabTotal']; 
+  this.sabTotalSaving = navigation?.extras?.state?.['sabTotalSaving']; 
+  this.AmountToCheckout = navigation?.extras?.state?.['AmountToCheckout']; 
+  console.log(this.sabTotal,this.sabTotalSaving,this.AmountToCheckout);
 }
 
 
