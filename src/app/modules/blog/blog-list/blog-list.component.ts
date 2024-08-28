@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostBinding, HostListener, Input } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { BlogService } from '../service/blog.service';
 import { Blog } from '../_models/blog.model';
@@ -9,6 +9,7 @@ import { Blog } from '../_models/blog.model';
   styleUrl: './blog-list.component.scss'
 })
 export class BlogListComponent {
+  @Output() blogData = new EventEmitter();
   @Input()
   BlogNumber!: number;
   blog:Blog[]=[];
@@ -244,5 +245,11 @@ this.blogService.getBlogList().subscribe((response:any)=>{
     };
     console.log('navigate to blog detail');
     this.router.navigate(['blog/blog-detail'],navigationExtras)
+  }
+
+  changeBlogView(blog:any):void{
+    console.log(blog,"251");
+    this.blogData.emit(blog);
+    
   }
 }

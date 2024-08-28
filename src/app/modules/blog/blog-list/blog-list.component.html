@@ -6,7 +6,7 @@
         <div class="position-relative">
 
             <img [src]="data.primaryImage" alt="blog image" class="img-fluid">
-            <span class="category_badge">{{data.page}}</span>
+            <span class="category_badge">{{data.category}}</span>
 
         </div>
         
@@ -34,35 +34,25 @@
     </div> -->
 
     <div class="row">
-        <!-- Loop through the blog data -->
         <ng-container *ngFor="let data of blog | slice:-BlogNumber">
-          
-          <!-- For large screens or non-small parent elements -->
           <div *ngIf="!isSmallParent" class="col-lg-3 col-sm-6 col-12">
             <div class="blog-card mb-3" (click)="NavigateToBlockDetail(data)">
               <div class="position-relative">
-                <!-- Blog Image -->
                 <img [src]="data.image || 'images/No_Image_Available.jpg'" alt="blog image" class="img-fluid" >
                 <span class="category_badge">{{data.page}}</span>
               </div>
               
               <div class="px-3 pb-1">
-                <!-- Blog Title -->
                 <h6 class="mb-3 mt-md-0 mt-2">{{data.title}}</h6>
-                <!-- Blog Content -->
                 <div class="content-Div">
                   <p class="pt-1"><i class="fa-solid fa-user"></i> &nbsp; by {{data.author}}</p>
                 </div>
               </div>
             </div>
           </div>
-          
-          <!-- For small parent elements or smaller screens -->
           <div *ngIf="isSmallParent">
-            <div class="d-flex align-items-center m-2">
-              <!-- Blog Image for small screen -->
-              <img [src]="data.image" class="responsive-Img" alt="blog image" *ngIf="data.image">
-              <!-- Blog Title -->
+            <div class="d-flex align-items-center m-2" style="cursor: pointer;" (click)="changeBlogView(data)">
+              <img [src]="data.image || 'images/No_Image_Available.jpg'" class="responsive-Img" alt="blog image">
               <h6 class="mb-3 mt-md-0 m-2 text-muted">{{data.title}}</h6>
             </div>
           </div>
