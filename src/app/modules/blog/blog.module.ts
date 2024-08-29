@@ -6,6 +6,7 @@ import { BlogComponent } from './blog/blog.component';
 import { SharedModule } from '../../shared/shared.module';
 import { BlogListComponent } from './blog-list/blog-list.component';
 import { BlogDetailComponent } from './blog-detail/blog-detail.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { BlogDetailComponent } from './blog-detail/blog-detail.component';
   imports: [
     CommonModule,
     BlogRoutingModule,
-    SharedModule
+    SharedModule,
+    MatPaginatorModule
   ]
 })
 export class BlogModule { }

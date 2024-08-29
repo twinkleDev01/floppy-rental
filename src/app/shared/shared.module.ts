@@ -24,7 +24,7 @@ import { DatePickerDialogComponent } from './components/date-picker-dialog/date-
 import { LocationDialogComponent } from './components/location-dialog/location-dialog.component';
 import { PaginatePipe } from './components/Pipe/paginate.pipe';
 import {MatBadgeModule} from '@angular/material/badge';
-// import { ToastrModule } from 'ngx-toastr'; 
+import { GoogleMapsModule } from '@angular/google-maps';
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -53,8 +53,8 @@ import {MatBadgeModule} from '@angular/material/badge';
     MatSelectModule,
     FormsModule,
     ReactiveFormsModule,
-    MatBadgeModule
-    // ToastrModule.forRoot(),
+    MatBadgeModule,
+    GoogleMapsModule
   ],
   exports: [
     HeaderComponent,

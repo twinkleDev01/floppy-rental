@@ -20,18 +20,21 @@
         <div class="mt-4">
           
             <!-- Name -->
-        <label for="">FullName</label>
+            <div class="name-form-grid-container">
+              <!-- Address -->
+              <div class="form-grid-item">
+        <label for="">FirstName</label>
         <div
         class="position-relative d-flex justify-content-center align-items-center"
       >
         <input
-          id="fullName"
-          name="fullName"
+          id="firstName"
+          name="firstName"
           type="text"
-          autocomplete="fullName"
-          formControlName="fullName"
+          autocomplete="firstName"
+          formControlName="firstName"
           required
-          placeholder="Full Name"
+          placeholder="First Name"
           class="form-control pe-3 rounded-2 border-1 text-muted"
           (keypress)="noSpace($event)"
         />
@@ -40,11 +43,11 @@
         <!-- FUllName-Error -->
         <div
           *ngIf="
-            checkout.get('fullName')?.invalid && checkout.get('fullName')?.touched
+            checkout.get('firstName')?.invalid && checkout.get('firstName')?.touched
           "
           class="d-flex justify-content-end text-danger"
         >
-          <span *ngIf=" checkout.get('fullName')?.errors?.['required']">
+          <span *ngIf=" checkout.get('firstName')?.errors?.['required']">
             <i
               class="fa fa-exclamation-triangle"
               style="color: #fe3061"
@@ -53,7 +56,7 @@
             >Required
           </span>
           <span
-            *ngIf="checkout.get('fullName')?.errors?.['pattern'] && !checkout.get('fullName')?.errors?.['required']"
+            *ngIf="checkout.get('firstName')?.errors?.['pattern'] && !checkout.get('firstName')?.errors?.['required']"
           >
             <i
               class="fa fa-exclamation-triangle"
@@ -62,6 +65,53 @@
             ></i>
             Invalid FirstName
           </span>
+        </div>
+        </div>
+        <div class="form-grid-item">
+          <label for="">LastName</label>
+          <div
+          class="position-relative d-flex justify-content-center align-items-center"
+        >
+          <input
+            id="lastName"
+            name="lastName"
+            type="text"
+            autocomplete="lastName"
+            formControlName="lastName"
+            required
+            placeholder="Last Name"
+            class="form-control pe-3 rounded-2 border-1 text-muted"
+            (keypress)="noSpace($event)"
+          />
+  
+        </div>
+          <!-- FUllName-Error -->
+          <!-- <div
+            *ngIf="
+              checkout.get('fullName')?.invalid && checkout.get('fullName')?.touched
+            "
+            class="d-flex justify-content-end text-danger"
+          >
+            <span *ngIf=" checkout.get('fullName')?.errors?.['required']">
+              <i
+                class="fa fa-exclamation-triangle"
+                style="color: #fe3061"
+                aria-hidden="true"
+              ></i
+              >Required
+            </span>
+            <span
+              *ngIf="checkout.get('fullName')?.errors?.['pattern'] && !checkout.get('fullName')?.errors?.['required']"
+            >
+              <i
+                class="fa fa-exclamation-triangle"
+                style="color: #fe3061"
+                aria-hidden="true"
+              ></i>
+              Invalid FirstName
+            </span>
+          </div> -->
+          </div>
         </div>
         <!-- NewAddress -->
         <div class="form-grid-container">
@@ -75,7 +125,7 @@
               autocomplete="address"
               formControlName="address"
               required
-              placeholder=""
+              placeholder="Address"
               class="form-control pe-3 rounded-2 border-1 text-muted"
             />
             <div
@@ -295,6 +345,7 @@
             placeholder="zipCode"
             class="form-control pe-3 rounded-2 border-1 text-muted"
             (keypress)="noSpace($event)"
+            (click)="openLocationDialog()"
           />
           <!-- OpenFunction LocationDialog -->
           <!--  (click)="openLocationDialog()"
@@ -533,7 +584,8 @@
               <p>Address</p>
             </div>
               <div>
-                <p>2, 3, cityWalk, Dubai</p>
+                <!-- <p>2, 3, cityWalk, Dubai</p> -->
+                 <p>{{ checkout.get('address')?.value }}&nbsp;{{ checkout.get('city')?.value }}&nbsp;{{ checkout.get('state')?.value }}</p>
               </div>
          
           <hr>

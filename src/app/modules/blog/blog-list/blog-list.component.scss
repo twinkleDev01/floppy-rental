@@ -27,3 +27,21 @@ font-weight: 700;
     max-width: 100px;
     border-radius: 7px;
 }
+
+:host ::ng-deep .mat-mdc-paginator-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 8px;
+    align-content: center;
+    align-items: center;
+  }
+  
+  :host ::ng-deep .mat-mdc-paginator-range-actions {
+    display: grid;
+    grid-auto-flow: column;
+    grid-column-gap: 1%;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+    min-width: 25rem;
+  }

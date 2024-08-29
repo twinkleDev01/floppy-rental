@@ -43,6 +43,12 @@
       gap: 20px; /* Adjust gap between items */
       padding-top:20px;
     }
+    .name-form-grid-container{
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* 3 equal columns */
+      gap: 20px; /* Adjust gap between items */
+      padding-top:20px;
+    }
     
     .form-grid-item {
       display: flex;
@@ -153,6 +159,9 @@
       }
       // Pay
       .form-grid-container {
+        grid-template-columns: 1fr; /* Stack items on smaller screens */
+      }
+      .name-form-grid-container{
         grid-template-columns: 1fr; /* Stack items on smaller screens */
       }
       .form-grid-containerPay{

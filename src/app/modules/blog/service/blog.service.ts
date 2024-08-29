@@ -8,13 +8,13 @@ import { environment } from '../../../../environments/environment.development';
 })
 export class BlogService {
 
-  blogListUrl = environment.ApiBaseUrl + 'Blog/BlogList';
+  blogListUrl = 'https://cicd.asptask.in/api/' + 'Blog/BlogList';
   blogDetailUrl = environment.ApiBaseUrl + 'Blog/blog_details_by_id';
 
   constructor(private http: HttpClient) { }
 
-  getBlogList(limit: number): Observable<any> {
-    const url = `${this.blogListUrl}/${limit}`;  // Construct URL with the limit
+  getBlogList(startIndex: number, pageSize:number): Observable<any> {
+    const url = `${this.blogListUrl}/${startIndex}/${pageSize}`;  // Construct URL with the limit
     return this.http.get<any>(url);  // Make the GET request
   }
 

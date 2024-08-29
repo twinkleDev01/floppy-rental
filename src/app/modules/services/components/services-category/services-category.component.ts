@@ -40,6 +40,8 @@ export class ServicesCategoryComponent {
   longitude:any = 0;
   location:any;
   subCategory:any;
+  startIndex:number=0
+  totalItems: number = 0; // Total number of items for paginator
   // toppings: FormGroup;
   // Paginator
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -105,15 +107,18 @@ private filteringThroughSubcategory(selectedServiceCategoryId:any):void{
   // Fetch items based on selected category
   fetchItems(catId: any, subCatId: any) {
     console.log(catId,"catId",subCatId,"subCatId")
-    this.service.getItemByCategory(catId, subCatId, this.latitude, this.longitude).subscribe((res) => {
+    this.service.getItemByCategory(catId, subCatId, this.latitude, this.longitude, this.startIndex, this.pageSize).subscribe((res) => {
       this.servicesDetails = res.data;
       this.servicesDetails  = this.servicesDetails.map((iterable)=>iterable.item);
       console.log(this.servicesDetails)
+      this.totalItems = this.estimateTotalItems();;
       // this.currentRating = this.servicesDetails.reviews
       if (this.servicesDetails.length > 0) {
         this.vendorName = this.servicesDetails[0]?.item?.vendorname;
       }
+      this.paginator$.next({pageIndex:0,pageSize:10});
     });
+
   }
  
     // Handle category change
@@ -219,13 +224,21 @@ onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
     }
   }
 
-  onPageEvent(event: any) {
-    this.page.emit(event);
-    if (this.pageSize !== event.pageSize) {
-      console.log(event.pageSize);
-      this.pageSize = event.pageSize;
-    }
+  // onPageEvent(event: any) {
+  //   this.page.emit(event);
+  //   if (this.pageSize !== event.pageSize) {
+  //     console.log(event.pageSize);
+  //     this.pageSize = event.pageSize;
+  //   }
+  // }
+
+  onPageChange(event: PageEvent): void {
+    this.pageIndex = event.pageIndex;  // Update current page index
+    this.pageSize = event.pageSize;  // Update page size
+    this.startIndex = this.pageIndex * this.pageSize;  // Calculate new startIndex
+    this.fetchItems(this.catId, this.subCatId);  // Fetch new items based on updated page
   }
+  
 
   getCurrentLocation(){
     // Check if the browser supports Geolocation API
@@ -262,5 +275,11 @@ if (navigator.geolocation) {
       console.log(this.servicesDetails,"233")
     })
   }
+
+  estimateTotalItems(): number {
+    // Estimate based on data or set to a default value
+    return 100;  // Placeholder for your logic or approximation
+  }
+
 }
 

@@ -27,7 +27,9 @@ export class ServicesDetailsComponent {
   latitude:any;
   longitude:any;
   reviews:any;
-  reviewForm:any =FormGroup
+  reviewForm:any =FormGroup;
+  startIndex:number=0;
+  pageSize:number=0
 
   constructor(private router: Router,private service:ServicesDetailService, private fb:FormBuilder, private dialog:MatDialog, private toastr:ToastrService) {
     const navigation = this.router.getCurrentNavigation();
@@ -57,7 +59,7 @@ export class ServicesDetailsComponent {
       this.maingroupid = this.serviceDetail?.item?.maingroupid;
       this.subgroupid = this.serviceDetail?.item?.subgroupid;
 
-      this.service.getItemByCategory(this.maingroupid, this.subgroupid,this.latitude, this.longitude).subscribe((SimilarItems:any)=>{
+      this.service.getItemByCategory(this.maingroupid, this.subgroupid,this.latitude, this.longitude, this.startIndex, this.pageSize).subscribe((SimilarItems:any)=>{
         console.log(SimilarItems,"SimilarItems")
         this.allSimilarServices = SimilarItems.data;
         console.log(this.allSimilarServices, "allSimilarServices")
@@ -99,14 +101,18 @@ this.service.addNewReview(payload).subscribe((res:any)=>{
 addToCart(){
  if(localStorage.getItem("userId")){
   const payload = {
-    itemId:this.serviceDetail.item.productid||0,
-    id:this.serviceDetail.item.id,
+    itemId:this.serviceDetail.item.itemid||0,
+    id:0,
     itemName:this.serviceDetail.item.itemName,
     itemRate:this.serviceDetail?.item.price,
     price:this.serviceDetail?.item.price,
     quantity: 1,
-    userId:localStorage.getItem("userId"),
+    userId:Number(localStorage.getItem("userId")),
     processStatus:'',
+    discountPercent: 0,
+    discountAmount: 0,
+    tax: 0,
+    image:this.serviceDetail.item.imagepath
   }
   this.service.addCartItem([payload]).subscribe((res:any)=>{
   if(res.success)
