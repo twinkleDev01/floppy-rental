@@ -28,7 +28,7 @@ export class RatingStarComponent {
   }
 
   ngOnInit() {
-    console.log("Star count: " + this.starCount);
+    // console.log("Star count: " + this.starCount);
     for (let index = 0; index < this.starCount; index++) {
       this.ratingArr.push(index);
     }
