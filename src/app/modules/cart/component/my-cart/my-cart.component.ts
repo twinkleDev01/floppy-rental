@@ -29,7 +29,7 @@ export class MyCartComponent {
         localStorage.setItem('cartItems', res.data.length)
       },
       (err:any) =>{
-        this.toastr.error(err.message)
+        this.toastr.error(err.error.message)
       }
     )
   }
