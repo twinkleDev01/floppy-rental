@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <img class="service_img" [src]="serviceDetail.imagepath ||'images/No_Image_Available.jpg'" alt="">
+                <img class="service_img" [src]="serviceDetail.item.imagepath ||'images/No_Image_Available.jpg'" alt="">
             </div>
             <div class="col-md-6 service_detail pt-4">
                     <h2 class="fw-bold">{{ serviceDetail?.item.vendorname }}</h2>
