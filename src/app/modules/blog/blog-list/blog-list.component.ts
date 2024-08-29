@@ -2,6 +2,8 @@ import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, 
 import { Router } from '@angular/router';
 import { BlogService } from '../service/blog.service';
 import { Blog } from '../_models/blog.model';
+import { BehaviorSubject } from 'rxjs';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-blog-list',
@@ -14,9 +16,18 @@ export class BlogListComponent {
   BlogNumber!: number;
   blog:Blog[]=[];
   blogLimit: number = 10
+  startIndex:number=0
   @HostBinding('class.small-parent') isSmallParent = false;
 
   @HostListener('window:resize', ['$event'])
+
+  @Output() page = new EventEmitter<PageEvent>()
+  @Input() length = 0;
+  @Input() pageIndex = 0;
+  @Input() pageSize = 10; //default page size
+  @Input() pageSizeOptions: number[] = [5, 10, 25, 100];
+  @Input() showPageSizeField = true;
+  paginator$ = new BehaviorSubject<{pageIndex:number,pageSize:number}|null>({pageIndex:0,pageSize:10})
   onResize(event: Event) {
     this.checkParentSize();
   }
@@ -38,7 +49,7 @@ export class BlogListComponent {
   }
 
   getBlogList(){
-this.blogService.getBlogList(this.blogLimit).subscribe((response:any)=>{
+this.blogService.getBlogList(this.startIndex, this.pageSize).subscribe((response:any)=>{
   this.blog = response.data
 })
   }
@@ -251,5 +262,12 @@ this.blogService.getBlogList(this.blogLimit).subscribe((response:any)=>{
     console.log(blog,"251");
     this.blogData.emit(blog);
     
+  }
+
+  onPageChange(event: PageEvent): void {
+    this.pageIndex = event.pageIndex;  // Update current page index
+    this.pageSize = event.pageSize;  // Update page size
+    this.startIndex = this.pageIndex * this.pageSize;  // Calculate new startIndex
+    this.getBlogList() // Fetch new items based on updated page
   }
 }

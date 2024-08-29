@@ -58,5 +58,19 @@
           </div>
           
         </ng-container>
+
+        <div class="originalPaginator">
+          <mat-paginator
+            style-paginator
+            [pageSize]="pageSize"
+            [pageIndex]="pageIndex"
+            [pageSizeOptions]="pageSizeOptions"
+            (page)="onPageChange($event)"
+            [length]="40"
+            aria-label="Select page"
+          >
+          </mat-paginator>
+      
+        </div>
       </div>
       

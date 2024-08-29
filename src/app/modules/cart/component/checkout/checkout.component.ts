@@ -47,12 +47,15 @@ export class CheckoutComponent {
     private toaster:ToastrService
   ){
     this.checkout = this.fb.group({
-    fullName: ['',[Validators.required]],
+    firstName: ['',[Validators.required]],
+    lastName : [''],
     address: ['',[Validators.required]],
     state : [''],
+    country : [''],
     city : [''],
     zipCode : [''],
     date : [''],
+    slot : [''],
     paymentMethod:[],
     nameOnCard : ['',[Validators.required]],
     cardNumber : ['',[Validators.required,Validators.pattern('^[0-9]{16}$')]],
@@ -103,7 +106,6 @@ export class CheckoutComponent {
       userId: localStorage.getItem('userId'),
       totalAmount: this.sabTotal,
       totalQuantity: this.AmountToCheckout,
-      slot: null,
       paymentStatus: null ||'',
       coupon: null || '',
       productId: []
@@ -119,16 +121,17 @@ export class CheckoutComponent {
   }
   // dateDialog
   openDateTimePicker(): void {
-    console.log("OpenDateDialog")
+    console.log('Selected date and time:',this.checkout.get('date')?.value,"130");
     const dialogRef = this.dialog.open(DatePickerDialogComponent, {
       disableClose: true, // Prevent closing the dialog by clicking outside or pressing ESC
        width: '80%'
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('Selected date and time:', result);
+        console.log('Selected date and time:',this.checkout.get('date')?.value, result,"130");
         this.checkout.get('date')?.setValue(result.date);
-
+        this.checkout.get('slot')?.setValue(result.date);
+        console.log('Selected date and time:',this.checkout.get('date')?.value, result,"132");
       }
     });
   }

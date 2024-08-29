@@ -51,11 +51,17 @@ export class MyCartComponent {
     }
   removeCartItems(item: any) {
     console.log(item)
-    // this.cartItems = this.cartItems.filter(cart => cart.id != item.id)
+    // Find the index of the item to remove using a different variable name
+  const index = this.cartItems.findIndex(cartItem => cartItem === item);
+  
+  if (index !== -1) {
+    // Remove the item from the array
+    this.cartItems.splice(index, 1);
+  }
     this.cartService.deleteCart(item.id).subscribe(
       (res:any)=>{
         this.toastr.success(res.message)
-        this.getCartItems()
+        // this.getCartItems()
       },
       (err:any) => {
         this.toastr.error(err.message)
@@ -98,13 +104,21 @@ export class MyCartComponent {
 
   // Handle quantity change (+/- buttons)
   changeQuantity(cart: any, change: number): void {
-    let quantity = parseInt(cart.quantity, 10) || 0;
-    quantity += change;
+
+    let quantity = parseInt(cart.quantity, 10) || 0; // Convert to an integer or default to 0 if invalid
+    quantity += change; // Add or subtract the change
+  
+    // Allow the quantity to go to 0, but not below 0
     if (quantity < 1) {
       quantity = 1;
     }
-    cart.quantity = quantity.toString().padStart(2, '0');
+  
+    // Convert back to string and pad with leading zero if needed
+    // cart.quantity = quantity.toString().padStart(2, '0');
+    // Update the cart quantity directly as a number
+  cart.quantity = quantity;  // Keep it as a number without padding
   }
+  
 
   
   get sabTotal() {

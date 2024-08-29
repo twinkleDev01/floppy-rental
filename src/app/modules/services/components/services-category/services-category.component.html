@@ -149,11 +149,12 @@
       [pageSize]="pageSize"
       [pageIndex]="pageIndex"
       [pageSizeOptions]="pageSizeOptions"
-      (page)="paginator$.next($event)"
-      [length]="servicesDetails.length"
+      (page)="onPageChange($event)"
+      [length]="40"
       aria-label="Select page"
     >
     </mat-paginator>
+
   </div>
 
   <div class="addPlacement mb-5">
