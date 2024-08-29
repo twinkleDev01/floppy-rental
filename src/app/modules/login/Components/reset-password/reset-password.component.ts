@@ -75,7 +75,16 @@ onCountryChange(selectedCountry: any) {
 
   togglePassword(): void {
     this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
-    this.confirmPasswordType = this.confirmPasswordType === 'confirmPassword' ? 'text' : 'confirmPassword';
+    // this.confirmPasswordType = this.confirmPasswordType === 'confirmPassword' ? 'text' : 'confirmPassword';
+  }
+  toggleConfirmPassword(): void {
+   if(this.confirmPasswordType === 'confirmPassword') {
+    console.log("82")
+    this.confirmPasswordType = 'text';
+   }else{
+    console.log("85")
+      this.confirmPasswordType = 'confirmPassword';
+    }  ;
   }
 
   noSpace(event:any) {
