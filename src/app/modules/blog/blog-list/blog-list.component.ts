@@ -16,7 +16,8 @@ export class BlogListComponent {
   BlogNumber!: number;
   blog:Blog[]=[];
   blogLimit: number = 10
-  startIndex:number=0
+  startIndex:number=0;
+  blogLength:any
   @HostBinding('class.small-parent') isSmallParent = false;
 
   @HostListener('window:resize', ['$event'])
@@ -50,7 +51,8 @@ export class BlogListComponent {
 
   getBlogList(){
 this.blogService.getBlogList(this.startIndex, this.pageSize).subscribe((response:any)=>{
-  this.blog = response.data
+  this.blog = response.data.blogs
+  this.blogLength = response.data.totalBlogs
 })
   }
 

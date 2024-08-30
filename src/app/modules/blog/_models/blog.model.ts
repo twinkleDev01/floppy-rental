@@ -1,5 +1,5 @@
 export interface Blog {
-    page: string;
+  categoryName: string;
     title: string;
     description: string;
     keywords: string;

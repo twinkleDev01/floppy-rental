@@ -9,18 +9,18 @@ import { environment } from '../../../../environments/environment.development';
 export class BlogService {
 
   blogListUrl = 'https://cicd.asptask.in/api/' + 'Blog/BlogList';
-  blogDetailUrl = environment.ApiBaseUrl + 'Blog/blog_details_by_id';
+  blogDetailUrl = 'https://cicd.asptask.in/api/' + 'Blog/blog_details_by_id';
 
   constructor(private http: HttpClient) { }
 
-  getBlogList(startIndex: number, pageSize:number): Observable<any> {
-    const url = `${this.blogListUrl}/${startIndex}/${pageSize}`;  // Construct URL with the limit
+  getBlogList(startIndex: number, pageSize: number): Observable<any> {
+    const url = `${this.blogListUrl}?startIndex=${startIndex}&PageSize=${pageSize}`;  // Construct URL with query parameters
     return this.http.get<any>(url);  // Make the GET request
-  }
+  }  
 
     // Method to get blog details by pageName
-  getBlogDetails(pageName: string): Observable<any> {
-      const url = `${this.blogDetailUrl}/${pageName}`;  // Construct the API URL
+  getBlogDetails(pageId: string): Observable<any> {
+      const url = `${this.blogDetailUrl}/${pageId}`;  // Construct the API URL
       return this.http.get(url);  // Make the GET request
     }
 

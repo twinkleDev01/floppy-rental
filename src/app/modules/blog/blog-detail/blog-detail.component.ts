@@ -31,7 +31,7 @@ export class BlogDetailComponent {
   }
 
   getBlogDetail(){
-this.blogService.getBlogDetails(this.selectedBlog.page).subscribe((response:any)=>{
+this.blogService.getBlogDetails(this.selectedBlog.id).subscribe((response:any)=>{
   console.log(response,"26")
   this.blogDetail = response.data
 })

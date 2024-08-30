@@ -24,6 +24,7 @@ export class MyCartComponent {
     this.cartService.getAllCartItems(this.userId).subscribe(
       (res:any) =>{
         this.cartItems = res.data
+        console.log(this.cartItems,"27")
         this.toastr.success(res.message)
         this.cartService.cartLength.next(res.data.length)
         localStorage.setItem('cartItems', res.data.length)
@@ -77,6 +78,7 @@ export class MyCartComponent {
           sabTotal: this.sabTotal,
           sabTotalSaving: this.sabTotalSaving,
           AmountToCheckout: this.AmountToCheckout,
+          productId: this.cartItems.map((item: any) => item.id),
         }
       };
       this.router.navigate(['cart/checkout'], navigationExtras);

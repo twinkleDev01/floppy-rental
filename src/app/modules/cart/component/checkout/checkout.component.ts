@@ -6,11 +6,13 @@ import { DatePickerDialogComponent } from '../../../../shared/components/date-pi
 import { LocationDialogComponent } from '../../../../shared/components/location-dialog/location-dialog.component';
 import { CartService } from '../../services/cart.service';
 import { ToastrService } from 'ngx-toastr';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
-  styleUrl: './checkout.component.scss'
+  styleUrl: './checkout.component.scss',
+  providers: [DatePipe]  // Add DatePipe to providers
 })
 export class CheckoutComponent {
    cities = [
@@ -44,17 +46,19 @@ export class CheckoutComponent {
     private router: Router,
     private dialog: MatDialog,
     private cartService:CartService,
-    private toaster:ToastrService
+    private toaster:ToastrService,
+    private datePipe: DatePipe
   ){
     this.checkout = this.fb.group({
     firstName: ['',[Validators.required]],
     lastName : [''],
     address: ['',[Validators.required]],
     state : [''],
-    country : [''],
+    country : ['india'],
     city : [''],
     zipCode : [''],
     date : [''],
+    productId : [''],
     slot : [''],
     paymentMethod:[],
     nameOnCard : ['',[Validators.required]],
@@ -79,6 +83,8 @@ export class CheckoutComponent {
   this.sabTotal = navigation?.extras?.state?.['sabTotal']; 
   this.sabTotalSaving = navigation?.extras?.state?.['sabTotalSaving']; 
   this.AmountToCheckout = navigation?.extras?.state?.['AmountToCheckout']; 
+  const productIdFromState = navigation?.extras?.state?.['productId'];
+  this.checkout.get('productId')?.setValue(productIdFromState);
   console.log(this.sabTotal,this.sabTotalSaving,this.AmountToCheckout);
 }
 
@@ -108,11 +114,13 @@ export class CheckoutComponent {
       totalQuantity: this.AmountToCheckout,
       paymentStatus: null ||'',
       coupon: null || '',
-      productId: []
     }
     this.cartService.saveOrderDetails(payload).subscribe(
       (res:any)=>{
         this.toaster.success(res.message)
+        this.cartService.cartLength.next(0);
+        localStorage.removeItem('cartItems')
+        this.router.navigate(['profile/my-booking']);
       },
       (err)=>{
         this.toaster.error(err.message)
@@ -129,9 +137,10 @@ export class CheckoutComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log('Selected date and time:',this.checkout.get('date')?.value, result,"130");
+        result.date = this.convertDate(result.date)
         this.checkout.get('date')?.setValue(result.date);
-        this.checkout.get('slot')?.setValue(result.date);
-        console.log('Selected date and time:',this.checkout.get('date')?.value, result,"132");
+        this.checkout.get('slot')?.setValue(result.time);
+        console.log(result.date);
       }
     });
   }
@@ -146,5 +155,18 @@ export class CheckoutComponent {
         console.log('Selected Location:', result);
       }
     });
+  }
+
+  convertDate(dateString: string): string | null {
+    const parsedDate = new Date(dateString);
+
+    // Check if the date is valid
+    if (isNaN(parsedDate.getTime())) {
+      console.error("Invalid date format");
+      return null;
+    }
+
+    // Format the date using DatePipe in ISO format
+    return this.datePipe.transform(parsedDate, 'yyyy-MM-ddTHH:mm:ss.SSSZ');
   }
 }
