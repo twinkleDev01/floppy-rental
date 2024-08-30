@@ -70,6 +70,7 @@ export class CartService {
 
   public cartLength: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   url = environment.ApiBaseUrl
+  token = localStorage.getItem("token"); // Replace with your actual token
 
   constructor(private http:HttpClient) { }
 
@@ -118,13 +119,26 @@ export class CartService {
 
   // ---------- check out Api's ----------- //
   
-  saveOrderDetails(details:any){
+  // saveOrderDetails(details:any){
+  //   const headers = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //   });
+  //   const httpOptions = {
+  //     headers: headers
+  //   };
+  //   return this.http.post(this.url+`Order/save_order_details`,details ,httpOptions)
+  // }
+
+  saveOrderDetails(details: any) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.token}` // Add the Authorization header
     });
+
     const httpOptions = {
       headers: headers
     };
-    return this.http.post(this.url+`Order/save_order_details`,details ,httpOptions)
+console.log(this.token,"141")
+    return this.http.post(this.url + 'Order/save_order_details', details, httpOptions);
   }
 }

@@ -113,7 +113,7 @@ export class ProfileComponent {
           localStorage.removeItem('token')
           localStorage.removeItem('userId')
           localStorage.removeItem('cartItems')
-          this.toastr.success('Successfully Login')
+          this.toastr.success('Successfully Logout')
           this.route.navigateByUrl('')
           this.auth.updateLoginStatus(false);
         }

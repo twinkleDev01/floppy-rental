@@ -17,7 +17,7 @@ export class HeaderComponent {
   isLoggedIn$ = inject(AuthService).isLoggedIn$;
   readonly dialog = inject(MatDialog)
   constructor(private route:Router, private auth:AuthService, private toastr:ToastrService, private cartService:CartService) {
-    
+   console.log(this.cartLength,"20") 
   }
   ngOnInit() { 
    let length = localStorage.getItem('cartItems')
@@ -33,6 +33,10 @@ export class HeaderComponent {
     var bsCollapse = new bootstrap.Collapse(myCollapse, {
       toggle: false
     });
+    this.cartService.cartLength.subscribe((val)=>{
+      this.cartLength = val || length;
+    })
+    console.log(this.cartLength,"39")
   }
 
   openDialog(): void {

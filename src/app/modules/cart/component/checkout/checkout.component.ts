@@ -44,17 +44,18 @@ export class CheckoutComponent {
     private router: Router,
     private dialog: MatDialog,
     private cartService:CartService,
-    private toaster:ToastrService
+    private toaster:ToastrService,
   ){
     this.checkout = this.fb.group({
     firstName: ['',[Validators.required]],
     lastName : [''],
     address: ['',[Validators.required]],
     state : [''],
-    country : [''],
+    country : ['india'],
     city : [''],
     zipCode : [''],
     date : [''],
+    productId : [''],
     slot : [''],
     paymentMethod:[],
     nameOnCard : ['',[Validators.required]],
@@ -79,6 +80,8 @@ export class CheckoutComponent {
   this.sabTotal = navigation?.extras?.state?.['sabTotal']; 
   this.sabTotalSaving = navigation?.extras?.state?.['sabTotalSaving']; 
   this.AmountToCheckout = navigation?.extras?.state?.['AmountToCheckout']; 
+  const productIdFromState = navigation?.extras?.state?.['productId'];
+  this.checkout.get('productId')?.setValue(productIdFromState);
   console.log(this.sabTotal,this.sabTotalSaving,this.AmountToCheckout);
 }
 
@@ -108,11 +111,13 @@ export class CheckoutComponent {
       totalQuantity: this.AmountToCheckout,
       paymentStatus: null ||'',
       coupon: null || '',
-      productId: []
     }
     this.cartService.saveOrderDetails(payload).subscribe(
       (res:any)=>{
         this.toaster.success(res.message)
+        this.cartService.cartLength.next(0);
+        localStorage.removeItem('cartItems')
+        this.router.navigate(['profile/my-booking']);
       },
       (err)=>{
         this.toaster.error(err.message)
@@ -130,7 +135,7 @@ export class CheckoutComponent {
       if (result) {
         console.log('Selected date and time:',this.checkout.get('date')?.value, result,"130");
         this.checkout.get('date')?.setValue(result.date);
-        this.checkout.get('slot')?.setValue(result.date);
+        this.checkout.get('slot')?.setValue(result.time);
         console.log('Selected date and time:',this.checkout.get('date')?.value, result,"132");
       }
     });
