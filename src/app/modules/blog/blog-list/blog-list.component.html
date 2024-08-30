@@ -37,9 +37,9 @@
         <ng-container *ngFor="let data of blog | slice:-BlogNumber">
           <div *ngIf="!isSmallParent" class="col-lg-3 col-sm-6 col-12">
             <div class="blog-card mb-3" (click)="NavigateToBlockDetail(data)">
-              <div class="position-relative">
+              <div class="position-relative blog-img">
                 <img [src]="data.image || 'images/No_Image_Available.jpg'" alt="blog image" class="img-fluid" >
-                <span class="category_badge">{{data.page}}</span>
+                <span class="category_badge">{{data.categoryName}}</span>
               </div>
               
               <div class="px-3 pb-1">
@@ -66,7 +66,7 @@
             [pageIndex]="pageIndex"
             [pageSizeOptions]="pageSizeOptions"
             (page)="onPageChange($event)"
-            [length]="40"
+            [length]="blogLength"
             aria-label="Select page"
           >
           </mat-paginator>
