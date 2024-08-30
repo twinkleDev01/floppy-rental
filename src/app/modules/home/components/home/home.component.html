@@ -2,15 +2,30 @@
 <div class="hero_section">
 
     <div id="carouselExampleControls" class="carousel slide carousel-fade" data-bs-ride="carousel">
-            <div class="carousel-inner">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="banner1">
+                </div>
+            </div> 
+            <div class="carousel-item">
+                <div class="banner2">
+                </div>
+            </div>
+             <div class="carousel-item">
+                <div class="banner3">
+                </div>
+            </div>
+            <!-- <div class="carousel-inner">
                 <div 
                   *ngFor="let item of sortedTopData; let i = index" 
                   class="carousel-item" 
                   [class.active]="i === 0"
                 >
-                  <img [src]="item.Image || 'images/No_Image_Available.jpg'" [alt]="item.title" class="d-block w-100" style="size: 20px;">
+                  <img [src]="item.Image" [alt]="item.title" class="d-block w-100" style="size: 20px;">
                 </div>
-              </div>
+              </div> -->
+              
+        </div>
         <button class="carousel-control-prev " type="button" data-bs-target="#carouselExampleControls"
             data-bs-slide="prev">
             <span class="carousel-control-prev-icon carousel_button" aria-hidden="true">
@@ -26,38 +41,45 @@
             <span class="visually-hidden">Next</span>
         </button>
     </div>
-    <!-- <div class="banner_text">
-        <h1>Expert Professional <span>Home Services,</span> Book Online</h1>
-        <p>Service On Wheel helps you live smarter, giving you time to focus what's most
-            important.</p>
-        <div class="location_search">
-            <i class="fa-solid fa-location-dot"></i>
-            <select class="select_box" name="" id="">
-                <option value="">select</option>
-                <option value="">Dwarka</option>
-            </select>
-            <i class="fa-solid fa-magnifying-glass search_glass"></i>
-            <input type="search" placeholder="Search Item" class="search_box">
-        </div>
-        <button (click)="searchServices()">Search</button>
-    </div> -->
-    <div class="banner_text">
-        <h1>Expert Professional <span>Home Services,</span> Book Online</h1>
-        <p>Service On Wheel helps you live smarter, giving you time to focus on what's most
-            important.</p>
-        <div class="location_search">
-            <i class="fa-solid fa-location-dot"></i>
-          <select class="select_box" name="location" id="location">
-  <option value="">Select</option>
-  <option *ngFor="let location of locations" [value]="location">{{ location }}</option>
-</select>
-            <i class="fa-solid fa-magnifying-glass search_glass"></i>
-            <input type="search" [(ngModel)]="searchText" placeholder="Search Item" class="search_box" id="searchBox">
-        </div>
-        <button (click)="searchServices()">Search</button>
-    </div>
+
+  
+  <div class="banner_text">
+    <h1>Expert Professional <span>Home Services,</span> Book Online</h1>
+    <p>Service On Wheel helps you live smarter, giving you time to focus on what's most important.</p>
     
-</div>
+    <div class="location_search">
+      <i class="fa-solid fa-location-dot"></i>
+      <select class="select_box" name="location" id="location" (change)="onCityChange($event)">
+        <option value="">Select</option>
+        <option *ngFor="let location of locations" [value]="location.cityName + '|' + location.areaName">
+          {{ location.cityName }} - {{ location.areaName }}
+        </option>
+      </select>
+      <i class="fa-solid fa-magnifying-glass search_glass"></i>
+  
+      <!-- Search input for filtering subgroups -->
+      <mat-form-field appearance="fill" class="full-width">
+        <!-- <mat-label>Search</mat-label> -->
+        <input
+          type="text"
+          matInput
+          [formControl]="searchControl"
+          [matAutocomplete]="auto"
+          placeholder="Search"
+        />
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let subgroup of filteredSubgroups" [value]="subgroup">
+            {{ subgroup }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      
+    </div>
+
+    <button (click)="getSearchedItemList()">Search</button>
+  </div>
+  
+  
 
 <!-- content -->
 <div class="container mt-5">
@@ -85,7 +107,7 @@
                         <ng-template carouselSlide *ngFor="let item of serviceDataList">
                             <div class="card" (click)="openDialog(item)">
                                 <div class="card_img">
-                                    <img [src]="item.image ? (item.image) : 'images/No_Image_Available.jpg'" [alt]="item.classificationName" />
+                                    <img [src]="item.image ? (item.image) : 'images/rental.png'" [alt]="item.classificationName" />
                                 </div>
                                 <h3 class="card_h3">{{item.classificationName}}</h3>
                             </div>
@@ -121,7 +143,7 @@
     </div> -->
     <div class="row mt-5">
         <div class="col-lg-4 col-md-6 col-sm-12 d-flex justify-content-center" *ngFor="let item of itemList | slice:0:3">
-            <div class="fridge_repair service-card" [ngStyle]="{'background-image': item.imagepath ? 'url(' + item.imagepath + ')' : 'url(images/No_Image_Available.jpg)', 'background-repeat': 'no-repeat', 'background-size': 'cover'}" *ngIf="item.showOnDastboard == 1">
+            <div class="fridge_repair service-card" [ngStyle]="{'background-image': item.imagepath ? 'url(' + item.imagepath + ')' : 'url(images/fridge-repair.png)', 'background-repeat': 'no-repeat', 'background-size': 'cover'}" *ngIf="item.showOnDastboard == 1">
                 <h3 class="text-center text-white">{{ item.itemName }}</h3>
                 <span class="text-white text-center">{{ item.specicationname }}</span>
                 <button class="book_now_btn" (click)="goToServiceDetail(item)">Book Now</button>
@@ -192,9 +214,9 @@
 <!-- <div id="lazy-load-target" >
     <ng-container *ngIf="contentLoaded"> -->
         <!-- Appliance repare & service -->
-<div class="appliance_repair_section" [ngStyle]="{'background-image': 'url(' + backgroundImage + ')'}">
+<div class="appliance_repair_section" >
     <!-- <h2><span>Appliance Repair </span>& Services</h2> -->
-     <h2><span>{{ firstCategory.classificationName }}</span></h2>
+     <h2><span>{{ firstCategory?.classificationName }}</span></h2>
     <div class="row row_mobile_response m-0">
         <div class="col-lg-2 col-md-2"></div>
         <div class="col-lg-2 col-md-2 d-flex justify-content-center" *ngFor="let subcategory of firstCategory?.subcategories | slice:0:4">
@@ -202,7 +224,7 @@
                 <div class="appliance_repair">
                     <div class="appliance_repair_img">
                         <!-- <img src="images/ac-repair.svg" alt=""> -->
-                        <img [src]="subcategory.image || 'images/No_Image_Available.jpg'" alt="{{subcategory.subClassificationName}}">
+                        <img [src]="subcategory.image || 'images/ac-repair.svg'" alt="{{subcategory.subClassificationName}}">
                     </div>
                     <h3>{{ subcategory?.subClassificationName}}</h3>
                 </div>
@@ -241,7 +263,7 @@
 <div class="salon_at_home">
     <div class="container">
         <!-- <h2 class="text-center"><span>Salon</span> At Home</h2> -->
-        <h2 class="text-center"><span>{{ this.secondCategory.classificationName }}</span></h2>
+        <h2 class="text-center"><span>{{ this.secondCategory?.classificationName }}</span></h2>
         <!-- <owl-carousel-o [options]="customOptions">
             <ng-template carouselSlide>
                 <div class="card_salon">
@@ -275,9 +297,9 @@
             <ng-container *ngFor="let subcategory of secondCategory?.subcategories">
               <ng-template carouselSlide>
                 <div class="card_salon" (click)="goCategory(subcategory)">
-                  <img [src]="subcategory.image || 'No_Image_Available.jpg'" alt="{{subcategory.subClassificationName}}" class="carousel-image">
-                  <!-- <img src="images/sofa-cleaning.png" alt=""> -->
-                  <h3>{{subcategory.subClassificationName}}</h3>
+                  <!-- <img [src]="subcategory.image || 'images/salon.png'" alt="{{subcategory.subClassificationName}}" class="carousel-image"> -->
+                  <img src="images/sofa-cleaning.png" alt="">
+                  <h3>{{subcategory?.subClassificationName}}</h3>
                 </div>
               </ng-template>
             </ng-container>
@@ -295,7 +317,7 @@
 <div class="house_keeping" >
     <div class="container">
         <!-- <h2 class="text-center"><span>House</span> Keeping</h2> -->
-        <h2 class="text-center"><span>{{ thirdCategory.classificationName }}</span></h2>
+        <h2 class="text-center"><span>{{ thirdCategory?.classificationName }}</span></h2>
         <!-- <owl-carousel-o [options]="customOptions">
             <ng-template carouselSlide>
                 <div class="card_salon">
@@ -327,8 +349,8 @@
         <owl-carousel-o [options]="customOptions">
             <ng-template carouselSlide *ngFor="let subcategory of thirdCategory?.subcategories | slice:0:4">
                 <div class="card_salon" (click)="goCategory(subcategory)">
-                    <img [src]="subcategory.image || 'No_Image_Available.jpg'" alt="{{ subcategory.subClassificationName }}">
-                    <!-- <img src="images/facial.png" alt=""> -->
+                    <!-- <img [src]="subcategory.image || 'images/sofa-cleaning.png'" alt="{{ subcategory.subClassificationName }}"> -->
+                    <img src="images/facial.png" alt="">
                     <h3>{{ subcategory?.subClassificationName }}</h3>
                 </div>
             </ng-template>

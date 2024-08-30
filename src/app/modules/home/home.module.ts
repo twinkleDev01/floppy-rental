@@ -5,9 +5,10 @@ import { SharedModule } from '../../shared/shared.module';
 import { HomeComponent } from './components/home/home.component';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { ServiceDialogComponent } from './components/home/service-dialog.component';
-import { FormsModule } from '@angular/forms';
-
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
 @NgModule({
   declarations: [HomeComponent,ServiceDialogComponent],
   imports: [
@@ -15,7 +16,11 @@ import { FormsModule } from '@angular/forms';
     SharedModule,
     HomeRoutingModule,
     CarouselModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatAutocompleteModule,
+    MatInputModule
   ]
 })
 export class HomeModule { }

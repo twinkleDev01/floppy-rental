@@ -10,8 +10,8 @@ export class HomeService {
 
   subcategoryUrl = environment.ApiBaseUrl + 'Category/SubCategories'
   ctegorySubcategoryUrl =  environment.ApiBaseUrl + 'Home/Category-with-subcategory-list';
-  itemlistUrl = environment.ApiBaseUrl + 'Home/item-list'
-  locationUrl = environment.ApiBaseUrl + 'Home/Locations'
+  itemlistUrl = environment.ApiBaseUrl + 'Home/item-list';
+  locationUrl = environment.ApiBaseUrl + 'Home/Locations';
   constructor(private http: HttpClient) { }
   getHomeDetails(): Observable<any> {
     const headers = new HttpHeaders({
@@ -61,5 +61,20 @@ export class HomeService {
   }
   getLocation(){
     return this.http.get<any>(this.locationUrl);
+  }
+  getSearchedItemList(subgroupname:string,location:any ){
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      // "Authorization": 'Bearer ' + localStorage.getItem('token')
+    });
+    const httpOptions = {
+      headers: headers
+    };
+    const url = environment.ApiBaseUrl.concat(`Service/searchItems/${subgroupname}/${location}`);
+    return this.http.get<any>(url, httpOptions)
+      .pipe(map((response:any) => {
+        return response;
+      }),
+        catchError(error => this.handleError(error)));
   }
 }

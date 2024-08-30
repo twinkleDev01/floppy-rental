@@ -1,158 +1,161 @@
-
-.container{
-    max-width: 85%;
+.container {
+  max-width: 85%;
 }
 .banner1 {
-    width: 100%;
-    height: 600px;
-    background: url("../../../../../../public/images/hero-1.png");
-    background-repeat: no-repeat;
-    background-size: cover;
+  width: 100%;
+  height: 600px;
+  background: url("../../../../../../public/images/hero-1.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .banner2 {
-    width: 100%;
-    height: 600px;
-    background: url("../../../../../../public/images/hero-2.png");
-    background-repeat: no-repeat;
-    background-size: cover;
+  width: 100%;
+  height: 600px;
+  background: url("../../../../../../public/images/hero-2.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .banner3 {
-    width: 100%;
-    height: 600px;
-    background: url("../../../../../../public/images/hero-3.png");
-    background-repeat: no-repeat;
-    background-size: cover;
+  width: 100%;
+  height: 600px;
+  background: url("../../../../../../public/images/hero-3.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
-
 h1 {
-    font-size: 50px;
-    font-weight: bold;
+  font-size: 50px;
+  font-weight: bold;
 }
 
 h1 span {
-    color: #008CAC;
+  color: #008cac;
 }
 
 .hero_section {
-    position: relative;
+  position: relative;
 }
 
 .banner_text {
-    padding-left: 100px;
-    width: 60%;
-    position: absolute;
-    top: 70px;
-    z-index: 2;
+  padding-left: 100px;
+  width: 60%;
+  position: absolute;
+  top: 70px;
+  z-index: 2;
 }
 
 .banner_text p {
-    width: 75%;
+  width: 75%;
 }
 
-
-
 .carousel_button {
-    background-color: #f9f9f9b8;
-    border-radius: 50%;
-    padding: 5px;
-    border: 1px solid #008CAC;
+  background-color: #f9f9f9b8;
+  border-radius: 50%;
+  padding: 5px;
+  border: 1px solid #008cac;
 }
 
 .carousel_button i {
-    color: #008CAC;
+  color: #008cac;
 }
 
 .carousel_button i:hover {
-    color: #00829f;
+  color: #00829f;
 }
 
 .carousel-control-next-icon,
 .carousel-control-prev-icon {
-    background-image: none;
+  background-image: none;
 }
 
 .carousel-control-prev,
 .carousel-control-next {
-    width: 7%;
+  width: 7%;
 }
 
 .location_search {
-    width: 80%;
-    height: 50px;
-    background-color: #ffffff52;
-    border-radius: 25px;
-    border: 1px solid #cecece;
-    display: flex;
-    align-items: center;
-    padding-left: 20px;
-    padding-right: 10px;
-    margin-top: 30px;
+  width: 75%;
+  height: 50px;
+  background-color: #ffffff52;
+  border-radius: 25px;
+  border: 1px solid #cecece;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 10px;
+  margin-top: 30px;
 }
 
 .select_box {
-    width: 30%;
-    border: none;
-    height: 80%;
-    background-color: #ffffff00;
-    padding-left: 10px;
+  width: 60%;
+  border: none;
+  height: 80%;
+  background-color: #ffffff00;
+  border: none; /* Removes default border */
+  outline: none; 
+  padding-left: 10px;
+  overflow: hidden; /* Hides overflowing text */
+  text-overflow: ellipsis; /* Adds the ellipsis (...) for overflowing text */
 }
 
+.select_box::-ms-expand {
+    display: none; /* Removes the dropdown arrow for IE */
+  }
+
 .search_box {
-    width: 70%;
-    padding-left: 10px;
-    border: none;
-    height: 80%;
-    background-color: #ffffff00;
+  width: 50%;
+  padding-left: 10px;
+  border: none;
+  height: 80%;
+  background-color: #ffffff00;
 }
 
 .search_glass {
-    color: #a3a3a3;
-    margin-left: 30px;
+  color: #a3a3a3;
+  margin-left: 30px;
 }
 
 .banner_text button {
-    margin-top: 30px;
-    padding: 10px 50px;
-    border: none;
-    border-radius: 25px;
-    background-color: #008CAC;
-    color: #ffff;
+  margin-top: 30px;
+  padding: 10px 50px;
+  border: none;
+  border-radius: 25px;
+  background-color: #008cac;
+  color: #ffff;
 }
 
-
 h2 {
-    font-size: 42px;
-    font-weight: bold;
+  font-size: 42px;
+  font-weight: bold;
 }
 
 h2 span {
-    color: #008CAC;
+  color: #008cac;
 }
 
 .card_background {
-    background-color: #008CAC;
-    width: 100%;
-    height: 150px;
-    border-radius: 20px;
+  background-color: #008cac;
+  width: 100%;
+  height: 150px;
+  border-radius: 20px;
 }
 
 .card_backgroundImg::after {
-    content: "";
-    background: url('../../../../../../public/images/serviceBackground.svg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 20px;
-    border-radius: 10px;
-    position: absolute;
-    width: 30%;
-    height: 100%;
-    top: 50;
-    right: 0;
-    z-index: -1;
+  content: "";
+  background: url("../../../../../../public/images/serviceBackground.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 20px;
+  border-radius: 10px;
+  position: absolute;
+  width: 30%;
+  height: 100%;
+  top: 50;
+  right: 0;
+  z-index: -1;
 }
 
 // .how_it_works_section::after {
@@ -173,53 +176,51 @@ h2 span {
 // }
 
 .card {
-    // width: 200px;
-    height: 200px;
-    padding: 20px 10px;
-    background: #FFFFFF;
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
-    border-radius: 15px;
-    border: none;
-    margin: 1px 20px 20px 1px;
+  // width: 200px;
+  height: 200px;
+  padding: 20px 10px;
+  background: #ffffff;
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  border: none;
+  margin: 1px 20px 20px 1px;
 }
 
 .card:hover {
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .card_h3 {
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
 }
 
 .owlText_container {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .owl_container {
-    margin-top: 50px;
+  margin-top: 50px;
 }
 
-
-
 .card_img {
-    width: 100%;
-    height: 80px;
-    display: flex;
-    justify-content: center;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  justify-content: center;
 }
 
 .card_img img {
-    width: 80px;
+  width: 80px;
 }
 
 .owl_section {
-    padding: 10px 35px;
-    margin-top: -100px;
+  padding: 10px 35px;
+  margin-top: -100px;
 }
 
 // .owl_card {
@@ -227,39 +228,36 @@ h2 span {
 // }
 
 .owl_carousel .owl-carousel .owl-nav {
-    position: absolute;
+  position: absolute;
 }
 
-
 .book_now_btn {
-    margin-top: 50px;
-    padding: 10px 50px;
-    border: none;
-    border-radius: 25px;
-    background-color: #008CAC;
-    color: white;
+  margin-top: 50px;
+  padding: 10px 50px;
+  border: none;
+  border-radius: 25px;
+  background-color: #008cac;
+  color: white;
 }
 
 .book_now_btn:hover {
-    background-color: #006d86;
+  background-color: #006d86;
 }
 
-
 .custom-nav {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1000;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
 }
 
 .custom-nav button {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    margin: 0 5px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  margin: 0 5px;
 }
-
 
 // .fridge_repair {
 //     background: url("../../../../../../public/images/fridge-repair.png");
@@ -281,114 +279,112 @@ h2 span {
 
 .electrician span,
 .ac_service span {
-    margin-bottom: 7px;
+  margin-bottom: 7px;
 }
 
 .electrician,
 .ac_service,
 .fridge_repair {
-    width: 100%;
-    padding-top: 20px;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-bottom: 20px;
-    height: 250px;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0px 5px 0px -1px #008cac;
+  width: 100%;
+  padding-top: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 20px;
+  height: 250px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 5px 0px -1px #008cac;
 }
-
-
 
 // how it works
 
 .how_it_works_section {
-    margin-top: 100px;
-    width: 100%;
-    background-color: #F4F5F5;
-    border-radius: 50px;
-    padding: 50px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  margin-top: 100px;
+  width: 100%;
+  background-color: #f4f5f5;
+  border-radius: 50px;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .inner_container {
-    width: 80%;
+  width: 80%;
 }
 
 .border_circle {
-    margin-top: 40px;
-    border: 3px solid black;
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
-    display: flex;
-    position: relative;
-    justify-content: center;
-    align-items: center;
+  margin-top: 40px;
+  border: 3px solid black;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
 }
 
 .inner_circle {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background-color: #ffff;
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: #ffff;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.inner_circle h3{
-    font-size: 21px;
-    font-weight: bold;
-    margin-top: 10px;
-    text-align: center;
+.inner_circle h3 {
+  font-size: 21px;
+  font-weight: bold;
+  margin-top: 10px;
+  text-align: center;
 }
 
 .inner_circle_img {
-    width: 70px;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 10px;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
 }
 
 .inner_circle_img img {
-    width: 100%;
-    height: inherit;
+  width: 100%;
+  height: inherit;
 }
 
 .number_circle {
-    position: absolute;
-    top: 10px;
-    right: -40px;
-    background-color: #FEFEFE;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: absolute;
+  top: 10px;
+  right: -40px;
+  background-color: #fefefe;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .number_circle_inner {
-    width: 90px;
-    height: 90px;
-    background-color: #F3FDFF;
-    border-radius: 50%;
-    border: 9px solid #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: -5px 1px 29px -10px #5f5f5f;
+  width: 90px;
+  height: 90px;
+  background-color: #f3fdff;
+  border-radius: 50%;
+  border: 9px solid #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: -5px 1px 29px -10px #5f5f5f;
 }
 
 /* Vector 1 */
@@ -402,650 +398,234 @@ h2 span {
 // }
 
 .appliance_repair_section {
-    margin-top: 80px;
-    text-align: center;
-    background-image: url("../../../../../../public/images/appliance-repair&service.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 700px;
-    width: 100%;
-    padding-top: 80px;
-    position: relative;
+  margin-top: 80px;
+  text-align: center;
+  background-image: url("../../../../../../public/images/appliance-repair&service.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 700px;
+  width: 100%;
+  padding-top: 80px;
+  position: relative;
 }
 
 // salon at home
 
 .salon_at_home {
-    background: #F4F5F5;
-    padding-top: 50px;
-    padding-bottom: 50px;
+  background: #f4f5f5;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 
-
 .card_salon img {
-    width: 100%;
+  width: 100%;
 }
 
 .card_salon h3 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    height: 50px;
-    font-size: 18px;
-    text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  height: 50px;
+  font-size: 18px;
+  text-align: center;
 }
 
-
 .house_keeping {
-    margin-top: 80px;
-    padding-top: 50px;
-    padding-bottom: 50px;
+  margin-top: 80px;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 // appliance repair
 
 .ac_repair_margin {
-    margin-top: 210px;
+  margin-top: 210px;
 }
 
 .fridge_repair_margin {
-    margin-top: 120px;
+  margin-top: 120px;
 }
 
 .washing_repair_margin {
-    margin-top: 170px;
+  margin-top: 170px;
 }
 
 .water_repair_margin {
-    margin-top: 190px;
+  margin-top: 190px;
 }
 
 .appliance_repair {
-    background-image: url("../../../../../../public/images/ac-union.svg");
-    background-size: cover;
-    height: 190px;
-    width: 190px;
-    display: flex;
-    flex-direction: column;
-    padding-top: 8px;
-    animation: bounce 1.5s infinite;
+  background-image: url("../../../../../../public/images/ac-union.svg");
+  background-size: cover;
+  height: 190px;
+  width: 190px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 8px;
+  animation: bounce 1.5s infinite;
 }
 
 .appliance_repair h3 {
-    font-size: 20px;
-    font-weight: bold;
-    padding: 0px 15px;
-    margin-top: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 0px 15px;
+  margin-top: 15px;
 }
 
-
 .appliance_repair_img {
-    width: 65px;
-    height: 65px;
-    border: 1px solid #008cac;
-    border-radius: 50%;
-    margin-left: 62px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
+  width: 65px;
+  height: 65px;
+  border: 1px solid #008cac;
+  border-radius: 50%;
+  margin-left: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
 }
 
 .appliance_repair_img img {
-    width: 100%;
+  width: 100%;
 }
 
 @keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
 
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-30px);
-        /* Adjust the distance as needed */
-    }
-
+  50% {
+    transform: translateY(-30px);
+    /* Adjust the distance as needed */
+  }
 }
-
 
 // ===========================================//
 // *******************responsive++****************************
 
 @media (max-width: 1280px) {
+  .inner_container {
+    width: 100%;
+  }
 
-    .inner_container {
-        width: 100%;
-    }
+  .card {
+    // width: 170px;
+    height: 170px;
+  }
 
-    .card {
-        // width: 170px;
-        height: 170px;
-    }
+  .card h3 {
+    font-size: 16px;
+  }
 
-    .card h3 {
-        font-size: 16px;
-    }
+  .banner1,
+  .banner2,
+  .banner3 {
+    height: 500px;
+  }
 
-    .banner1,
-    .banner2,
-    .banner3 {
-        height: 500px;
-    }
+  .banner_text {
+    top: 40px;
+  }
 
-    .banner_text {
-        top: 40px;
-    }
+  h1 {
+    font-size: 36px;
+  }
 
-    h1 {
-        font-size: 36px;
-    }
-
-    .owl_section {
-        padding: 10px 45px;
-    }
+  .owl_section {
+    padding: 10px 45px;
+  }
 }
 
-@media (max-width: 1080px){
-    .container{
-        max-width: 95%;
-    }
-    .inner_container {
-        width: 100%;
-    }
+@media (max-width: 1080px) {
+  .container {
+    max-width: 95%;
+  }
+  .inner_container {
+    width: 100%;
+  }
 
-    .appliance_repair{
-        height: 180px;
-        width: 180px;
-    }
+  .appliance_repair {
+    height: 180px;
+    width: 180px;
+  }
 }
 
 @media (max-width: 992px) {
-
-    .banner1,
-    .banner2,
-    .banner3 {
-        height: 400px;
-    }
-
-    .container {
-        max-width: 80%;
-    }
-
-    h1 {
-        font-size: 28px;
-        width: 90%;
-    }
-
-    .banner_text p {
-        font-size: 14px;
-    }
-
-    h2 {
-        font-size: 32px;
-    }
-
-    .card_background {
-        height: 125px;
-    }
-
-    .location_search {
-        width: 100%;
-        margin-top: 15px;
-    }
-
-    .banner_text button {
-        margin-top: 15px;
-    }
-
-    .electrician,
-    .ac_service,
-    .fridge_repair {
-        width: 100%;
-        padding-top: 10px;
-        padding-left: 20px;
-        padding-right: 20px;
-        padding-bottom: 5px;
-        height: 180px;
-    }
-
-    .electrician h3,
-    .ac_service h3,
-    .fridge_repair h3 {
-        font-size: 18px;
-        font-weight: bold;
-    }
-
-    .electrician span,
-    .ac_service span {
-        font-size: 14px;
-    }
-
-    .book_now_btn {
-        margin-top: 20px;
-        padding: 5px 30px;
-        border: none;
-        border-radius: 20px;
-        background-color: #008CAC;
-        color: white;
-    }
-
-
-
-    // .card_salon {
-    //     // width: 170px;
-    // }
-
-    .card_salon h3 {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        height: 40px;
-        padding: 5px;
-        font-size: 14px;
-        text-align: center;
-    }
-
-    .appliance_repair {
-        height: 120px;
-        width: 120px;
-        padding-top: 5px;
-    }
-
-    .appliance_repair_img {
-        width: 40px;
-        height: 40px;
-        margin-left: 40px;
-        padding: 10px;
-    }
-
-    .ac_repair_margin {
-        margin-top: 78px;
-    }
-
-    .appliance_repair_section {
-        margin-top: 80px;
-        height: 400px;
-    }
-
-    .fridge_repair_margin {
-        margin-top: 45px;
-    }
-
-    .washing_repair_margin {
-        margin-top: 55px;
-    }
-
-    .water_repair_margin {
-        margin-top: 70px;
-    }
-
-    .appliance_repair h3 {
-        font-size: 12px;
-        font-weight: bold;
-        padding: 0px 10px;
-        margin-top: 10px;
-    }
-}
-
-@media (max-width: 767px) {
-
-    h1 {
-        font-size: 24px;
-    }
-
-    .card {
-        // width: 215px;
-        height: 200px;
-    }
-
-    .card h3 {
-        font-size: 20px;
-    }
-
-    .banner1,
-    .banner2,
-    .banner3 {
-        height: 350px;
-    }
-
-    .banner_text {
-        width: 70%;
-        top: 30px;
-    }
-
-    .banner_text button {
-        padding: 8px 40px;
-        border-radius: 20px;
-    }
-
-    .electrician,
-    .ac_service,
-    .fridge_repair {
-        margin-top: 20px;
-        width: 80%;
-        height: 250px;
-        height: 215px;
-        padding: 10px 30px;
-    }
-
-    .electrician h3,
-    .ac_service h3,
-    .fridge_repair h3 {
-        font-size: 24px;
-    }
-
-    // .card_salon {
-    //     width: 250px;
-    // }
-
-    .book_now_btn {
-        padding: 15px 70px;
-        border-radius: 40px;
-    }
-
-    .appliance_repair_section {
-        height: 500px;
-        padding: 10px 30px;
-    }
-
-    .row_mobile_response {
-        margin-top: 50px;
-    }
-
-    .ac_repair_margin {
-        margin-top: 210px;
-    }
-
-    .fridge_repair_margin {
-        margin-top: 120px;
-    }
-
-    .washing_repair_margin {
-        margin-top: 170px;
-    }
-
-    .water_repair_margin {
-        margin-top: 190px;
-    }
-
-    .appliance_repair_section {
-        height: inherit;
-        background-image: none;
-        margin-bottom: 50px;
-    }
-
-    .appliance_repair {
-        background-image: none;
-        height: 150px;
-        width: 280px;
-        display: flex;
-        flex-direction: column;
-        padding-top: 0px;
-        animation: none;
-        background-color: white;
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px 0px #9e9e9e;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .appliance_repair h3 {
-        font-size: 18px;
-        font-weight: bold;
-        padding: 0px 15px;
-        margin-top: 15px;
-    }
-
-
-    .appliance_repair_img {
-        width: 65px;
-        height: 65px;
-        border: 1px solid #008cac;
-        border-radius: 50%;
-        margin-left: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 16px;
-    }
-
-    .appliance_repair_img img {
-        width: 100%;
-    }
-
-    .ac_repair_margin,
-    .fridge_repair_margin,
-    .washing_repair_margin,
-    .water_repair_margin {
-        margin-top: 20px;
-    }
-}
-
-@media (max-width: 679px) {
-    .carousel {
-        display: none;
-    }
-
-    h1 {
-        font-size: 30px;
-    }
-
-    .banner_text {
-        padding: 20px 30px;
-        width: 100%;
-        position: inherit;
-        top: inherit;
-        z-index: inherit;
-        background-color: rgb(220, 220, 220);
-        text-align: center;
-    }
-
-    .location_search,
-    h1,
-    .banner_text p {
-        width: 100%;
-    }
-
-    .appliance_repair_section {
-        margin-top: 80px;
-        text-align: center;
-        background-image: none;
-        height: inherit;
-        width: 100%;
-        padding-top: 0px;
-        position: relative;
-        margin-bottom: 50px;
-    }
-
-    .row_mobile_response {
-        margin-top: 0px;
-
-    }
-
-    .location_search {
-        background-color: #fff;
-    }
-}
-
-@media (max-width: 480px) {
-    .border_circle {
-        width: 180px;
-        height: 180px;
-    }
-
-    .container {
-        max-width: 95%;
-    }
-
-    .inner_circle {
-        width: 160px;
-        height: 160px;
-    }
-
-    .number_circle{
-        width: 90px;
-        height: 90px;
-    }
-
-    .number_circle_inner{
-        width: 70px;
-        height: 70px;
-    }
-
-    .inner_circle h3{
-        font-size: 16px;
-    }
-
-    .inner_circle_img{
-        width: 50px;
-        height: 50px;
-    }
-
-    .ac_service{
-        padding: 25px 30px;
-    }
-
-    .book_now_btn{
-        padding: 10px 30px;
-    }
-}
-
-
-
-// ---------------------------------service dialog css---------------------------
-
-.dialog-container {
-    // width: 700px;
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    position: relative;
+  .banner1,
+  .banner2,
+  .banner3 {
+    height: 400px;
   }
-  
-  .dialog-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 12px;
-    border-bottom: 2px solid #eee5e5;
-    padding-bottom: 20px;
+
+  .container {
+    max-width: 80%;
   }
-  
-  .dialog-header h2 {
-    margin: 0;
-    font-size: 24px;
+
+  h1 {
+    font-size: 28px;
+    width: 90%;
   }
-  
-  .close-icon {
-    cursor: pointer;
-    font-size: 24px;
+
+  .banner_text p {
+    font-size: 14px;
   }
-  
-  .dialog-body {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 20px;
+
+  h2 {
+    font-size: 32px;
   }
-  
-  .subcategory-card {
-    width: 150px;
-    text-align: center;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    background-color: #f9f9f9;
-    padding: 10px;
+
+  .card_background {
+    height: 125px;
   }
-  
-  .subcategory-card img {
+
+  .location_search {
     width: 100%;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 5px;
+    margin-top: 15px;
   }
-  
-  .subcategory-card h3 {
-    margin: 10px 0 0;
-    font-size: 16px;
+
+  .banner_text button {
+    margin-top: 15px;
   }
-  .dialog-card{
-    height: 200px;
-    // padding: 20px 10px;
-    background: #FFFFFF;
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
-    border-radius: 15px;
-    border: none;
-    margin: 1px 0px 20px 1px;
-  }
-  .dialog_card_img img{
+
+  .electrician,
+  .ac_service,
+  .fridge_repair {
     width: 100%;
-    border-radius: 10px 10px 0px 0px;
-    height: 130px;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 5px;
+    height: 180px;
   }
-  .dialog-card h3{
-    font-size: 20px;
+
+  .electrician h3,
+  .ac_service h3,
+  .fridge_repair h3 {
+    font-size: 18px;
     font-weight: bold;
-    text-align: center;
+  }
+
+  .electrician span,
+  .ac_service span {
+    font-size: 14px;
+  }
+
+  .book_now_btn {
     margin-top: 20px;
-  }
-  .custom-dialog-container {
-    overflow-y: auto;  /* Enables vertical scrolling */
-  }
-  
-//   ____________________________Newww
-
-
-.card_salon img.carousel-image {
-    width: 100%; /* Makes the image span the full width of the card */
-    height: auto; /* Maintains aspect ratio */
-    max-width: 100%; /* Ensures the image doesn't exceed the card's width */
-    max-height: 200px; /* Limits the height to avoid excessive card height */
-    object-fit: cover; /* Crops the image to fit within the card */
-    display: block; /* Removes extra space below the image */
-    margin: 0 auto; /* Centers the image horizontally */
-}
-.owl-carousel .owl-item {
-    display: flex;
-    justify-content: center; /* Centers the item horizontally */
-  }
-  
-  .card_salon {
-    // width: 100%; /* Adjust based on your design */
-    height: fit-content;
+    padding: 5px 30px;
+    border: none;
     border-radius: 20px;
-    background-color: #fff;
-    box-shadow: 0px 5px 0px -1px #008cac;
-    margin: 1px 20px 20px 1px; /* Centers the card horizontally */
-    // overflow: hidden;
-    // text-align: center; /* Centers text inside the card */
+    background-color: #008cac;
+    color: white;
   }
-  .salon {
-    width: 320px; /* Adjust based on your design */
-    height: fit-content;
-    border-radius: 20px;
-    background-color: #fff;
-    box-shadow: 0px 5px 0px -1px #008cac;
-    margin: 1px auto; /* Centers the card horizontally */
-    overflow: hidden;
-    text-align: center; /* Centers text inside the card */
-  }
-  .salon img.carousel-image {
-    width: 100%; /* Makes the image span the full width of the card */
-    height: auto; /* Maintains aspect ratio */
-    max-width: 100%; /* Ensures the image doesn't exceed the card's width */
-    max-height: 200px; /* Limits the height to avoid excessive card height */
-    object-fit: cover; /* Crops the image to fit within the card */
-    display: block; /* Removes extra space below the image */
-    margin: 0 auto; /* Centers the image horizontally */
-}
-.salon h3 {
+
+  // .card_salon {
+  //     // width: 170px;
+  // }
+
+  .card_salon h3 {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1054,20 +634,462 @@ h2 span {
     padding: 5px;
     font-size: 14px;
     text-align: center;
+  }
+
+  .appliance_repair {
+    height: 120px;
+    width: 120px;
+    padding-top: 5px;
+  }
+
+  .appliance_repair_img {
+    width: 40px;
+    height: 40px;
+    margin-left: 40px;
+    padding: 10px;
+  }
+
+  .ac_repair_margin {
+    margin-top: 78px;
+  }
+
+  .appliance_repair_section {
+    margin-top: 80px;
+    height: 400px;
+  }
+
+  .fridge_repair_margin {
+    margin-top: 45px;
+  }
+
+  .washing_repair_margin {
+    margin-top: 55px;
+  }
+
+  .water_repair_margin {
+    margin-top: 70px;
+  }
+
+  .appliance_repair h3 {
+    font-size: 12px;
+    font-weight: bold;
+    padding: 0px 10px;
+    margin-top: 10px;
+  }
 }
 
+@media (max-width: 767px) {
+  h1 {
+    font-size: 24px;
+  }
+
+  .card {
+    // width: 215px;
+    height: 200px;
+  }
+
+  .card h3 {
+    font-size: 20px;
+  }
+
+  .banner1,
+  .banner2,
+  .banner3 {
+    height: 350px;
+  }
+
+  .banner_text {
+    width: 70%;
+    top: 30px;
+  }
+
+  .banner_text button {
+    padding: 8px 40px;
+    border-radius: 20px;
+  }
+
+  .electrician,
+  .ac_service,
+  .fridge_repair {
+    margin-top: 20px;
+    width: 80%;
+    height: 250px;
+    height: 215px;
+    padding: 10px 30px;
+  }
+
+  .electrician h3,
+  .ac_service h3,
+  .fridge_repair h3 {
+    font-size: 24px;
+  }
+
+  // .card_salon {
+  //     width: 250px;
+  // }
+
+  .book_now_btn {
+    padding: 15px 70px;
+    border-radius: 40px;
+  }
+
+  .appliance_repair_section {
+    height: 500px;
+    padding: 10px 30px;
+  }
+
+  .row_mobile_response {
+    margin-top: 50px;
+  }
+
+  .ac_repair_margin {
+    margin-top: 210px;
+  }
+
+  .fridge_repair_margin {
+    margin-top: 120px;
+  }
+
+  .washing_repair_margin {
+    margin-top: 170px;
+  }
+
+  .water_repair_margin {
+    margin-top: 190px;
+  }
+
+  .appliance_repair_section {
+    height: inherit;
+    background-image: none;
+    margin-bottom: 50px;
+  }
+
+  .appliance_repair {
+    background-image: none;
+    height: 150px;
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    padding-top: 0px;
+    animation: none;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px #9e9e9e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .appliance_repair h3 {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 0px 15px;
+    margin-top: 15px;
+  }
+
+  .appliance_repair_img {
+    width: 65px;
+    height: 65px;
+    border: 1px solid #008cac;
+    border-radius: 50%;
+    margin-left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+
+  .appliance_repair_img img {
+    width: 100%;
+  }
+
+  .ac_repair_margin,
+  .fridge_repair_margin,
+  .washing_repair_margin,
+  .water_repair_margin {
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 679px) {
+  .carousel {
+    display: none;
+  }
+
+  h1 {
+    font-size: 30px;
+  }
+
+  .banner_text {
+    padding: 20px 30px;
+    width: 100%;
+    position: inherit;
+    top: inherit;
+    z-index: inherit;
+    background-color: rgb(220, 220, 220);
+    text-align: center;
+  }
+
+  .location_search,
+  h1,
+  .banner_text p {
+    width: 100%;
+  }
+
+  .appliance_repair_section {
+    margin-top: 80px;
+    text-align: center;
+    background-image: none;
+    height: inherit;
+    width: 100%;
+    padding-top: 0px;
+    position: relative;
+    margin-bottom: 50px;
+  }
+
+  .row_mobile_response {
+    margin-top: 0px;
+  }
+
+  .location_search {
+    background-color: #fff;
+  }
+}
+
+@media (max-width: 480px) {
+  .border_circle {
+    width: 180px;
+    height: 180px;
+  }
+
+  .container {
+    max-width: 95%;
+  }
+
+  .inner_circle {
+    width: 160px;
+    height: 160px;
+  }
+
+  .number_circle {
+    width: 90px;
+    height: 90px;
+  }
+
+  .number_circle_inner {
+    width: 70px;
+    height: 70px;
+  }
+
+  .inner_circle h3 {
+    font-size: 16px;
+  }
+
+  .inner_circle_img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .ac_service {
+    padding: 25px 30px;
+  }
+
+  .book_now_btn {
+    padding: 10px 30px;
+  }
+}
+
+// ---------------------------------service dialog css---------------------------
+
+.dialog-container {
+  // width: 700px;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  border-bottom: 2px solid #eee5e5;
+  padding-bottom: 20px;
+}
+
+.dialog-header h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.close-icon {
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.dialog-body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.subcategory-card {
+  width: 150px;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+  padding: 10px;
+}
+
+.subcategory-card img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.subcategory-card h3 {
+  margin: 10px 0 0;
+  font-size: 16px;
+}
+.dialog-card {
+  height: 200px;
+  // padding: 20px 10px;
+  background: #ffffff;
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  border: none;
+  margin: 1px 0px 20px 1px;
+}
+.dialog_card_img img {
+  width: 100%;
+  border-radius: 10px 10px 0px 0px;
+  height: 130px;
+}
+.dialog-card h3 {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+}
+.custom-dialog-container {
+  overflow-y: auto; /* Enables vertical scrolling */
+}
+
+//   ____________________________Newww
+
+.card_salon img.carousel-image {
+  width: 100%; /* Makes the image span the full width of the card */
+  height: auto; /* Maintains aspect ratio */
+  max-width: 100%; /* Ensures the image doesn't exceed the card's width */
+  max-height: 200px; /* Limits the height to avoid excessive card height */
+  object-fit: cover; /* Crops the image to fit within the card */
+  display: block; /* Removes extra space below the image */
+  margin: 0 auto; /* Centers the image horizontally */
+}
+.owl-carousel .owl-item {
+  display: flex;
+  justify-content: center; /* Centers the item horizontally */
+}
+
+.card_salon {
+  // width: 100%; /* Adjust based on your design */
+  height: fit-content;
+  border-radius: 20px;
+  background-color: #fff;
+  box-shadow: 0px 5px 0px -1px #008cac;
+  margin: 1px 20px 20px 1px; /* Centers the card horizontally */
+  // overflow: hidden;
+  // text-align: center; /* Centers text inside the card */
+}
+.salon {
+  width: 320px; /* Adjust based on your design */
+  height: fit-content;
+  border-radius: 20px;
+  background-color: #fff;
+  box-shadow: 0px 5px 0px -1px #008cac;
+  margin: 1px auto; /* Centers the card horizontally */
+  overflow: hidden;
+  text-align: center; /* Centers text inside the card */
+}
+.salon img.carousel-image {
+  width: 100%; /* Makes the image span the full width of the card */
+  height: auto; /* Maintains aspect ratio */
+  max-width: 100%; /* Ensures the image doesn't exceed the card's width */
+  max-height: 200px; /* Limits the height to avoid excessive card height */
+  object-fit: cover; /* Crops the image to fit within the card */
+  display: block; /* Removes extra space below the image */
+  margin: 0 auto; /* Centers the image horizontally */
+}
+.salon h3 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  height: 40px;
+  padding: 5px;
+  font-size: 14px;
+  text-align: center;
+}
 
 // ----------------------------------------------------------------
 
 .service-card h3,
 .service-card span {
-    white-space: nowrap;       /* Prevents text from wrapping to the next line */
-    overflow: hidden;          /* Hides the overflow text */
-    text-overflow: ellipsis;   /* Adds ellipses ('...') at the end of the text */
-    width: 100%;               /* Ensure it takes up the full width of the container */
-    display: block;            /* Make sure the text is treated as a block element */
+  white-space: nowrap; /* Prevents text from wrapping to the next line */
+  overflow: hidden; /* Hides the overflow text */
+  text-overflow: ellipsis; /* Adds ellipses ('...') at the end of the text */
+  width: 100%; /* Ensure it takes up the full width of the container */
+  display: block; /* Make sure the text is treated as a block element */
 }
 
-.carousel-inner{
-    height: 600px;
+.carousel-inner {
+  height: 600px;
+}
+// NeeeLocation
+.full-width {
+  width: 100%; /* Ensures the form field takes full width */
+}
+
+.mat-mdc-form-field {
+  display: block; /* Ensures the form field is displayed correctly */
+  background-color: transparent !important;
+  margin-top: 15px;
+}
+
+.mat-mdc-autocomplete-panel {
+  z-index: 1000; /* Ensures the autocomplete dropdown is on top */
+}
+::ng-deep .mat-mdc-text-field {
+  background-color: transparent !important;
+}
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: transparent !important;
+}
+
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled)
+  .mdc-line-ripple::before {
+  border-bottom: none;
+}
+
+::ng-deep .mdc-line-ripple::before, .mdc-line-ripple-active::before  {
+  border-bottom: none;
+}
+
+::ng-deep .mdc-line-ripple::before,
+.mdc-line-ripple::after, .mdc-line-ripple-active::after {
+  border-bottom-style: none;
+}
+
+::ng-deep .mat-mdc-option.mdc-list-item {
+    background-color: white !important;
+}
+
+::ng-deep .mat-mdc-form-field-focus-overlay{
+    background: none !important;
 }

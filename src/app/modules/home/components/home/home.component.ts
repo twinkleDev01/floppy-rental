@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { HomeService } from '../../services/home.service';
 import { environment } from '../../../../../environments/environment.development';
@@ -8,12 +8,23 @@ import { ServicesDetailService } from '../../../services/service/services-detail
 import { ScrollService } from '../../../../shared/services/scroll.service';
 import { Router } from '@angular/router';
 import { Item, SubCategories } from '../../_models/home.model';
+import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+  searchControl: FormControl = new FormControl('');
+  navigatedMainGroupId:any;
+  navigatedSubGroupId:any;
+  navigatedCategoryItem:any;
+  locations: any[] = [];
+  filteredSubgroups: string[] = [];
+  allSubgroups: string[] = [];
+  selectedCity: string = '';
+  selectedArea: string = '';
+  selectedSubGroupName: string = '';
   homeBannerData: any;
 sortedTopData:any[]=[];
 sortedMiddleData:any[]=[];
@@ -32,10 +43,12 @@ secondCategory!:SubCategories;
 thirdCategory!:SubCategories
   itemList: Item[]=[];
   backgroundImage:any;
-  locations: any;
+  filteredLocation:any;
 
-   
-  constructor(private homeService: HomeService, public dialog: MatDialog, private service:ServicesDetailService,private scrollService:ScrollService, private router:Router){}
+
+  constructor(private homeService: HomeService, public dialog: MatDialog, private service:ServicesDetailService,private scrollService:ScrollService, private router:Router){
+    // this.initializeLocations();
+  }
   customOptions: OwlOptions = {
     loop: true,
     mouseDrag: true,
@@ -79,7 +92,10 @@ thirdCategory!:SubCategories
     }
 
     ngOnInit(){
-
+      this.locations = this.locations?.reduce((acc:any, city:any) => {
+        const combinedAreas = city.areas.map((area:any) => `${city.cityName} - ${area.areaName}`);
+        return acc.concat(combinedAreas);
+      }, []);
      this.getBannerData();
      this.getItemlist();
      this.getLocations();
@@ -91,7 +107,15 @@ thirdCategory!:SubCategories
       console.log(this.serviceDataList,"serviceDataListtt")
     })
     this.fetchCategories()
+
+     // Subscribe to search control changes
+     this.searchControl.valueChanges.subscribe(() => {
+      this.applySearchFilter();
+    });
+
   }
+
+
     onPrevClick() {
      console.log(this.owlElement,"previous")
         this.owlElement.nativeElement.trigger('prev.owl.carousel');; // Move to previous slide
@@ -197,32 +221,6 @@ thirdCategory!:SubCategories
         }
       });
     }
-
-    searchText: string = '';
-    searchServices() {
-      // Check if search text is provided
-      if (this.searchText.trim()) {
-        const matchedSubcategory = this.findSubcategoryBySearch(this.searchText.trim());
-        console.log(matchedSubcategory.mainId)
-        if (matchedSubcategory) {
-  
-          // Navigate to the desired route with the selected location and subId
-          const location = (document.getElementById('location') as HTMLSelectElement).value;
-          this.router.navigate(['/services/category'], {
-            state: {
-              location: location,
-              subCategory: this.searchText,
-              subId: matchedSubcategory.subId,  // Pass the found subId as state
-              mainId: matchedSubcategory.mainId,  // Pass the mainId as state
-            }
-          });
-        } else {
-          console.log('No matching subcategory found.');
-        }
-      } else {
-        console.log('Please enter a search term.');  // Handle empty input scenario
-      }
-    }
   
     findSubcategoryBySearch(searchTerm: string) {
       for (const category of this.categorySucategotyList) {
@@ -237,10 +235,135 @@ thirdCategory!:SubCategories
       return null;
     }
   
-  getLocations(){
-    this.homeService.getLocation().subscribe((response:any)=>{
-      this.locations = response.data;
-    })
-  }
+      
+    // New
+    getLocations() {
+      this.homeService.getLocation().subscribe((response: any) => {
+        this.locations = response.data.reduce((acc: any, city: any) => {
+          city.areas.forEach((area: any) => {
+            area.subgroups.forEach((subgroup: any) => {
+              acc.push({
+                cityName: city.cityName,
+                areaName: area.areaName,
+                subgroupName: subgroup.subgroupName
+              });
+            });
+          });
+          return acc;
+        }, []);
+        this.allSubgroups = [...new Set(this.locations.map((loc: any) => loc.subgroupName))]; // Store unique subgroups
+      });
+    }
+  
+    // onCityChange(event: Event) {
+    //   const target = event.target as HTMLSelectElement;
+    //   if (target) {
+    //     const [cityName, areaName] = target.value.split('|');
+    //     this.selectedCity = cityName;
+    //     this.selectedArea = areaName;
+    //     this.getFilteredSubgroups(); // Trigger filtering when city changes
+    //   }
+    // }
+  
+    // getFilteredSubgroups() {
+    //   if (!this.selectedCity || !this.selectedArea) {
+    //     this.filteredSubgroups = this.allSubgroups;
+    //     return;
+    //   }
+  
+    //   const filteredLocations = this.locations.filter((location: any) =>
+    //     location.cityName === this.selectedCity && location.areaName === this.selectedArea
+    //   );
+  
+    //   // Extract unique subgroup names
+    //   this.filteredSubgroups = [...new Set(filteredLocations.map((location: any) => location.subgroupName))];
+  
+    //   // Apply search filtering
+    //   this.applySearchFilter();
+    // }
+  
+    // applySearchFilter() {
+    //   const searchValue = this.searchControl.value.trim().toLowerCase();
+    //   if (searchValue) {
+    //     this.filteredSubgroups = this.filteredSubgroups.filter(subgroup =>
+    //       subgroup.toLowerCase().includes(searchValue)
+    //     );
+    //   } else {
+    //     this.getFilteredSubgroups(); // Reset to original filtered list if search is cleared
+    //   }
+    // }
+    // Newww
+    
+    getFilteredSubgroups() {
+      if (!this.selectedCity || !this.selectedArea) {
+        this.filteredSubgroups = this.allSubgroups;
+        this.applySearchFilter(); // Apply search filter if applicable
+        return;
+      }
+    
+      const filteredLocations = this.locations.filter((location: any) =>
+        location.cityName === this.selectedCity && location.areaName === this.selectedArea
+      );
+    
+      // Extract unique subgroup names
+      this.filteredSubgroups = [...new Set(filteredLocations.map((location: any) => location.subgroupName))];
+    
+      // Apply search filtering
+      this.applySearchFilter(); // Apply search filter if applicable
+    }
+    
+    applySearchFilter() {
+     
+      const searchValue = this.searchControl.value.trim().toLowerCase();
+      console.log(searchValue,"searchValue")
+      if (searchValue) {
+        // Filter already filtered subgroups
+        this.filteredSubgroups = this.filteredSubgroups.filter(subgroup =>
+          subgroup.toLowerCase().includes(searchValue)
+        );
+      }
+      console.log(this.filteredSubgroups,"filteredSubgroups")
+    }
+    
+    onCityChange(event: Event) {
+      const target = event.target as HTMLSelectElement;
+      if (target) {
+        const [cityName, areaName] = target.value.split('|');
+        this.selectedCity = cityName;
+        this.selectedArea = areaName;
+        console.log("City,Area", this.selectedCity, this.selectedArea)
+        this.getFilteredSubgroups(); // Trigger filtering when city changes
+      }
+    }
+    
+    getSearchedItemList(){
+      console.log(this.filteredSubgroups,"filteredSubgroups")
+      this.selectedSubGroupName = this.filteredSubgroups[0];
+      console.log(this.selectedArea, this.selectedSubGroupName,"Area+Subgroup")
 
+      this.homeService.getSearchedItemList(this.selectedSubGroupName,this.selectedArea).subscribe((res:any)=>{
+        console.log(res,"SearchedItemList")
+        this.navigatedCategoryItem = res.data;
+        console.log(this.navigatedCategoryItem,"navigatedCategoryItem")
+        // 
+    
+      const uniqueSubgroupIds = new Set(this.navigatedCategoryItem.map((item: any) => item.subgroupid));
+      const uniqueMaingroupIds = new Set(this.navigatedCategoryItem.map((item: any) => item.maingroupid));
+      
+      // Assuming there's only one unique value
+      this.navigatedSubGroupId = uniqueSubgroupIds.size === 1 ? Array.from(uniqueSubgroupIds)[0] : null;
+      this.navigatedMainGroupId = uniqueMaingroupIds.size === 1 ? Array.from(uniqueMaingroupIds)[0] : null;
+      
+      console.log('Selected Subgroup ID:', this.navigatedSubGroupId);
+      console.log('Selected Main Group ID:', this.navigatedMainGroupId);
+      
+      // Navigate
+      this.router.navigate(['/services/category'], {
+        state: {
+          serviceId: this.navigatedMainGroupId,
+          subId: this.navigatedSubGroupId
+        }
+      });
+      })
+    }
 }
