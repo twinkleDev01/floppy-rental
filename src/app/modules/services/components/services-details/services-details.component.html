@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <img class="service_img" [src]="serviceDetail.item.imagepath ||'images/No_Image_Available.jpg'" alt="">
+                <img class="service_img" [src]="serviceDetail?.item?.imagepath ||'images/No_Image_Available.jpg'" alt="">
             </div>
             <div class="col-md-6 service_detail pt-4">
                     <h2 class="fw-bold">{{ serviceDetail?.item.vendorname }}</h2>
@@ -115,7 +115,7 @@
                 <div class="seller_info py-3">
                     <h5 class="fw-bolder">Seller Info</h5>
                     <div class="d-flex info_card">
-                        <div><img [src]="vendorDetail.logo_img||'images/No_Image_Available.jpg'" alt=""></div>
+                        <div><img [src]="vendorDetail?.logo_img||'images/No_Image_Available.jpg'" alt=""></div>
                         <div class="p-3 ">
                             <p class="fw-bold m-0">{{vendorDetail?.serviceProvider}}</p>
                             <span class="location">{{vendorDetail?.address}}</span>
@@ -158,7 +158,7 @@
                           <div class="price">{{ card.item.rate }}</div>
                           <hr />
                           <div class="distance">
-                            Distance : {{ card.vendor.distance }} KM
+                            Distance : {{ card.vendor?.distance }} KM
                             <app-rating-star
                               [rating]="card.reviews"
                               [starCount]="5"

@@ -57,21 +57,28 @@ export class ServicesDetailService {
         catchError(error => this.handleError(error)));
   }
 
-  getItemByCategory(catId:string, subCategoriesId:string,latitude:any, longitude:any, startIndex:any, pageSize:any):Observable<any>{
+  getItemByCategory(catId: string, subCategoriesId: string, latitude: any, longitude: any, startIndex?: any, pageSize?: any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       // "Authorization": 'Bearer ' + localStorage.getItem('token')
     });
-    const httpOptions = {
-      headers: headers
-    };
-    const url = 'https://cicd.asptask.in/api/'.concat(`Service/GetItemsByCategory/${catId}/${subCategoriesId}/${latitude}/${longitude}/${startIndex}/${pageSize}`);
+    const httpOptions = { headers: headers };
+  
+    // Base URL
+    let url = environment.ApiBaseUrl.concat(`Service/GetItemsByCategory/${catId}/${subCategoriesId}/${latitude}/${longitude}`);
+  
+    // Add optional query parameters if they are provided
+    if (startIndex !== undefined && pageSize !== undefined) {
+      url += `?startIndex=${startIndex}&pageSize=${pageSize}`;
+    }
+  
     return this.http.get<any>(url, httpOptions)
-      .pipe(map((response:any) => {
-        return response;
-      }),
-        catchError(error => this.handleError(error)));
+      .pipe(
+        map((response: any) => response),
+        catchError(error => this.handleError(error))
+      );
   }
+  
 
   getServiceDetailsById(ServiceDetailId:string):Observable<any>{
     const headers = new HttpHeaders({

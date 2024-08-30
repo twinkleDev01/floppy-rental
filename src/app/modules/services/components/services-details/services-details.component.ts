@@ -59,9 +59,10 @@ export class ServicesDetailsComponent {
       this.maingroupid = this.serviceDetail?.item?.maingroupid;
       this.subgroupid = this.serviceDetail?.item?.subgroupid;
 
-      this.service.getItemByCategory(this.maingroupid, this.subgroupid,this.latitude, this.longitude, this.startIndex, this.pageSize).subscribe((SimilarItems:any)=>{
+      this.service.getItemByCategory(this.maingroupid, this.subgroupid,this.latitude, this.longitude).subscribe((SimilarItems:any)=>{
         console.log(SimilarItems,"SimilarItems")
-        this.allSimilarServices = SimilarItems.data;
+        // this.allSimilarServices = SimilarItems.data;
+        this.allSimilarServices = SimilarItems.data.items;
         console.log(this.allSimilarServices, "allSimilarServices")
       })
      

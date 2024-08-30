@@ -105,21 +105,42 @@ private filteringThroughSubcategory(selectedServiceCategoryId:any):void{
   
 }
   // Fetch items based on selected category
-  fetchItems(catId: any, subCatId: any) {
-    console.log(catId,"catId",subCatId,"subCatId")
-    this.service.getItemByCategory(catId, subCatId, this.latitude, this.longitude, this.startIndex, this.pageSize).subscribe((res) => {
-      this.servicesDetails = res.data;
-      this.servicesDetails  = this.servicesDetails.map((iterable)=>iterable.item);
-      console.log(this.servicesDetails)
-      this.totalItems = this.estimateTotalItems();;
-      // this.currentRating = this.servicesDetails.reviews
-      if (this.servicesDetails.length > 0) {
-        this.vendorName = this.servicesDetails[0]?.item?.vendorname;
-      }
-      this.paginator$.next({pageIndex:0,pageSize:10});
-    });
+  // fetchItems(catId: any, subCatId: any) {
+  //   console.log(catId,"catId",subCatId,"subCatId")
+  //   this.service.getItemByCategory(catId, subCatId, this.latitude, this.longitude, this.startIndex, this.pageSize).subscribe((res) => {
+  //     this.servicesDetails = res.data;
+  //     this.servicesDetails  = this.servicesDetails.map((iterable)=>iterable.item);
+  //     console.log(this.servicesDetails,"113")
+  //     this.totalItems = this.estimateTotalItems();;
+  //     // this.currentRating = this.servicesDetails.reviews
+  //     if (this.servicesDetails.length > 0) {
+  //       this.vendorName = this.servicesDetails[0]?.item?.vendorname;
+  //     }
+  //     this.paginator$.next({pageIndex:0,pageSize:10});
+  //   });
 
+  // }
+
+  fetchItems(catId: any, subCatId: any) {
+    console.log(catId, "catId", subCatId, "subCatId");
+    this.service.getItemByCategory(catId, subCatId, this.latitude, this.longitude, this.startIndex, this.pageSize).subscribe((res) => {
+      if (res.success) {
+        this.servicesDetails = res.data.items.map((itemWrapper:any) => itemWrapper.item); // Correctly map to items
+        this.totalItems = res.data.totalItems; // Correctly set the total items from the response
+  
+        console.log(this.servicesDetails, "113");
+  
+        if (this.servicesDetails.length > 0) {
+          this.vendorName = this.servicesDetails[0].vendorname; // Extract vendor name from the first item
+        }
+  
+        this.paginator$.next({ pageIndex: 0, pageSize: 10 });
+      } else {
+        console.error('Failed to fetch items:', res.message); // Log any errors in fetching items
+      }
+    });
   }
+  
  
     // Handle category change
     onCategoryChange(selectedValue: any) {
