@@ -11,7 +11,9 @@ import { ServicesDetailService } from '../../services/service/services-detail.se
 export class BlogDetailComponent {
   number=4
   selectedBlog: any;
-  Categories:any
+  Categories:any;
+  savedItem:any
+  comment:any;
 
   constructor(private router: Router, private blogService:BlogService, private serviceDetail:ServicesDetailService) {
     const navigation = this.router.getCurrentNavigation();
@@ -34,6 +36,22 @@ export class BlogDetailComponent {
 this.blogService.getBlogDetails(this.selectedBlog.id).subscribe((response:any)=>{
   console.log(response,"26")
   this.blogDetail = response.data
+  const userId = localStorage.getItem("userId");
+
+  if (this.blogDetail && this.blogDetail.blogTrans && userId) {
+    // Find the matching item based on userId
+    const matchingItem = this.blogDetail.blogTrans.find((item: any) => item.userid === Number(userId));
+
+    if (matchingItem && matchingItem.isSaveNameEmailandWebsite === 1) {
+      // Store in a variable if isSaveNameEmailandWebsite is 1
+      this.savedItem = matchingItem; 
+      console.log(this.savedItem, "Saved Item");
+    } else {
+      console.log("No item with isSaveNameEmailandWebsite status 1 found.");
+    }
+  } else {
+    console.log("No matching items found or invalid data.");
+  }
 })
   }
 
@@ -50,14 +68,37 @@ this.serviceDetail.getCategoryList().subscribe((response:any)=>{
     }
   }
 
-  goToCategory(serviceId:any){
-    console.log(serviceId,"serviceId")
+  goToCategory(serviceDetail:any){
+    console.log(serviceDetail,"serviceId")
     const navigationExtras = {
       state: {
-        serviceId: serviceId,
+        serviceId: serviceDetail?.mainId,
       }
     };
-    this.router.navigate(['/services/category'], navigationExtras);
+    this.router.navigate([`/services/category/${serviceDetail?.classificationName?.trim()?.replace(/\s+/g, '-')?.toLowerCase()}`], navigationExtras);
+  }
+
+  saveReview() {
+    const blogReviewData = {
+      blogid: this.selectedBlog.id, // Assuming the blog ID is available from blogDetail
+      name: this.savedItem.name,
+      email: this.savedItem.email,
+      website: this.savedItem.website,
+      userReview: 5, // Example rating value, adjust as needed
+      comment: this.comment, // Adjust or bind to your form input
+      isSaveNameEmailandWebsite: this.savedItem.isSaveNameEmailandWebsite
+    };
+
+    this.blogService.saveBlogReview(blogReviewData).subscribe(
+      (response) => {
+        console.log('Blog review saved successfully:', response);
+        // Handle success, like showing a success message or resetting the form
+      },
+      (error) => {
+        console.error('Error saving blog review:', error);
+        // Handle error, like showing an error message
+      }
+    );
   }
 
 }

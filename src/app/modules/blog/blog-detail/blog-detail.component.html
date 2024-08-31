@@ -63,8 +63,8 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-lg-8 col-md-7 col-sm-6 detail_div">
-            <img [src]="blogDetail.image || 'images/No_Image_Available.jpg'" alt="">
-            <p>{{blogDetail.description}}</p>
+            <img [src]="blogDetail?.imageUrl || 'images/No_Image_Available.jpg'" alt="">
+            <p>{{blogDetail?.description}}</p>
             <!-- <div>
                 <img [src]="blogDetail.image1 || 'images/No_Image_Available.jpg'" class="detail_img" alt="">
                 <img [src]="blogDetail.image2 || 'images/No_Image_Available.jpg'" class="detail_img" alt="">
@@ -72,28 +72,28 @@
             <!-- <p [innerHtml]=blogDetail.pDescription>
             </p> -->
             <p >
-                {{blogDetail.blogDescription}}
+                {{blogDetail?.blogDescription}}
             </p>
             <div class="Comment_section">
                 <h5>Leave A Comment</h5>
-                <textarea name="" id="" rows="6" class="comment_box" placeholder="Comment"></textarea>
+                <textarea name="" id="" rows="6" class="comment_box" placeholder="Comment" [(ngModel)]="comment"></textarea>
                 <div class="row">
                     <div class="col-4">
-                        <input type="text" placeholder="Name">
+                        <input type="text" placeholder="Name" [(ngModel)]="savedItem.name">
                     </div>
                     <div class="col-4">
-                        <input type="text" placeholder="Email">
+                        <input type="text" placeholder="Email" [(ngModel)]="savedItem.email">
                     </div>
                     <div class="col-4">
-                        <input type="text" placeholder="Website">
+                        <input type="text" placeholder="Website" [(ngModel)]="savedItem.website">
                     </div>
                 </div>
                 <div class="d-flex">
-                    <input type="checkbox"><span>Save my name, email, and website in this browser for the next time I
+                    <input type="checkbox" [(ngModel)]="savedItem.website"><span>Save my name, email, and website in this browser for the next time I
                         comment.</span>
 
                 </div>
-                <button class="post_btn mt-4">Post Comment</button>
+                <button class="post_btn mt-4" (click)="saveReview()">Post Comment</button>
             </div>
         </div>
         <div class="col-lg-4 col-md-5 col-sm-6">
@@ -104,14 +104,14 @@
                 </div>
                 <div class="Blog_list">
                     <h5 class="ms-2">Recent Post</h5>
-                    <app-blog-list [BlogNumber]="number" (blogData)="blogDataEvent($event)"></app-blog-list>
+                    <app-blog-list [BlogNumber]="number" [showPaginator]="false" (blogData)="blogDataEvent($event)"></app-blog-list>
                 </div>
 
                 <div class="category_box">
                     <h5>Categories</h5>
                     <ul>
                         <ng-container *ngFor="let category of Categories">
-                            <li (click)="goToCategory(category.mainId)" style="cursor: pointer;">{{category.classificationName}}</li>
+                            <li (click)="goToCategory(category)" style="cursor: pointer;">{{category.classificationName}}</li>
                         </ng-container>
                     </ul>
                 </div>

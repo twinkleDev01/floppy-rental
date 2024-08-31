@@ -18,6 +18,7 @@ export class BlogListComponent {
   blogLimit: number = 10
   startIndex:number=0;
   blogLength:any
+  @Input() showPaginator: boolean = true;
   @HostBinding('class.small-parent') isSmallParent = false;
 
   @HostListener('window:resize', ['$event'])

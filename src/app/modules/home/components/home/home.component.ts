@@ -200,7 +200,7 @@ thirdCategory!:SubCategories
 
     goCategory(subcategory: any){
       console.log(subcategory,178)
-      this.router.navigate(['/services/category'], {
+      this.router.navigate([`/services/category/${subcategory?.googleName?.trim()?.replace(/\s+/g, '-')?.toLowerCase()}`], {
         state: {
           serviceId: subcategory.mainId,
           subId: subcategory.subId
@@ -237,79 +237,77 @@ thirdCategory!:SubCategories
   
       
     // New
+    // getLocations() {
+    //   this.homeService.getLocation().subscribe((response: any) => {
+    //     const uniqueLocations = new Set<string>();
+    //     this.locations = response.data.reduce((acc: any, city: any) => {
+    //       city.areas.forEach((area: any) => {
+    //         area.subgroups.forEach((subgroup: any) => {
+    //         const locationKey = `${city.cityName}|${area.areaName}`;
+    //         if (!uniqueLocations.has(locationKey)) {
+    //           uniqueLocations.add(locationKey);
+    //           acc.push({
+    //             cityName: city.cityName,
+    //             areaName: area.areaName,
+    //             subgroupName: subgroup.subgroupName
+    //           });
+    //         }
+    //       })
+    //       });
+    //       return acc;
+    //     }, []);
+    //     this.allSubgroups = [...new Set(this.locations.map((loc: any) => loc.subgroupName))]; // Store unique subgroups
+    //   });
+    // }
+
     getLocations() {
       this.homeService.getLocation().subscribe((response: any) => {
-        const uniqueLocations = new Set<string>();
-        this.locations = response.data.reduce((acc: any, city: any) => {
+        const uniqueLocations: any = {};
+        response.data.reduce((acc: any, city: any) => {
           city.areas.forEach((area: any) => {
-            const locationKey = `${city.cityName}|${area.areaName}`;
-            if (!uniqueLocations.has(locationKey)) {
-              uniqueLocations.add(locationKey);
-              acc.push({
-                cityName: city.cityName,
-                areaName: area.areaName,
-              });
-            }
+            area.subgroups.forEach((subgroup: any) => {
+              const locationKey = `${city.cityName}|${area.areaName}`;
+              if (!uniqueLocations[locationKey]) {
+                uniqueLocations[locationKey] = {
+                  cityName: city.cityName,
+                  areaName: area.areaName,
+                  subgroupName: [subgroup.subgroupName],
+                };
+              } else {
+                uniqueLocations[locationKey].subgroupName.push(
+                  subgroup.subgroupName
+                );
+              }
+            });
           });
           return acc;
         }, []);
-        this.allSubgroups = [...new Set(this.locations.map((loc: any) => loc.subgroupName))]; // Store unique subgroups
-      });
+        this.locations = Object.values(uniqueLocations);
+        console.log(uniqueLocations);
+        this.allSubgroups = this.locations.reduce((acc: string[], loc: any) => {
+          acc.push(...loc.subgroupName);
+          return acc;
+        }, []);
+      }); // Store unique subgroups
     }
   
-    // onCityChange(event: Event) {
-    //   const target = event.target as HTMLSelectElement;
-    //   if (target) {
-    //     const [cityName, areaName] = target.value.split('|');
-    //     this.selectedCity = cityName;
-    //     this.selectedArea = areaName;
-    //     this.getFilteredSubgroups(); // Trigger filtering when city changes
-    //   }
-    // }
-  
-    // getFilteredSubgroups() {
-    //   if (!this.selectedCity || !this.selectedArea) {
-    //     this.filteredSubgroups = this.allSubgroups;
-    //     return;
-    //   }
-  
-    //   const filteredLocations = this.locations.filter((location: any) =>
-    //     location.cityName === this.selectedCity && location.areaName === this.selectedArea
-    //   );
-  
-    //   // Extract unique subgroup names
-    //   this.filteredSubgroups = [...new Set(filteredLocations.map((location: any) => location.subgroupName))];
-  
-    //   // Apply search filtering
-    //   this.applySearchFilter();
-    // }
-  
-    // applySearchFilter() {
-    //   const searchValue = this.searchControl.value.trim().toLowerCase();
-    //   if (searchValue) {
-    //     this.filteredSubgroups = this.filteredSubgroups.filter(subgroup =>
-    //       subgroup.toLowerCase().includes(searchValue)
-    //     );
-    //   } else {
-    //     this.getFilteredSubgroups(); // Reset to original filtered list if search is cleared
-    //   }
-    // }
-    // Newww
-    
+
     getFilteredSubgroups() {
       if (!this.selectedCity || !this.selectedArea) {
         this.filteredSubgroups = this.allSubgroups;
         this.applySearchFilter(); // Apply search filter if applicable
         return;
       }
-    
-      const filteredLocations = this.locations.filter((location: any) =>
-        location.cityName === this.selectedCity && location.areaName === this.selectedArea
+  
+      const filteredLocations = this.locations.find(
+        (location: any) =>
+          location.cityName === this.selectedCity &&
+          location.areaName === this.selectedArea
       );
-    
+  
       // Extract unique subgroup names
-      this.filteredSubgroups = [...new Set(filteredLocations.map((location: any) => location.subgroupName))];
-    
+      this.filteredSubgroups = filteredLocations.subgroupName;
+  
       // Apply search filtering
       this.applySearchFilter(); // Apply search filter if applicable
     }
@@ -360,7 +358,7 @@ thirdCategory!:SubCategories
       console.log('Selected Main Group ID:', this.navigatedMainGroupId);
       
       // Navigate
-      this.router.navigate(['/services/category'], {
+      this.router.navigate([`/services/category/${this.selectedSubGroupName?.trim()}`], {
         state: {
           serviceId: this.navigatedMainGroupId,
           subId: this.navigatedSubGroupId

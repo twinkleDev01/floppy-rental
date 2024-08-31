@@ -89,10 +89,10 @@ ngOnInit(){
     console.log(serviceId,"serviceId")
     const navigationExtras = {
       state: {
-        serviceId: serviceId,
+        serviceId: serviceId?.mainId,
       }
     };
-    this.router.navigate(['/services/category'], navigationExtras);
+    this.router.navigate([`/services/category/${serviceId?.classificationName?.trim()?.replace(/\s+/g, '-')?.toLowerCase()}`], navigationExtras);
   }
   
 }

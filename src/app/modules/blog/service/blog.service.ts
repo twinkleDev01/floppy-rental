@@ -10,6 +10,7 @@ export class BlogService {
 
   blogListUrl = 'https://cicd.asptask.in/api/' + 'Blog/BlogList';
   blogDetailUrl = 'https://cicd.asptask.in/api/' + 'Blog/blog_details_by_id';
+  saveBlogUrl = environment.ApiBaseUrl + 'Blog/saveBlogReview'
 
   constructor(private http: HttpClient) { }
 
@@ -23,5 +24,11 @@ export class BlogService {
       const url = `${this.blogDetailUrl}/${pageId}`;  // Construct the API URL
       return this.http.get(url);  // Make the GET request
     }
+
+
+    // Method to save the blog review
+  saveBlogReview(blogReviewData: any): Observable<any> {
+    return this.http.post(this.saveBlogUrl, blogReviewData);
+  }
 
 }

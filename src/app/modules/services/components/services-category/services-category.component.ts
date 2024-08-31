@@ -49,10 +49,10 @@ export class ServicesCategoryComponent {
   @Output() page = new EventEmitter<PageEvent>()
   @Input() length = 0;
   @Input() pageIndex = 0;
-  @Input() pageSize = 10; //default page size
+  @Input() pageSize = 12; //default page size
   @Input() pageSizeOptions: number[] = [5, 10, 25, 100];
   @Input() showPageSizeField = true;
-  paginator$ = new BehaviorSubject<{pageIndex:number,pageSize:number}|null>({pageIndex:0,pageSize:10})
+  paginator$ = new BehaviorSubject<{pageIndex:number,pageSize:number}|null>({pageIndex:0,pageSize:12})
 
   constructor(private fb: FormBuilder, private router: Router, private service:ServicesDetailService) {
 
@@ -134,7 +134,7 @@ private filteringThroughSubcategory(selectedServiceCategoryId:any):void{
           this.vendorName = this.servicesDetails[0].vendorname; // Extract vendor name from the first item
         }
   
-        this.paginator$.next({ pageIndex: 0, pageSize: 10 });
+        this.paginator$.next({ pageIndex: 0, pageSize: 12 });
       } else {
         console.error('Failed to fetch items:', res.message); // Log any errors in fetching items
       }

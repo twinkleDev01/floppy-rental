@@ -59,7 +59,7 @@
           
         </ng-container>
 
-        <div class="originalPaginator">
+        <div class="originalPaginator" *ngIf="showPaginator">
           <mat-paginator
             style-paginator
             [pageSize]="pageSize"
