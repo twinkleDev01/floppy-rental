@@ -93,13 +93,12 @@
 
     <div id="carouselExampleControls" class="carousel slide carousel-fade" data-bs-ride="carousel">
         <div class="carousel-inner">
-            <div class="carousel-inner">
                 <div 
                   *ngFor="let item of sortedBottomData; let i = index" 
                   class="carousel-item" 
                   [class.active]="i === 0"
                 >
-                  <img [src]="item.Image || 'images/No_Image_Available.jpg'" [alt]="item.title" class="d-block w-100 bottom-banner" style="size: 20px;">
+                  <img [src]="item.Image || 'images/No_Image_Available.jpg'" [alt]="item.title" class="d-block w-100 bottom-banner" style="size: 20px;" (error)="handleError($event)">
                   <div class="text-center button-ui" *ngIf="isOnHomePage()">
                     <button class="service_btn" (click)="goToService()">Book A Service</button>
                 </div>
@@ -108,7 +107,7 @@
                
               </div>
               
-        </div>
+        
         <button class="carousel-control-prev " type="button" data-bs-target="#carouselExampleControls"
             data-bs-slide="prev">
             <span class="carousel-control-prev-icon carousel_button" aria-hidden="true">

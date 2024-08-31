@@ -50,4 +50,8 @@ export class AdPlacementComponent {
   isOnHomePage(): boolean {
     return this.router.url === '/';
   }
+  handleError(event: Event) {
+    const target = event.target as HTMLImageElement;
+    target.src = 'images/No_Image_Available.jpg'; // Replace with your default image path
+  }
 }

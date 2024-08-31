@@ -80,3 +80,18 @@ h2{
 //         width: 500px;
 //     }
 // }
+:host ::ng-deep .owl-nav {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    width: 108%;
+    transform: translate(-4%, -400%);
+    > div {
+        height: 30px;
+        width: 30px;
+        color: #008cac !important;
+        border-radius: 50% !important;
+        border: 1px solid #008cac;
+        background-color: transparent !important;
+    }
+}

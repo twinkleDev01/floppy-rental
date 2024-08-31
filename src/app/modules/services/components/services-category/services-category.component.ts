@@ -210,14 +210,15 @@ onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
   toggleViewMobile() {
     this.showFilter = !this.showFilter;
   }
-  goToDetail(card:{}){
+  goToDetail(card:any){
+    const itemNameDetail = card?.itemName.split(',')[0]?.trim()?.replace(/\s+/g, '-')?.toLowerCase();
     const navigationExtras = {
       state: {
         card: card
       }
     };
     console.log(card,"CardDetail")
-    this.router.navigate(['services/service-Details'], navigationExtras);
+    this.router.navigate([`services/service-Details/${itemNameDetail}`], navigationExtras);
   }
   // Paginator
   itemsPerPage() {

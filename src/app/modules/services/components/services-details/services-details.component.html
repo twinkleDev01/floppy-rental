@@ -8,6 +8,7 @@
                 <img class="service_img" [src]="serviceDetail?.item?.imagepath ||'images/No_Image_Available.jpg'" alt="">
             </div>
             <div class="col-md-6 service_detail pt-4">
+                <span style="color: gray;">{{ serviceDetail?.item.subgroupname }}</span>
                     <h2 class="fw-bold">{{ serviceDetail?.item.vendorname }}</h2>
                     <p>
                         <!-- <app-rating-star [rating]="currentRating" [starCount]="5" [color]="'yellow'"
@@ -17,11 +18,14 @@
                         (ratingUpdated)="onRatingUpdated($event)">
                     </app-rating-star>
                     </p>
-                    <p><strong>Rate:</strong> {{ serviceDetail?.item.rate }}</p>
-                    <p><strong>Main Group:</strong> {{ serviceDetail?.item.maingroupname }}</p>
-                    <p><strong>Sub Group:</strong> {{ serviceDetail?.item.subgroupname }}</p>
-                    <p><strong>Specification:</strong> {{ serviceDetail?.item.specicationname }}</p>
-                    <p><strong>ID:</strong> {{ serviceDetail?.item.id }}</p>
+                    <p><span style="font-weight: bold; color: black;">Monthly Charges For 8 Hrs.</span> &nbsp;<span style="font-size: 13px; color: #008cac;">{{ serviceDetail?.item.rate }}</span></p>
+                    <p><span style="font-weight: bold; color: black;">Monthly Charges For 8 Hrs.</span> &nbsp;<span style="font-size: 13px; color: #008cac;">{{ serviceDetail?.item.rate }}</span></p>
+                    <ul class="green-bullets">     <li> {{ serviceDetail?.item.maingroupname }}</li>
+                        <li>{{ serviceDetail?.item.subgroupname }}</li>
+                        <li>{{ serviceDetail?.item.specicationname }}</li>
+                        <!-- <li>{{ serviceDetail?.item.id }}</li> -->
+                    </ul>
+               
                
                 <div class="mt-3">
                     <Button class="rate_btn me-2" routerLink="/services/service-rate">Spare part rate</Button>

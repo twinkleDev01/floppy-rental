@@ -80,6 +80,37 @@ thirdCategory!:SubCategories
     nav: false
   }
   
+  customOptions1: OwlOptions = {
+    loop: true,
+    mouseDrag: true,
+    touchDrag: true,
+    pullDrag: true,
+    dots: false,
+    autoplay: true,
+    autoWidth: false,
+    autoplaySpeed: 1000,
+    navSpeed: 700,
+    navText: ['<', '>'],
+    responsive: {
+      0: {
+        items: 1
+      },
+      400: {
+        items: 2
+      },
+      740: {
+        items: 4
+      },
+      940: {
+        items: 4
+      },
+
+      1200: {
+        items: 4
+      },
+    },
+    nav: true
+  }
   
   private prevButton!: HTMLButtonElement;
   private nextButton!: HTMLButtonElement;
@@ -215,7 +246,8 @@ thirdCategory!:SubCategories
     }
 
     goToServiceDetail(item:any){
-      this.router.navigate(['/services/service-Details'], {
+      const itemNameDetail = item?.subgroupname.split(',')[0]?.trim()?.replace(/\s+/g, '-')?.toLowerCase();
+      this.router.navigate([`/services/service-Details/${itemNameDetail}`], {
         state: {
           card: item,
         }
