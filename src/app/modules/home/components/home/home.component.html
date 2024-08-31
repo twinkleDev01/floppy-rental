@@ -104,7 +104,7 @@
    
     <div class="row mt-5">
         <div class="col-lg-4 col-md-6 col-sm-12 d-flex justify-content-center" *ngFor="let item of itemList | slice:0:3">
-            <div class="fridge_repair service-card" [ngStyle]="{'background-image': item.imagepath ? 'url(' + item.imagepath + ')' : 'url(images/No_Image_Available.jpg)', 'background-repeat': 'no-repeat', 'background-size': 'cover'}" *ngIf="item.showOnDastboard == 1">
+            <div class="fridge_repair service-card" [ngStyle]="{'background-image': item.imagepath ? 'url(' + item.imagepath + ')' : 'url(images/No_Image_Available.jpg)', 'background-repeat': 'no-repeat', 'background-size': 'cover'}">
                 <h3 class="text-center text-white">{{ item.itemName }}</h3>
                 <span class="text-white text-center">{{ item.specicationname }}</span>
                 <button class="book_now_btn" (click)="goToServiceDetail(item)">Book Now</button>
