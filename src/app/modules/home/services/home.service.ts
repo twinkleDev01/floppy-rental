@@ -11,7 +11,7 @@ export class HomeService {
   subcategoryUrl = environment.ApiBaseUrl + 'Category/SubCategories'
   ctegorySubcategoryUrl =  environment.ApiBaseUrl + 'Home/Category-with-subcategory-list';
   itemlistUrl = environment.ApiBaseUrl + 'Home/item-list';
-  locationUrl = environment.ApiBaseUrl + 'Home/Locations';
+  locationUrl = 'https://cicd.asptask.in/api/' + 'Home/Locations';
   constructor(private http: HttpClient) { }
   getHomeDetails(): Observable<any> {
     const headers = new HttpHeaders({
