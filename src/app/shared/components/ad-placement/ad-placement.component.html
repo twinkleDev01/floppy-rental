@@ -99,9 +99,13 @@
                   class="carousel-item" 
                   [class.active]="i === 0"
                 >
-                  <img [src]="item.Image || 'images/No_Image_Available.jpg'" [alt]="item.title" class="d-block w-100" style="size: 20px;">
+                  <img [src]="item.Image || 'images/No_Image_Available.jpg'" [alt]="item.title" class="d-block w-100 bottom-banner" style="size: 20px;">
+                  <div class="text-center button-ui" *ngIf="isOnHomePage()">
+                    <button class="service_btn" (click)="goToService()">Book A Service</button>
+                </div>
                   <!-- <img src="images/floppy_logo.png" [alt]="item.title" class="d-block w-100" style="size: 20px;"> -->
                 </div>
+               
               </div>
               
         </div>
