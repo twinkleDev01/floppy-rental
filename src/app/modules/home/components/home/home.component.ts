@@ -239,15 +239,17 @@ thirdCategory!:SubCategories
     // New
     getLocations() {
       this.homeService.getLocation().subscribe((response: any) => {
+        const uniqueLocations = new Set<string>();
         this.locations = response.data.reduce((acc: any, city: any) => {
           city.areas.forEach((area: any) => {
-            area.subgroups.forEach((subgroup: any) => {
+            const locationKey = `${city.cityName}|${area.areaName}`;
+            if (!uniqueLocations.has(locationKey)) {
+              uniqueLocations.add(locationKey);
               acc.push({
                 cityName: city.cityName,
                 areaName: area.areaName,
-                subgroupName: subgroup.subgroupName
               });
-            });
+            }
           });
           return acc;
         }, []);
