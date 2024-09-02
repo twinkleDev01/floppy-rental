@@ -1109,3 +1109,8 @@ h2 span {
       background-color: transparent !important;
   }
 }
+
+:host ::ng-deep .owl-nav .disabled {
+  opacity: 0.5; /* Style for disabled arrows */
+  pointer-events: none; /* Prevent clicking on disabled arrows */
+}

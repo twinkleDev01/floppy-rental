@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
+import { HttpOptions } from '../../../shared/components/common/cache';
+import { CacheStorage } from  '../../../shared/components/common/cache';
 
 @Injectable({
   providedIn: 'root'
@@ -59,9 +61,9 @@ export class HomeService {
   getItemlist(){
     return this.http.get<any>(this.itemlistUrl);
   }
-  getLocation(){
-    return this.http.get<any>(this.locationUrl);
-  }
+  // getLocation(){
+  //   return this.http.get<any>(this.locationUrl);
+  // }
   getSearchedItemList(subgroupname:string,location:any ){
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -76,5 +78,11 @@ export class HomeService {
         return response;
       }),
         catchError(error => this.handleError(error)));
+  }
+
+  locations$ = new CacheStorage('id');
+  getLocation(httpOptions: HttpOptions = {}) {
+    const locations$ = this.http.get<any>(this.locationUrl);
+    return this.locations$.loadData(locations$, httpOptions);
   }
 }

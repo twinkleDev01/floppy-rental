@@ -6,6 +6,7 @@ import { ServicesDetailService } from '../../service/services-detail.service';
 import { environment } from '../../../../../environments/environment.development';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { BehaviorSubject } from 'rxjs';
+import { HomeService } from '../../../home/services/home.service';
 
 @Component({
   selector: 'app-services-category',
@@ -54,7 +55,7 @@ export class ServicesCategoryComponent {
   @Input() showPageSizeField = true;
   paginator$ = new BehaviorSubject<{pageIndex:number,pageSize:number}|null>({pageIndex:0,pageSize:12})
 
-  constructor(private fb: FormBuilder, private router: Router, private service:ServicesDetailService) {
+  constructor(private fb: FormBuilder, private router: Router, private service:ServicesDetailService, private homeService:HomeService) {
 
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras?.state ?? {};
@@ -102,6 +103,10 @@ private filteringThroughSubcategory(selectedServiceCategoryId:any):void{
     // this.onRatingUpdated(this.currentRating);
     this.selectedServiceCategoryId =  this.selectedServiceCategoryId? this.selectedServiceCategoryId:this.selectedServiceCategoryIdThroughLocationSearch;
    this.getFilterSubCategory(this.selectedServiceCategoryId);
+
+  this.homeService.getLocation().subscribe((res)=>{
+    console.log(res,"108")
+  })
   
 }
   // Fetch items based on selected category

@@ -15,9 +15,9 @@ export class AdPlacementComponent {
     mouseDrag: false,
     touchDrag: false,
     pullDrag: false,
-    dots: false,
+    dots: true,
     navSpeed: 700,
-    navText: ['<', '>'],
+    // navText: ['<', '>'],
     responsive: {
       0: {
         items: 1
@@ -32,7 +32,7 @@ export class AdPlacementComponent {
         items: 4
       },
     },
-    nav: true
+    nav: false
   }
 
   ngOnChanges(changes: any): void {

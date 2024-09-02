@@ -98,7 +98,7 @@
                   class="carousel-item" 
                   [class.active]="i === 0"
                 >
-                  <img [src]="item.Image || 'images/No_Image_Available.jpg'" [alt]="item.title" class="d-block w-100 bottom-banner" style="size: 20px;" (error)="handleError($event)">
+                  <img [src]="item.Image || 'images/No_Image_Available.jpg'" [alt]="item.title" class="d-block w-100 bottom-banner" (error)="handleError($event)">
                   <div class="text-center button-ui" *ngIf="isOnHomePage()">
                     <button class="service_btn" (click)="goToService()">Book A Service</button>
                 </div>
@@ -111,14 +111,14 @@
         <button class="carousel-control-prev " type="button" data-bs-target="#carouselExampleControls"
             data-bs-slide="prev">
             <span class="carousel-control-prev-icon carousel_button" aria-hidden="true">
-                <i class="fa-solid fa-chevron-left"></i>
+                <!-- <i class="fa-solid fa-chevron-left"></i> -->
             </span>
             <span class="visually-hidden">Previous</span>
         </button>
         <button class="carousel-control-next " type="button" data-bs-target="#carouselExampleControls"
             data-bs-slide="next">
             <span class="carousel-control-next-icon carousel_button" aria-hidden="true">
-                <i class="fa-solid fa-chevron-right"></i>
+                <!-- <i class="fa-solid fa-chevron-right"></i> -->
             </span>
             <span class="visually-hidden">Next</span>
         </button>

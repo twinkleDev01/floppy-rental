@@ -44,7 +44,8 @@ thirdCategory!:SubCategories
   itemList: Item[]=[];
   backgroundImage:any;
   filteredLocation:any;
-
+  newLocationId:any;
+  selectedSubGroupId:any
 
   constructor(private homeService: HomeService, public dialog: MatDialog, private service:ServicesDetailService,private scrollService:ScrollService, private router:Router){
     // this.initializeLocations();
@@ -59,6 +60,7 @@ thirdCategory!:SubCategories
     autoWidth: false,
     autoplaySpeed: 1000,
     navSpeed: 700,
+    navText: ['<', '>'],
     responsive: {
       0: {
         items: 1
@@ -77,7 +79,7 @@ thirdCategory!:SubCategories
         items: 4
       },
     },
-    nav: false
+    nav: true
   }
   
   customOptions1: OwlOptions = {
@@ -133,9 +135,7 @@ thirdCategory!:SubCategories
       
     // ServiceCategoryList
     this.homeService.getServiceList().subscribe((res:any)=>{
-      console.log("SErviceList",res)
       this.serviceDataList = res.data;
-      console.log(this.serviceDataList,"serviceDataListtt")
     })
     this.fetchCategories()
 
@@ -148,7 +148,6 @@ thirdCategory!:SubCategories
 
 
     onPrevClick() {
-     console.log(this.owlElement,"previous")
         this.owlElement.nativeElement.trigger('prev.owl.carousel');; // Move to previous slide
       
     }
@@ -230,7 +229,6 @@ thirdCategory!:SubCategories
   }
 
     goCategory(subcategory: any){
-      console.log(subcategory,178)
       this.router.navigate([`/services/category/${subcategory?.googleName?.trim()?.replace(/\s+/g, '-')?.toLowerCase()}`], {
         state: {
           serviceId: subcategory.mainId,
@@ -295,6 +293,7 @@ thirdCategory!:SubCategories
     getLocations() {
       this.homeService.getLocation().subscribe((response: any) => {
         const uniqueLocations: any = {};
+        this.newLocationId = response.data
         response.data.reduce((acc: any, city: any) => {
           city.areas.forEach((area: any) => {
             area.subgroups.forEach((subgroup: any) => {
@@ -315,7 +314,6 @@ thirdCategory!:SubCategories
           return acc;
         }, []);
         this.locations = Object.values(uniqueLocations);
-        console.log(uniqueLocations);
         this.allSubgroups = this.locations.reduce((acc: string[], loc: any) => {
           acc.push(...loc.subgroupName);
           return acc;
@@ -336,7 +334,6 @@ thirdCategory!:SubCategories
           location.cityName === this.selectedCity &&
           location.areaName === this.selectedArea
       );
-  
       // Extract unique subgroup names
       this.filteredSubgroups = filteredLocations.subgroupName;
   
@@ -347,14 +344,12 @@ thirdCategory!:SubCategories
     applySearchFilter() {
      
       const searchValue = this.searchControl.value.trim().toLowerCase();
-      console.log(searchValue,"searchValue")
       if (searchValue) {
         // Filter already filtered subgroups
         this.filteredSubgroups = this.filteredSubgroups.filter(subgroup =>
           subgroup.toLowerCase().includes(searchValue)
         );
       }
-      console.log(this.filteredSubgroups,"filteredSubgroups")
     }
     
     onCityChange(event: Event) {
@@ -363,20 +358,37 @@ thirdCategory!:SubCategories
         const [cityName, areaName] = target.value.split('|');
         this.selectedCity = cityName;
         this.selectedArea = areaName;
-        console.log("City,Area", this.selectedCity, this.selectedArea)
         this.getFilteredSubgroups(); // Trigger filtering when city changes
       }
     }
     
     getSearchedItemList(){
-      console.log(this.filteredSubgroups,"filteredSubgroups")
-      this.selectedSubGroupName = this.filteredSubgroups[0];
-      console.log(this.selectedArea, this.selectedSubGroupName,"Area+Subgroup")
 
-      this.homeService.getSearchedItemList(this.selectedSubGroupName,this.selectedArea).subscribe((res:any)=>{
-        console.log(res,"SearchedItemList")
+      this.selectedSubGroupName = this.filteredSubgroups[0];
+
+
+  // Loop through each city in the response
+  for (const city of this.newLocationId) {
+    // Loop through each area within the current city
+    for (const area of city.areas) {
+      // Find the subgroup with the matching name
+      const subgroup = area.subgroups.find(
+        (sub:any) => {return sub.subgroupName === this.selectedSubGroupName  && area?.areaName === this.selectedArea}
+      );
+
+      // If found, store the subgroupId and exit both loops
+      if (subgroup) {
+      this.selectedSubGroupId = subgroup.subgroupId;
+        // return this.selectedSubGroupId; // Return immediately once found
+      }
+
+      
+    }
+  }
+
+      this.homeService.getSearchedItemList(this.selectedSubGroupId,this.selectedArea).subscribe((res:any)=>{
+        
         this.navigatedCategoryItem = res.data;
-        console.log(this.navigatedCategoryItem,"navigatedCategoryItem")
         // 
     
       const uniqueSubgroupIds = new Set(this.navigatedCategoryItem.map((item: any) => item.subgroupid));
@@ -386,8 +398,7 @@ thirdCategory!:SubCategories
       this.navigatedSubGroupId = uniqueSubgroupIds.size === 1 ? Array.from(uniqueSubgroupIds)[0] : null;
       this.navigatedMainGroupId = uniqueMaingroupIds.size === 1 ? Array.from(uniqueMaingroupIds)[0] : null;
       
-      console.log('Selected Subgroup ID:', this.navigatedSubGroupId);
-      console.log('Selected Main Group ID:', this.navigatedMainGroupId);
+      
       
       // Navigate
       this.router.navigate([`/services/category/${this.selectedSubGroupName?.trim()}`], {
