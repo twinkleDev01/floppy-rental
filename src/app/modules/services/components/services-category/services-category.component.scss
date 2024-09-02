@@ -121,7 +121,7 @@ section {
 
 // --------------------
 .Staff {
-  font-size: 12px !important;
+  font-size: 8px !important;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -268,4 +268,13 @@ section {
   align-content: center;
   align-items: center;
   min-width: 25rem;
+}
+
+.img-fluid{
+  height: 7rem;
+  border-radius: 10px;
+}
+.vender-name{
+  font-weight: 800 !important;
+  font-size: 13px;
 }

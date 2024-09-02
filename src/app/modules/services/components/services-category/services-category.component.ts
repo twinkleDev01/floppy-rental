@@ -81,8 +81,8 @@ private filteringThroughSubcategory(selectedServiceCategoryId:any):void{
     : null;
 }
   ngOnInit(){
-    this.servicesDetails = this.homeService.locationSearchResGetter
-   
+    this.servicesDetails = this.homeService.locationSearchResGetter;
+   console.log(this.servicesDetails,"85")
 
     this.getCouponList()
     this.getCurrentLocation()
@@ -164,6 +164,7 @@ private filteringThroughSubcategory(selectedServiceCategoryId:any):void{
     this.catId = this.categories[0].MainId;
 
     // Fetch items for the default category
+    console.log(this.location,"167")
     if(!this.location)
     this.fetchItems(this.catId, this.subCatId);
   }
@@ -200,7 +201,8 @@ onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
     this.showFilter = !this.showFilter;
   }
   goToDetail(card:any){
-    const itemNameDetail = card?.itemName.split(',')[0]?.trim()?.replace(/\s+/g, '-')?.toLowerCase();
+    console.log(card,"204")
+    const itemNameDetail = card?.subgroupname?.trim()?.replace(/\s+/g, '-')?.toLowerCase();
     const navigationExtras = {
       state: {
         card: card

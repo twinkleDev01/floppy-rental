@@ -1,5 +1,5 @@
 <div class="p-0 d-flex">
-    <div class="p-0 d-flex"
+    <div class="p-0 d-flex" 
      *ngFor="let ratingId of ratingArr; index as i" [id]="'star_' + i" (click)="onClick(i + 1)">
       <mat-icon [ngStyle]="{'color': starCount >= i + 1 ? '#FCB040' : 'gray'}">
         {{ showIcon(i) }}

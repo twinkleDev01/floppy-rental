@@ -40,6 +40,7 @@ export class ServicesDetailsComponent {
       email: [],
       phone: [],
       review:[],
+      rating:[],
       type: "string"
     })
   }
@@ -63,7 +64,8 @@ export class ServicesDetailsComponent {
         console.log(SimilarItems,"SimilarItems")
         // this.allSimilarServices = SimilarItems.data;
         this.allSimilarServices = SimilarItems.data.items;
-        console.log(this.allSimilarServices, "allSimilarServices")
+        console.log(this.allSimilarServices, "allSimilarServices");
+
       })
      
        // SellerInfo
@@ -80,6 +82,8 @@ export class ServicesDetailsComponent {
     this.service.getRatingByItemId(id).subscribe((res:any)=>{
       console.log(res)
       this.reviews = res.data;
+      console.log(this.reviews,"84 reviews");
+      this.calculateAverageRating(this.reviews,true);
     })
   }
 
@@ -88,12 +92,13 @@ addReview(){
   const payload = {
     ...this.reviewForm.value,
     itemId:this.serviceDetail.item.id,
-    rating:this.serviceDetail?.item.rate,
+    rating:this.currentRating.toString(),
     ratingValue:this.serviceDetail?.item.ratingReview | 0,
   }
 this.service.addNewReview(payload).subscribe((res:any)=>{
   if(res.success){
-    this.getRatingByItemId(this.serviceDetail.item.id)
+    this.getRatingByItemId(this.serviceDetail.item.id);
+    this.reviewForm.reset();
   }
 })
 }
@@ -131,8 +136,8 @@ addToCart(){
 }
 
 onRatingUpdated(newRating: number) {
-  console.log("New Rating: ", newRating);
   this.currentRating = newRating;
+  console.log("New Rating: ", this.currentRating);
 }
 
 // location
@@ -168,7 +173,7 @@ console.error("Geolocation is not supported by this browser.");
       margin: 10,
       nav: false,
       dots: false,
-      autoplay: true,
+      autoplay: false,
       autoplayTimeout: 1500, 
       autoplayHoverPause: true,
       navText: [
@@ -207,54 +212,32 @@ console.error("Geolocation is not supported by this browser.");
 //     profileImg:'images/Service-detail-img/profile-icon.png'
 //   },
 //  ]
-Products=[
-  {
-    "title":"Niti Group Facility Services",
-    "image":"images/nitiGroup.svg",
-    "staff":"Housekepping Lady",
-    "price" : "20 Hrs.INR 14000",
-    "distance":"5",
-    "rate":4
-  },
-  {
-    "title":"A.P.Securitas Pvt.Ltd.",
-    "image":"images/apSecurity.svg",
-    "staff":"Housekepping Lady",
-    "price" : "20 Hrs.INR 9500",
-    "distance":"6",
-    "rate":3
-  },
-  {
-    "title":"Addbiv Securer Pvt.Ltd.",
-    "image":"images/addbivSecurer.svg",
-    "staff":"Housekepping Lady",
-    "price" : "20 Hrs.INR 14000",
-    "distance":"7",
-    "rate":4.2
-  },
-  {
-    "title":"Niti Group Facility Services",
-    "image":"images/nitiGroup.svg",
-    "staff":"Housekepping Lady",
-    "price" : "20 Hrs.INR 14000",
-    "distance":"5",
-    "rate":4
-  },
-  {
-    "title":"A.P.Securitas Pvt.Ltd.",
-    "image":"images/apSecurity.svg",
-    "staff":"Housekepping Lady",
-    "price" : "20 Hrs.INR 9500",
-    "distance":"6",
-    "rate":3
-  },
-  {
-    "title":"Addbiv Securer Pvt.Ltd.",
-    "image":"images/addbivSecurer.svg",
-    "staff":"Housekepping Lady",
-    "price" : "20 Hrs.INR 14000",
-    "distance":"7",
-    "rate":4.2
-  },
-]
+
+
+isImageUrl(url: string): boolean {
+  // Regular expression to check if the URL ends with common image extensions
+  const imageRegex = /\.(jpeg|jpg|gif|png|svg|webp|jfif)$/i;
+  // Check if the URL starts with 'http' or 'https' and ends with an image file extension
+  return url.startsWith('http') && imageRegex.test(url);
+}
+averageRating:any
+calculateAverageRating(reviews:any, assign?:boolean): any {
+  if (reviews) {
+    const ratingReview = reviews;
+
+    // Filter out invalid ratings and calculate the average
+    const validRatings = ratingReview
+      .map((review: any) => parseFloat(review.rating))
+      .filter((rating: number) => !isNaN(rating));
+
+    const totalRating = validRatings.reduce((sum:any, rating:any) => sum + rating, 0);
+    const averageRating = Math.round((totalRating / validRatings.length) * 10) / 10 || 0; // Calculate average rating
+   if(assign){
+    this.averageRating  = averageRating;
+   }
+
+    return averageRating;
+  }
+}
+
 }

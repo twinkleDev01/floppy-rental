@@ -15,6 +15,8 @@
 
   .service_img{
     width: 100%;
+    height: 25rem;
+    border-radius: 20px;
   }
   .service_detail p{
 color: grey;
@@ -135,10 +137,42 @@ margin-bottom: 8px;
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             }
 
-            ul.green-bullets {
-              list-style-type: disc; 
-              padding-left: 20px;
-            
+            .green-tick{
+              height: 15px;
+              width: 15px;
             }
-  
+
+            .packageName{
+              font-weight: bold;
+    color: black !important;
+    font-size: 14px;
+            }
+  .similar-card{
+    max-width: 300px;
+  }
+  .load_more{
+      color: white;
+      background-color: #008cac;
+      border: 2px solid #008cac;
+      border-radius: 25px;
+      padding: 10px 30px;
+      font-weight: 500;
+      margin-top: 10px;
+      font-size: 16px;
+  }
+  .rating-write{
+    margin-bottom: 18px;
+    margin-top: 15px;
+  }
+  .submit_review{
+    padding: 10px 30px;
+    margin-top: 10px;
+      font-size: 16px;
+  }
+  .similar_img{
+    height: 11rem;
+  }
+  .seller_img{
+    height: 8rem;
+  }
         

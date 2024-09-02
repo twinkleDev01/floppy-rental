@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-rating-star',
@@ -7,9 +7,11 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrl: './rating-star.component.scss'
 })
 export class RatingStarComponent {
+  
   @Input() rating: number = 0; // Initialize the rating
   @Input() starCount: number = 5; // Default to 5 stars
   @Input() color: string = 'warn'; // Set the default color
+  @Input() needReview = false;
   @Output() ratingUpdated = new EventEmitter<number>();
 
   ratingArr: number[] = [];
@@ -28,7 +30,7 @@ export class RatingStarComponent {
   }
 
   ngOnInit() {
-    // console.log("Star count: " + this.starCount);
+   
     for (let index = 0; index < this.starCount; index++) {
       this.ratingArr.push(index);
     }
@@ -36,6 +38,7 @@ export class RatingStarComponent {
 
   onClick(rating: number) {
     console.log("Selected rating: " + rating);
+    if(!this.needReview)return;
     this.rating = rating; // Update the current rating
     this.ratingUpdated.emit(rating); // Emit the new rating value
     return false;
@@ -44,6 +47,8 @@ export class RatingStarComponent {
   showIcon(index: number) {
     if (this.rating >= index + 1) {
       return 'star';
+    } else if (this.rating > index && this.rating < index + 1) {
+      return 'star_half'; // For fractional stars
     } else {
       return 'star_border';
     }
