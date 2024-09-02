@@ -8,15 +8,34 @@ import { finalize, Observable } from 'rxjs';
 })
 export class LoaderInterceptor implements HttpInterceptor {
 
+  requestCounter = 0;
+
   constructor(private loaderService: LoaderService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.loaderService.show(); // Show loader on API call
-
+  
+this.beginRequest();
     return next.handle(request).pipe(
       finalize(() => {
-        this.loaderService.hide()
+        this.endRequest();
       }) // Hide loader on response
     );
+  }
+
+  private beginRequest(): void {
+    this.requestCounter = Math.max(this.requestCounter, 0) + 1;
+    if (this.requestCounter === 1) {
+      this.loaderService.show(); // Show loader on API call
+   
+  
+    }
+  }
+
+  private endRequest(): void {
+    this.requestCounter = Math.max(this.requestCounter, 1) - 1;
+    if (this.requestCounter === 0) {
+      this.loaderService.hide()
+     
+    }
   }
 }
