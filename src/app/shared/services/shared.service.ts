@@ -14,6 +14,8 @@ export class SharedService {
   private TestmonialsUrl =
     environment.ApiBaseUrl + 'Testimonial/testimonial-list';
 
+    couponListUrl = environment.ApiBaseUrl + 'Coupon/CouponList';
+
   constructor(private http: HttpClient) {}
 
   // Method to update the full breadcrumb path
@@ -52,5 +54,9 @@ export class SharedService {
 
   handleError(error: any): any {
     throw new Error('Method not implemented.');
+  }
+
+  getCouponList(): Observable<any> {
+    return this.http.get<any>(this.couponListUrl); // Makes an HTTP GET request to the API
   }
 }

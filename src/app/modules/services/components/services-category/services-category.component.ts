@@ -7,6 +7,7 @@ import { environment } from '../../../../../environments/environment.development
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { BehaviorSubject } from 'rxjs';
 import { HomeService } from '../../../home/services/home.service';
+import { SharedService } from '../../../../shared/services/shared.service';
 
 @Component({
   selector: 'app-services-category',
@@ -43,6 +44,7 @@ export class ServicesCategoryComponent {
   subCategory:any;
   startIndex:number=0
   totalItems: number = 0; // Total number of items for paginator
+  couponList:any
   // toppings: FormGroup;
   // Paginator
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -55,7 +57,7 @@ export class ServicesCategoryComponent {
   @Input() showPageSizeField = true;
   paginator$ = new BehaviorSubject<{pageIndex:number,pageSize:number}|null>({pageIndex:0,pageSize:12})
 
-  constructor(private fb: FormBuilder, private router: Router, private service:ServicesDetailService, private homeService:HomeService) {
+  constructor(private fb: FormBuilder, private router: Router, private service:ServicesDetailService, private homeService:HomeService, private sharedService:SharedService) {
 
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras?.state ?? {};
@@ -79,12 +81,10 @@ private filteringThroughSubcategory(selectedServiceCategoryId:any):void{
     : null;
 }
   ngOnInit(){
-    if(this.location && this.subCategory){
-      console.log("is location")
-      this.getLocationwiseService(this.subCategory, this.location)
-    }
+    this.servicesDetails = this.homeService.locationSearchResGetter
+   
 
-
+    this.getCouponList()
     this.getCurrentLocation()
     // getCategoryList
     this.service.getCategoryList().subscribe((res)=>{
@@ -109,22 +109,6 @@ private filteringThroughSubcategory(selectedServiceCategoryId:any):void{
   })
   
 }
-  // Fetch items based on selected category
-  // fetchItems(catId: any, subCatId: any) {
-  //   console.log(catId,"catId",subCatId,"subCatId")
-  //   this.service.getItemByCategory(catId, subCatId, this.latitude, this.longitude, this.startIndex, this.pageSize).subscribe((res) => {
-  //     this.servicesDetails = res.data;
-  //     this.servicesDetails  = this.servicesDetails.map((iterable)=>iterable.item);
-  //     console.log(this.servicesDetails,"113")
-  //     this.totalItems = this.estimateTotalItems();;
-  //     // this.currentRating = this.servicesDetails.reviews
-  //     if (this.servicesDetails.length > 0) {
-  //       this.vendorName = this.servicesDetails[0]?.item?.vendorname;
-  //     }
-  //     this.paginator$.next({pageIndex:0,pageSize:10});
-  //   });
-
-  // }
 
   fetchItems(catId: any, subCatId: any) {
     console.log(catId, "catId", subCatId, "subCatId");
@@ -180,7 +164,7 @@ private filteringThroughSubcategory(selectedServiceCategoryId:any):void{
     this.catId = this.categories[0].MainId;
 
     // Fetch items for the default category
-    if(!this.location && !this.subCategory)
+    if(!this.location)
     this.fetchItems(this.catId, this.subCatId);
   }
   })
@@ -251,14 +235,6 @@ onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
     }
   }
 
-  // onPageEvent(event: any) {
-  //   this.page.emit(event);
-  //   if (this.pageSize !== event.pageSize) {
-  //     console.log(event.pageSize);
-  //     this.pageSize = event.pageSize;
-  //   }
-  // }
-
   onPageChange(event: PageEvent): void {
     this.pageIndex = event.pageIndex;  // Update current page index
     this.pageSize = event.pageSize;  // Update page size
@@ -294,18 +270,17 @@ if (navigator.geolocation) {
 }
   }
 
-  getLocationwiseService(subCategory: string, location: string){
-    this.service.getServiceLocationWise(subCategory, location).subscribe((response:any)=>{
-      this.servicesDetails = response.data;
-      console.log(this.servicesDetails,"238")
-      
-      console.log(this.servicesDetails,"233")
-    })
-  }
 
   estimateTotalItems(): number {
     // Estimate based on data or set to a default value
     return 100;  // Placeholder for your logic or approximation
+  }
+
+  getCouponList(){
+    this.sharedService.getCouponList().subscribe((response:any)=>{
+      console.log(response,'290')
+      this.couponList = response.data
+    })
   }
 
 }

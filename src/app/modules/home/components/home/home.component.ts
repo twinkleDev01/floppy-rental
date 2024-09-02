@@ -404,7 +404,8 @@ thirdCategory!:SubCategories
       this.router.navigate([`/services/category/${this.selectedSubGroupName?.trim()}`], {
         state: {
           serviceId: this.navigatedMainGroupId,
-          subId: this.navigatedSubGroupId
+          subId: this.navigatedSubGroupId,
+          location: this.selectedArea
         }
       });
       })

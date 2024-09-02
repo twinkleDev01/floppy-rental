@@ -14,7 +14,11 @@ export class HomeService {
   ctegorySubcategoryUrl =  environment.ApiBaseUrl + 'Home/Category-with-subcategory-list';
   itemlistUrl = environment.ApiBaseUrl + 'Home/item-list';
   locationUrl = 'https://cicd.asptask.in/api/' + 'Home/Locations';
+  locationSearchRes: any;
   constructor(private http: HttpClient) { }
+  get locationSearchResGetter(){
+    return this.locationSearchRes;
+  }
   getHomeDetails(): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -75,6 +79,7 @@ export class HomeService {
     const url = environment.ApiBaseUrl.concat(`Service/searchItems/${subgroupname}/${location}`);
     return this.http.get<any>(url, httpOptions)
       .pipe(map((response:any) => {
+        this.locationSearchRes = response.data;
         return response;
       }),
         catchError(error => this.handleError(error)));
