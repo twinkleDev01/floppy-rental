@@ -1,5 +1,5 @@
 import { Component, Directive, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { ServicesDetailService } from '../../service/services-detail.service';
@@ -16,7 +16,7 @@ import { SharedService } from '../../../../shared/services/shared.service';
 })
 export class ServicesCategoryComponent {
   apiUrl: string = environment.ApiBaseUrl;
- 
+  searchControl: FormControl = new FormControl('');
   servicesDetails:any[]=[];
   private readonly _formBuilder = inject(FormBuilder);
   // currentRating = this.servicesDetails[0].rate; // Initial rating value
@@ -44,7 +44,12 @@ export class ServicesCategoryComponent {
   subCategory:any;
   startIndex:number=0
   totalItems: number = 0; // Total number of items for paginator
-  couponList:any
+  couponList:any;
+  locations: any[] = [];
+  selectedCity: string = '';
+  selectedArea: string = '';
+  filteredSubgroups: string[] = [];
+  allSubgroups: string[] = [];
   // toppings: FormGroup;
   // Paginator
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -66,11 +71,6 @@ export class ServicesCategoryComponent {
     this.subCategory = state['subCategory'] ; // Provide a default value if needed
     this.selectedServiceCategoryIdThroughLocationSearch = state['mainId']
     this.selectedServiceSubCategoryIdThroughLocationSearch = state['subId']
-    
-    console.log(this.selectedServiceCategoryId,"57")
-    console.log(this.selectedServiceCategoryIdThroughLocationSearch,"64");
-        console.log('Location:', this.location);
-        console.log('SubCategory:', this.subCategory);
   }
 private filteringThroughSubcategory(selectedServiceCategoryId:any):void{
   const selectedCategoryObj = this.categoriesList.find(
@@ -81,14 +81,35 @@ private filteringThroughSubcategory(selectedServiceCategoryId:any):void{
     : null;
 }
   ngOnInit(){
-    this.servicesDetails = this.homeService.locationSearchResGetter;
-   console.log(this.servicesDetails,"85")
+    console.log(this.servicesDetails,"service deyails 84")
+    // this.servicesDetails = this.homeService.locationSearchResGetter;
+    const storedData = localStorage.getItem('serviceDetails');
+  if (storedData) {
+    const data = JSON.parse(storedData);
+    this.servicesDetails = data.items.map((itemWrapper:any) => ({
+      ...itemWrapper.item, reviews: itemWrapper.reviews})); // Correctly map to items
+      this.totalItems = data.totalItems; 
+      console.log(this.servicesDetails,this.servicesDetails[0].reviews,this.totalItems, "service deyails 88")
+  }
 
+  this.locations = this.locations?.reduce((acc:any, city:any) => {
+    const combinedAreas = city.areas.map((area:any) => `${city.cityName} - ${area.areaName}`);
+    return acc.concat(combinedAreas);
+  }, []);
+
+    // Subscribe to value changes of the search control
+    this.searchControl.valueChanges.subscribe(value => {
+      console.log(value,"97");
+      this.filteredSubgroups[0] = value;
+     
+      this.getSearchedItemList();
+    });
+
+  this.getLocations()
     this.getCouponList()
     this.getCurrentLocation()
     // getCategoryList
     this.service.getCategoryList().subscribe((res)=>{
-      console.log(res,"categoryList")
       this.categoriesList = res.data;
 
          // Set the selectedCategory based on selectedServiceCategoryId
@@ -98,26 +119,20 @@ private filteringThroughSubcategory(selectedServiceCategoryId:any):void{
           this.filteringThroughSubcategory(this.selectedServiceCategoryIdThroughLocationSearch);
 
         }
-        console.log(this.selectedServiceCategory,"selectedServiceCategory")
     })
     // this.onRatingUpdated(this.currentRating);
     this.selectedServiceCategoryId =  this.selectedServiceCategoryId? this.selectedServiceCategoryId:this.selectedServiceCategoryIdThroughLocationSearch;
    this.getFilterSubCategory(this.selectedServiceCategoryId);
-
-  this.homeService.getLocation().subscribe((res)=>{
-    console.log(res,"108")
-  })
   
 }
 
   fetchItems(catId: any, subCatId: any) {
-    console.log(catId, "catId", subCatId, "subCatId");
     this.service.getItemByCategory(catId, subCatId, this.latitude, this.longitude, this.startIndex, this.pageSize).subscribe((res) => {
       if (res.success) {
-        this.servicesDetails = res.data.items.map((itemWrapper:any) => itemWrapper.item); // Correctly map to items
+        this.servicesDetails = res.data.items.map((itemWrapper:any) => ({
+          ...itemWrapper.item, reviews: itemWrapper.reviews})); // Correctly map to items
         this.totalItems = res.data.totalItems; // Correctly set the total items from the response
   
-        console.log(this.servicesDetails, "113");
   
         if (this.servicesDetails.length > 0) {
           this.vendorName = this.servicesDetails[0].vendorname; // Extract vendor name from the first item
@@ -133,23 +148,29 @@ private filteringThroughSubcategory(selectedServiceCategoryId:any):void{
  
     // Handle category change
     onCategoryChange(selectedValue: any) {
+      localStorage.removeItem('serviceDetails')
       // Reset all variables to null or default values
       this.selectedServiceCategoryIdThroughLocationSearch = null;
       this.location = null;  // Provide a default value if needed
       this.subCategory = null;  // Provide a default value if needed
       this.selectedServiceSubCategoryIdThroughLocationSearch = null;
-      console.log(selectedValue.value,"Selected Value")
       this.getFilterSubCategory(selectedValue.value);
       this.subCatId = this.categories.filter(a=>a.SubId);
       this.catId = this.categories.filter((a)=>a.MainId);
-      console.log(this.subCatId, this.catId)
+      console.log(this.subCatId, this.catId, selectedValue.value)
+
+
+        // Navigate
+    this.router.navigate([`/services/category/${selectedValue.value}`], {
+      state: {
+        serviceId: selectedValue.value,
+      }
+    });
     }
 
  getFilterSubCategory(id:any){
   this.service.getSubCategoryList(id).subscribe((res)=>{
-    console.log(res,"res")
     this.categories = res.data;
-    console.log(this.categories,"categories")
 
      // Set the first category as the default selected
   if (this.categories && this.categories.length > 0) {
@@ -158,25 +179,17 @@ private filteringThroughSubcategory(selectedServiceCategoryId:any):void{
     this.categories.forEach((category) => {
       category.isChecked = category.SubId === this.selectedCategory;
     });
-
-    console.log(this.selectedCategory,"selectedCategory")
     this.subCatId = this.categories[0].SubId;
     this.catId = this.categories[0].MainId;
 
     // Fetch items for the default category
-    console.log(this.location,"167")
     if(!this.location)
     this.fetchItems(this.catId, this.subCatId);
   }
   })
  }
 
-//  onCheckboxChange(event: any) {
-//   console.log('Checkbox changed:', event.checked);
 
-//   // Handle checkbox change logic here
-//    this.fetchItems(this.selectedServiceCategory, event);
-// }
 
 onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
   if (event.checked) {
@@ -192,8 +205,6 @@ onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
 }
 
   onRatingUpdated(newRating: number) {
-    console.log(this.currentRating, "currentRating")
-    console.log("New Rating: ", newRating);
     this.currentRating = newRating;
   }
 
@@ -201,14 +212,12 @@ onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
     this.showFilter = !this.showFilter;
   }
   goToDetail(card:any){
-    console.log(card,"204")
     const itemNameDetail = card?.subgroupname?.trim()?.replace(/\s+/g, '-')?.toLowerCase();
     const navigationExtras = {
       state: {
         card: card
       }
     };
-    console.log(card,"CardDetail")
     this.router.navigate([`services/service-Details/${itemNameDetail}`], navigationExtras);
   }
   // Paginator
@@ -253,8 +262,6 @@ if (navigator.geolocation) {
           // Success callback
           this.latitude = position.coords.latitude;
           this.longitude = position.coords.longitude;
-
-          console.log(`Latitude: ${this.latitude}, Longitude: ${this.longitude}`);
       },
       (error) => {
           // Error callback
@@ -280,10 +287,161 @@ if (navigator.geolocation) {
 
   getCouponList(){
     this.sharedService.getCouponList().subscribe((response:any)=>{
-      console.log(response,'290')
       this.couponList = response.data
     })
   }
+
+  newLocationId:any
+  getLocations() {
+    this.homeService.getLocation().subscribe((response: any) => {
+      const uniqueLocations: any = {};
+      this.newLocationId = response.data
+      response.data.reduce((acc: any, city: any) => {
+        city.areas.forEach((area: any) => {
+          area.subgroups.forEach((subgroup: any) => {
+            const locationKey = `${city.cityName}|${area.areaName}`;
+            if (!uniqueLocations[locationKey]) {
+              uniqueLocations[locationKey] = {
+                cityName: city.cityName,
+                areaName: area.areaName,
+                subgroupName: [subgroup.subgroupName],
+              };
+            } else {
+              uniqueLocations[locationKey].subgroupName.push(
+                subgroup.subgroupName
+              );
+            }
+          });
+        });
+        return acc;
+      }, []);
+      this.locations = Object.values(uniqueLocations);
+      this.allSubgroups = this.locations.reduce((acc: string[], loc: any) => {
+        acc.push(...loc.subgroupName);
+        return acc;
+      }, []);
+    }); // Store unique subgroups
+  }
+  
+
+  onCityChange(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    if (target) {
+      const [cityName, areaName] = target.value.split('|');
+      this.selectedCity = cityName;
+      this.selectedArea = areaName;
+      this.getFilteredSubgroups(); // Trigger filtering when city changes
+    }
+  }
+
+  getFilteredSubgroups() {
+    if (!this.selectedCity || !this.selectedArea) {
+      this.filteredSubgroups = this.allSubgroups;
+      console.log(this.filteredSubgroups,'331')
+      this.applySearchFilter(); // Apply search filter if applicable
+      return;
+    }
+
+    const filteredLocations = this.locations.find(
+      (location: any) =>
+        location.cityName === this.selectedCity &&
+        location.areaName === this.selectedArea
+    );
+    // Extract unique subgroup names
+    this.filteredSubgroups = filteredLocations.subgroupName;
+    console.log(this.filteredSubgroups,'343')
+    // Apply search filtering
+    this.applySearchFilter(); // Apply search filter if applicable
+  }
+  
+  applySearchFilter() {
+   
+    const searchValue = this.searchControl.value.trim().toLowerCase();
+    if (searchValue) {
+      // Filter already filtered subgroups
+      this.filteredSubgroups = this.filteredSubgroups.filter(subgroup =>
+        subgroup.toLowerCase().includes(searchValue)
+      );
+    }
+    console.log(this.filteredSubgroups,'357')
+  }
+
+
+  selectedSubGroupId:any;
+  selectedSubGroupName:any;
+  navigatedCategoryItem:any;
+  navigatedSubGroupId:any;
+  navigatedMainGroupId:any
+  getSearchedItemList(){
+
+    this.selectedSubGroupName = this.filteredSubgroups[0];
+
+console.log(this.selectedSubGroupName,"370")
+// Loop through each city in the response
+for (const city of this.newLocationId) {
+  // Loop through each area within the current city
+  for (const area of city.areas) {
+    // Find the subgroup with the matching name
+    const subgroup = area.subgroups.find(
+      (sub:any) => {return sub.subgroupName === this.selectedSubGroupName  && area?.areaName === this.selectedArea}
+    );
+
+    // If found, store the subgroupId and exit both loops
+    if (subgroup) {
+    this.selectedSubGroupId = subgroup.subgroupId;
+      // return this.selectedSubGroupId; // Return immediately once found
+    }
+
+    
+  }
+}
+
+    this.homeService.getSearchedItemList(this.selectedSubGroupId,this.selectedArea,this.latitude,this.longitude).subscribe((res:any)=>{
+      
+      this.navigatedCategoryItem = res.data;
+      // 
+  
+    const uniqueSubgroupIds = new Set(this.navigatedCategoryItem.map((item: any) => item.subgroupid));
+    const uniqueMaingroupIds = new Set(this.navigatedCategoryItem.map((item: any) => item.maingroupid));
+    
+    // Assuming there's only one unique value
+    this.navigatedSubGroupId = uniqueSubgroupIds.size === 1 ? Array.from(uniqueSubgroupIds)[0] : null;
+    this.navigatedMainGroupId = uniqueMaingroupIds.size === 1 ? Array.from(uniqueMaingroupIds)[0] : null;
+    
+    
+    
+    // Navigate
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+      this.router.onSameUrlNavigation = "reload";
+    this.router.navigate([`/services/category/${this.selectedSubGroupName?.trim()}`], {
+      state: {
+        serviceId: this.navigatedMainGroupId,
+        subId: this.navigatedSubGroupId,
+        location: this.selectedArea
+      }
+    });
+    })
+  }
+
+  averageRating:any
+calculateAverageRating(reviews:any): any {
+  if (reviews) {
+    const ratingReview = reviews;
+
+    // Filter out invalid ratings and calculate the average
+    const validRatings = ratingReview
+      .map((review: any) => parseFloat(review.rating))
+      .filter((rating: number) => !isNaN(rating));
+
+    const totalRating = validRatings.reduce((sum:any, rating:any) => sum + rating, 0);
+    const averageRating = Math.round((totalRating / validRatings.length) * 10) / 10 || 0; // Calculate average rating
+   
+    this.averageRating  = averageRating;
+  
+
+    return averageRating;
+  }
+}
 
 }
 

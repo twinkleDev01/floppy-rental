@@ -17,11 +17,10 @@ export class HeaderComponent {
   isLoggedIn$ = inject(AuthService).isLoggedIn$;
   readonly dialog = inject(MatDialog)
   constructor(private route:Router, private auth:AuthService, private toastr:ToastrService, private cartService:CartService) {
-   console.log(this.cartLength,"20") 
+  
   }
   ngOnInit() { 
    let length = localStorage.getItem('cartItems')
-     console.log(localStorage.getItem('cartItems'));
 
     this.cartService.cartLength.subscribe((val)=>{
       this.cartLength = val || length;
@@ -36,11 +35,9 @@ export class HeaderComponent {
     this.cartService.cartLength.subscribe((val)=>{
       this.cartLength = val || length;
     })
-    console.log(this.cartLength,"39")
   }
 
   openDialog(): void {
-    console.log("hhhhhh")
     this.dialog.open(LoginComponent, {
       width: '450',
       disableClose: true
@@ -63,7 +60,6 @@ export class HeaderComponent {
     const userId = localStorage.getItem('userId');
     if(userId){
       this.auth.logout(userId).subscribe((response:any)=>{
-        console.log(response)
         if(response.success){
           localStorage.removeItem('token')
           localStorage.removeItem('userId')
@@ -73,7 +69,6 @@ export class HeaderComponent {
         }
       },
       (error: any) => {
-        console.error('Registration error', error);
         this.toastr.error('An error occurred. Please try again later.');
       }
     )

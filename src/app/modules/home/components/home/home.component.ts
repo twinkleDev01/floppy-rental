@@ -45,7 +45,9 @@ thirdCategory!:SubCategories
   backgroundImage:any;
   filteredLocation:any;
   newLocationId:any;
-  selectedSubGroupId:any
+  selectedSubGroupId:any;
+  latitude:any;
+  longitude:any
 
   constructor(private homeService: HomeService, public dialog: MatDialog, private service:ServicesDetailService,private scrollService:ScrollService, private router:Router){
     // this.initializeLocations();
@@ -132,6 +134,7 @@ thirdCategory!:SubCategories
      this.getBannerData();
      this.getItemlist();
      this.getLocations();
+     this.getCurrentLocation();
       
     // ServiceCategoryList
     this.homeService.getServiceList().subscribe((res:any)=>{
@@ -265,30 +268,30 @@ thirdCategory!:SubCategories
       return null;
     }
   
-      
-    // New
-    // getLocations() {
-    //   this.homeService.getLocation().subscribe((response: any) => {
-    //     const uniqueLocations = new Set<string>();
-    //     this.locations = response.data.reduce((acc: any, city: any) => {
-    //       city.areas.forEach((area: any) => {
-    //         area.subgroups.forEach((subgroup: any) => {
-    //         const locationKey = `${city.cityName}|${area.areaName}`;
-    //         if (!uniqueLocations.has(locationKey)) {
-    //           uniqueLocations.add(locationKey);
-    //           acc.push({
-    //             cityName: city.cityName,
-    //             areaName: area.areaName,
-    //             subgroupName: subgroup.subgroupName
-    //           });
-    //         }
-    //       })
-    //       });
-    //       return acc;
-    //     }, []);
-    //     this.allSubgroups = [...new Set(this.locations.map((loc: any) => loc.subgroupName))]; // Store unique subgroups
-    //   });
-    // }
+    getCurrentLocation(){
+      // Check if the browser supports Geolocation API
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            // Success callback
+            this.latitude = position.coords.latitude;
+            this.longitude = position.coords.longitude;
+        },
+        (error) => {
+            // Error callback
+            console.error('Error getting location: ', error);
+        },
+        {
+            // Optional settings
+            enableHighAccuracy: true, // Use high accuracy mode if available
+            timeout: 10000, // Set a timeout in milliseconds
+            maximumAge: 0 // Do not use a cached position
+        }
+    );
+  } else {
+    console.error("Geolocation is not supported by this browser.");
+  }
+    }
 
     getLocations() {
       this.homeService.getLocation().subscribe((response: any) => {
@@ -386,9 +389,10 @@ thirdCategory!:SubCategories
     }
   }
 
-      this.homeService.getSearchedItemList(this.selectedSubGroupId,this.selectedArea).subscribe((res:any)=>{
+      this.homeService.getSearchedItemList(this.selectedSubGroupId,this.selectedArea,this.latitude,this.longitude).subscribe((res:any)=>{
         
-        this.navigatedCategoryItem = res.data;
+        this.navigatedCategoryItem = res.data.item;
+        this.navigatedCategoryItem = res.data.items.map((itemWrapper:any) => itemWrapper.item)
         // 
     
       const uniqueSubgroupIds = new Set(this.navigatedCategoryItem.map((item: any) => item.subgroupid));
@@ -399,7 +403,7 @@ thirdCategory!:SubCategories
       this.navigatedMainGroupId = uniqueMaingroupIds.size === 1 ? Array.from(uniqueMaingroupIds)[0] : null;
       
       
-      
+      console.log(this.selectedSubGroupName,"405")
       // Navigate
       this.router.navigate([`/services/category/${this.selectedSubGroupName?.trim()}`], {
         state: {

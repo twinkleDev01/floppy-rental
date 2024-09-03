@@ -15,7 +15,6 @@ export class FooterComponent implements OnInit{
   
   ngOnInit(): void {
     this.sharedService.getFooterList().subscribe((res:any)=>{
-      console.log(res)
       this.footerList = res.data
     })
   }

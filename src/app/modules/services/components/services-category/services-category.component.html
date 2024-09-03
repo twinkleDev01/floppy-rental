@@ -47,13 +47,30 @@
         <h2 class="fw-bold fs-4">AREA</h2>
         <div class="location_search">
           <i class="fa-solid fa-location-dot"></i>
-          <select class="select_box" name="" id="">
-            <option value="">select</option>
-            <option value="">nagpur</option>
+          <select class="select_box" name="location" id="location" (change)="onCityChange($event)">
+            <option value="">Select</option>
+            <option *ngFor="let location of locations" [value]="location.cityName + '|' + location.areaName">
+              {{ location.cityName }} - {{ location.areaName }}
+            </option>
           </select>
           <span>|</span>
           <i class="fa-solid fa-magnifying-glass search_glass"></i>
-          <input type="search" placeholder="Search Item" class="search_box" />
+          <!-- <input type="search" placeholder="Search Item" class="search_box" [formControl]="searchControl"/> -->
+          <mat-form-field appearance="fill" class="full-width">
+            <!-- <mat-label>Search</mat-label> -->
+            <input
+              type="text"
+              matInput
+              [formControl]="searchControl"
+              [matAutocomplete]="auto"
+              placeholder="Search Item"
+            />
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let subgroup of filteredSubgroups" [value]="subgroup">
+                {{ subgroup }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
         </div>
       </div>
       <hr />
@@ -119,7 +136,7 @@
               SubGroupName <span>{{ card.item.subgroupname }}</span>
             </div> -->
               <div class="Staff mb-2 text-start">
-                <span class="text-start">{{ card?.maingroupname }}</span>
+                <span class="text-start main-name">{{ card?.maingroupname }}</span>
                 <span>{{ card?.subgroupname }}</span>
               </div>
               <div class="charge pt-2">Monthly Charge For</div>
@@ -128,7 +145,7 @@
               <div class="distance">
                 Distance : {{ card?.vendor?.distance || 0}} KM
                 <app-rating-star
-                  [rating]="card?.reviews"
+                  [rating]="calculateAverageRating(card.reviews)"
                   [starCount]="5"
                   [color]="'yellow'"
                   

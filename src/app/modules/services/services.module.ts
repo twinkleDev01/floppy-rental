@@ -17,6 +17,9 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { ServiceRateComponent } from './components/services-rate/service-rate/service-rate.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
 @NgModule({
   declarations: [
     ServicesComponent,
@@ -39,7 +42,10 @@ import { ServiceRateComponent } from './components/services-rate/service-rate/se
     MatTabsModule,
     CarouselModule,
     MatPaginatorModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatAutocompleteModule,
+    MatInputModule
     ]
 })
 export class ServicesModule { }
