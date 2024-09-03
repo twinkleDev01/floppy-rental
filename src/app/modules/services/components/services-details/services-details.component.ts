@@ -25,8 +25,8 @@ export class ServicesDetailsComponent {
   vendorDetail:any;
   subgroupid:any;
   maingroupid:any;
-  latitude:any;
-  longitude:any;
+  latitude:number = 0;
+  longitude:number = 0;
   reviews: Review[] = [];
   reviewForm:any =FormGroup;
   startIndex:number=0;
