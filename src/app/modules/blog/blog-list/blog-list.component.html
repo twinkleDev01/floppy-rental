@@ -37,13 +37,13 @@
         <ng-container *ngFor="let data of blog | slice:-BlogNumber">
           <div *ngIf="!isSmallParent" class="col-lg-3 col-sm-6 col-12">
             <div class="blog-card mb-3" (click)="NavigateToBlockDetail(data)">
-              <div class="position-relative blog-img">
-                <img [src]="data.image || 'images/No_Image_Available.jpg'" alt="blog image" class="img-fluid" >
+              <div class="position-relative">
+                <img [src]="data.image || 'images/No_Image_Available.jpg'" alt="blog image" class="img-fluid  blog-img" >
                 <span class="category_badge">{{data.categoryName}}</span>
               </div>
               
               <div class="px-3 pb-1">
-                <h6 class="mb-3 mt-md-0 mt-2">{{data.title}}</h6>
+                <h6 class="mb-3 mt-md-0 mt-2">{{data.tittle}}</h6>
                 <div class="content-Div">
                   <p class="pt-1"><i class="fa-solid fa-user"></i> &nbsp; by {{data.author}}</p>
                 </div>
@@ -53,7 +53,7 @@
           <div *ngIf="isSmallParent">
             <div class="d-flex align-items-center m-2" style="cursor: pointer;" (click)="changeBlogView(data)">
               <img [src]="data.image || 'images/No_Image_Available.jpg'" class="responsive-Img" alt="blog image">
-              <h6 class="mb-3 mt-md-0 m-2 text-muted">{{data.title}}</h6>
+              <h6 class="mb-3 mt-md-0 m-2 text-muted">{{data.tittle}}</h6>
             </div>
           </div>
           

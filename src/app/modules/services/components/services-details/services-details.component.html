@@ -75,7 +75,7 @@
             </mat-tab>
             <mat-tab label="Reviews">
                 <div class="reviews py-3">
-                    @if (reviews) {
+                    @if (reviews.length) {
                         <h5 class="fw-bolder">Reviews</h5>
                     <ng-container *ngFor="let reviews of reviews | slice:0:displayedReviewsCount">
                         <div class="review_card">
@@ -190,7 +190,8 @@
                       />
                         <h6 class="card_h3 fw-bold pt-3">  {{card.item.vendorname }}</h6>
                         <div class="Staff mb-2">
-                            <span>{{ card.item.maingroupname }}</span>
+                            <span class="main-name">{{ card.item.maingroupname }}</span>
+                            <span>{{ card?.item.subgroupname }}</span>
                           </div>
                           <div class="charge pt-2">Monthly Charge For</div>
                           <div class="price">{{ card.item.rate }}</div>

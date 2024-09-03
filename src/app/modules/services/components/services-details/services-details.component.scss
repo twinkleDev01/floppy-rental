@@ -31,6 +31,8 @@ margin-bottom: 8px;
   }
   .price{
     color: #008cac;
+    font-size: 14px;
+    font-weight: 600;
   }
   .features p{
     font-size: 12px !important;
@@ -170,9 +172,23 @@ margin-bottom: 8px;
       font-size: 16px;
   }
   .similar_img{
-    height: 11rem;
+    height: 7rem;
   }
   .seller_img{
     height: 8rem;
   }
+  .card_h3{
+    min-height: 50px;
+  }
+  .main-name{
+    font-size: 13px;
+    font-weight: 600;
+}
+.Staff{
+  font-size: 12px !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: gray;
+}
         

@@ -1,6 +1,6 @@
 export interface Blog {
   categoryName: string;
-    title: string;
+  tittle: string;
     description: string;
     keywords: string;
     menuId: number;

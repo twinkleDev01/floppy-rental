@@ -208,7 +208,7 @@ console.error("Geolocation is not supported by this browser.");
       margin: 10,
       nav: false,
       dots: false,
-      autoplay: true,
+      autoplay: false,
       autoplayTimeout: 1500, 
       autoplayHoverPause: true,
       navText: [
