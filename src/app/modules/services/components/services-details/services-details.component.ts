@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { LoginComponent } from '../../../login/Components/login/login.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
+import { Review } from '../_models/serivece.model';
 
 @Component({
   selector: 'app-services-details',
@@ -26,7 +27,7 @@ export class ServicesDetailsComponent {
   maingroupid:any;
   latitude:any;
   longitude:any;
-  reviews:any;
+  reviews: Review[] = [];
   reviewForm:any =FormGroup;
   startIndex:number=0;
   pageSize:number=0
@@ -51,7 +52,39 @@ export class ServicesDetailsComponent {
     this.currentRating = this.selectedCard.rate;
     console.log(this.currentRating,"currentRating")
     this.onRatingUpdated(this.currentRating)
-    this.service.getServiceDetailsById(this.serviceDetailId).subscribe((res)=>{
+    console.log(this.serviceDetailId,"54")
+    // this.service.getServiceDetailsById(this.serviceDetailId).subscribe((res)=>{
+    //   this.serviceDetail = res.data;
+    //   this.getRatingByItemId(res.data.item.itemid)
+    //   this.vendorId = this.serviceDetail.item.vendorid;
+
+    //   // Similar Services
+    //   this.maingroupid = this.serviceDetail?.item?.maingroupid;
+    //   this.subgroupid = this.serviceDetail?.item?.subgroupid;
+
+    //   this.service.getItemByCategory(this.maingroupid, this.subgroupid,this.latitude, this.longitude).subscribe((SimilarItems:any)=>{
+    //     console.log(SimilarItems,"SimilarItems")
+    //     // this.allSimilarServices = SimilarItems.data;
+    //     this.allSimilarServices = SimilarItems.data.items;
+    //     console.log(this.allSimilarServices, "allSimilarServices");
+
+    //   })
+     
+    //    // SellerInfo
+    // this.service.getSellerInfo(this.vendorId).subscribe((info:any)=>{
+    //   console.log(info,"SellerInfo-ServideDetail")
+    //   this.vendorDetail = info.data;
+    //   console.log(this.vendorDetail,"vendorDetail")
+    // })
+    // })
+
+    this.getServiceDetailById(this.serviceDetailId)
+
+  }
+
+
+  getServiceDetailById(id:any){
+    this.service.getServiceDetailsById(id).subscribe((res)=>{
       this.serviceDetail = res.data;
       this.getRatingByItemId(res.data.item.itemid)
       this.vendorId = this.serviceDetail.item.vendorid;
@@ -75,8 +108,9 @@ export class ServicesDetailsComponent {
       console.log(this.vendorDetail,"vendorDetail")
     })
     })
-
   }
+  
+
   // get ratings
   getRatingByItemId(id:string){
     this.service.getRatingByItemId(id).subscribe((res:any)=>{
@@ -173,7 +207,7 @@ console.error("Geolocation is not supported by this browser.");
       margin: 10,
       nav: false,
       dots: false,
-      autoplay: false,
+      autoplay: true,
       autoplayTimeout: 1500, 
       autoplayHoverPause: true,
       navText: [
@@ -239,5 +273,37 @@ calculateAverageRating(reviews:any, assign?:boolean): any {
     return averageRating;
   }
 }
+
+
+similarProductDetail(card:any){
+  this.getServiceDetailById(card.itemid);
+  this.scrollToTop();
+}
+
+// Function to scroll to the top of the page
+scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth' // This adds a smooth scrolling effect
+  });
+}
+
+displayedReviewsCount = 3; // Initially display 3 reviews
+
+  // Function to handle "Load More" click
+  loadMoreReviews() {
+    if (this.displayedReviewsCount < this.reviews.length) {
+      // If there are more reviews to display, load the next 3 reviews
+      this.displayedReviewsCount += 3;
+    } else {
+      // If all reviews are displayed, reset to show only 3
+      this.displayedReviewsCount = 3;
+    }
+  }
+
+  // Getter to check if "Load More" button should be visible
+  get shouldShowLoadMore() {
+    return this.displayedReviewsCount < this.reviews.length;
+  }
 
 }
