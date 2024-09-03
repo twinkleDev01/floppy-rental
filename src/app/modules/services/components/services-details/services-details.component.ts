@@ -16,7 +16,7 @@ import { Review } from '../_models/serivece.model';
 })
 export class ServicesDetailsComponent {
   apiUrl: string = environment.ApiBaseUrl;
-  currentRating:any
+  currentRating = 0;
   selectedCard: any;
   serviceDetailId:any;
   serviceDetail:any;
@@ -42,14 +42,14 @@ export class ServicesDetailsComponent {
       phone: [],
       review:[],
       rating:[],
-      type: "string"
+      type: ""
     })
   }
 
   ngOnInit(){
     this.getCurrentLocation()
     // 
-    this.currentRating = this.selectedCard.rate;
+    // this.currentRating = this.selectedCard.rate;
     console.log(this.currentRating,"currentRating")
     this.onRatingUpdated(this.currentRating)
     console.log(this.serviceDetailId,"54")
@@ -126,6 +126,7 @@ addReview(){
   const payload = {
     ...this.reviewForm.value,
     itemId:this.serviceDetail.item.id,
+    type: this.serviceDetail?.item.subgroupname,
     rating:this.currentRating.toString(),
     ratingValue:this.serviceDetail?.item.ratingReview | 0,
   }

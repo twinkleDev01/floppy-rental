@@ -278,6 +278,7 @@ section {
 .vender-name{
   font-weight: 800 !important;
   font-size: 13px;
+  min-height: 50px;
 }
 .mat-mdc-form-field {
   display: block; /* Ensures the form field is displayed correctly */
@@ -323,4 +324,7 @@ section {
 }
 :host ::ng-deep .mdc-label{
 font-size: 15px !important;
+}
+:host ::ng-deep .mat-mdc-radio-button .mdc-radio {
+  padding: calc((var(--mdc-radio-state-layer-size) - 20px) / 2.5);
 }
