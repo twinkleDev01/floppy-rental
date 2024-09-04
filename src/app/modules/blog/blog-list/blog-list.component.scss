@@ -48,3 +48,6 @@ font-weight: 700;
   .blog-img{
     height: 174px;
   }
+  :host ::ng-deep .mat-mdc-icon-button.mat-mdc-button-base{
+    padding: 5px;
+  }

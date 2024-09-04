@@ -328,3 +328,6 @@ font-size: 15px !important;
 :host ::ng-deep .mat-mdc-radio-button .mdc-radio {
   padding: calc((var(--mdc-radio-state-layer-size) - 20px) / 2.5);
 }
+:host ::ng-deep .mat-mdc-icon-button.mat-mdc-button-base{
+  padding: 5px;
+}
