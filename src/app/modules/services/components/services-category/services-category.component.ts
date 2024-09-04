@@ -1,7 +1,7 @@
 import { Component, Directive, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ServicesDetailService } from '../../service/services-detail.service';
 import { environment } from '../../../../../environments/environment.development';
 import { MatCheckboxChange } from '@angular/material/checkbox';
@@ -61,28 +61,20 @@ export class ServicesCategoryComponent {
   @Input() pageSizeOptions: number[] = [5, 10, 25, 100];
   @Input() showPageSizeField = true;
   paginator$ = new BehaviorSubject<{pageIndex:number,pageSize:number}|null>({pageIndex:0,pageSize:12})
-
-  constructor(private fb: FormBuilder, private router: Router, private service:ServicesDetailService, private homeService:HomeService, private sharedService:SharedService) {
-
+  GetCategoryIdWithActivatedRoute:any
+  constructor(private fb: FormBuilder, private router: Router, private service:ServicesDetailService, private homeService:HomeService, private sharedService:SharedService, private activatedRoute:ActivatedRoute) {
+    this.activatedRoute.paramMap.subscribe((params)=>{
+      this.GetCategoryIdWithActivatedRoute = params.get('categoryName')
+    })
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras?.state ?? {};
-    this.selectedServiceCategoryId = state?.['serviceId']; 
+    this.selectedServiceCategoryId = state?.['serviceId'] || this.GetCategoryIdWithActivatedRoute; 
     this.location = state['location'] ; // Provide a default value if needed
     this.subCategory = state['subCategory'] ; // Provide a default value if needed
     this.selectedServiceCategoryIdThroughLocationSearch = state['mainId']
     this.selectedServiceSubCategoryIdThroughLocationSearch = state['subId']
   }
-private filteringThroughSubcategory(selectedServiceCategoryId:any):void{
-  const selectedCategoryObj = this.categoriesList.find(
-    (category) => category.mainId === this.selectedServiceCategoryId
-  );
-  this.selectedServiceCategory = selectedCategoryObj
-    ? selectedCategoryObj.mainId
-    : null;
-}
   ngOnInit(){
-    console.log(this.servicesDetails,"service deyails 84")
-    // this.servicesDetails = this.homeService.locationSearchResGetter;
     const storedData = localStorage.getItem('serviceDetails');
   if (storedData) {
     const data = JSON.parse(storedData);
@@ -122,8 +114,18 @@ private filteringThroughSubcategory(selectedServiceCategoryId:any):void{
     })
     // this.onRatingUpdated(this.currentRating);
     this.selectedServiceCategoryId =  this.selectedServiceCategoryId? this.selectedServiceCategoryId:this.selectedServiceCategoryIdThroughLocationSearch;
-   this.getFilterSubCategory(this.selectedServiceCategoryId);
+   this.getFilterSubCategory(this.selectedServiceCategoryId || this.GetCategoryIdWithActivatedRoute);
   
+}
+
+private filteringThroughSubcategory(selectedServiceCategoryId:any):void{
+  const selectedCategoryObj = this.categoriesList.find(
+    (category) => {
+    return category.mainId === Number(this.selectedServiceCategoryId)}
+  );
+  this.selectedServiceCategory = selectedCategoryObj
+    ? selectedCategoryObj.mainId
+    : null;
 }
 
   fetchItems(catId: any, subCatId: any) {
@@ -218,7 +220,8 @@ onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
         card: card
       }
     };
-    this.router.navigate([`services/service-Details/${itemNameDetail}`], navigationExtras);
+    // this.router.navigate([`services/service-Details/${itemNameDetail}`], navigationExtras);
+    this.router.navigate([`services/service-Details/${card.id}`], navigationExtras);
   }
   // Paginator
   itemsPerPage() {

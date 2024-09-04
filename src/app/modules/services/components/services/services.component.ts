@@ -92,7 +92,8 @@ ngOnInit(){
         serviceId: serviceId?.mainId,
       }
     };
-    this.router.navigate([`/services/category/${serviceId?.classificationName?.trim()?.replace(/\s+/g, '-')?.toLowerCase()}`], navigationExtras);
+    // this.router.navigate([`/services/category/${serviceId?.classificationName?.trim()?.replace(/\s+/g, '-')?.toLowerCase()}`], navigationExtras);
+    this.router.navigate([`/services/category/${serviceId?.mainId}`], navigationExtras);
   }
   
 }

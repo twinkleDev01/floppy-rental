@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { ServicesDetailService } from '../../service/services-detail.service';
 import { environment } from '../../../../../environments/environment.development';
@@ -31,11 +31,10 @@ export class ServicesDetailsComponent {
   reviewForm:any =FormGroup;
   startIndex:number=0;
   pageSize:number=0
-
-  constructor(private router: Router,private service:ServicesDetailService, private fb:FormBuilder, private dialog:MatDialog, private toastr:ToastrService) {
+  GetServiceDetailsIdWithActivatedRoute:any
+  constructor(private router: Router,private service:ServicesDetailService, private fb:FormBuilder, private dialog:MatDialog, private toastr:ToastrService, private activatedRoute:ActivatedRoute) {
     const navigation = this.router.getCurrentNavigation();
     this.selectedCard = navigation?.extras?.state?.['card']; 
-    this.serviceDetailId = this.selectedCard.item?this.selectedCard.item.id:this.selectedCard.id;
     this.reviewForm = fb.group({
       name: [],
       email: [],
@@ -44,6 +43,13 @@ export class ServicesDetailsComponent {
       rating:[],
       type: ""
     })
+    
+    this.activatedRoute.paramMap.subscribe((params)=>{
+      console.log(params.get('serviceName'));
+      this.GetServiceDetailsIdWithActivatedRoute = params.get('serviceName');
+    })
+    this.serviceDetailId = (this.selectedCard?.item?this.selectedCard?.item?.id:this.selectedCard?.id) ||this.GetServiceDetailsIdWithActivatedRoute;
+
   }
 
   ngOnInit(){
@@ -52,7 +58,6 @@ export class ServicesDetailsComponent {
     // this.currentRating = this.selectedCard.rate;
     console.log(this.currentRating,"currentRating")
     this.onRatingUpdated(this.currentRating)
-    console.log(this.serviceDetailId,"54")
     // this.service.getServiceDetailsById(this.serviceDetailId).subscribe((res)=>{
     //   this.serviceDetail = res.data;
     //   this.getRatingByItemId(res.data.item.itemid)
