@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { ServicesDetailService } from '../../service/services-detail.service';
 import { environment } from '../../../../../environments/environment.development';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginComponent } from '../../../login/Components/login/login.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
@@ -37,49 +37,19 @@ export class ServicesDetailsComponent {
     this.selectedCard = navigation?.extras?.state?.['card']; 
     this.serviceDetailId = this.selectedCard.item?this.selectedCard.item.id:this.selectedCard.id;
     this.reviewForm = fb.group({
-      name: [],
-      email: [],
-      phone: [],
-      review:[],
-      rating:[],
-      type: ""
-    })
+      name: ['', Validators.required], // Required validation
+      email: ['', [Validators.required, Validators.email]], // Required and valid email format
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]], // Required and must be a 10-digit number
+      review: ['', [Validators.required, Validators.minLength(10)]], // Required and minimum length of 10
+      rating: [''], // Required validation
+      type: [''] // Required validation
+    });
   }
 
   ngOnInit(){
     this.getCurrentLocation()
-    // 
-    // this.currentRating = this.selectedCard.rate;
-    console.log(this.currentRating,"currentRating")
     this.onRatingUpdated(this.currentRating)
-    console.log(this.serviceDetailId,"54")
-    // this.service.getServiceDetailsById(this.serviceDetailId).subscribe((res)=>{
-    //   this.serviceDetail = res.data;
-    //   this.getRatingByItemId(res.data.item.itemid)
-    //   this.vendorId = this.serviceDetail.item.vendorid;
-
-    //   // Similar Services
-    //   this.maingroupid = this.serviceDetail?.item?.maingroupid;
-    //   this.subgroupid = this.serviceDetail?.item?.subgroupid;
-
-    //   this.service.getItemByCategory(this.maingroupid, this.subgroupid,this.latitude, this.longitude).subscribe((SimilarItems:any)=>{
-    //     console.log(SimilarItems,"SimilarItems")
-    //     // this.allSimilarServices = SimilarItems.data;
-    //     this.allSimilarServices = SimilarItems.data.items;
-    //     console.log(this.allSimilarServices, "allSimilarServices");
-
-    //   })
-     
-    //    // SellerInfo
-    // this.service.getSellerInfo(this.vendorId).subscribe((info:any)=>{
-    //   console.log(info,"SellerInfo-ServideDetail")
-    //   this.vendorDetail = info.data;
-    //   console.log(this.vendorDetail,"vendorDetail")
-    // })
-    // })
-
     this.getServiceDetailById(this.serviceDetailId)
-
   }
 
 
@@ -94,18 +64,15 @@ export class ServicesDetailsComponent {
       this.subgroupid = this.serviceDetail?.item?.subgroupid;
 
       this.service.getItemByCategory(this.maingroupid, this.subgroupid,this.latitude, this.longitude).subscribe((SimilarItems:any)=>{
-        console.log(SimilarItems,"SimilarItems")
+    
         // this.allSimilarServices = SimilarItems.data;
         this.allSimilarServices = SimilarItems.data.items;
-        console.log(this.allSimilarServices, "allSimilarServices");
 
       })
      
        // SellerInfo
     this.service.getSellerInfo(this.vendorId).subscribe((info:any)=>{
-      console.log(info,"SellerInfo-ServideDetail")
       this.vendorDetail = info.data;
-      console.log(this.vendorDetail,"vendorDetail")
     })
     })
   }
@@ -114,15 +81,18 @@ export class ServicesDetailsComponent {
   // get ratings
   getRatingByItemId(id:string){
     this.service.getRatingByItemId(id).subscribe((res:any)=>{
-      console.log(res)
       this.reviews = res.data;
-      console.log(this.reviews,"84 reviews");
       this.calculateAverageRating(this.reviews,true);
     })
   }
 
 // Rating
 addReview(){
+  if (this.reviewForm.invalid) {
+    console.log("92")
+    this.reviewForm.markAllAsTouched(); // Mark all fields as touched to trigger validation messages
+    return;
+  }
   const payload = {
     ...this.reviewForm.value,
     itemId:this.serviceDetail.item.id,
@@ -134,6 +104,7 @@ this.service.addNewReview(payload).subscribe((res:any)=>{
   if(res.success){
     this.getRatingByItemId(this.serviceDetail.item.id);
     this.reviewForm.reset();
+    this.currentRating = 0; // Reset currentRating to its default value
   }
 })
 }
