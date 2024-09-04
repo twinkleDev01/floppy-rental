@@ -1114,3 +1114,8 @@ h2 span {
   opacity: 0.5; /* Style for disabled arrows */
   pointer-events: none; /* Prevent clicking on disabled arrows */
 }
+
+.location-error{
+  color: red;
+   font-size: 12px;
+}

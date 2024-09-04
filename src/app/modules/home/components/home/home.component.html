@@ -12,14 +12,14 @@
                 </div>
               </div>
         <button class="carousel-control-prev " type="button" data-bs-target="#carouselExampleControls"
-            data-bs-slide="prev">
+            data-bs-slide="prev" *ngIf="sortedTopData.length > 1">
             <span class="carousel-control-prev-icon carousel_button" aria-hidden="true">
                 <i class="fa-solid fa-chevron-left"></i>
             </span>
             <span class="visually-hidden">Previous</span>
         </button>
         <button class="carousel-control-next " type="button" data-bs-target="#carouselExampleControls"
-            data-bs-slide="next">
+            data-bs-slide="next" *ngIf="sortedTopData.length > 1">
             <span class="carousel-control-next-icon carousel_button" aria-hidden="true">
                 <i class="fa-solid fa-chevron-right"></i>
             </span>
@@ -49,14 +49,22 @@
               [formControl]="searchControl"
               [matAutocomplete]="auto"
               placeholder="Search"
+              [disabled]="!locationSelected"
+      (focus)="onSearchFocus()"
             />
             <mat-autocomplete #auto="matAutocomplete">
               <mat-option *ngFor="let subgroup of filteredSubgroups" [value]="subgroup">
                 {{ subgroup }}
               </mat-option>
             </mat-autocomplete>
+            <!-- <mat-error *ngIf="!locationSelected && showError">
+                Please select a location before searching.
+              </mat-error> -->
           </mat-form-field>
           
+        </div>
+        <div *ngIf="!locationSelected && showError" class="location-error">
+            Please select a location before searching.
         </div>
     
         <button (click)="getSearchedItemList()">Search</button>

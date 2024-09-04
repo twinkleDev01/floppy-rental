@@ -48,6 +48,7 @@ thirdCategory!:SubCategories
   selectedSubGroupId:any;
   latitude:any;
   longitude:any
+  originalSubgroups: string[]= [];
 
   constructor(private homeService: HomeService, public dialog: MatDialog, private service:ServicesDetailService,private scrollService:ScrollService, private router:Router){
     // this.initializeLocations();
@@ -122,6 +123,9 @@ thirdCategory!:SubCategories
   @ViewChild('owlElement') owlElement!: any;
   @ViewChild('prev') prev!: ElementRef<HTMLButtonElement>;
   @ViewChild('next') next!: ElementRef;
+  locationSelected = false;
+  showError = false;
+
 
   ngAfterViewInit() {
     }
@@ -328,6 +332,7 @@ thirdCategory!:SubCategories
     getFilteredSubgroups() {
       if (!this.selectedCity || !this.selectedArea) {
         this.filteredSubgroups = this.allSubgroups;
+        this.originalSubgroups = this.allSubgroups;
         this.applySearchFilter(); // Apply search filter if applicable
         return;
       }
@@ -339,6 +344,7 @@ thirdCategory!:SubCategories
       );
       // Extract unique subgroup names
       this.filteredSubgroups = filteredLocations.subgroupName;
+      this.originalSubgroups = filteredLocations.subgroupName;
   
       // Apply search filtering
       this.applySearchFilter(); // Apply search filter if applicable
@@ -349,11 +355,29 @@ thirdCategory!:SubCategories
       const searchValue = this.searchControl.value.trim().toLowerCase();
       if (searchValue) {
         // Filter already filtered subgroups
-        this.filteredSubgroups = this.filteredSubgroups.filter(subgroup =>
-          subgroup.toLowerCase().includes(searchValue)
-        );
-      }
-    }
+        // this.filteredSubgroups = this.filteredSubgroups.filter(subgroup =>
+        //   subgroup.toLowerCase().includes(searchValue)
+        // );
+  //       this.filteredSubgroups = searchValue 
+  // ? this.originalSubgroups.filter(subgroup =>
+  //     subgroup.toLowerCase().includes(searchValue.toLowerCase())
+  //   )
+  // : [...this.originalSubgroups]; 
+  //     }
+  const searchWords = searchValue.toLowerCase().split(' ').filter((word:any) => word.trim() !== '');
+
+// Filter the subgroups to check if any search word is included in the subgroup name
+this.filteredSubgroups = searchValue
+  ? this.originalSubgroups.filter(subgroup =>
+      searchWords.some((word:any) => subgroup.toLowerCase().includes(word))
+    )
+  : [...this.originalSubgroups]; // Reset to the cloned list if searchValue is empty
+
+// If no matches are found, reset to the original list
+if (this.filteredSubgroups.length === 0 && searchValue) {
+  this.filteredSubgroups = [...this.originalSubgroups];
+}
+    }}
     
     onCityChange(event: Event) {
       const target = event.target as HTMLSelectElement;
@@ -361,6 +385,8 @@ thirdCategory!:SubCategories
         const [cityName, areaName] = target.value.split('|');
         this.selectedCity = cityName;
         this.selectedArea = areaName;
+        this.locationSelected = !!target.value; // Update flag based on selected value
+      this.showError = !this.locationSelected; 
         this.getFilteredSubgroups(); // Trigger filtering when city changes
       }
     }
@@ -368,6 +394,7 @@ thirdCategory!:SubCategories
     getSearchedItemList(){
 
       this.selectedSubGroupName = this.filteredSubgroups[0];
+      this.searchControl.patchValue(this.selectedSubGroupName);
 
 
   // Loop through each city in the response
@@ -402,8 +429,7 @@ thirdCategory!:SubCategories
       this.navigatedSubGroupId = uniqueSubgroupIds.size === 1 ? Array.from(uniqueSubgroupIds)[0] : null;
       this.navigatedMainGroupId = uniqueMaingroupIds.size === 1 ? Array.from(uniqueMaingroupIds)[0] : null;
       
-      
-      console.log(this.selectedSubGroupName,"405")
+     
       // Navigate
       this.router.navigate([`/services/category/${this.selectedSubGroupName?.trim()}`], {
         state: {
@@ -413,5 +439,11 @@ thirdCategory!:SubCategories
         }
       });
       })
+    }
+
+    onSearchFocus(): void {
+      if (!this.locationSelected) {
+        this.showError = true; // Show error message if no location is selected
+      }
     }
 }
