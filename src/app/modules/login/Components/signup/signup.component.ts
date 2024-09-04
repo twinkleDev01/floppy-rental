@@ -130,7 +130,7 @@ export class SignupComponent {
         },
         (error: any) => {
           console.error('Registration error', error);
-          this.toaster.error('An error occurred. Please try again later.');
+          this.toaster.error(error?.error?.message);
         }
       );
     } else {

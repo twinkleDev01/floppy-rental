@@ -67,6 +67,11 @@
 .test_description{
     color: #a7a7a7;
     margin-top: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;      /* Limit the number of lines (change 3 to the desired number) */
+    -webkit-box-orient: vertical;
+    overflow: hidden;           /* Hide overflowed text */
+    text-overflow: ellipsis;    /* Show ellipsis (...) */
 }
 
 h2{

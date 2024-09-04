@@ -97,13 +97,15 @@
           </div>
   
           <!-- Dynamic Footer Sections -->
-          <div class="col-lg-4 col-md-8" *ngFor="let section of footerList">
+          <div class="col-lg-3 col-md-8" *ngFor="let section of footerList">
             <div class="row">
               <div class="col-lg-6 col-md-6">
                 <span>{{ section.parameterDetail }}</span>
                 <ul>
                   <li *ngFor="let item of section.footers">
-                    <a [href]="item.url" class="text-decoration-none text-white">{{ item.tittle }}</a>
+                    <a [href]="item.url" class="text-decoration-none text-white"> <ng-container *ngIf="section.parameterDetail === 'Location'">
+                        <i class="fa-solid fa-location-dot"></i> 
+                      </ng-container>{{ item.tittle }}</a>
                   </li>
                 </ul>
               </div>

@@ -100,7 +100,7 @@ this.auth.logIn(logInValue).subscribe((response:any)=>{
 },
  (error: any) => {
   console.error('Login error', error);
-  this.toastr.error(error.message);
+  this.toastr.error(error.error.message);
 }
 )
     } else {

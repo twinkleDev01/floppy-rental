@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { SharedService } from '../../services/shared.service';
 
@@ -9,7 +9,8 @@ import { SharedService } from '../../services/shared.service';
 })
 export class TestimonialComponent {
   testimonials:any;
-  
+  @ViewChild('textContent') textContent!: ElementRef;
+  isTruncated = false;
 constructor(private sharedService:SharedService){}
 
   customOptions: OwlOptions = {
@@ -46,5 +47,15 @@ this.sharedService.getTestimonials().subscribe((response:any)=>{
   console.log(response)
   this.testimonials = response.data
 })
+  }
+  isTextTruncated(): boolean {
+    const element = this.textContent?.nativeElement;
+    return element?.scrollHeight > element?.clientHeight;
+  }
+  toggleContent(testimonial: any) {
+    testimonial.isExpanded = !testimonial.isExpanded; // Toggle the expanded state
+  }
+  ngAfterViewInit(){
+    this.isTruncated = this.isTextTruncated();
   }
 }
