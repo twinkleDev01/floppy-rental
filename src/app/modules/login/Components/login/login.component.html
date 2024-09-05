@@ -23,8 +23,8 @@
             <i class="fa-solid fa-envelope"></i>
           </div>
         </div>
-        <!-- Email-Error -->
-        <div *ngIf="
+        <!-- EmailPhone-Error -->
+        <!-- <div *ngIf="
               loginForm.get('emailOrPhone')?.invalid && loginForm.get('emailOrPhone')?.touched
             " class="d-flex justify-content-end text-danger">
           <span *ngIf=" loginForm.get('emailOrPhone')?.errors?.['required']">
@@ -35,7 +35,28 @@
             <i class="fa fa-exclamation-triangle" style="color: #fe3061;" aria-hidden="true"></i> Invalid email or phone
           </span>
 
-        </div>
+        </div> -->
+
+<!-- Email or Phone Error Message -->
+<div *ngIf="loginForm.get('emailOrPhone')?.invalid && loginForm.get('emailOrPhone')?.touched" class="d-flex justify-content-end text-danger">
+  <!-- Required Error -->
+  <span *ngIf="loginForm.get('emailOrPhone')?.errors?.['required']">
+    <i class="fa fa-exclamation-triangle" style="color: #fe3061;" aria-hidden="true"></i> Required
+  </span>
+
+  <!-- Invalid Format Error -->
+  <span *ngIf="loginForm.get('emailOrPhone')?.errors?.['pattern'] && !loginForm.get('emailOrPhone')?.errors?.['required']">
+    <i class="fa fa-exclamation-triangle" style="color: #fe3061;" aria-hidden="true"></i> Invalid email or phone number
+  </span>
+
+  <!-- Invalid Phone Length Error -->
+  <span *ngIf="loginForm.get('emailOrPhone')?.errors?.['minlength'] || loginForm.get('emailOrPhone')?.errors?.['maxlength']">
+    <i class="fa fa-exclamation-triangle" style="color: #fe3061;" aria-hidden="true"></i> Phone number must be 10 digits
+  </span>
+</div>
+
+
+
         <!-- Passoword -->
         <div class="position-relative pt-3 d-flex justify-content-center align-items-center">
           <input id="password" name="password" [type]="passwordType" autocomplete="current-password"

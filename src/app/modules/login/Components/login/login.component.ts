@@ -64,31 +64,72 @@ export class LoginComponent {
     return true;
   }
 
+  // handleValidation() {
+  //   const input = this.loginForm.get('emailOrPhone');
+  //   input?.setValidators([Validators.required]);
+  //   // input?.clearValidators();
+  //   if (isNaN(+input?.value)) {
+  //     input?.addValidators(
+  //       Validators.pattern(
+  //         /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+  //       )
+  //     );
+  //   } else {
+  //     input?.addValidators([
+  //       Validators.pattern('[0-9]*'),
+  //       Validators.minLength(10),
+  //       Validators.maxLength(10),
+  //     ]);
+  //   }
+  // }
+
+
   handleValidation() {
     const input = this.loginForm.get('emailOrPhone');
-    input?.setValidators([Validators.required]);
-    // input?.clearValidators();
-    if (isNaN(+input?.value)) {
-      input?.addValidators(
+    if (!input) return; // Check if input exists
+  
+    input.clearValidators(); // Clear any previous validators
+  
+    // Determine if the value is an email or phone number
+    if (isNaN(+input.value)) {
+      // If not a number, assume email
+      input.setValidators([
+        Validators.required,
         Validators.pattern(
-          /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
-        )
-      );
+          /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\\.,;:\s@\"]+\.)+[^<>()[\]\\.,;:\s@\"]{2,})$/ // Email pattern
+        ),
+      ]);
     } else {
-      input?.addValidators([
-        Validators.pattern('[0-9]*'),
-        Validators.minLength(10),
-        Validators.maxLength(10),
+      // If it is a number, assume phone
+      input.setValidators([
+        Validators.required,
+        Validators.pattern('^[0-9]*$'), // Only digits allowed
+        Validators.minLength(10), // Minimum length for phone number
+        Validators.maxLength(10), // Maximum length for phone number
       ]);
     }
+  
+    input.updateValueAndValidity(); // Update the validity status of the input
   }
+  
 
   onSubmit() {
     if (this.loginForm.valid) {
-      const logInValue = {
-        email: this.loginForm.value.emailOrPhone,
-  password: this.loginForm.value.password
-      }
+
+// Extract form values
+const emailOrPhone = this.loginForm.get('emailOrPhone')?.value;
+const password = this.loginForm.get('password')?.value;
+
+// Determine if the input is an email or a phone number
+const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailOrPhone);
+
+
+      // Prepare the data object
+  const logInValue = {
+    email: isEmail ? emailOrPhone : null,
+    password: password,
+    mobileNumber: isEmail ? null : '+91' + emailOrPhone
+  };
       console.log('Form Submitted!', this.loginForm.value);
 this.auth.logIn(logInValue).subscribe((response:any)=>{
   console.log(response,"88")
