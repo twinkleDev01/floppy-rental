@@ -97,7 +97,7 @@
           </div>
   
           <!-- Dynamic Footer Sections -->
-          <div class="col-lg-3 col-md-8" *ngFor="let section of footerList">
+          <!-- <div class="col-lg-3 col-md-8" *ngFor="let section of footerList">
             <div class="row">
               <div class="col-lg-6 col-md-6">
                 <span>{{ section.parameterDetail }}</span>
@@ -110,7 +110,39 @@
                 </ul>
               </div>
             </div>
+          </div> -->
+
+          <div class="row">
+            <div class="col-lg-3 col-md-8" *ngFor="let section of footerList">
+              <div class="row">
+                <div class="col-12">
+                  <span>{{ section.parameterDetail }}</span>
+                  <div class="row">
+                    <ng-container *ngFor="let column of chunkArray(section.footers, 6)">
+                      <div class="col-md-6">
+                        <ul>
+                          <li *ngFor="let item of column" style="font-size: 12px;">
+                            <a [href]="item.url" class="text-decoration-none text-white">
+                              <ng-container *ngIf="section.parameterDetail === 'Location'">
+                                <img *ngIf="item.tittle.includes('.com')" src="Icons/mail.svg" alt="Mail" style="height: 15px; width: 15px;">
+                                <img *ngIf="item.tittle.includes('+91')" src="Icons/phone.svg" alt="Phone" style="height: 15px; width: 15px;">
+                                <img *ngIf="!item.tittle.includes('+91') && !item.tittle.includes('.com')" src="Icons/Group.svg" alt="Group" style="height: 15px; width: 15px;">
+                              </ng-container>
+                              {{ item.tittle }}
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+          
+          
+
+
         </div>
       </footer>
   

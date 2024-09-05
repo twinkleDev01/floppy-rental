@@ -25,4 +25,21 @@ export class FooterComponent implements OnInit{
       disableClose: true
     });
   }
+
+ // Method to chunk an array into smaller arrays of a given size
+ chunkArray(array: any[], chunkSize: number): any[][] {
+  const result: any[][] = [];
+  for (let i = 0; i < array.length; i += chunkSize) {
+    result.push(array.slice(i, i + chunkSize));
+  }
+  return result;
+}
+
+getColumnClass(index: number): string {
+  if (index === 0 || index === 2) {
+    return 'col-lg-4'; // Apply col-lg-4 to 1st and 3rd columns
+  } else {
+    return 'col-lg-2'; // Apply col-lg-2 to other columns
+  }
+}
 }
