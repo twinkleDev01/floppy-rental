@@ -25,6 +25,9 @@ import { LocationDialogComponent } from './components/location-dialog/location-d
 import { PaginatePipe } from './components/Pipe/paginate.pipe';
 import {MatBadgeModule} from '@angular/material/badge';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
+import { TermsComponent } from './components/terms/terms.component';
+import { ReturnPolicyComponent } from './components/return-policy/return-policy.component';
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -37,6 +40,9 @@ import { GoogleMapsModule } from '@angular/google-maps';
     DatePickerDialogComponent,
     LocationDialogComponent,
     PaginatePipe,
+    PrivacyPolicyComponent,
+    TermsComponent,
+    ReturnPolicyComponent,
 
   ],
   imports: [

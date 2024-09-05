@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { PrivacyPolicyComponent } from './shared/components/privacy-policy/privacy-policy.component';
+import { TermsComponent } from './shared/components/terms/terms.component';
+import { ReturnPolicyComponent } from './shared/components/return-policy/return-policy.component';
 
 export const routes: Routes = [
     {
@@ -29,6 +32,18 @@ export const routes: Routes = [
       {
         path: 'about',
         loadChildren: () => import('./modules/about-us/about-us.module').then(r=> r.AboutUSModule)
+      },
+      {
+        path: 'privacy-policy',
+        component: PrivacyPolicyComponent
+      },
+      {
+        path: 'terms',
+        component: TermsComponent
+      },
+      {
+        path: 'return-policy',
+        component: ReturnPolicyComponent
       }
 ];
 @NgModule({
