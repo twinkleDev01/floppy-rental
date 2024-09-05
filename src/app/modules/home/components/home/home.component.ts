@@ -49,6 +49,7 @@ thirdCategory!:SubCategories
   latitude:any;
   longitude:any
   originalSubgroups: string[]= [];
+  error= false;
 
   constructor(private homeService: HomeService, public dialog: MatDialog, private service:ServicesDetailService,private scrollService:ScrollService, private router:Router){
     // this.initializeLocations();
@@ -354,16 +355,8 @@ thirdCategory!:SubCategories
      
       const searchValue = this.searchControl.value.trim().toLowerCase();
       if (searchValue) {
-        // Filter already filtered subgroups
-        // this.filteredSubgroups = this.filteredSubgroups.filter(subgroup =>
-        //   subgroup.toLowerCase().includes(searchValue)
-        // );
-  //       this.filteredSubgroups = searchValue 
-  // ? this.originalSubgroups.filter(subgroup =>
-  //     subgroup.toLowerCase().includes(searchValue.toLowerCase())
-  //   )
-  // : [...this.originalSubgroups]; 
-  //     }
+       
+  this.error = false;
   const searchWords = searchValue.toLowerCase().split(' ').filter((word:any) => word.trim() !== '');
 
 // Filter the subgroups to check if any search word is included in the subgroup name
@@ -394,7 +387,13 @@ if (this.filteredSubgroups.length === 0 && searchValue) {
     getSearchedItemList(){
 
       this.selectedSubGroupName = this.filteredSubgroups[0];
-      this.searchControl.patchValue(this.selectedSubGroupName);
+      if(!this.searchControl.value){
+        this.error = true;
+        return;
+      }else{this.searchControl.patchValue(this.selectedSubGroupName);
+        
+      }
+      
 
 
   // Loop through each city in the response

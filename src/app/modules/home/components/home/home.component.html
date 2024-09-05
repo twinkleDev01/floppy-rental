@@ -66,6 +66,9 @@
         <div *ngIf="!locationSelected && showError" class="location-error">
             Please select a location before searching.
         </div>
+        <div *ngIf="error" class="location-error">
+            Please enter a search item
+        </div>
     
         <button (click)="getSearchedItemList()">Search</button>
       </div>
