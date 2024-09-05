@@ -115,7 +115,7 @@ addToCart(){
   const payload = {
     itemId:this.serviceDetail.item.itemid||0,
     id:0,
-    itemName:this.serviceDetail.item.itemName,
+    itemName:this.serviceDetail.item.itemName?this.serviceDetail.item.itemName:this.serviceDetail.item.specication,
     itemRate:this.serviceDetail?.item.price,
     price:this.serviceDetail?.item.price,
     quantity: 1,

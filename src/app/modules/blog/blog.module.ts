@@ -7,7 +7,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { BlogListComponent } from './blog-list/blog-list.component';
 import { BlogDetailComponent } from './blog-detail/blog-detail.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -17,7 +17,8 @@ import { FormsModule } from '@angular/forms';
     BlogRoutingModule,
     SharedModule,
     MatPaginatorModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class BlogModule { }

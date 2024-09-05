@@ -74,22 +74,34 @@
             <p >
                 {{blogDetail?.blogDescription}}
             </p>
-            <div class="Comment_section">
+            <div class="Comment_section" [formGroup]="commentForm">
                 <h5>Leave A Comment</h5>
-                <textarea name="" id="" rows="6" class="comment_box" placeholder="Comment" [(ngModel)]="comment"></textarea>
+                <textarea name="" id="" rows="6" class="comment_box" placeholder="Comment" formControlName="comment"></textarea>
+                <div *ngIf="commentForm.get('comment')?.hasError('required') && commentForm.get('comment')?.touched" class="error">
+                    Comment is required.
+                  </div>
                 <div class="row mt-2">
                     <div class="col-4">
-                        <input type="text" placeholder="Name" [(ngModel)]="savedItem.name">
+                        <input type="text" placeholder="Name" formControlName="name">
+                        <div *ngIf="commentForm.get('name')?.hasError('required') && commentForm.get('name')?.touched" class="error">
+                            Name is required.
+                          </div>
                     </div>
                     <div class="col-4">
-                        <input type="text" placeholder="Email" [(ngModel)]="savedItem.email">
+                        <input type="text" placeholder="Email" formControlName="email">
+                        <div *ngIf="commentForm.get('email')?.hasError('required') && commentForm.get('email')?.touched" class="error">
+                            Email is required.
+                          </div>
+                          <div *ngIf="commentForm.get('email')?.hasError('email') && commentForm.get('email')?.touched" class="error">
+                            Invalid email format.
+                          </div>
                     </div>
                     <div class="col-4">
-                        <input type="text" placeholder="Website" [(ngModel)]="savedItem.website">
+                        <input type="text" placeholder="Website" formControlName="webSite">
                     </div>
                 </div>
                 <div class="d-flex">
-                    <input type="checkbox" [(ngModel)]="savedItem.website"><span>Save my name, email, and website in this browser for the next time I
+                    <input type="checkbox" formControlName="saveWebsiteInfo"><span>Save my name, email, and website in this browser for the next time I
                         comment.</span>
 
                 </div>

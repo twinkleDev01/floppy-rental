@@ -398,7 +398,8 @@ for (const city of this.newLocationId) {
 
     this.homeService.getSearchedItemList(this.selectedSubGroupId,this.selectedArea,this.latitude,this.longitude).subscribe((res:any)=>{
       
-      this.navigatedCategoryItem = res.data;
+      this.navigatedCategoryItem = res.data.item;
+      this.navigatedCategoryItem = res.data.items.map((itemWrapper:any) => itemWrapper.item)
       // 
   
     const uniqueSubgroupIds = new Set(this.navigatedCategoryItem.map((item: any) => item.subgroupid));

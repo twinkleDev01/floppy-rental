@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { BlogService } from '../service/blog.service';
 import { ServicesDetailService } from '../../services/service/services-detail.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-blog-detail',
@@ -14,11 +16,19 @@ export class BlogDetailComponent {
   Categories:any;
   savedItem:any
   comment:any;
-
-  constructor(private router: Router, private blogService:BlogService, private serviceDetail:ServicesDetailService) {
+  commentForm!:FormGroup;
+  constructor(private router: Router, private blogService:BlogService, private serviceDetail:ServicesDetailService,private fb:FormBuilder,private toastrService:ToastrService) {
     const navigation = this.router.getCurrentNavigation();
     this.selectedBlog = navigation?.extras?.state?.['blog']; 
     console.log(this.selectedBlog);
+    this.commentForm = fb.group({
+      comment: ["", Validators.required],
+      name: ["", Validators.required],
+      email: ["", [Validators.required, Validators.email]], // Email also includes email format validation
+      webSite: [""],
+      saveWebsiteInfo: [""]
+    });
+    
   }
 
   blogDetail:any
@@ -46,6 +56,12 @@ this.blogService.getBlogDetails(this.selectedBlog.id).subscribe((response:any)=>
       // Store in a variable if isSaveNameEmailandWebsite is 1
       this.savedItem = matchingItem; 
       console.log(this.savedItem, "Saved Item");
+      this.commentForm?.patchValue({
+        name:this.savedItem?.name,
+        email:this.savedItem?.email,
+        webSite:this.savedItem?.website,
+        saveWebsiteInfo:this.savedItem?.isSaveNameEmailandWebsite
+      })
     } else {
       console.log("No item with isSaveNameEmailandWebsite status 1 found.");
     }
@@ -79,23 +95,28 @@ this.serviceDetail.getCategoryList().subscribe((response:any)=>{
   }
 
   saveReview() {
+    this.commentForm?.markAllAsTouched();
+    if(this.commentForm?.invalid)return;
     const blogReviewData = {
       blogid: this.selectedBlog.id, // Assuming the blog ID is available from blogDetail
-      name: this.savedItem.name,
-      email: this.savedItem.email,
-      website: this.savedItem.website,
-      userReview: 5, // Example rating value, adjust as needed
-      comment: this.comment, // Adjust or bind to your form input
-      isSaveNameEmailandWebsite: this.savedItem.isSaveNameEmailandWebsite
+      name: this.commentForm?.get("name")?.value,
+      email: this.commentForm?.get("email")?.value,
+      website: this.commentForm?.get("webSite")?.value,
+      userReview: 0, // Example rating value, adjust as needed
+      comment: this.commentForm?.get("comment")?.value, // Adjust or bind to your form input
+      isSaveNameEmailandWebsite: this.commentForm?.get("saveWebsiteInfo")?.value?"1":"0"
     };
 
     this.blogService.saveBlogReview(blogReviewData).subscribe(
       (response) => {
         console.log('Blog review saved successfully:', response);
+        this.commentForm?.reset();
+        this.toastrService.success(response?.message);
         // Handle success, like showing a success message or resetting the form
       },
       (error) => {
         console.error('Error saving blog review:', error);
+        this.toastrService.error(error?.message);
         // Handle error, like showing an error message
       }
     );

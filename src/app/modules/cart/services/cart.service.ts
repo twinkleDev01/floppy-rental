@@ -138,7 +138,6 @@ export class CartService {
     const httpOptions = {
       headers: headers
     };
-console.log(this.token,"141")
     return this.http.post(this.url + 'Order/save_order_details', details, httpOptions);
   }
 }

@@ -177,6 +177,7 @@
                             <p class="fw-bold m-0">{{vendorDetail?.serviceProvider}}</p>
                             <span class="location">{{vendorDetail?.address}}</span>
                             <app-rating-star
+                            [rating]="vendorDetail.averageRating"
                             [starCount]="5"
                             [color]="'yellow'"
                             (ratingUpdated)="onRatingUpdated($event)"
