@@ -56,11 +56,32 @@
         </div>
         
         <!-- Password-Error -->
-        <div *ngIf="
+        <!-- <div *ngIf="
       loginForm.get('password')?.invalid &&
       loginForm.get('password')?.touched
     " class="d-flex justify-content-end text-danger" style="font-size: 10px;">
-          Password is required[Ranjan1$].Must be Min(6) and Max(8) characters long With a number and a Soecial character.
+          Password is required[Ranjan1$].Must be Min(8) and Max(14) characters long With a number and a Soecial character.
+        </div> -->
+        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger">
+          <!-- Required Error -->
+          <div *ngIf="loginForm.get('password')?.errors?.['required']" style="font-size: 10px;">
+            Password is required.
+          </div>
+          
+          <!-- Minimum Length Error -->
+          <div *ngIf="loginForm.get('password')?.errors?.['minlength'] && !loginForm.get('password')?.errors?.['required']" style="font-size: 10px;">
+            Password must be at least 8 characters long.
+          </div>
+        
+          <!-- Maximum Length Error -->
+          <div *ngIf="loginForm.get('password')?.errors?.['maxlength'] && !loginForm.get('password')?.errors?.['required']" style="font-size: 10px;">
+            Password must not exceed 14 characters.
+          </div>
+        
+          <!-- Pattern Error -->
+          <div *ngIf="loginForm.get('password')?.errors?.['pattern'] && !loginForm.get('password')?.errors?.['required']" style="font-size: 10px;">
+            Password must contain first one uppercase letter and one special character.[e.g., Ranjan$].
+          </div>
         </div>
 
 
