@@ -10,13 +10,16 @@
             <div class="col-md-6 service_detail pt-4">
                 <span style="color: gray; font-weight: 600;">{{ serviceDetail?.item.subgroupname }}</span>
                     <h2 class="fw-bold">{{ serviceDetail?.item.vendorname }}</h2>
-                    <p>
+                    <!-- <p> -->
                         <!-- <app-rating-star [rating]="currentRating" [starCount]="5" [color]="'yellow'"
                             (ratingUpdated)="onRatingUpdated($event)">
                         </app-rating-star> -->
+                        <div class="d-flex">
                         <app-rating-star [rating]="averageRating" [starCount]="5" [color]="'yellow'">
-                    </app-rating-star>
-                    </p>
+                    </app-rating-star>&nbsp;
+                    <span style="font-size: 13px; color:gray;">{{averageRating}}Review</span>
+                </div>
+                    <!-- </p> -->
                     <p><span style="font-weight: bold; color: black;"></span> &nbsp;<span style="font-size: 13px; color: #008cac;">{{ serviceDetail?.item.rate }}</span></p>
                     <p *ngFor="let rate of serviceDetail?.item.packageTrans" class="packageName">
                         <ng-container *ngIf="!isImageUrl(rate.productValue)">
