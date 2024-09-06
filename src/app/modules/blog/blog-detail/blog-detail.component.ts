@@ -4,6 +4,7 @@ import { BlogService } from '../service/blog.service';
 import { ServicesDetailService } from '../../services/service/services-detail.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { noWhitespaceValidator } from '../../../shared/components/common/no-whitespace.validator';
 
 @Component({
   selector: 'app-blog-detail',
@@ -17,14 +18,15 @@ export class BlogDetailComponent {
   savedItem:any
   comment:any;
   commentForm!:FormGroup;
+  maxCommentLength = 50;
   constructor(private router: Router, private blogService:BlogService, private serviceDetail:ServicesDetailService,private fb:FormBuilder,private toastrService:ToastrService) {
     const navigation = this.router.getCurrentNavigation();
     this.selectedBlog = navigation?.extras?.state?.['blog']; 
     console.log(this.selectedBlog);
     this.commentForm = fb.group({
-      comment: ["", Validators.required],
-      name: ["", Validators.required],
-      email: ["", [Validators.required, Validators.email]], // Email also includes email format validation
+      comment: ["", [Validators.required, noWhitespaceValidator(), Validators.maxLength(this.maxCommentLength)]],
+      name: ["", [Validators.required, noWhitespaceValidator(), Validators.pattern('^[a-zA-Z\\s]*$')]],
+      email: ["", [Validators.required, Validators.email, noWhitespaceValidator()]], // Email also includes email format validation
       webSite: [""],
       saveWebsiteInfo: [""]
     });
@@ -122,4 +124,32 @@ this.serviceDetail.getCategoryList().subscribe((response:any)=>{
     );
   }
 
+  // Prevent leading whitespace
+  preventLeadingWhitespace(event: KeyboardEvent): void {
+    const input = (event.target as HTMLInputElement).value;
+    // Prevent a space if the input is empty or has only leading whitespace
+    if (event.key === ' ' && input.trim().length === 0) {
+      event.preventDefault();
+    }
+  }
+
+  sanitizeInput(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const formControlName = inputElement.getAttribute('formControlName');
+    
+    if (formControlName) {
+      // Trim only leading whitespace
+      const sanitizedValue = inputElement.value.replace(/^\s+/g, '');
+      inputElement.value = sanitizedValue;
+      this.commentForm.get(formControlName)?.setValue(sanitizedValue); // Update the form control value
+    }
+  }
+
+  // Helper method to calculate remaining characters
+  getRemainingCharacters(): number {
+    const commentValue = this.commentForm.get('comment')?.value || '';
+    return this.maxCommentLength - commentValue.length;
+  }
 }
+
+
