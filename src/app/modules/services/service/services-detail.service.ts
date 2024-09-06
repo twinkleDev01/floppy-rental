@@ -8,7 +8,7 @@ import { environment } from '../../../../environments/environment.development';
 })
 export class ServicesDetailService {
   locationServiceWiseUrl = environment.ApiBaseUrl + 'Service/searchItems'
-   url = 'https://cicd.asptask.in/api/'
+   url = environment.ApiBaseUrl
   constructor(private http: HttpClient) { }
 
   getServiceList():Observable<any>{

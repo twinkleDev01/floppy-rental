@@ -7,6 +7,7 @@ import { LocationDialogComponent } from '../../../../shared/components/location-
 import { CartService } from '../../services/cart.service';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
+import axios from 'axios';
 
 @Component({
   selector: 'app-checkout',
@@ -147,7 +148,8 @@ export class CheckoutComponent {
   // LocationDialog
   openLocationDialog(): void {
     const dialogRef = this.dialog.open(LocationDialogComponent, {
-      width: '500px',
+      // width: '500px',
+      panelClass: 'location-dialog'
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -168,5 +170,53 @@ export class CheckoutComponent {
 
     // Format the date using DatePipe in ISO format
     return this.datePipe.transform(parsedDate, 'yyyy-MM-ddTHH:mm:ss.SSSZ');
+  }
+
+  async initiatePayment() {
+    try {
+      // Define Cashfree credentials and order details
+      const clientId = '173592e56931e47e86504eeae4295371';
+      const clientSecret = 'a6b80fb453866ee05b17ab02f65d72fa7bea8d4a';
+      const orderDetails = {
+        orderId: 'unique_order_id',
+        orderAmount: 1000, // Example amount
+        orderCurrency: 'INR',
+        orderNote: 'Payment for Order',
+        customerEmail: 'customer@example.com',
+        customerPhone: '1234567890'
+      };
+
+      // Create an order with Cashfree
+      const response = await axios.post('https://api.cashfree.com/api/v2/checkout/orders', {
+        ...orderDetails
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${clientSecret}`
+        }
+      });
+
+      const { orderId, orderToken } = response.data;
+
+      // Initialize Cashfree Checkout
+      const cf = (window as any).CashfreeCheckout();
+
+      cf.initPayment({
+        order_id: orderId,
+        order_token: orderToken,
+        // Add other necessary parameters
+        callback: ((response:any) => {
+          if (response.success) {
+            console.log('Payment successful', response);
+            // Handle success scenario here
+          } else {
+            console.error('Payment failed', response);
+            // Handle failure scenario here
+          }
+        })
+      });
+    } catch (error) {
+      console.error('Error initiating payment:', error);
+    }
   }
 }

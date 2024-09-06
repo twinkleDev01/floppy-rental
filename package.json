@@ -25,6 +25,7 @@
     "@ng-select/ng-select": "^13.7.0",
     "@popperjs/core": "^2.11.8",
     "angular": "^1.8.3",
+    "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "ngx-owl-carousel-o": "^18.0.0",
     "ngx-spinner": "^17.0.0",

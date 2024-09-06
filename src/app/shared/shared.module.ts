@@ -28,6 +28,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { TermsComponent } from './components/terms/terms.component';
 import { ReturnPolicyComponent } from './components/return-policy/return-policy.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle'; // Add this import
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -60,7 +61,8 @@ import { ReturnPolicyComponent } from './components/return-policy/return-policy.
     FormsModule,
     ReactiveFormsModule,
     MatBadgeModule,
-    GoogleMapsModule
+    GoogleMapsModule,
+    MatButtonToggleModule
   ],
   exports: [
     HeaderComponent,

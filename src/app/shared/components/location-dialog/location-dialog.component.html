@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Select Location</h2>
+<!-- <h2 mat-dialog-title>Select Location</h2>
 <mat-dialog-content>
   <div class="map-container">
     <google-map
@@ -17,4 +17,83 @@
 <mat-dialog-actions>
   <button mat-button (click)="onCancel()">Cancel</button>
   <button mat-button (click)="onConfirm()">Confirm</button>
-</mat-dialog-actions>
+</mat-dialog-actions> -->
+
+
+
+<h2 mat-dialog-title>Select Location</h2>
+
+<hr style="margin-inline: 1rem; margin-block: 0;">
+
+<mat-dialog-content>
+  <div class="row">
+    <!-- Map Container -->
+    <div class="col-6">
+       <!-- Use Current Location -->
+       <a class="current-location" (click)="useCurrentLocation()">
+        <mat-icon>location_on</mat-icon> Use Current Location
+      </a>
+      <div class="map-container">
+        <google-map
+          height="22rem"
+          width="100%"
+          style="border-radius: 20px"
+          [options]="mapOptions"
+          
+          (mapClick)="onMapClick($event)">
+          <map-marker *ngIf="markerPosition" [position]="markerPosition"></map-marker>
+        </google-map>
+      </div>
+
+     
+    </div>
+
+    <!-- Address Details -->
+    <div class="col-6">
+      <div class="address-details">
+        <h6 class="title">Save your address details</h6>
+      
+        <!-- Address Type Buttons -->
+        <mat-button-toggle-group [(ngModel)]="selectedAddressType" class="button-toggle-group" appearance="legacy">
+          <mat-button-toggle value="Home">Home</mat-button-toggle>
+          <mat-button-toggle value="Office">Office</mat-button-toggle>
+          <mat-button-toggle value="Other">Other</mat-button-toggle>
+        </mat-button-toggle-group>
+      
+        <!-- Country Dropdown -->
+        <mat-form-field class="oval-form-field">
+          <!-- <mat-label>Country</mat-label> -->
+          <mat-select [(ngModel)]="country">
+            <mat-option *ngFor="let country of countries" [value]="country">{{ country }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      
+        <!-- Address Fields -->
+        <mat-form-field class="oval-form-field">
+          <!-- <mat-label>Find your area</mat-label> -->
+          <input matInput [(ngModel)]="area" placeholder="Start typing to find your area">
+        </mat-form-field>
+      
+        <mat-form-field  class="oval-form-field">
+          <!-- <mat-label>Building or Street no</mat-label> -->
+          <input matInput [(ngModel)]="building" placeholder="Building or Street no">
+        </mat-form-field>
+      
+        <mat-form-field  class="oval-form-field">
+          <!-- <mat-label>Apartment/Villa No</mat-label> -->
+          <input matInput [(ngModel)]="apartment" placeholder="Apartment/Villa No">
+        </mat-form-field>
+      
+        <!-- Save Button -->
+        <button mat-raised-button  class="save-button" (click)="onConfirm()">Save</button>
+      </div>
+      
+      
+    </div>
+  </div>
+</mat-dialog-content>
+
+<!-- <mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button (click)="onConfirm()">Save</button>
+</mat-dialog-actions> -->

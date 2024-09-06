@@ -78,7 +78,7 @@ export class HomeService {
     const httpOptions = {
       headers: headers
     };
-    const url = 'https://cicd.asptask.in/api/'.concat(`Service/searchItems/${subgroupname}/${location}/${latitude}/${longitude}`);
+    const url = environment.ApiBaseUrl.concat(`Service/searchItems/${subgroupname}/${location}/${latitude}/${longitude}`);
     return this.http.get<any>(url, httpOptions)
       .pipe(map((response:any) => {
         this.locationSearchRes = response.data;

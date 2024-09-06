@@ -8,8 +8,8 @@ import { environment } from '../../../../environments/environment.development';
 })
 export class BlogService {
 
-  blogListUrl = 'https://cicd.asptask.in/api/' + 'Blog/BlogList';
-  blogDetailUrl = 'https://cicd.asptask.in/api/' + 'Blog/blog_details_by_id';
+  blogListUrl = environment.ApiBaseUrl + 'Blog/BlogList';
+  blogDetailUrl = environment.ApiBaseUrl + 'Blog/blog_details_by_id';
   saveBlogUrl = environment.ApiBaseUrl + 'Blog/saveBlogReview'
 
   constructor(private http: HttpClient) { }
