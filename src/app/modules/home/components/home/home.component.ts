@@ -236,13 +236,30 @@ thirdCategory!:SubCategories
       
   }
 
-    goCategory(subcategory: any){
-      this.router.navigate([`/services/category/${subcategory?.googleName?.trim()?.replace(/\s+/g, '-')?.toLowerCase()}`], {
-        state: {
-          serviceId: subcategory.mainId,
-          subId: subcategory.subId
+    // goCategory(subcategory: any){
+    //   this.router.navigate([`/services/category/${subcategory?.googleName?.trim()?.replace(/\s+/g, '-')?.toLowerCase()}`], {
+    //     state: {
+    //       serviceId: subcategory.mainId,
+    //       subId: subcategory.subId
+    //     }
+    //   });
+    // }
+
+    goCategory(subcategory: any) {
+      this.router.navigate(
+        [
+          `/services/category/${subcategory?.googleName
+            ?.trim()
+            ?.replace(/\s+/g, '-')
+            ?.toLowerCase()}/${subcategory.mainId}`,
+        ],
+        {
+          state: {
+            serviceId: subcategory.mainId,
+            subId: subcategory.subId,
+          },
         }
-      });
+      );
     }
 
     getItemlist(){
@@ -430,13 +447,27 @@ if (this.filteredSubgroups.length === 0 && searchValue) {
       
      
       // Navigate
-      this.router.navigate([`/services/category/${this.selectedSubGroupName?.trim()}`], {
-        state: {
-          serviceId: this.navigatedMainGroupId,
-          subId: this.navigatedSubGroupId,
-          location: this.selectedArea
+      // this.router.navigate([`/services/category/${this.selectedSubGroupName?.trim()}`], {
+      //   state: {
+      //     serviceId: this.navigatedMainGroupId,
+      //     subId: this.navigatedSubGroupId,
+      //     location: this.selectedArea
+      //   }
+      // });
+      this.router.navigate(
+        [
+          `/services/category/${this.selectedSubGroupName?.trim()}/${
+            this.navigatedMainGroupId
+          }`,
+        ],
+        {
+          state: {
+            serviceId: this.navigatedMainGroupId,
+            subId: this.navigatedSubGroupId,
+            location: this.selectedArea,
+          },
         }
-      });
+      );
       })
     }
 

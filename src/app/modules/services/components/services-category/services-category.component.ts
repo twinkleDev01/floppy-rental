@@ -64,22 +64,42 @@ export class ServicesCategoryComponent {
 
   constructor(private fb: FormBuilder, private router: Router, private service:ServicesDetailService, private homeService:HomeService, private sharedService:SharedService) {
 
+    const urlSegments = this.router.url.split('/');
+    this.selectedServiceCategoryId = urlSegments[urlSegments.length - 1];
+    console.log(this.selectedServiceCategoryId, '85');
+
+
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras?.state ?? {};
-    this.selectedServiceCategoryId = state?.['serviceId']; 
+    // this.selectedServiceCategoryId = state?.['serviceId']; 
     this.location = state['location'] ; // Provide a default value if needed
     this.subCategory = state['subCategory'] ; // Provide a default value if needed
     this.selectedServiceCategoryIdThroughLocationSearch = state['mainId']
     this.selectedServiceSubCategoryIdThroughLocationSearch = state['subId']
   }
-private filteringThroughSubcategory(selectedServiceCategoryId:any):void{
-  const selectedCategoryObj = this.categoriesList.find(
-    (category) => category.mainId === this.selectedServiceCategoryId
-  );
-  this.selectedServiceCategory = selectedCategoryObj
-    ? selectedCategoryObj.mainId
-    : null;
-}
+// private filteringThroughSubcategory(selectedServiceCategoryId:any):void{
+//   const selectedCategoryObj = this.categoriesList.find(
+//     (category) => category.mainId === this.selectedServiceCategoryId
+//   );
+//   this.selectedServiceCategory = selectedCategoryObj
+//     ? selectedCategoryObj.mainId
+//     : null;
+// }
+
+ private filteringThroughSubcategory(selectedServiceCategoryId: any): void {
+    const selectedCategoryObj = this.categoriesList.find(
+      (category) => category.mainId == this.selectedServiceCategoryId
+    );
+    console.log(
+      '98',
+      selectedCategoryObj,
+      this.categoriesList,
+      this.selectedServiceCategoryId
+    );
+    this.selectedServiceCategory = selectedCategoryObj
+      ? selectedCategoryObj.mainId
+      : null;
+  }
   ngOnInit(){
     console.log(this.servicesDetails,"service deyails 84")
     // this.servicesDetails = this.homeService.locationSearchResGetter;
