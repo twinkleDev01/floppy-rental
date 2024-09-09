@@ -52,14 +52,33 @@ console.log(data,'dialog')
       );
     }
 
-    goCategory(subcategory: any){
-      console.log("56",subcategory)
-      this.router.navigate([`/services/category/${subcategory?.GoogleName?.toString()?.trim()?.replace(/\s+/g, '-')?.toLowerCase()}`], {
-        state: {
-          serviceId: subcategory.MainId,
-          subId: subcategory.SubId
+    // goCategory(subcategory: any){
+    //   console.log("56",subcategory)
+    //   this.router.navigate([`/services/category/${subcategory?.GoogleName?.toString()?.trim()?.replace(/\s+/g, '-')?.toLowerCase()}`], {
+    //     state: {
+    //       serviceId: subcategory.MainId,
+    //       subId: subcategory.SubId
+    //     }
+    //   });
+    //   this.dialogRef.close();
+    // }
+
+    goCategory(subcategory: any) {
+      console.log('56', subcategory);
+      this.router.navigate(
+        [
+          `/services/category/${subcategory?.GoogleName?.toString()
+            ?.trim()
+            ?.replace(/\s+/g, '-')
+            ?.toLowerCase()}/${subcategory.MainId}`,
+        ],
+        {
+          state: {
+            serviceId: subcategory.MainId,
+            subId: subcategory.SubId,
+          },
         }
-      });
+      );
       this.dialogRef.close();
     }
 
