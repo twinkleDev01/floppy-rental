@@ -2,7 +2,7 @@
     <h2>Testimonials</h2>
     <div class="container mt-5">
     <owl-carousel-o [options]="customOptions" >
-        <ng-template carouselSlide *ngFor="let testimonial of testimonials">
+        <ng-template carouselSlide *ngFor="let testimonial of testimonials; let i = index">
             <div class="card_testimonial" *ngIf="testimonial.status==1">
                 <div class="card_testimonial_quote"><i class="fa-solid fa-quote-right"></i></div>
                 <div class="d-flex justify-content-start">
@@ -19,7 +19,11 @@
                             >
                         </app-rating-star>
                 </div>
-                <p class="test_description">{{ testimonial.review }}</p>
+                <!-- <p class="test_description">{{ testimonial.review }}</p> -->
+                <p [class.test_description]="!isExpanded[i]" [class.full_description]="isExpanded[i]">{{ testimonial.review }}</p>
+                <button (click)="toggleExpand(i)" class="load_more">
+                    {{ isExpanded[i] ? 'Show Less' : 'Show More' }}
+                  </button>
             </div>
         </ng-template>
         </owl-carousel-o>

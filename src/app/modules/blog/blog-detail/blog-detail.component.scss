@@ -102,3 +102,20 @@
         font-size: 12px; /* Optional: Adjust the font size */
         margin-top: 1px; /* Optional: Add some spacing above the error message */
       }
+      .comment_box{
+        margin: 20px 0px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 13px 15px 5px;
+    border-radius: 12px;
+      }
+    
+.load_more {
+    color: #fff;
+    background-color: #008cac;
+    border: 2px solid #008cac;
+    border-radius: 25px;
+    padding: 10px 30px;
+    font-weight: 500;
+    margin-top: 10px;
+    font-size: 16px;
+}

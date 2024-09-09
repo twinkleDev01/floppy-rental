@@ -9,11 +9,11 @@
                 <img [src]="blogDetail.image1 || 'images/No_Image_Available.jpg'" class="detail_img" alt="">
                 <img [src]="blogDetail.image2 || 'images/No_Image_Available.jpg'" class="detail_img" alt="">
             </div> -->
-            <!-- <p [innerHtml]=blogDetail.pDescription>
-            </p> -->
-            <p >
-                {{blogDetail?.blogDescription}}
+            <p [innerHtml]=blogDetail?.blogDescription>
             </p>
+            <!-- <p >
+                {{blogDetail?.blogDescription}}
+            </p> -->
             <div class="Comment_section" [formGroup]="commentForm">
                 <h5>Leave A Comment</h5>
                 <textarea name="" id="" rows="6" class="comment_box" placeholder="Comment" formControlName="comment"  (keydown)="preventLeadingWhitespace($event)"
@@ -67,12 +67,28 @@
                 </div>
                 <button class="post_btn mt-4" (click)="saveReview()">Post Comment</button>
             </div>
+
+            <ng-container *ngFor="let blogReview of blogReview | slice:0:displayedReviewsCount">
+            <div class="comment_box mb-3 mt-3">
+                <div class="card-body">
+                  <h5 class="card-title">{{blogReview.name}}</h5>
+                  <p class="card-text">{{blogReview.comment}}</p>
+                </div>
+            </div>
+        </ng-container>
+
+        <div class="d-flex justify-content-center" *ngIf="blogReview.length > 3">
+            <button class="cart_btn load_more" (click)="loadMoreReviews()">
+              {{ shouldShowLoadMore ? 'Load More' : 'Show Less' }}
+            </button>
+          </div>
+
         </div>
         <div class="col-lg-4 col-md-5 col-sm-6">
             <div class="mt-sm-0 mt-3">
                 <div class="position-relative">
                     <span class="search_icon"><i class="fa-solid fa-magnifying-glass "></i></span>
-                    <input type="text" class="form-control input_search" placeholder="Search">
+                    <input type="text" class="form-control input_search" placeholder="Search" (input)="onSearch($event)">
                 </div>
                 <div class="Blog_list">
                     <h5 class="ms-2">Recent Post</h5>
@@ -83,7 +99,7 @@
                     <h5>Categories</h5>
                     <ul>
                         <ng-container *ngFor="let category of Categories">
-                            <li (click)="goToCategory(category)" style="cursor: pointer;">{{category.classificationName}}</li>
+                            <li (click)="filterByCategory(category)" style="cursor: pointer;">{{category.classificationName}}</li>
                         </ng-container>
                     </ul>
                 </div>

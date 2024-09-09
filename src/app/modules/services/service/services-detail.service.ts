@@ -8,7 +8,8 @@ import { environment } from '../../../../environments/environment.development';
 })
 export class ServicesDetailService {
   locationServiceWiseUrl = environment.ApiBaseUrl + 'Service/searchItems'
-   url = environment.ApiBaseUrl
+   url = environment.ApiBaseUrl;
+   serviceListUrl = `${environment.ApiBaseUrl}Service/service_page`;
   constructor(private http: HttpClient) { }
 
   getServiceList():Observable<any>{
@@ -96,7 +97,7 @@ export class ServicesDetailService {
         catchError(error => this.handleError(error)));
   }
 
-  getServicePage(){
+  getServicePage(CategoryId: number): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       // "Authorization": 'Bearer ' + localStorage.getItem('token')
@@ -104,14 +105,17 @@ export class ServicesDetailService {
     const httpOptions = {
       headers: headers
     };
-    const url = environment.ApiBaseUrl.concat(`Service/service_page`);
-    return this.http.get<any>(url, httpOptions)
-      .pipe(map((response:any) => {
-        return response;
-      }),
-        catchError(error => this.handleError(error)));
+
+    // Correct URL construction
+    const url = `${this.serviceListUrl}?CategoryId=${CategoryId}`;
+
+    return this.http.get<any>(url, httpOptions).pipe(
+      map((response: any) => response),
+      catchError(error => this.handleError(error))
+    );
   }
 
+ 
   getRatingByItemId(id:string){
     const header = new Headers({'Content-Type': 'application/json'});
     const httpOptions = { headers: header}

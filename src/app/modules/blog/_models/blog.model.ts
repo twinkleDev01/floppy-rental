@@ -14,4 +14,9 @@ export interface Blog {
     image: string;
     author: string
   }
+
+  export interface BlogReview {
+    name: string;
+    comment: string;
+    }
   

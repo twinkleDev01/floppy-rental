@@ -444,5 +444,12 @@ calculateAverageRating(reviews:any): any {
   }
 }
 
+navigateToServiceRate() {
+  this.router.navigate(['/services/service-rate'], {
+    state: { selectedServiceCategory: this.selectedServiceCategory }
+  });
+}
+
+
 }
 

@@ -5,6 +5,7 @@ import { ServicesDetailService } from '../../services/service/services-detail.se
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { noWhitespaceValidator } from '../../../shared/components/common/no-whitespace.validator';
+import { BlogReview } from '../_models/blog.model';
 
 @Component({
   selector: 'app-blog-detail',
@@ -19,6 +20,8 @@ export class BlogDetailComponent {
   comment:any;
   commentForm!:FormGroup;
   maxCommentLength = 50;
+  selectedCategory: string = '';
+  blogReview:BlogReview[]=[]
   constructor(private router: Router, private blogService:BlogService, private serviceDetail:ServicesDetailService,private fb:FormBuilder,private toastrService:ToastrService) {
     const navigation = this.router.getCurrentNavigation();
     this.selectedBlog = navigation?.extras?.state?.['blog']; 
@@ -46,8 +49,9 @@ export class BlogDetailComponent {
 
   getBlogDetail(){
 this.blogService.getBlogDetails(this.selectedBlog.id).subscribe((response:any)=>{
-  console.log(response,"26")
+  console.log(response.data.id,"26")
   this.blogDetail = response.data
+  this.getReviewsByBlogId(this.blogDetail.blogId)
   const userId = localStorage.getItem("userId");
 
   if (this.blogDetail && this.blogDetail.blogTrans && userId) {
@@ -83,18 +87,19 @@ this.serviceDetail.getCategoryList().subscribe((response:any)=>{
     if(event){
       console.log(event,"event")
       this.blogDetail = event;
+      this.getReviewsByBlogId(this.blogDetail.id)
     }
   }
 
-  goToCategory(serviceDetail:any){
-    console.log(serviceDetail,"serviceId")
-    const navigationExtras = {
-      state: {
-        serviceId: serviceDetail?.mainId,
-      }
-    };
-    this.router.navigate([`/services/category/${serviceDetail?.classificationName?.trim()?.replace(/\s+/g, '-')?.toLowerCase()}`], navigationExtras);
-  }
+  // goToCategory(serviceDetail:any){
+  //   console.log(serviceDetail,"serviceId")
+  //   const navigationExtras = {
+  //     state: {
+  //       serviceId: serviceDetail?.mainId,
+  //     }
+  //   };
+  //   this.router.navigate([`/services/category/${serviceDetail?.classificationName?.trim()?.replace(/\s+/g, '-')?.toLowerCase()}`], navigationExtras);
+  // }
 
   saveReview() {
     this.commentForm?.markAllAsTouched();
@@ -149,6 +154,43 @@ this.serviceDetail.getCategoryList().subscribe((response:any)=>{
   getRemainingCharacters(): number {
     const commentValue = this.commentForm.get('comment')?.value || '';
     return this.maxCommentLength - commentValue.length;
+  }
+
+    // Method to filter by category and navigate to blog list
+  filterByCategory(category: any): void {
+    this.selectedCategory = category.classificationName;
+    // Navigate to Blog List with selected category as query parameter
+    this.router.navigate(['/blog'], { queryParams: { category: this.selectedCategory } });
+  }
+
+  onSearch(event: Event) {
+    const inputElement = event.target as HTMLInputElement; // Safely cast to HTMLInputElement
+    const searchTerm = inputElement ? inputElement.value : ''; // Get value or default to an empty string
+    this.blogService.updateSearchTerm(searchTerm); // Update the search term in the service
+  }
+
+  getReviewsByBlogId(id:number){
+    this.blogService.getReviewsByBlogId(id).subscribe((response:any)=>{
+this.blogReview = response.data
+    })
+  }
+
+  displayedReviewsCount = 3; // Initially display 3 reviews
+
+  // Function to handle "Load More" click
+  loadMoreReviews() {
+    if (this.displayedReviewsCount < this.blogReview.length) {
+      // If there are more reviews to display, load the next 3 reviews
+      this.displayedReviewsCount += 3;
+    } else {
+      // If all reviews are displayed, reset to show only 3
+      this.displayedReviewsCount = 3;
+    }
+  }
+
+   // Getter to check if "Load More" button should be visible
+   get shouldShowLoadMore() {
+    return this.displayedReviewsCount < this.blogReview.length;
   }
 }
 

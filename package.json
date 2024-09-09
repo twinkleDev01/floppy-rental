@@ -27,6 +27,7 @@
     "angular": "^1.8.3",
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
+    "cashfree-pg": "^4.2.3",
     "ngx-owl-carousel-o": "^18.0.0",
     "ngx-spinner": "^17.0.0",
     "ngx-toastr": "^19.0.0",

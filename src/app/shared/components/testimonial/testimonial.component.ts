@@ -11,6 +11,7 @@ export class TestimonialComponent {
   testimonials:any;
   @ViewChild('textContent') textContent!: ElementRef;
   isTruncated = false;
+  isExpanded: { [key: number]: boolean } = {};
 constructor(private sharedService:SharedService){}
 
   customOptions: OwlOptions = {
@@ -53,8 +54,9 @@ this.sharedService.getTestimonials().subscribe((response:any)=>{
     const element = this.textContent?.nativeElement;
     return element?.scrollHeight > element?.clientHeight;
   }
-  toggleContent(testimonial: any) {
-    testimonial.isExpanded = !testimonial.isExpanded; // Toggle the expanded state
+  // Method to toggle the expanded state
+  toggleExpand(index: number) {
+    this.isExpanded[index] = !this.isExpanded[index];
   }
   ngAfterViewInit(){
     this.isTruncated = this.isTextTruncated();

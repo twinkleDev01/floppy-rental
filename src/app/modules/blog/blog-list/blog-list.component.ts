@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BlogService } from '../service/blog.service';
 import { Blog } from '../_models/blog.model';
 import { BehaviorSubject } from 'rxjs';
@@ -18,6 +18,8 @@ export class BlogListComponent {
   blogLimit: number = 10
   startIndex:number=0;
   blogLength:any
+  selectedCategory: string = '';
+  originalBlogList:any
   @Input() showPaginator: boolean = true;
   @HostBinding('class.small-parent') isSmallParent = false;
 
@@ -37,6 +39,13 @@ export class BlogListComponent {
   ngOnInit() {
     this.checkParentSize();
     this.getBlogList()
+    this.route.queryParams.subscribe(params => {
+      this.selectedCategory = params['category'];
+    });
+    // Subscribe to the search term changes
+    this.blogService.currentSearchTerm.subscribe(searchTerm => {
+      this.filterBlogs(searchTerm);
+    });
   }
 
   checkParentSize() {
@@ -45,8 +54,16 @@ export class BlogListComponent {
     console.log(parentWidth + 'px', this.isSmallParent);
   }
 
+  // filterBlogsByCategory(): void {
+  //   if (this.selectedCategory) {
+  //     this.filteredBlog = this.blog.filter(data => data.categoryName === this.selectedCategory);
+  //   } else {
+  //     this.filteredBlog = this.blog; // Show all blogs if no category is selected
+  //   }
+  // }
 
-  constructor(private router: Router,private el: ElementRef, private blogService:BlogService){
+
+  constructor(private router: Router,private el: ElementRef, private blogService:BlogService, private route: ActivatedRoute){
 
   }
 
@@ -54,6 +71,12 @@ export class BlogListComponent {
 this.blogService.getBlogList(this.startIndex, this.pageSize).subscribe((response:any)=>{
   this.blog = response.data.blogs
   this.blogLength = response.data.totalBlogs
+  if (this.selectedCategory) {
+    this.blog = this.blog.filter(data => data.categoryName === this.selectedCategory);
+  } else {
+    this.blog = this.blog; // Show all blogs if no category is selected
+    this.originalBlogList = this.blog
+  }
 })
   }
 
@@ -273,4 +296,25 @@ this.blogService.getBlogList(this.startIndex, this.pageSize).subscribe((response
     this.startIndex = this.pageIndex * this.pageSize;  // Calculate new startIndex
     this.getBlogList() // Fetch new items based on updated page
   }
+
+  filterBlogs(searchTerm: string): void {
+    if (!searchTerm) {
+      // If searchTerm is empty, return the original list or reset it
+      this.blog = [...this.originalBlogList];
+      return;
+    }
+  
+    // Filter blogs based on the search term
+    this.blog = this.originalBlogList.filter((data: any) => {
+      const term = searchTerm.toLowerCase();
+      
+      // Use optional chaining and default to empty string if property is undefined or null
+      const title = (data.tittle || '').toLowerCase();
+      // const author = (data.author || '').toLowerCase();
+      // const categoryName = (data.categoryName || '').toLowerCase();
+      
+      return title.includes(term);
+    });
+  }
+  
 }

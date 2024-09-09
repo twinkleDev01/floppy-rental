@@ -64,15 +64,32 @@
     color: #FFA43C;
 }
 
-.test_description{
+// .test_description{
+//     color: #a7a7a7;
+//     margin-top: 10px;
+//     display: -webkit-box;
+//     -webkit-line-clamp: 4;      /* Limit the number of lines (change 3 to the desired number) */
+//     -webkit-box-orient: vertical;
+//     overflow: hidden;           /* Hide overflowed text */
+//     text-overflow: ellipsis;    /* Show ellipsis (...) */
+// }
+
+.test_description {
     color: #a7a7a7;
     margin-top: 10px;
     display: -webkit-box;
-    -webkit-line-clamp: 4;      /* Limit the number of lines (change 3 to the desired number) */
+    -webkit-line-clamp: 4; /* Limit the number of lines (change 4 to the desired number) */
     -webkit-box-orient: vertical;
-    overflow: hidden;           /* Hide overflowed text */
-    text-overflow: ellipsis;    /* Show ellipsis (...) */
-}
+    overflow: hidden; /* Hide overflowed text */
+    text-overflow: ellipsis; /* Show ellipsis (...) */
+  }
+  
+  .full_description {
+    display: block;
+    -webkit-line-clamp: unset; /* Show all lines */
+    overflow: visible; /* Show overflowed text */
+    text-overflow: clip; /* Remove ellipsis (...) */
+  }
 
 h2{
     font-size: 42px;
@@ -99,4 +116,15 @@ h2{
         border: 1px solid #008cac;
         background-color: transparent !important;
     }
+}
+
+.load_more{
+    color: #fff;
+    background-color: #008cac;
+    border: 2px solid #008cac;
+    border-radius: 25px;
+    padding: 10px 30px;
+    font-weight: 500;
+    margin-top: 10px;
+    font-size: 16px;
 }
