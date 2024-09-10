@@ -231,15 +231,33 @@ onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
   toggleViewMobile() {
     this.showFilter = !this.showFilter;
   }
-  goToDetail(card:any){
-    const itemNameDetail = card?.subgroupname?.trim()?.replace(/\s+/g, '-')?.toLowerCase();
+  // goToDetail(card:any){
+  //   const itemNameDetail = card?.subgroupname?.trim()?.replace(/\s+/g, '-')?.toLowerCase();
+  //   const navigationExtras = {
+  //     state: {
+  //       card: card
+  //     }
+  //   };
+  //   this.router.navigate([`services/service-Details/${itemNameDetail}`], navigationExtras);
+  // }
+
+  goToDetail(card: any) {
+    const itemNameDetail = card?.subgroupname
+      ?.trim()
+      ?.replace(/\s+/g, '-')
+      ?.toLowerCase();
     const navigationExtras = {
       state: {
-        card: card
-      }
+        card: card,
+      },
     };
-    this.router.navigate([`services/service-Details/${itemNameDetail}`], navigationExtras);
+
+    this.router.navigate(
+      [`services/service-Details/${itemNameDetail}/${card?.id}`],
+      navigationExtras
+    );
   }
+
   // Paginator
   itemsPerPage() {
   }

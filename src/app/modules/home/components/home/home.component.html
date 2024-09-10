@@ -32,9 +32,9 @@
         
         <div class="location_search">
           <i class="fa-solid fa-location-dot"></i>
-          <select class="select_box" name="location" id="location" (change)="onCityChange($event, locations)">
+          <select class="select_box" name="location" id="location" (change)="onCityChange($event)">
             <option value="">Select</option>
-            <option *ngFor="let location of locations" [value]="location.cityName + '|' + location.areaName" >
+            <option *ngFor="let location of locations" [value]="location.cityName + '|' + location.areaName">
               {{ location.cityName }} - {{ location.areaName }}
             </option>
           </select>

@@ -44,7 +44,12 @@ export const routes: Routes = [
       {
         path: 'return-policy',
         component: ReturnPolicyComponent
-      }
+      },
+      {
+        path: '**', // Wildcard route to catch any undefined paths
+        redirectTo: '', // Redirect to home page
+        pathMatch: 'full',
+      },
 ];
 @NgModule({
   imports: [

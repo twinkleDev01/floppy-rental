@@ -35,7 +35,9 @@ export class ServicesDetailsComponent {
   constructor(private router: Router,private service:ServicesDetailService, private fb:FormBuilder, private dialog:MatDialog, private toastr:ToastrService) {
     const navigation = this.router.getCurrentNavigation();
     this.selectedCard = navigation?.extras?.state?.['card']; 
-    this.serviceDetailId = this.selectedCard.item?this.selectedCard.item.id:this.selectedCard.id;
+    // this.serviceDetailId = this.selectedCard.item?this.selectedCard.item.id:this.selectedCard.id;
+    const urlSegments = this.router.url.split('/');
+    this.serviceDetailId = urlSegments[urlSegments.length - 1];
     this.reviewForm = fb.group({
       name: ['', Validators.required], // Required validation
       email: ['', [Validators.required, Validators.email]], // Required and valid email format

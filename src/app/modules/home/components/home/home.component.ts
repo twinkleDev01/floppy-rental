@@ -46,12 +46,11 @@ thirdCategory!:SubCategories
   filteredLocation:any;
   newLocationId:any;
   selectedSubGroupId:any;
-  latitude:number = 0;
-  longitude:number = 0
+  latitude:any;
+  longitude:any
   originalSubgroups: string[]= [];
   error= false;
   itemError =  false;
-  originalLocation :any = [];
 
   constructor(private homeService: HomeService, public dialog: MatDialog, private service:ServicesDetailService,private scrollService:ScrollService, private router:Router){
     // this.initializeLocations();
@@ -134,15 +133,14 @@ thirdCategory!:SubCategories
     }
 
     ngOnInit(){
-      this.originalLocation = [...this.locations];
-      // this.locations = this.locations?.reduce((acc:any, city:any) => {
-      //   const combinedAreas = city.areas.map((area:any) => `${city.cityName} - ${area.areaName}`);
-      //   return acc.concat(combinedAreas);
-      // }, []);
+      this.locations = this.locations?.reduce((acc:any, city:any) => {
+        const combinedAreas = city.areas.map((area:any) => `${city.cityName} - ${area.areaName}`);
+        return acc.concat(combinedAreas);
+      }, []);
      this.getBannerData();
      this.getItemlist();
      this.getLocations();
-    //  this.getCurrentLocation();
+     this.getCurrentLocation();
       
     // ServiceCategoryList
     this.homeService.getServiceList().subscribe((res:any)=>{
@@ -271,13 +269,30 @@ thirdCategory!:SubCategories
       })
     }
 
-    goToServiceDetail(item:any){
-      const itemNameDetail = item?.subgroupname.split(',')[0]?.trim()?.replace(/\s+/g, '-')?.toLowerCase();
-      this.router.navigate([`/services/service-Details/${itemNameDetail}`], {
+    // goToServiceDetail(item:any){
+    //   const itemNameDetail = item?.subgroupname.split(',')[0]?.trim()?.replace(/\s+/g, '-')?.toLowerCase();
+    //   this.router.navigate([`/services/service-Details/${itemNameDetail}`], {
+    //     state: {
+    //       card: item,
+    //     }
+    //   });
+    // }
+
+    goToServiceDetail(card: any) {
+      const itemNameDetail = card?.subgroupname
+        ?.trim()
+        ?.replace(/\s+/g, '-')
+        ?.toLowerCase();
+      const navigationExtras = {
         state: {
-          card: item,
-        }
-      });
+          card: card,
+        },
+      };
+  
+      this.router.navigate(
+        [`services/service-Details/${itemNameDetail}/${card?.id}`],
+        navigationExtras
+      );
     }
   
     findSubcategoryBySearch(searchTerm: string) {
@@ -293,36 +308,35 @@ thirdCategory!:SubCategories
       return null;
     }
   
-  //   getCurrentLocation(){
-  //     // Check if the browser supports Geolocation API
-  // if (navigator.geolocation) {
-  //   navigator.geolocation.getCurrentPosition(
-  //       (position) => {
-  //           // Success callback
-  //           this.latitude = position.coords.latitude;
-  //           this.longitude = position.coords.longitude;
-  //       },
-  //       (error) => {
-  //           // Error callback
-  //           console.error('Error getting location: ', error);
-  //       },
-  //       {
-  //           // Optional settings
-  //           enableHighAccuracy: true, // Use high accuracy mode if available
-  //           timeout: 10000, // Set a timeout in milliseconds
-  //           maximumAge: 0 // Do not use a cached position
-  //       }
-  //   );
-  // } else {
-  //   console.error("Geolocation is not supported by this browser.");
-  // }
-  //   }
+    getCurrentLocation(){
+      // Check if the browser supports Geolocation API
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            // Success callback
+            this.latitude = position.coords.latitude;
+            this.longitude = position.coords.longitude;
+        },
+        (error) => {
+            // Error callback
+            console.error('Error getting location: ', error);
+        },
+        {
+            // Optional settings
+            enableHighAccuracy: true, // Use high accuracy mode if available
+            timeout: 10000, // Set a timeout in milliseconds
+            maximumAge: 0 // Do not use a cached position
+        }
+    );
+  } else {
+    console.error("Geolocation is not supported by this browser.");
+  }
+    }
 
     getLocations() {
       this.homeService.getLocation().subscribe((response: any) => {
         const uniqueLocations: any = {};
         this.newLocationId = response.data
-        console.log(this.newLocationId,"323")
         response.data.reduce((acc: any, city: any) => {
           city.areas.forEach((area: any) => {
             area.subgroups.forEach((subgroup: any) => {
@@ -332,10 +346,7 @@ thirdCategory!:SubCategories
                   cityName: city.cityName,
                   areaName: area.areaName,
                   subgroupName: [subgroup.subgroupName],
-                  latitude: area.latitude,
-                  longitude: area.longitude
                 };
-                console.log(uniqueLocations[locationKey],"336")
               } else {
                 uniqueLocations[locationKey].subgroupName.push(
                   subgroup.subgroupName
@@ -346,7 +357,6 @@ thirdCategory!:SubCategories
           return acc;
         }, []);
         this.locations = Object.values(uniqueLocations);
-        console.log(this.locations,"336")
         this.allSubgroups = this.locations.reduce((acc: string[], loc: any) => {
           acc.push(...loc.subgroupName);
           return acc;
@@ -397,18 +407,14 @@ if (this.filteredSubgroups.length === 0 && searchValue) {
 }
     }}
     
-    onCityChange(event: Event, location?:any) {
+    onCityChange(event: Event) {
       const target = event.target as HTMLSelectElement;
-      
       if (target) {
         const [cityName, areaName] = target.value.split('|');
-        const obj = target.value.split('|');
         this.selectedCity = cityName;
         this.selectedArea = areaName;
-  
         this.locationSelected = !!target.value; // Update flag based on selected value
       this.showError = !this.locationSelected; 
-console.log(this.longitude, this.latitude,"407")
         this.getFilteredSubgroups(); // Trigger filtering when city changes
       }
     }
