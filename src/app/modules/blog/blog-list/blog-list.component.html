@@ -34,6 +34,7 @@
     </div> -->
 
     <div class="row">
+      @if(blog.length){
         <ng-container *ngFor="let data of blog | slice:-BlogNumber">
           <div *ngIf="!isSmallParent" class="col-lg-3 col-sm-6 col-12">
             <div class="blog-card mb-3" (click)="NavigateToBlockDetail(data)">
@@ -58,8 +59,10 @@
           </div>
           
         </ng-container>
-
-        <div class="originalPaginator" *ngIf="showPaginator">
+      } @else{
+        <div style="color: red; text-align: center;">No result Found</div>
+      }
+        <div class="originalPaginator" *ngIf="showPaginator && this.blog.length">
           <mat-paginator
             style-paginator
             [pageSize]="pageSize"

@@ -36,12 +36,18 @@ export class BlogListComponent {
     this.checkParentSize();
   }
 
+  constructor(private router: Router,private el: ElementRef, private blogService:BlogService, private route: ActivatedRoute){
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras.state) {
+      this.selectedCategory = navigation.extras.state['category'];
+      console.log(this.selectedCategory,"selectedCategory")
+    }
+  }
+
   ngOnInit() {
     this.checkParentSize();
-    this.getBlogList()
-    this.route.queryParams.subscribe(params => {
-      this.selectedCategory = params['category'];
-    });
+    this.getBlogList();
+    
     // Subscribe to the search term changes
     this.blogService.currentSearchTerm.subscribe(searchTerm => {
       this.filterBlogs(searchTerm);
@@ -63,17 +69,16 @@ export class BlogListComponent {
   // }
 
 
-  constructor(private router: Router,private el: ElementRef, private blogService:BlogService, private route: ActivatedRoute){
-
-  }
-
   getBlogList(){
 this.blogService.getBlogList(this.startIndex, this.pageSize).subscribe((response:any)=>{
   this.blog = response.data.blogs
   this.blogLength = response.data.totalBlogs
   if (this.selectedCategory) {
+    console.log(this.selectedCategory,"77")
     this.blog = this.blog.filter(data => data.categoryName === this.selectedCategory);
+    this.blogLength = this.blog.length
   } else {
+    console.log("81")
     this.blog = this.blog; // Show all blogs if no category is selected
     this.originalBlogList = this.blog
   }

@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-lg-8 col-md-7 col-sm-6 detail_div">
             <img [src]="blogDetail?.image || 'images/No_Image_Available.jpg'" alt="">
-            <p>{{blogDetail?.description}}</p>
+            <!-- <p>{{blogDetail?.description}}</p> -->
             <!-- <div>
                 <img [src]="blogDetail.image1 || 'images/No_Image_Available.jpg'" class="detail_img" alt="">
                 <img [src]="blogDetail.image2 || 'images/No_Image_Available.jpg'" class="detail_img" alt="">
@@ -68,7 +68,7 @@
                 <button class="post_btn mt-4" (click)="saveReview()">Post Comment</button>
             </div>
 
-            <h2 class="mt-5">Comment</h2>
+            <h4 class="mt-5" style="font-weight: 600;">Comment</h4>
             <ng-container *ngFor="let blogReview of blogReview | slice:0:displayedReviewsCount">
             <div class="comment_box mb-3 mt-3">
                 <div class="card-body">

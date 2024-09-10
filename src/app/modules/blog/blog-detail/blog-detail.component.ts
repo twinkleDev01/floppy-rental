@@ -160,7 +160,6 @@ this.serviceDetail.getCategoryList().subscribe((response:any)=>{
     // Method to filter by category and navigate to blog list
   filterByCategory(category: any): void {
     this.selectedCategory = category.classificationName;
-    // Navigate to Blog List with selected category as query parameter
     this.router.navigate(['/blog'], { state: { category: this.selectedCategory } });
   }
 
