@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
 
 export interface cartItemsType {
@@ -71,6 +71,7 @@ export class CartService {
   public cartLength: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   url = environment.ApiBaseUrl
   token = localStorage.getItem("token"); // Replace with your actual token
+  private paymentUrl = 'https://firstfloppy.asptask.in/api/Payments/create-order';
 
   constructor(private http:HttpClient) { }
 
@@ -140,5 +141,14 @@ export class CartService {
       headers: headers
     };
     return this.http.post(this.url + 'Order/save_order_details', details, httpOptions);
+  }
+
+  createOrder(payload: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.token}`
+    });
+
+    return this.http.post<any>(this.paymentUrl, payload, { headers });
   }
 }

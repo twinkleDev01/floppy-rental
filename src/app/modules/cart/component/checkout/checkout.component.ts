@@ -8,7 +8,7 @@ import { CartService } from '../../services/cart.service';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 import axios from 'axios';
-
+import {load} from '@cashfreepayments/cashfree-js';
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
@@ -91,7 +91,6 @@ export class CheckoutComponent {
 
 
   noSpace(event: any) {
-    console.log(event, 'keyyyy');
     if (event.keyCode === 32 && !event.target.value) return false;
     return true;
   }
@@ -183,51 +182,115 @@ export class CheckoutComponent {
     return this.datePipe.transform(parsedDate, 'yyyy-MM-ddTHH:mm:ss.SSSZ');
   }
 
-  async initiatePayment() {
-    try {
-      // Define Cashfree credentials and order details
-      const clientId = '173592e56931e47e86504eeae4295371';
-      const clientSecret = 'a6b80fb453866ee05b17ab02f65d72fa7bea8d4a';
-      const orderDetails = {
-        orderId: 'unique_order_id',
-        orderAmount: 1000, // Example amount
-        orderCurrency: 'INR',
-        orderNote: 'Payment for Order',
-        customerEmail: 'customer@example.com',
-        customerPhone: '1234567890'
-      };
+  // async initiatePayment() {
+  //   try {
+  //     // Define Cashfree credentials and order details
+  //     const clientId = '173592e56931e47e86504eeae4295371';
+  //     const clientSecret = 'a6b80fb453866ee05b17ab02f65d72fa7bea8d4a';
+  //     const orderDetails = {
+  //       orderId: 'unique_order_id',
+  //       orderAmount: 1000, // Example amount
+  //       orderCurrency: 'INR',
+  //       orderNote: 'Payment for Order',
+  //       customerEmail: 'customer@example.com',
+  //       customerPhone: '1234567890'
+  //     };
 
-      // Create an order with Cashfree
-      const response = await axios.post('https://api.cashfree.com/api/v2/checkout/orders', {
-        ...orderDetails
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${clientSecret}`
+  //     // Create an order with Cashfree
+  //     const response = await axios.post('https://api.cashfree.com/api/v2/checkout/orders', {
+  //       ...orderDetails
+  //     }, {
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': `Bearer ${clientSecret}`
+  //       }
+  //     });
+
+  //     const { orderId, orderToken } = response.data;
+
+  //     // Initialize Cashfree Checkout
+  //     const cf = (window as any).CashfreeCheckout();
+
+  //     cf.initPayment({
+  //       order_id: orderId,
+  //       order_token: orderToken,
+  //       // Add other necessary parameters
+  //       callback: ((response:any) => {
+  //         if (response.success) {
+  //           console.log('Payment successful', response);
+  //           // Handle success scenario here
+  //         } else {
+  //           console.error('Payment failed', response);
+  //           // Handle failure scenario here
+  //         }
+  //       })
+  //     });
+  //   } catch (error) {
+  //     console.error('Error initiating payment:', error);
+  //   }
+  // }
+
+  createNewOrder() {
+    const payload = {
+      customerId: '12345',
+      phone: '9876543210',
+      orderId: 'ORD001',
+      amount: 100,
+      currency: 'INR',
+      returnUrl: 'https://floppy-rental.vercel.app/'
+    };
+
+    this.cartService.createOrder(payload).subscribe(
+      async (response) => {
+        console.log('Order created successfully', response);
+
+        // Ensure that Cashfree SDK is loaded properly
+        try {
+          const cashfree = await load({
+            mode: 'production' // or 'production'
+          });
+
+          // Ensure that paymentSessionId is correctly obtained
+          const checkoutOptions = {
+            paymentSessionId: response?.payment_session_id
+            , // Use cf_order_id for the payment session ID
+            redirectTarget: "_self" ,// optional (_self, _blank, or _top),
+            appearance: {
+              width: "425px",
+              height: "700px",
+          },
+          };
+
+          console.log('Cashfree SDK loaded', cashfree);
+
+          // Use the correct method from Cashfree SDK to initiate checkout
+          // cashfree.checkout(checkoutOptions);
+          cashfree.checkout(checkoutOptions).then((result:any) => {
+            if (result.error) {
+              // This will be true when there is any error during the payment
+              console.log("There is some payment error, Check for Payment Status");
+              console.log(result.error);
+            }
+            if (result.redirect) {
+              // This will be true when the payment redirection page couldnt be opened in the same window
+              // This is an exceptional case only when the page is opened inside an inAppBrowser
+              // In this case the customer will be redirected to return url once payment is completed
+              console.log("Payment will be redirected");
+            }
+            if (result.paymentDetails) {
+              // This will be called whenever the payment is completed irrespective of transaction status
+              console.log("Payment has been completed, Check for Payment Status");
+              console.log(result.paymentDetails.paymentMessage);
+            }
+       });
+          console.log(cashfree.version(),"version");
+        } catch (error) {
+          console.error('Error loading Cashfree SDK', error);
         }
-      });
-
-      const { orderId, orderToken } = response.data;
-
-      // Initialize Cashfree Checkout
-      const cf = (window as any).CashfreeCheckout();
-
-      cf.initPayment({
-        order_id: orderId,
-        order_token: orderToken,
-        // Add other necessary parameters
-        callback: ((response:any) => {
-          if (response.success) {
-            console.log('Payment successful', response);
-            // Handle success scenario here
-          } else {
-            console.error('Payment failed', response);
-            // Handle failure scenario here
-          }
-        })
-      });
-    } catch (error) {
-      console.error('Error initiating payment:', error);
-    }
+      },
+      (error) => {
+        console.error('Error creating order', error);
+      }
+    );
   }
 }

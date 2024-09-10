@@ -12,19 +12,10 @@
   <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARIDLGBcFWWC5HltY1_t5iZcXuoXz08bo&libraries=places"></script> -->
 
   <!-- Include Cashfree Checkout SDK -->
-  <script src="https://checkout.cashfree.com/checkout.js"></script>
+  <!-- <script src="https://checkout.cashfree.com/checkout.js"></script> -->
    <!-- Cashfree SDK -->
-   <script src="https://sdk.cashfree.com/js/core/2.0.0-beta.3/cashfree.core.min.js"></script>
-   <script>
-    const cashfree = Cashfree({
-      mode: "sandbox" //or production,
-    });
-    document.getElementById("renderBtn").addEventListener("click", () => {
-      cashfree.checkout({
-        paymentSessionId: "session_jUrcW5E1HGnNHbYkQLF_RrLQTsJwp1eERe-G6wjB9WyyjL-r4zum_sCm_zeWwqFIpghEx6OYSGFC6c0rDMxPPseUtJJ3exrSBH42c2ojBwH5"
-      });
-    });
-</script>
+   <!-- <script src="https://sdk.cashfree.com/js/core/2.0.0-beta.3/cashfree.core.min.js"></script> -->
+   <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
 </head>
 <body>
   <app-root></app-root>
