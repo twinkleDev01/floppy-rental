@@ -130,6 +130,7 @@ export class CartService {
   // }
 
   saveOrderDetails(details: any) {
+    console.log(this.token,"133")
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.token}` // Add the Authorization header

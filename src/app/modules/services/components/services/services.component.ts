@@ -85,14 +85,30 @@ ngOnInit(){
     console.log(this.serviceDataList,"serviceDataListtt")
    })
 }
-  goToRental(serviceId:any){
-    console.log(serviceId,"serviceId")
-    const navigationExtras = {
-      state: {
-        serviceId: serviceId?.mainId,
+  // goToRental(serviceId:any){
+  //   console.log(serviceId,"serviceId")
+  //   const navigationExtras = {
+  //     state: {
+  //       serviceId: serviceId?.mainId,
+  //     }
+  //   };
+  //   this.router.navigate([`/services/category/${serviceId?.classificationName?.trim()?.replace(/\s+/g, '-')?.toLowerCase()}`], navigationExtras);
+  // }
+
+  goToRental(subcategory: any) {
+    this.router.navigate(
+      [
+        `/services/category/${subcategory?.classificationName
+          ?.trim()
+          ?.replace(/\s+/g, '-')
+          ?.toLowerCase()}/${subcategory.mainId}`,
+      ],
+      {
+        state: {
+          serviceId: subcategory.mainId,
+        },
       }
-    };
-    this.router.navigate([`/services/category/${serviceId?.classificationName?.trim()?.replace(/\s+/g, '-')?.toLowerCase()}`], navigationExtras);
+    );
   }
   
 }

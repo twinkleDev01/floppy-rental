@@ -54,13 +54,13 @@ export class CheckoutComponent {
     firstName: ['',[Validators.required]],
     lastName : [''],
     address: ['',[Validators.required]],
-    state : [''],
-    country : ['india'],
-    city : [''],
-    zipCode : [''],
-    date : [''],
-    productId : [''],
-    slot : [''],
+    state : ['',[Validators.required]],
+    country : ['india',[Validators.required]],
+    city : ['',[Validators.required]],
+    zipCode : ['',[Validators.required,Validators.maxLength(8)]],
+    date : ['',[Validators.required]],
+    productId : ['',[Validators.required]],
+    slot : ['',[Validators.required]],
     paymentMethod:[],
     nameOnCard : ['',[Validators.required]],
     cardNumber : ['',[Validators.required,Validators.pattern('^[0-9]{16}$')]],
@@ -107,6 +107,8 @@ export class CheckoutComponent {
     return this.checkout.get('cvc');
   }
   onSubmit(){
+    this.checkout?.markAllAsTouched();
+    if(this.checkout?.invalid)return;
     console.log(this.checkout.value);
     const payload = {
       ...this.checkout.value,
@@ -155,6 +157,15 @@ export class CheckoutComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log('Selected Location:', result);
+        // Patch form with the returned location data
+      this.checkout.patchValue({
+        address: result.apartment,
+        city: result.area,
+        state: result.country,
+        zipCode: result.zipCode, // Assuming zipCode is part of the result
+        // Add more fields here as needed
+      });
+      console.log(this.checkout.value,"166")
       }
     });
   }

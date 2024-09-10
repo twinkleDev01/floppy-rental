@@ -124,4 +124,13 @@ padding-bottom: 6px !important;
   :host ::ng-deep .mat-mdc-dialog-container .mat-mdc-dialog-content{
     padding: 10px 20px 20px 20px
   }
+  .dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+    // border-bottom: 2px solid #eee5e5;
+    // padding-bottom: 20px;
+    margin-right: 2rem;
+  }
   

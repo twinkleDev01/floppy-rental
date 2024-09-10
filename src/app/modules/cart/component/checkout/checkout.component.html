@@ -366,7 +366,7 @@
               ></i>
               ZipCode Required
             </span>
-            <span
+            <!-- <span
               *ngIf="checkout.get('zipCode')?.errors?.['minlength'] && !checkout.get('zipCode')?.errors?.['required']"
             >
               <i
@@ -375,7 +375,7 @@
                 aria-hidden="true"
               ></i>
               zipCode must be at least 8 digits
-            </span>
+            </span> -->
             <span
               *ngIf="checkout.get('zipCode')?.errors?.['maxlength'] && !checkout.get('zipCode')?.errors?.['required']"
             >
@@ -409,7 +409,22 @@
                (click)="openDateTimePicker()"
                readonly
              />
-     
+             <div
+             *ngIf="
+               checkout.get('date')?.invalid &&
+               checkout.get('date')?.touched
+             "
+             class="d-flex justify-content-end text-danger"
+           >
+             <span *ngIf="checkout.get('date')?.errors?.['required']">
+               <i
+                 class="fa fa-exclamation-triangle"
+                 style="color: #fe3061"
+                 aria-hidden="true"
+               ></i>
+               Date Required
+             </span>
+             </div>
            </div>
         <!--  -->
       
@@ -425,7 +440,7 @@
             <!-- <img src="path/to/payment1.png" alt="Payment Option 1" /> -->
             <i class="fa-solid fa-dollar-sign mb-2" style="color: #008cac;"></i>
             <div class="fw-bold mb-2">Cash On Delivery</div>
-            <input type="radio" name="paymentOption" value="Cash On Delivery" id="Cash On Delivery" formControlName="paymentMethod"/>
+            <input type="radio" name="paymentMethod" value="Cash On Delivery" id="Cash On Delivery" formControlName="paymentMethod"/>
 
           </div>
         
@@ -435,7 +450,7 @@
             <!-- <img src="path/to/payment2.png" alt="Payment Option 2" /> -->
             <i class="fa-solid fa-v mb-2" style="color: #008cac;"></i>
             <div class="fw-bold mb-2">Venmo</div>
-            <input type="radio" name="paymentOption" value="Venmo"  id="Venmo" formControlName="paymentMethod"/>
+            <input type="radio" name="paymentMethod" value="Venmo"  id="Venmo" formControlName="paymentMethod"/>
 
           </div>
         
@@ -445,7 +460,7 @@
             <!-- <img src="path/to/payment3.png" alt="Payment Option 3" /> -->
             <i class="fa-brands fa-paypal mb-2" style="color: #008cac;"></i>
             <div class="fw-bold mb-2">Paypal</div>
-            <input type="radio" name="paymentOption" value="Paypal" id="Paypal"  formControlName="paymentMethod"/>
+            <input type="radio" name="paymentMethod" value="Paypal" id="Paypal"  formControlName="paymentMethod"/>
 
           </div>
         
@@ -455,7 +470,7 @@
             <!-- <img src="path/to/payment4.png" alt="Payment Option 4" /> -->
             <i class="fa-brands fa-amazon mb-2" style="color: #008cac;"></i>
             <div class="fw-bold mb-2">Amazon Pay</div>
-            <input type="radio" name="paymentOption" value="Amazon Pay" id="Amazon Pay"  formControlName="paymentMethod"/>
+            <input type="radio" name="paymentMethod" value="Amazon Pay" id="Amazon Pay"  formControlName="paymentMethod"/>
           </div>
         
           <div class="vertical-bar"></div>
@@ -463,7 +478,7 @@
           <div class="payment-option">
             <i class="fa-regular fa-credit-card mb-2" style="color: #008cac;"></i>
             <div class="fw-bold mb-2">Debit/Credit Card</div>
-            <input type="radio" name="paymentOption" value="Debit/Credit Card" id="Debit/Credit Card" checked  formControlName="paymentMethod"/>
+            <input type="radio" name="paymentMethod" value="Debit/Credit Card" id="Debit/Credit Card" checked  formControlName="paymentMethod"/>
           </div>
         </div>
         <!-- Code With Mat-Radio-Button -->

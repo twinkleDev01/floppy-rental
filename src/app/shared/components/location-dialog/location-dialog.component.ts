@@ -181,4 +181,7 @@ export class LocationDialogComponent implements AfterViewInit {
       }
     });
   }
+  closeDialog(): void {
+    this.dialogRef.close();
+  }
 }
