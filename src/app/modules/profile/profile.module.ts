@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MyBookingComponent } from './my-booking/my-booking.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { MyBookingComponent } from './my-booking/my-booking.component';
     SharedModule,
     MatFormFieldModule,
     NgSelectModule,
-    MatSelectModule
+    MatSelectModule,
+    ReactiveFormsModule
 ]
 })
 export class ProfileModule { }
