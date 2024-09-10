@@ -116,7 +116,8 @@ this.serviceDetail.getCategoryList().subscribe((response:any)=>{
 
     this.blogService.saveBlogReview(blogReviewData).subscribe(
       (response) => {
-        console.log('Blog review saved successfully:', response);
+        // console.log('Blog review saved successfully:', response);
+        this.getReviewsByBlogId(this.blogDetail.blogId)
         this.commentForm?.reset();
         this.toastrService.success(response?.message);
         // Handle success, like showing a success message or resetting the form
@@ -160,7 +161,7 @@ this.serviceDetail.getCategoryList().subscribe((response:any)=>{
   filterByCategory(category: any): void {
     this.selectedCategory = category.classificationName;
     // Navigate to Blog List with selected category as query parameter
-    this.router.navigate(['/blog'], { queryParams: { category: this.selectedCategory } });
+    this.router.navigate(['/blog'], { state: { category: this.selectedCategory } });
   }
 
   onSearch(event: Event) {
