@@ -50,7 +50,8 @@ export class ServicesCategoryComponent {
   selectedArea: string = '';
   filteredSubgroups: string[] = [];
   allSubgroups: string[] = [];
-  originalList:any[]=[]
+  originalList:any[]=[];
+  selectedSubCategoyId:any;
   // toppings: FormGroup;
   // Paginator
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -183,6 +184,8 @@ export class ServicesCategoryComponent {
       this.catId = this.categories.filter((a)=>a.MainId);
       console.log(this.subCatId, this.catId, selectedValue.value,this.categories,"181")
 
+      // this.selectedSubCategoyId = this.categories?.[0]?.SubId;
+      // console.log(this.selectedSubCategoyId,"188")
 
         // Navigate
     this.router.navigate([`/services/category/${this.catId}/${selectedValue.value}/`], {
@@ -204,6 +207,7 @@ export class ServicesCategoryComponent {
       category.isChecked = category.SubId === this.selectedCategory;
     });
     this.subCatId = this.categories[0].SubId;
+    this.selectedSubCategoyId = this.categories[0].SubId;
     this.catId = this.categories[0].MainId;
 
     // Fetch items for the default category
@@ -223,6 +227,10 @@ onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
     this.categories.forEach((category) => {
       category.isChecked = category.SubId === subCategoryId;
     });
+
+    this.selectedSubCategoyId = subCategoryId;
+    this.selectedCategory = subCategoryId;
+    console.log(this.selectedSubCategoyId,"231")
     // 
     console.log(this.selectedServiceCategory, subCategoryId,"224")
     this.fetchItems(this.selectedServiceCategory, subCategoryId);
@@ -373,7 +381,9 @@ if (navigator.geolocation) {
       const [cityName, areaName] = target.value.split('|');
       this.selectedCity = cityName;
       this.selectedArea = areaName;
-      this.getFilteredSubgroups(); // Trigger filtering when city changes
+      // this.getFilteredSubgroups(); // Trigger filtering when city changes
+      // this.fetchItems(this.selectedServiceCategory,this.selectedSubCategoyId)
+      this.getSearchedItemList()
     }
   }
 
@@ -417,9 +427,9 @@ if (navigator.geolocation) {
   navigatedMainGroupId:any
   getSearchedItemList(){
 
-    this.selectedSubGroupName = this.filteredSubgroups[0];
+    this.selectedSubGroupName = this.selectedCategory;
 
-console.log(this.selectedSubGroupName,"370")
+console.log(this.selectedCategory,this.selectedArea, "370")
 // Loop through each city in the response
 for (const city of this.newLocationId) {
   // Loop through each area within the current city
@@ -439,7 +449,7 @@ for (const city of this.newLocationId) {
   }
 }
 
-    this.homeService.getSearchedItemList(this.selectedSubGroupId,this.selectedArea,this.latitude,this.longitude).subscribe((res:any)=>{
+    this.homeService.getSearchedItemList(this.selectedSubGroupName,this.selectedArea,this.latitude,this.longitude).subscribe((res:any)=>{
       
       this.navigatedCategoryItem = res.data.item;
       this.navigatedCategoryItem = res.data.items.map((itemWrapper:any) => itemWrapper.item)
@@ -453,11 +463,11 @@ for (const city of this.newLocationId) {
     this.navigatedMainGroupId = uniqueMaingroupIds.size === 1 ? Array.from(uniqueMaingroupIds)[0] : null;
     
     
-    console.log(this.navigatedMainGroupId,this.navigatedSubGroupId,"453",`/services/category/${this.selectedSubGroupName?.trim()}/${this.navigatedMainGroupId}`)
+    console.log(this.navigatedMainGroupId,this.navigatedSubGroupId,"453",`/services/category/${this.selectedSubGroupName}/${this.navigatedMainGroupId}`)
     // Navigate
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
       this.router.onSameUrlNavigation = "reload";
-    this.router.navigate([`/services/category/${this.selectedSubGroupName?.trim()}/${this.navigatedMainGroupId}`], {
+    this.router.navigate([`/services/category/${this.selectedSubGroupName}/${this.navigatedMainGroupId}`], {
       state: {
         serviceId: this.navigatedMainGroupId,
         subId: this.navigatedSubGroupId,
