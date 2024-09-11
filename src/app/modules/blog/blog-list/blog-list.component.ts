@@ -280,20 +280,16 @@ this.blogService.getBlogList(this.startIndex, this.pageSize).subscribe((response
   //   },
   // ]
   NavigateToBlockDetail(blog:any){
-    const navigationExtras = {
-      state: {
-        blog: blog,
-      }
-    };
-    console.log('navigate to blog detail');
-    this.router.navigate(['blog/blog-detail'],navigationExtras)
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = "reload";
+    this.router.navigate([`blog/blog-detail/${blog.id}`])
   }
 
-  changeBlogView(blog:any):void{
-    console.log(blog,"251");
-    this.blogData.emit(blog);
+  // changeBlogView(blog:any):void{
+  //   console.log(blog,"251");
+  //   this.blogData.emit(blog);
     
-  }
+  // }
 
   onPageChange(event: PageEvent): void {
     this.pageIndex = event.pageIndex;  // Update current page index

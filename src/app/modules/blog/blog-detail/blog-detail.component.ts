@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BlogService } from '../service/blog.service';
 import { ServicesDetailService } from '../../services/service/services-detail.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -21,11 +21,16 @@ export class BlogDetailComponent {
   commentForm!:FormGroup;
   maxCommentLength = 50;
   selectedCategory: string = '';
-  blogReview:BlogReview[]=[]
-  constructor(private router: Router, private blogService:BlogService, private serviceDetail:ServicesDetailService,private fb:FormBuilder,private toastrService:ToastrService) {
-    const navigation = this.router.getCurrentNavigation();
-    this.selectedBlog = navigation?.extras?.state?.['blog']; 
-    console.log(this.selectedBlog);
+  blogReview:BlogReview[]=[];
+  orignalCategories:any[]=[]
+  constructor(private router: Router, private blogService:BlogService, private serviceDetail:ServicesDetailService,private fb:FormBuilder,private toastrService:ToastrService, private route:ActivatedRoute) {
+    // const navigation = this.router.getCurrentNavigation();
+    // this.selectedBlog = navigation?.extras?.state?.['blog']; 
+    // console.log(this.selectedBlog);
+    this.route.paramMap.subscribe(params => {
+      this.selectedBlog = params.get('id'); // 'maingroupid' is the name you used in the route
+      console.log(params,"31")
+    });
     this.commentForm = fb.group({
       comment: ["", [Validators.required, noWhitespaceValidator(), Validators.maxLength(this.maxCommentLength)]],
       name: ["", [Validators.required, noWhitespaceValidator(), Validators.pattern('^[a-zA-Z\\s]*$')]],
@@ -48,8 +53,7 @@ export class BlogDetailComponent {
   }
 
   getBlogDetail(){
-this.blogService.getBlogDetails(this.selectedBlog.id).subscribe((response:any)=>{
-  console.log(response.data.id,"26")
+this.blogService.getBlogDetails(this.selectedBlog).subscribe((response:any)=>{
   this.blogDetail = response.data
   this.getReviewsByBlogId(this.blogDetail.blogId)
   const userId = localStorage.getItem("userId");
@@ -81,6 +85,8 @@ this.blogService.getBlogDetails(this.selectedBlog.id).subscribe((response:any)=>
 this.serviceDetail.getCategoryList().subscribe((response:any)=>{
   console.log(response)
   this.Categories = response.data
+  this.orignalCategories = [...this.Categories]
+  this.Categories = this.Categories.filter((category:any)=>category.status === 1 && category.showOnDashboard === 1)
 })
   }
   blogDataEvent(event:any):void{
