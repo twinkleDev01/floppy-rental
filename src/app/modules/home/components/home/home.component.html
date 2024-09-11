@@ -70,7 +70,7 @@
             Please enter a search item
         </div>
         <div *ngIf="itemError" class="location-error">
-            No Item Found
+            Service Not Available
         </div>
     
         <button (click)="getSearchedItemList()">Search</button>
@@ -102,12 +102,14 @@
                     </div> -->
                     <owl-carousel-o #owlElement [options]="customOptions1">
                         <ng-template carouselSlide *ngFor="let item of serviceDataList">
-                            <div class="card" (click)="openDialog(item)">
+                            <!-- @if(item?.status === 1 && item?.showOnDashboard === 1){ -->
+                            <div class="card" (click)="openDialog(item)" *ngIf="item?.status === 1 && item?.showOnDashboard === 1">
                                 <div class="card_img">
                                     <img [src]="item.image ? item.image : 'images/No_Image_Available.jpg'" [alt]="item.classificationName" />
                                 </div>
                                 <h3 class="card_h3">{{item.classificationName}}</h3>
                             </div>
+                        <!-- } -->
                         </ng-template>
                     </owl-carousel-o>
                 </div>

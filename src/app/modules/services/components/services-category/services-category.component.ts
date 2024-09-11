@@ -147,6 +147,7 @@ export class ServicesCategoryComponent {
 }
 
   fetchItems(catId: any, subCatId: any) {
+    console.log(catId, subCatId,"150")
     this.service.getItemByCategory(catId, subCatId, this.latitude, this.longitude, this.startIndex, this.pageSize).subscribe((res) => {
       if (res.success) {
         this.servicesDetails = res.data.items.map((itemWrapper:any) => ({
@@ -177,11 +178,11 @@ export class ServicesCategoryComponent {
       this.getFilterSubCategory(selectedValue.value);
       this.subCatId = this.categories.filter(a=>a.SubId);
       this.catId = this.categories.filter((a)=>a.MainId);
-      console.log(this.subCatId, this.catId, selectedValue.value)
+      console.log(this.subCatId, this.catId, selectedValue.value,this.categories,"181")
 
 
         // Navigate
-    this.router.navigate([`/services/category/${selectedValue.value}`], {
+    this.router.navigate([`/services/category/${this.catId}/${selectedValue.value}/`], {
       state: {
         serviceId: selectedValue.value,
       }
@@ -220,6 +221,7 @@ onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
       category.isChecked = category.SubId === subCategoryId;
     });
     // 
+    console.log(this.selectedServiceCategory, subCategoryId,"224")
     this.fetchItems(this.selectedServiceCategory, subCategoryId);
   }
 }
@@ -448,11 +450,11 @@ for (const city of this.newLocationId) {
     this.navigatedMainGroupId = uniqueMaingroupIds.size === 1 ? Array.from(uniqueMaingroupIds)[0] : null;
     
     
-    
+    console.log(this.navigatedMainGroupId,this.navigatedSubGroupId,"453",`/services/category/${this.selectedSubGroupName?.trim()}/${this.navigatedMainGroupId}`)
     // Navigate
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
       this.router.onSameUrlNavigation = "reload";
-    this.router.navigate([`/services/category/${this.selectedSubGroupName?.trim()}`], {
+    this.router.navigate([`/services/category/${this.selectedSubGroupName?.trim()}/${this.navigatedMainGroupId}`], {
       state: {
         serviceId: this.navigatedMainGroupId,
         subId: this.navigatedSubGroupId,
@@ -483,9 +485,7 @@ calculateAverageRating(reviews:any): any {
 }
 
 navigateToServiceRate() {
-  this.router.navigate(['/services/service-rate'], {
-    state: { selectedServiceCategory: this.selectedServiceCategory }
-  });
+  this.router.navigate([`/services/service-rate/${this.selectedServiceCategory}`]);
 }
 
 

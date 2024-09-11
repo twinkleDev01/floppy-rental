@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { CartService } from "../../services/cart.service";
 import { Router } from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
+import { SharedService } from "../../../../shared/services/shared.service";
 
 
 @Component({
@@ -13,11 +14,13 @@ export class MyCartComponent {
   cartItems: any[] = []
   OfferAndCoupon: any
   isUpdate: boolean = false
-  userId = localStorage.getItem("userId")
-  constructor(private cartService: CartService, private router:Router, private toastr: ToastrService
+  userId = localStorage.getItem("userId");
+  couponCode!:number;
+  private _amountToCheckout: number = 0;
+  constructor(private cartService: CartService, private router:Router, private toastr: ToastrService, private sharedService:SharedService
   ) {
     this.getCartItems()
-    this.getOfferAndCoupon()
+    this.getCouponList()
   }
   
   getCartItems() {
@@ -84,9 +87,9 @@ export class MyCartComponent {
       this.router.navigate(['cart/checkout'], navigationExtras);
     }
   }
-  getOfferAndCoupon() {
-    this.cartService.getOfferAndCoupon().subscribe((data: any) =>
-      this.OfferAndCoupon = data
+  getCouponList() {
+    this.sharedService.getCouponList().subscribe((response: any) =>
+      this.OfferAndCoupon = response.data
     )
   }
 
@@ -125,25 +128,53 @@ export class MyCartComponent {
   
   get sabTotal() {
     return this.cartItems.reduce((totalAmount, cart, index) => {
-      return totalAmount + (cart.price * cart.quantity)
+      return totalAmount + (cart.itemRate * cart.quantity)
     }, 0
     )
   }
   get sabTotalSaving() {
     return this.cartItems.reduce((totalAmount, cart, index) => {
-      return totalAmount + ((cart.price * cart.quantity)*cart.discountPercent/100)
+      return totalAmount + ((cart.itemRate * cart.quantity)*cart.discountPercent/100)
     }, 0
     )
   }
   //getter for tax amount
   get totalTaxAmount() {
     return this.cartItems.reduce((totalAmount, cart) => {
-      return totalAmount + (((cart.price * cart.quantity)-((cart.price * cart.quantity)*cart.discountPercent/100))  * cart.tax / 100);
+      console.log(totalAmount, cart)
+      return totalAmount + (((cart.itemRate * cart.quantity)-((cart.itemRate * cart.quantity)*cart.discountPercent/100))  * cart.tax / 100);
     }, 0);
   }
   
 
   get AmountToCheckout() {
-    return this.sabTotal - this.sabTotalSaving + this.totalTaxAmount
+  return this.sabTotal - this.sabTotalSaving + this.totalTaxAmount
+    // return this._amountToCheckout;
+  }
+
+  //  // Optionally, a setter for AmountToCheckout if needed
+  //  set AmountToCheckout(value: number) {
+  //   this._amountToCheckout = value;
+  // }
+
+  applyCoupon(couponCode:any) {
+    const userId = Number(localStorage.getItem('userId'));
+    const couponId = Number(couponCode);
+    const totalPrice = this.AmountToCheckout;
+
+    this.cartService.addCoupon(userId, couponId, totalPrice).subscribe(
+      (response) => {
+        if(response){
+          console.log('Coupon added successfully:', response);
+          this._amountToCheckout = response.data;
+         
+          this.toastr.success(response.message)
+        }
+      },
+      (error) => {
+        console.error('Error adding coupon:', error);
+        this.toastr.error(error.error.message)
+      }
+    );
   }
 }

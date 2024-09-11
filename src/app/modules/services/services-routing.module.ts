@@ -19,7 +19,7 @@ const routes: Routes = [
     component: ServicesDetailsComponent,
   },
   {
-    path: 'service-rate',
+    path: 'service-rate/:id',
     component: ServiceRateComponent
   }
 ];

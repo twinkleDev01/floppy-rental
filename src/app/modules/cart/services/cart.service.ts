@@ -53,15 +53,15 @@ const cartItems = [
   },
   ];
 
-  const couponCodes = [
-    {
-      offerType: 'bank',
-      icon: '/images/bank_logo.png',
-      title: '20% off on Kotak Silk Cards',
-      sortDescription: '20% off up to INR 350',
-      description: 'SAVE INR 350 On This Order',
-    },
-  ];
+  // const couponCodes = [
+  //   {
+  //     offerType: 'bank',
+  //     icon: '/images/bank_logo.png',
+  //     title: '20% off on Kotak Silk Cards',
+  //     sortDescription: '20% off up to INR 350',
+  //     description: 'SAVE INR 350 On This Order',
+  //   },
+  // ];
 
 @Injectable({
   providedIn: 'root'
@@ -72,6 +72,7 @@ export class CartService {
   url = environment.ApiBaseUrl
   token = localStorage.getItem("token"); // Replace with your actual token
   private paymentUrl = 'https://firstfloppy.asptask.in/api/Payments/create-order';
+  private addCouponUrl = 'https://firstfloppy.asptask.in/api/Coupon/AddCoupon';
 
   constructor(private http:HttpClient) { }
 
@@ -107,16 +108,16 @@ export class CartService {
     return this.http.post(this.url+`Cart/delete-cart-item/${CardItemId}` ,httpOptions)
   }
   
-  getOfferAndCoupon(){
-    return of (couponCodes)
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-    const httpOptions = {
-      headers: headers
-    };
-    return this.http.get(this.url+'' ,httpOptions)
-  }
+  // getOfferAndCoupon(){
+  //   return of (couponCodes)
+  //   const headers = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //   });
+  //   const httpOptions = {
+  //     headers: headers
+  //   };
+  //   return this.http.get(this.url+'' ,httpOptions)
+  // }
 
   // ---------- check out Api's ----------- //
   
@@ -151,4 +152,15 @@ export class CartService {
 
     return this.http.post<any>(this.paymentUrl, payload, { headers });
   }
+
+  addCoupon(userId: number, couponId: number, totalPrice: number): Observable<any> {
+    const payload = {
+      userId: userId,
+      couponId: couponId,
+      totalPrice: totalPrice
+    };
+
+    return this.http.post(this.addCouponUrl, payload);
+  }
+  
 }

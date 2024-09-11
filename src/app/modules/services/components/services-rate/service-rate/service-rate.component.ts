@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ServicesDetailService } from '../../../service/services-detail.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-service-rate',
@@ -10,13 +10,11 @@ import { Router } from '@angular/router';
 export class ServiceRateComponent {
 serviceListRate:any;
 selectedServiceCategory:any
-  constructor(private serviceDetail:ServicesDetailService, private router:Router){
+  constructor(private serviceDetail:ServicesDetailService, private route:ActivatedRoute){
      // Retrieve state data
-     const navigation = this.router.getCurrentNavigation();
-     if (navigation && navigation.extras.state) {
-       this.selectedServiceCategory = navigation.extras.state['selectedServiceCategory'];
-       console.log('Selected Service Category:', this.selectedServiceCategory);
-     }
+    this.route.paramMap.subscribe(params => {
+      this.selectedServiceCategory = params.get('id'); // 'maingroupid' is the name you used in the route
+    });
    }
   
 

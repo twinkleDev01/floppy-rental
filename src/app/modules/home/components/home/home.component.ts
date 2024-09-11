@@ -51,6 +51,7 @@ thirdCategory!:SubCategories
   originalSubgroups: string[]= [];
   error= false;
   itemError =  false;
+  originalList: any[] = [];
 
   constructor(private homeService: HomeService, public dialog: MatDialog, private service:ServicesDetailService,private scrollService:ScrollService, private router:Router){
     // this.initializeLocations();
@@ -145,6 +146,8 @@ thirdCategory!:SubCategories
     // ServiceCategoryList
     this.homeService.getServiceList().subscribe((res:any)=>{
       this.serviceDataList = res.data;
+      this.originalList = [...res?.data];
+      this.serviceDataList = this.serviceDataList?.filter((iterable:any)=> iterable?.status === 1 && iterable?.showOnDashboard === 1);
     })
     this.fetchCategories()
 

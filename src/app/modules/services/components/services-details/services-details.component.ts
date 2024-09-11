@@ -118,8 +118,8 @@ addToCart(){
     itemId:this.serviceDetail.item.itemid||0,
     id:0,
     itemName:this.serviceDetail.item.itemName?this.serviceDetail.item.itemName:this.serviceDetail.item.specication,
-    itemRate:this.serviceDetail?.item.price,
-    price:this.serviceDetail?.item.price,
+    itemRate:Number(this.serviceDetail?.item.rate.replace(/[^0-9.-]+/g, "")),
+    price:Number(this.serviceDetail?.item.rate.replace(/[^0-9.-]+/g, "")),
     quantity: 1,
     userId:Number(localStorage.getItem("userId")),
     processStatus:'',
@@ -278,6 +278,10 @@ displayedReviewsCount = 3; // Initially display 3 reviews
   // Getter to check if "Load More" button should be visible
   get shouldShowLoadMore() {
     return this.displayedReviewsCount < this.reviews.length;
+  }
+
+  navigateToServiceRate() {
+    this.router.navigate([`/services/service-rate/${this.serviceDetail.item.maingroupid}`])
   }
 
 }

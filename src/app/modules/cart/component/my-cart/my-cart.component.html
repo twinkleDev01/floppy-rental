@@ -26,7 +26,7 @@
                                 {{cart.itemName}}
                             </div>
                         </td>
-                        <td>INR {{cart.price}}</td>
+                        <td>INR {{cart.itemRate}}</td>
                         <td>
                             <div class="input-group mb-3" style="max-width: 200px">
                                 <button class="input-group-text" [disabled]="+cart.quantity <= 1"
@@ -36,7 +36,7 @@
                                 <button class="input-group-text" (click)="changeQuantity(cart, 1)">+</button>
                             </div>
                         </td>
-                         <td>INR {{cart.price * (+cart.quantity)}}</td>
+                         <td>INR {{cart.itemRate * (+cart.quantity) }}</td>
                     </tr>
                     }
                     }
@@ -79,33 +79,33 @@
             </div>
         </div>
         <div class="col-md-4 order-2 order-md-3 cards mb-2">
-            @for (item of OfferAndCoupon; track item) {
             <div class="p-2 apply-coupon">
                 <h5> <strong>Coupon Code</strong></h5>
                 <div class="d-flex justify-content-between">
-                    <input type="text" class="px-1 form-control w-50" placeholder="Enter Code">
+                    <input type="text" class="px-1 form-control w-50" placeholder="Enter Code" [(ngModel)]="couponCode">
                     <div class="d-flex align-items-center">
-                        <button>Apply</button>
+                        <button (click)="applyCoupon(couponCode)">Apply</button>
                     </div>
                 </div>
                 <hr>
+                @for (item of OfferAndCoupon; track item) {
                 <div class="d-flex justify-content-between">
                     <div class="d-flex">
                         <div class="d-flex align-items-center">
-                            <img [src]="item.icon" alt="" style="width: 100%; height: 45px;">
+                            <img src="images/SpecialOffer.svg" alt="" style="width: 100%; height: 45px;">
                         </div>
                         <p class="d-flex flex-column font px-4">
-                            <strong> {{item.title}} </strong>
-                            <span class="text-muted font-small">{{item.title}}</span>
-                            <span class="text-info ">{{item.title}}</span>
+                            <strong> {{item.percentage}}% OFF On {{item.couponDescription}} </strong>
+                            <span class="text-muted font-small">{{item.percentage}}% OFF up to {{item.currency}} {{item.amount}}</span>
+                            <!-- <span class="text-info ">{{item.title}}</span> -->
                         </p>
                     </div>
                     <div class="d-flex align-items-center">
-                        <button>Apply</button>
+                        <button (click)="applyCoupon(item.couponId)">Apply</button>
                     </div>
                 </div>
-            </div>
             }
+            </div>
         </div>
     </div>
 </div>
