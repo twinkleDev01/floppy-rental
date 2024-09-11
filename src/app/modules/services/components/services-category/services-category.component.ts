@@ -50,6 +50,7 @@ export class ServicesCategoryComponent {
   selectedArea: string = '';
   filteredSubgroups: string[] = [];
   allSubgroups: string[] = [];
+  originalList:any[]=[]
   // toppings: FormGroup;
   // Paginator
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -131,6 +132,8 @@ export class ServicesCategoryComponent {
     // getCategoryList
     this.service.getCategoryList().subscribe((res)=>{
       this.categoriesList = res.data;
+      this.originalList = [...res?.data];
+      this.categoriesList = this.categoriesList?.filter((iterable:any)=> iterable?.status === 1 && iterable?.showOnDashboard === 1);
 
          // Set the selectedCategory based on selectedServiceCategoryId
          if (this.selectedServiceCategoryId) {

@@ -9,7 +9,8 @@ import { environment } from '../../../../../environments/environment.development
   styleUrl: './services.component.scss'
 })
 export class ServicesComponent {
-  serviceDataList:any=[]=[];
+  serviceDataList:any[]=[];
+  originalList:any[]=[];
   apiUrl: string = environment.ApiBaseUrl;
 //   services = [
 //     {
@@ -82,6 +83,8 @@ ngOnInit(){
    this.service.getServiceList().subscribe((res:any)=>{
     console.log("SErviceList",res)
     this.serviceDataList = res.data;
+    this.originalList = [...res?.data];
+      this.serviceDataList = this.serviceDataList?.filter((iterable:any)=> iterable?.status === 1 && iterable?.showOnDashboard === 1);
     console.log(this.serviceDataList,"serviceDataListtt")
    })
 }

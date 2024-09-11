@@ -84,8 +84,9 @@ export class ProfileComponent {
       this.profileForm.get("selectedCountry")?.setValue(selectedCountry);
       this.profileForm.get("selectedCountry")?.updateValueAndValidity();
       this.states = State.getStatesOfCountry(selectedCountry.iso2);
+      this.cities = City.getCitiesOfState(this.selectedCountry.iso2, this.states?.[0].isoCode);
       console.log(this.states,"87")
-      this.cities = [];
+      // this.cities = [];
     } else {
       this.selectedCountryFlag = undefined;
     }
@@ -100,12 +101,7 @@ export class ProfileComponent {
   console.log(this.selectedState,"100")
     if (this.selectedState) {
       // Set the state name in the form control
-      this.profileForm.get('state')?.setValue(this.selectedState.name);
-
-        // Manually trigger change detection if necessary
-    // this.cdr.detectChanges();
-    this.cdr.markForCheck();
-  console.log(this.profileForm.get('state')?.value)
+      this.profileForm.get('state')?.setValue(this.selectedState.isoCode);
       // Fetch cities based on the selected state
       if (this.selectedCountry && this.selectedState) {
         this.cities = City.getCitiesOfState(this.selectedCountry.iso2, this.selectedState.isoCode);
@@ -149,7 +145,7 @@ export class ProfileComponent {
         pincode: formValue.pincode,
         locality: formValue.locality,
         address: formValue.address,
-        state: formValue.state,
+        state: this.selectedState.name,
         city: formValue.city,
         image: formValue.profilePicture
       };
@@ -201,6 +197,7 @@ export class ProfileComponent {
             iso2: country.cca2,
           }));
           resolve();
+          
         },
         (error) => {
           console.error('Error fetching countries:', error);
@@ -225,22 +222,27 @@ export class ProfileComponent {
 
             console.log('Country Code:', countryCode);
 
-            if (countryCode === '') {
+            if (countryCode) {
               console.error('Country code not found for the mobile number.');
+              this.states = State.getStatesOfCountry(countryCodeObj?.iso2);
+             
             }
 
             const escapedCountryCode = countryCode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             const phone = fullMobileNumber.replace(new RegExp(`^${escapedCountryCode}`), '').trim();
             console.log('Contact Number:', phone);
+const patchedState = this.states?.find((state:any)=> state?.name === response?.data?.state)?.isoCode;
 
+this.cities = City.getCitiesOfState(countryCodeObj?.iso2, patchedState);
+const patchedCity = this.cities?.find((city:any)=> city?.name === response?.data?.city)?.name;
             this.profileForm.patchValue({
               name: response.data.name || '',
               selectedCountry: countryCodeObj || null,
               phone: phone || '',
-              state: response.data.state || '',
+              state: patchedState || '',
               pincode: response.data.pincode || '',
               locality: response.data.locality || '',
-              city: response.data.city || '',
+              city: patchedCity || '',
               address: response.data.address || '',
               profilePicture: response.data.image
             });

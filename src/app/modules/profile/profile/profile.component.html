@@ -98,7 +98,7 @@
                             <select formControlName="city" class="custom-select mt-2" id="city" #city (change)="onCityChange($event)">
                               <!-- <option value="delhi">Delhi</option>
                               <option value="pune">Pune</option> -->
-                              <option *ngFor="let city of cities" [value]="city | json">{{ city.name }}</option>
+                              <option *ngFor="let city of cities" [value]="city.name">{{ city.name }}</option>
                             </select>
                           </div>
                           <div class="col-lg-12 mt-3">

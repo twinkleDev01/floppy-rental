@@ -167,7 +167,7 @@ export class MyCartComponent {
         if(response){
           console.log('Coupon added successfully:', response);
           this._amountToCheckout = response.data;
-         
+          // 100 - 60 =40 
           this.toastr.success(response.message)
         }
       },

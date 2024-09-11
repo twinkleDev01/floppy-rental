@@ -169,22 +169,27 @@
         <!-- Password-Error -->
         <div *ngIf="signup.get('password')?.invalid && signup.get('password')?.touched" class="text-danger">
           <!-- Required Error -->
-          <div *ngIf="signup.get('password')?.errors?.['required']" style="font-size: 10px;">
+          <div *ngIf="signup.get('password')?.errors?.['required']" style="text-align: right;">
+
+            <i class="fa fa-exclamation-triangle" style="color: #fe3061" aria-hidden="true"></i>
             Password is required.
           </div>
           
           <!-- Minimum Length Error -->
-          <div *ngIf="signup.get('password')?.errors?.['minlength'] && !signup.get('password')?.errors?.['required']" style="font-size: 10px;">
+          <div *ngIf="signup.get('password')?.errors?.['minlength'] && !signup.get('password')?.errors?.['required']" style="text-align: right;">
+            <i class="fa fa-exclamation-triangle" style="color: #fe3061" aria-hidden="true"></i>
             Password must be at least 8 characters long.
           </div>
         
           <!-- Maximum Length Error -->
-          <div *ngIf="signup.get('password')?.errors?.['maxlength'] && !signup.get('password')?.errors?.['required']" style="font-size: 10px;">
+          <div *ngIf="signup.get('password')?.errors?.['maxlength'] && !signup.get('password')?.errors?.['required']" style="text-align: right;">
+            <i class="fa fa-exclamation-triangle" style="color: #fe3061" aria-hidden="true"></i>
             Password must not exceed 14 characters.
           </div>
         
           <!-- Pattern Error -->
-          <div *ngIf="signup.get('password')?.errors?.['pattern'] && !signup.get('password')?.errors?.['required']" style="font-size: 10px;">
+          <div *ngIf="signup.get('password')?.errors?.['pattern'] && !signup.get('password')?.errors?.['required']" style="text-align: right;">
+            <i class="fa fa-exclamation-triangle" style="color: #fe3061" aria-hidden="true"></i>
             Password must contain First one uppercase letter and one special character.[e.g., Ranjan$].
           </div>
         </div>
