@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ServicesDetailService } from '../../service/services-detail.service';
 import { environment } from '../../../../../environments/environment.development';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-services',
@@ -76,9 +77,11 @@ export class ServicesComponent {
 // ]
   constructor(
     private router: Router,
-    private service:ServicesDetailService
+    private service:ServicesDetailService,
+    private viewportScroller: ViewportScroller
   ){}
 ngOnInit(){
+  this.viewportScroller.scrollToPosition([0, 0]); // Scroll to the top of the page
    // ServiceCategoryList
    this.service.getServiceList().subscribe((res:any)=>{
     console.log("SErviceList",res)

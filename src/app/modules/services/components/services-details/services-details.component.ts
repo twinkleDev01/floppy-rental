@@ -39,8 +39,8 @@ export class ServicesDetailsComponent {
     const urlSegments = this.router.url.split('/');
     this.serviceDetailId = urlSegments[urlSegments.length - 1];
     this.reviewForm = fb.group({
-      name: ['', Validators.required], // Required validation
-      email: ['', [Validators.required, Validators.email]], // Required and valid email format
+      name: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]], // Required and no special characters
+      email: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/)]], // Required and valid email format with stricter pattern
       phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]], // Required and must be a 10-digit number
       review: ['', [Validators.required, Validators.minLength(10)]], // Required and minimum length of 10
       rating: [''], // Required validation
@@ -58,6 +58,7 @@ export class ServicesDetailsComponent {
   getServiceDetailById(id:any){
     this.service.getServiceDetailsById(id).subscribe((res)=>{
       this.serviceDetail = res.data;
+      console.log(res.data.item.itemid,"61")
       this.getRatingByItemId(res.data.item.itemid)
       this.vendorId = this.serviceDetail.item.vendorid;
 
@@ -81,12 +82,32 @@ export class ServicesDetailsComponent {
   
 
   // get ratings
-  getRatingByItemId(id:string){
-    this.service.getRatingByItemId(id).subscribe((res:any)=>{
-      this.reviews = res.data;
-      this.calculateAverageRating(this.reviews,true);
-    })
+  getRatingByItemId(id: string) {
+    console.log('Fetching ratings for ID:', id);
+    this.service.getRatingByItemId(id).subscribe(
+      (res: any) => {
+        // Check for successful response
+        if (res.success && res.data) {
+          // If data is present, set reviews and calculate average rating
+          this.reviews = res.data;
+          console.log('Received rating data:', this.reviews);
+          this.calculateAverageRating(this.reviews, true);
+        } else {
+          // If no data or unsuccessful response, reset reviews and average rating
+          this.reviews = [];
+          console.log('No rating data found or unsuccessful response.');
+          this.calculateAverageRating([], true); // Pass empty array for no ratings
+        }
+      },
+      (error) => {
+        // Handle HTTP error response
+        console.error('Error fetching rating data:', error);
+        this.reviews = [];
+        this.calculateAverageRating([], true); // Pass empty array for error case
+      }
+    );
   }
+  
 
 // Rating
 addReview(){
@@ -230,7 +251,7 @@ isImageUrl(url: string): boolean {
 }
 averageRating:any
 calculateAverageRating(reviews:any, assign?:boolean): any {
-  if (reviews) {
+  if (reviews && reviews.length > 0) {
     const ratingReview = reviews;
 
     // Filter out invalid ratings and calculate the average
@@ -246,6 +267,13 @@ calculateAverageRating(reviews:any, assign?:boolean): any {
 
     return averageRating;
   }
+ else {
+  // Handle case where there are no reviews
+  if (assign) {
+    this.averageRating = 0; // Reset to 0 if there are no reviews
+  }
+  return 0;
+}
 }
 
 
@@ -282,6 +310,15 @@ displayedReviewsCount = 3; // Initially display 3 reviews
 
   navigateToServiceRate() {
     this.router.navigate([`/services/service-rate/${this.serviceDetail.item.maingroupid}`])
+  }
+
+   // Prevent leading whitespace
+   preventLeadingWhitespace(event: KeyboardEvent): void {
+    const input = (event.target as HTMLInputElement).value;
+    // Prevent a space if the input is empty or has only leading whitespace
+    if (event.key === ' ' && input.trim().length === 0) {
+      event.preventDefault();
+    }
   }
 
 }

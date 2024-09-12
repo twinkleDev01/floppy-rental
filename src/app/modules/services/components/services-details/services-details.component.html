@@ -127,26 +127,29 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <label class="d-block" for="">Name*</label>
-                                <input type="text" formControlName="name">
+                                <input type="text" formControlName="name" (keydown)="preventLeadingWhitespace($event)">
                                 <!-- Validation error message for Name -->
       <div *ngIf="reviewForm.get('name')?.touched && reviewForm.get('name')?.hasError('required')" class="text-danger">
         Name is required.
       </div>
+      <div *ngIf="reviewForm.get('name')?.touched && reviewForm.get('name')?.hasError('pattern')" class="text-danger">
+        Name should contain only letters and spaces.
+      </div>
                             </div>
                             <div class="col-md-4">
                                 <label class="d-block" for="">Email*</label>
-                                <input type="text" formControlName="email">
+                                <input type="text" formControlName="email" (keydown)="preventLeadingWhitespace($event)">
                                 <!-- Validation error messages for Email -->
       <div *ngIf="reviewForm.get('email')?.touched && reviewForm.get('email')?.hasError('required')" class="text-danger">
         Email is required.
       </div>
-      <div *ngIf="reviewForm.get('email')?.touched && reviewForm.get('email')?.hasError('email')" class="text-danger">
+      <div *ngIf="reviewForm.get('email')?.touched && reviewForm.get('email')?.hasError('pattern')" class="text-danger">
         Enter a valid email.
       </div>
                             </div>
                             <div class="col-md-4">
                                 <label class="d-block" for="">Phone Number*</label>
-                                <input type="text" formControlName="phone">
+                                <input type="text" formControlName="phone" (keydown)="preventLeadingWhitespace($event)">
                                 <!-- Validation error messages for Phone -->
       <div *ngIf="reviewForm.get('phone')?.touched && reviewForm.get('phone')?.hasError('required')" class="text-danger">
         Phone number is required.
@@ -157,7 +160,7 @@
                             </div>
                         </div>
                         <label class="d-block mt-4" for="">Message*</label>
-                        <textarea name="" id="" rows="6"  formControlName="review"></textarea>
+                        <textarea name="" id="" rows="6"  formControlName="review" (keydown)="preventLeadingWhitespace($event)"></textarea>
                         <!-- Validation error message for Review -->
   <div *ngIf="reviewForm.get('review')?.touched && reviewForm.get('review')?.hasError('required')" class="text-danger">
     Message is required.
