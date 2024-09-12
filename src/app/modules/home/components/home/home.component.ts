@@ -250,6 +250,7 @@ thirdCategory!:SubCategories
     // }
 
     goCategory(subcategory: any) {
+      console.log(subcategory,"253")
       this.router.navigate(
         [
           `/services/category/${subcategory?.googleName

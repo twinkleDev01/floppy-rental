@@ -147,16 +147,14 @@ export class ServicesCategoryComponent {
 }
 
   fetchItems(catId: any, subCatId: any) {
-    console.log(catId, subCatId,"150")
     this.service.getItemByCategory(catId, subCatId, this.latitude, this.longitude, this.startIndex, this.pageSize).subscribe((res) => {
       if (res.success) {
         this.servicesDetails = res.data.items.map((itemWrapper:any) => ({
-          ...itemWrapper.item, reviews: itemWrapper.reviews})); // Correctly map to items
+          ...itemWrapper.item, reviews: itemWrapper.reviews, vender:itemWrapper.vendor})); // Correctly map to items
         this.totalItems = res.data.totalItems; // Correctly set the total items from the response
   
-  
         if (this.servicesDetails.length > 0) {
-          this.vendorName = this.servicesDetails[0].vendorname; // Extract vendor name from the first item
+          this.vendorName = this.servicesDetails[0]; // Extract vendor name from the first item
         }
   
         this.paginator$.next({ pageIndex: 0, pageSize: 12 });
@@ -175,20 +173,22 @@ export class ServicesCategoryComponent {
       this.location = null;  // Provide a default value if needed
       this.subCategory = null;  // Provide a default value if needed
       this.selectedServiceSubCategoryIdThroughLocationSearch = null;
-      this.getFilterSubCategory(selectedValue.value);
-      this.subCatId = this.categories.filter(a=>a.SubId);
-      this.catId = this.categories.filter((a)=>a.MainId);
-      console.log(this.subCatId, this.catId, selectedValue.value,this.categories,"181")
+      // this.getFilterSubCategory(selectedValue.value);
+      // this.subCatId = this.categories.filter(a=>a.SubId);
+      // this.catId = this.categories.filter((a)=>a.MainId);
+      // console.log(this.subCatId, this.catId, selectedValue.value,this.categories[0].SubClassificationName,"181")
 
-      // this.selectedSubCategoyId = this.categories?.[0]?.SubId;
-      // console.log(this.selectedSubCategoyId,"188")
+      const selectedSubCategoryId = this.categories?.[0]?.SubId;
 
         // Navigate
-    this.router.navigate([`/services/category/${this.catId}/${selectedValue.value}/`], {
-      state: {
-        serviceId: selectedValue.value,
-      }
-    });
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.router.onSameUrlNavigation = "reload";
+      this.router.navigate([`/services/category/${this.categories[0].SubClassificationName}/${selectedValue.value}`], {
+        state: {
+         serviceId: selectedValue.value,
+         subId: selectedSubCategoryId,
+        }
+      });
     }
 
  getFilterSubCategory(id:any){
@@ -202,9 +202,10 @@ export class ServicesCategoryComponent {
     this.categories.forEach((category) => {
       category.isChecked = category.SubId === this.selectedCategory;
     });
-    this.subCatId = this.categories[0].SubId;
+    // this.subCatId = this.categories[0].SubId;
     this.selectedSubCategoyId = this.categories[0].SubId;
     this.catId = this.categories[0].MainId;
+    this.subCatId = this.selectedCategory;
 
     // Fetch items for the default category
     if(!this.location)
@@ -217,6 +218,7 @@ export class ServicesCategoryComponent {
 
 onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
   if (event.checked) {
+    console.log(event,"221")
     // Set the selectedCategory to the newly checked checkbox's value
 
        // Uncheck all other checkboxes by setting the selectedCategory as the only selected one
@@ -224,12 +226,24 @@ onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
       category.isChecked = category.SubId === subCategoryId;
     });
 
-    this.selectedSubCategoyId = subCategoryId;
-    this.selectedCategory = subCategoryId;
-    console.log(this.selectedSubCategoyId,"231")
+    // this.selectedSubCategoyId = subCategoryId;
+    // this.selectedCategory = subCategoryId;
+    // console.log(this.selectedSubCategoyId,"231")
     // 
-    console.log(this.selectedServiceCategory, subCategoryId,"224")
-    this.fetchItems(this.selectedServiceCategory, subCategoryId);
+    console.log(subCategoryId,"224")
+    // this.fetchItems(this.selectedServiceCategory, subCategoryId);
+
+     // Navigate
+     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+     this.router.onSameUrlNavigation = "reload";
+   this.router.navigate([`/services/category/${subCategoryId.SubClassificationName}/${subCategoryId.MainId}`], {
+     state: {
+      serviceId: subCategoryId.MainId,
+      subId: subCategoryId.SubId,
+      //  location: this.selectedArea
+     }
+   });
+
   }
 }
 

@@ -70,7 +70,7 @@
             class="example-radio-button"
             [value]="subCategory.SubId"
             [checked]="subCategory.isChecked"
-            (change)="onCheckboxChange(subCategory.SubId, $event)"
+            (change)="onCheckboxChange(subCategory, $event)"
             >{{ subCategory.SubClassificationName }}</mat-checkbox
           >
           }
@@ -125,7 +125,7 @@
               <div class="price">{{ card?.rate }}</div>
               <hr />
               <div class="distance">
-                Distance : {{ card?.vendor?.distance || 0}} KM
+                Distance : {{ card?.vender?.distance | json}} KM
                 <app-rating-star
                   [rating]="calculateAverageRating(card.reviews)"
                   [starCount]="5"
