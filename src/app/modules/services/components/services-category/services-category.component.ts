@@ -19,10 +19,8 @@ export class ServicesCategoryComponent {
   searchControl: FormControl = new FormControl('');
   servicesDetails:any[]=[];
   private readonly _formBuilder = inject(FormBuilder);
-  // currentRating = this.servicesDetails[0].rate; // Initial rating value
   currentRating:any;
   showFilter: boolean = false;
-  // selectedCategory: string = 'Housekeeping Staff';
   selectedCategory:any;
   selectedServiceCategory:any
   selectedServiceCategoryId:any;
@@ -103,8 +101,6 @@ export class ServicesCategoryComponent {
       : null;
   }
   ngOnInit(){
-    console.log(this.servicesDetails,"service deyails 84")
-    // this.servicesDetails = this.homeService.locationSearchResGetter;
     const storedData = localStorage.getItem('serviceDetails');
   if (storedData) {
     const data = JSON.parse(storedData);
