@@ -86,7 +86,7 @@ this.serviceDetail.getCategoryList().subscribe((response:any)=>{
   console.log(response)
   this.Categories = response.data
   this.orignalCategories = [...this.Categories]
-  this.Categories = this.Categories.filter((category:any)=>category.status === 1 && category.showOnDashboard === 1)
+  this.Categories = this.Categories.filter((category:any)=>category.status === 1)
 })
   }
   blogDataEvent(event:any):void{

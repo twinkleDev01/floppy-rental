@@ -84,7 +84,7 @@ ngOnInit(){
     console.log("SErviceList",res)
     this.serviceDataList = res.data;
     this.originalList = [...res?.data];
-      this.serviceDataList = this.serviceDataList?.filter((iterable:any)=> iterable?.status === 1 && iterable?.showOnDashboard === 1);
+      this.serviceDataList = this.serviceDataList?.filter((iterable:any)=> iterable?.status === 1);
     console.log(this.serviceDataList,"serviceDataListtt")
    })
 }

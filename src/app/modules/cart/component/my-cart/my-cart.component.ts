@@ -16,7 +16,9 @@ export class MyCartComponent {
   isUpdate: boolean = false
   userId = localStorage.getItem("userId");
   couponCode!:number;
-  private _amountToCheckout: number = 0;
+  discountedPrice: number | null = null; 
+  initialAmountToCheckout: number = 0
+  discountAmount: number | null = null;
   constructor(private cartService: CartService, private router:Router, private toastr: ToastrService, private sharedService:SharedService
   ) {
     this.getCartItems()
@@ -132,13 +134,31 @@ export class MyCartComponent {
     }, 0
     )
   }
-  get sabTotalSaving() {
-    return this.cartItems.reduce((totalAmount, cart, index) => {
-      return totalAmount + ((cart.itemRate * cart.quantity)*cart.discountPercent/100)
-    }, 0
-    )
-  }
+  // get sabTotalSaving() {
+  //   if (this.discountAmount !== null) {
+  //     console.log("Discounted Price Applied:", this.discountAmount);
+  //     return this.discountAmount; // Use the discounted price from the API response
+  //   }
+  //   return this.cartItems.reduce((totalAmount, cart, index) => {
+  //     return totalAmount + ((cart.itemRate * cart.quantity)*cart.discountPercent/100)
+  //   }, 0
+  //   )
+  // }
   //getter for tax amount
+ 
+  get sabTotalSaving() {
+    // Check if discountAmount is available (not null or undefined)
+    if (this.discountAmount !== null && this.discountAmount !== undefined) {
+      console.log("Discount Amount from API Applied:", this.discountAmount);
+      return this.discountAmount; // Use the discount amount from the API response
+    }
+  
+    // Calculate the savings from the cart items if no API discount is available
+    return this.cartItems.reduce((totalAmount, cart) => {
+      return totalAmount + ((cart.itemRate * cart.quantity) * cart.discountPercent / 100);
+    }, 0);
+  }
+  
   get totalTaxAmount() {
     return this.cartItems.reduce((totalAmount, cart) => {
       console.log(totalAmount, cart)
@@ -147,9 +167,14 @@ export class MyCartComponent {
   }
   
 
+  // Getter for total amount to checkout
   get AmountToCheckout() {
-  return this.sabTotal - this.sabTotalSaving + this.totalTaxAmount
-    // return this._amountToCheckout;
+    if (this.discountedPrice !== null) {
+      console.log("Discounted Price Applied:", this.discountedPrice);
+      return this.discountedPrice; // Use the discounted price from the API response
+    }
+    this.initialAmountToCheckout = this.sabTotal - this.sabTotalSaving + this.totalTaxAmount;
+    return this.sabTotal - this.sabTotalSaving + this.totalTaxAmount; // Original calculation if no coupon is applied
   }
 
   //  // Optionally, a setter for AmountToCheckout if needed
@@ -157,24 +182,67 @@ export class MyCartComponent {
   //   this._amountToCheckout = value;
   // }
 
-  applyCoupon(couponCode:any) {
+  // applyCoupon(couponCode:any) {
+  //   const userId = Number(localStorage.getItem('userId'));
+  //   const couponId = Number(couponCode);
+  //   const totalPrice = this.initialAmountToCheckout;
+
+  //   const selectedCoupon = this.OfferAndCoupon.find((coupon: any) => coupon.couponId === couponId);
+
+  //   this.cartService.addCoupon(userId, couponId, totalPrice).subscribe(
+  //     (response) => {
+  //       if(response){
+  //         console.log('Coupon added successfully:', response);
+  //         // this._amountToCheckout = response.data;
+  //         if (selectedCoupon.amount <= totalPrice) {
+  //         this.discountAmount = response.data.discountAmount;
+  //         this.discountedPrice = response.data.discountedPrice; // Set discounted price from the response
+  //         }
+  //         // 100 - 60 =40 
+  //         this.toastr.success(response.message)
+  //       }
+  //     },
+  //     (error) => {
+  //       console.error('Error adding coupon:', error);
+  //       this.toastr.error(error.error.message)
+  //     }
+  //   );
+  // }
+
+
+  applyCoupon(couponCode: any) {
     const userId = Number(localStorage.getItem('userId'));
     const couponId = Number(couponCode);
-    const totalPrice = this.AmountToCheckout;
-
-    this.cartService.addCoupon(userId, couponId, totalPrice).subscribe(
-      (response) => {
-        if(response){
-          console.log('Coupon added successfully:', response);
-          this._amountToCheckout = response.data;
-          // 100 - 60 =40 
-          this.toastr.success(response.message)
+    const totalPrice = this.initialAmountToCheckout;
+  
+    // Find the selected coupon from the available coupon list
+    const selectedCoupon = this.OfferAndCoupon.find((coupon: any) => coupon.couponId === couponId);
+  
+    if (!selectedCoupon) {
+      this.toastr.error('Invalid coupon code.');
+      return;
+    }
+  
+    // Check if the coupon amount is less than or equal to the total price
+    if (selectedCoupon.amount <= totalPrice) {
+      this.cartService.addCoupon(userId, couponId, totalPrice).subscribe(
+        (response) => {
+          if (response) {
+            console.log('Coupon added successfully:', response);
+            this.discountAmount = response.data.discountAmount;
+            this.discountedPrice = response.data.discountedPrice; // Set discounted price from the response
+            this.toastr.success(response.message);
+          }
+        },
+        (error) => {
+          console.error('Error adding coupon:', error);
+          this.toastr.error(error.error.message);
         }
-      },
-      (error) => {
-        console.error('Error adding coupon:', error);
-        this.toastr.error(error.error.message)
-      }
-    );
+      );
+    } else {
+      // If the coupon amount is greater than the total price
+      this.toastr.error('Invalid coupon code.');
+    }
   }
+  
 }
