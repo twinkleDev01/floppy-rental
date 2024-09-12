@@ -147,7 +147,7 @@ thirdCategory!:SubCategories
     this.homeService.getServiceList().subscribe((res:any)=>{
       this.serviceDataList = res.data;
       this.originalList = [...res?.data];
-      this.serviceDataList = this.serviceDataList?.filter((iterable:any)=> iterable?.status === 1 && iterable?.showOnDashboard === 1);
+      this.serviceDataList = this.serviceDataList?.filter((iterable:any)=> iterable?.status === 1);
     })
     this.fetchCategories()
 

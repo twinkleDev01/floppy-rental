@@ -103,7 +103,7 @@
                     <owl-carousel-o #owlElement [options]="customOptions1">
                         <ng-template carouselSlide *ngFor="let item of serviceDataList">
                             <!-- @if(item?.status === 1 && item?.showOnDashboard === 1){ -->
-                            <div class="card" (click)="openDialog(item)" *ngIf="item?.status === 1 && item?.showOnDashboard === 1">
+                            <div class="card" (click)="openDialog(item)" *ngIf="item?.status === 1">
                                 <div class="card_img">
                                     <img [src]="item.image ? item.image : 'images/No_Image_Available.jpg'" [alt]="item.classificationName" />
                                 </div>
