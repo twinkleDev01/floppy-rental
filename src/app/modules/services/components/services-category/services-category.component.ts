@@ -105,7 +105,7 @@ export class ServicesCategoryComponent {
   if (storedData) {
     const data = JSON.parse(storedData);
     this.servicesDetails = data.items.map((itemWrapper:any) => ({
-      ...itemWrapper.item, reviews: itemWrapper.reviews})); // Correctly map to items
+      ...itemWrapper.item, reviews: itemWrapper.reviews, vender:itemWrapper.vendor})); // Correctly map to items
       this.totalItems = data.totalItems; 
       console.log(this.servicesDetails,this.servicesDetails[0].reviews,this.totalItems, "service deyails 88")
   }
