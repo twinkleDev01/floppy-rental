@@ -7,7 +7,7 @@ import { environment } from '../../../../environments/environment.development';
   providedIn: 'root'
 })
 export class ServicesDetailService {
-  locationServiceWiseUrl = environment.ApiBaseUrl + 'Service/searchItems'
+  locationServiceWiseUrl = 'https://cicd.asptask.in/api/' + 'Service/searchItems'
    url = environment.ApiBaseUrl;
    serviceListUrl = `${environment.ApiBaseUrl}Service/service_page`;
   constructor(private http: HttpClient) { }
@@ -159,9 +159,9 @@ export class ServicesDetailService {
     throw new Error('Method not implemented.');
   }
 
-  getServiceLocationWise(subgroupName: string, location: string): Observable<any> {
+  getServiceLocationWise(subgroupName: string, location: string, latitude:any, logitude:any): Observable<any> {
     // Construct the URL with the provided parameters
-    const url = `${this.locationServiceWiseUrl}/${subgroupName}/${location}`;
+    const url = `${this.locationServiceWiseUrl}/${subgroupName}/${location}/${latitude}/${logitude}`;
     
     // Make the GET request and return the observable
     return this.http.get<any>(url);

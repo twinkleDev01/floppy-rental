@@ -43,6 +43,7 @@
   padding-left: 20px;
   padding-right: 10px;
   margin-top: 30px;
+  position: relative;
 }
 
 .select_box {
@@ -331,4 +332,29 @@ font-size: 15px !important;
 }
 :host ::ng-deep .mat-mdc-icon-button.mat-mdc-button-base{
   padding: 5px;
+}
+.select-location{
+  word-wrap: break-word;
+  position: absolute;
+  z-index: 1;
+  top: 47px;
+  left: 30px;
+  width: auto;
+  border: none;
+  box-shadow: 0 10px 10px lightgray;
+  overflow: auto;
+  height: auto;
+  max-width: 560px;
+  
+}
+.location-auto{
+border: none;
+background: transparent;
+}
+.location-auto:active, .location-auto:focus{
+border: none;
+outline: none;
+}
+.search-option{
+padding: 10px;
 }

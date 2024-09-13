@@ -9,6 +9,7 @@ import { ScrollService } from '../../../../shared/services/scroll.service';
 import { Router } from '@angular/router';
 import { Item, SubCategories } from '../../_models/home.model';
 import { FormControl } from '@angular/forms';
+import { map, Observable, startWith } from 'rxjs';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -52,10 +53,8 @@ thirdCategory!:SubCategories
   error= false;
   itemError =  false;
   originalList: any[] = [];
-
-  constructor(private homeService: HomeService, public dialog: MatDialog, private service:ServicesDetailService,private scrollService:ScrollService, private router:Router){
-    // this.initializeLocations();
-  }
+  locationSearchItem:any
+ 
   customOptions: OwlOptions = {
     loop: true,
     mouseDrag: true,
@@ -128,19 +127,27 @@ thirdCategory!:SubCategories
   @ViewChild('next') next!: ElementRef;
   locationSelected = false;
   showError = false;
+  autocompleteService: any;
+  predictions: any[] = [];
+  searchInput: string = '';
+  placeDetails: any; // For storing selected place details
+  filteredSubgroupsName: Observable<any[]> = new Observable();
+  placesService!: google.maps.places.PlacesService;
 
+  constructor(private homeService: HomeService, public dialog: MatDialog, private service:ServicesDetailService,private scrollService:ScrollService, private router:Router){
+    // this.initializeLocations();
+    this.placesService = new google.maps.places.PlacesService(document.createElement('div'));
+  }
 
   ngAfterViewInit() {
     }
 
     ngOnInit(){
-      this.locations = this.locations?.reduce((acc:any, city:any) => {
-        const combinedAreas = city.areas.map((area:any) => `${city.cityName} - ${area.areaName}`);
-        return acc.concat(combinedAreas);
-      }, []);
+      // / Initialize the Google Places Autocomplete service
+      this.autocompleteService = new google.maps.places.AutocompleteService();
+
      this.getBannerData();
      this.getItemlist();
-     this.getLocations();
      this.getCurrentLocation();
       
     // ServiceCategoryList
@@ -149,12 +156,7 @@ thirdCategory!:SubCategories
       this.originalList = [...res?.data];
       this.serviceDataList = this.serviceDataList?.filter((iterable:any)=> iterable?.status === 1);
     })
-    this.fetchCategories()
-
-     // Subscribe to search control changes
-     this.searchControl.valueChanges.subscribe(() => {
-      this.applySearchFilter();
-    });
+    this.fetchSubCategories()
 
   }
 
@@ -214,10 +216,11 @@ thirdCategory!:SubCategories
       
     }
 
-    fetchCategories() {
+    allSubCategotyList:any
+    fetchSubCategories() {
       this.homeService.getAllCategorySubcategory().subscribe((res) => {
           this.categorySucategotyList = res.data;
-  
+          this.allSubCategotyList = res.data
           // Filter categories to only include those that should be shown on the dashboard
           const filteredCategories = this.categorySucategotyList
               .filter(category => category.showOnDashboard === 1)
@@ -236,6 +239,21 @@ thirdCategory!:SubCategories
           this.firstCategory = filteredCategories[0];
           this.secondCategory = filteredCategories[1];
           this.thirdCategory = filteredCategories[2];
+
+          this.allSubCategotyList = this.allSubCategotyList.flatMap((category:any) =>
+            category.subcategories.map((subcategory:any) => ({
+              subId: subcategory.subId,
+              subClassificationName: subcategory.subClassificationName,
+              mainId: subcategory.mainId
+            }))
+          );
+      
+          // Initialize filteredSubgroupsName observable after data is loaded
+      this.filteredSubgroupsName = this.searchControl.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
+          console.log(this.allSubCategotyList); 
       });
       
   }
@@ -418,84 +436,127 @@ if (this.filteredSubgroups.length === 0 && searchValue) {
       }
     }
     
-    getSearchedItemList(){
-      if (!this.searchControl.value) {
-        this.error = true;
-        return;
-      } 
-      this.selectedSubGroupName = this.filteredSubgroups[0];
-     
-    if (this.originalSubgroups.includes(this.searchControl.value)) {
-      this.itemError = false;
-        // this.searchControl.patchValue(this.selectedSubGroupName);
-      } else {
-        this.itemError = true;
-       return
-      }      
-      
-
-
-  // Loop through each city in the response
-  for (const city of this.newLocationId) {
-    // Loop through each area within the current city
-    for (const area of city.areas) {
-      // Find the subgroup with the matching name
-      const subgroup = area.subgroups.find(
-        (sub:any) => {return sub.subgroupName === this.selectedSubGroupName  && area?.areaName === this.selectedArea}
-      );
-
-      // If found, store the subgroupId and exit both loops
-      if (subgroup) {
-      this.selectedSubGroupId = subgroup.subgroupId;
-        // return this.selectedSubGroupId; // Return immediately once found
-      }
-
-      
-    }
-  }
-
-      this.homeService.getSearchedItemList(this.selectedSubGroupId,this.selectedArea,this.latitude,this.longitude).subscribe((res:any)=>{
-        
-        this.navigatedCategoryItem = res.data.item;
-        this.navigatedCategoryItem = res.data.items.map((itemWrapper:any) => itemWrapper.item)
-        // 
-    
-      const uniqueSubgroupIds = new Set(this.navigatedCategoryItem.map((item: any) => item.subgroupid));
-      const uniqueMaingroupIds = new Set(this.navigatedCategoryItem.map((item: any) => item.maingroupid));
-      
-      // Assuming there's only one unique value
-      this.navigatedSubGroupId = uniqueSubgroupIds.size === 1 ? Array.from(uniqueSubgroupIds)[0] : null;
-      this.navigatedMainGroupId = uniqueMaingroupIds.size === 1 ? Array.from(uniqueMaingroupIds)[0] : null;
-      
-     
-      // Navigate
-      // this.router.navigate([`/services/category/${this.selectedSubGroupName?.trim()}`], {
-      //   state: {
-      //     serviceId: this.navigatedMainGroupId,
-      //     subId: this.navigatedSubGroupId,
-      //     location: this.selectedArea
-      //   }
-      // });
-      this.router.navigate(
-        [
-          `/services/category/${this.selectedSubGroupName?.trim()}/${
-            this.navigatedMainGroupId
-          }`,
-        ],
-        {
-          state: {
-            serviceId: this.navigatedMainGroupId,
-            subId: this.navigatedSubGroupId,
-            location: this.selectedArea,
-          },
+    getSearchedItemList() {
+      // Navigate with query parameters
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+      this.router.onSameUrlNavigation = "reload";
+      this.router.navigate([
+        `/services/category/${this.locationSearchItem.subClassificationName}/${this.locationSearchItem.mainId}`
+      ], {
+        queryParams: {
+          latitude: this.placeDetails.lat,
+          longitude: this.placeDetails.lng,
+          locations: this.searchInput
         }
-      );
-      })
+      });
     }
 
     onSearchFocus(): void {
       if (!this.locationSelected) {
         this.showError = true; // Show error message if no location is selected
       }
+    }
+
+    onInputChange() {
+      // Fetch predictions when the user types
+      if (this.searchInput) {
+        this.getPlacePredictions(this.searchInput);
+      } else {
+        this.predictions = []; // Clear predictions if the input is empty
+      }
+    }
+  
+    getPlacePredictions(input: string) {
+      const request = {
+        input,
+        types: ['(regions)'], // Fetch regions, cities, countries, etc.
+      };
+  
+      // Use Google's AutocompleteService to get place predictions
+      this.autocompleteService.getPlacePredictions(request, (predictions: any[], status: any) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK && predictions) {
+          this.predictions = predictions;
+          console.log(this.predictions,"539")
+        } else {
+          this.predictions = [];
+        }
+      });
+    }
+    selectPrediction(event: any) {
+      // Get selected prediction from the dropdown
+      const selectedDescription = event.target.value;
+      this.searchInput = selectedDescription;
+      console.log(this.searchInput,"489")
+      // this.predictions = []; // Clear predictions after selection
+      console.log('Selected Description:', selectedDescription);
+    
+      // Log predictions to verify their content
+      console.log('Available Predictions:', this.predictions);
+    
+      // Find the selected place
+      const selectedPrediction = this.predictions.find(prediction => prediction.description === selectedDescription);
+    
+      if (selectedPrediction) {
+        const placeId = selectedPrediction.place_id; // Ensure 'place_id' is available in predictions
+        console.log('Place ID:', placeId, "562");
+    
+        // Fetch place details
+        const request = {
+          placeId: placeId,
+          fields: ['geometry'] // Request geometry to get latitude and longitude
+        };
+    
+        this.placesService.getDetails(request, (place, status) => {
+          if (status === google.maps.places.PlacesServiceStatus.OK && place && place.geometry) {
+            const location = place.geometry.location;
+            if (location) {
+              console.log('Latitude:', location.lat());
+              console.log('Longitude:', location.lng());
+              this.placeDetails = {
+                lat: location.lat(),
+                lng: location.lng()
+              };
+              this.predictions = [];
+              console.log('Location:', location, 'Place Details:', this.placeDetails);
+            } else {
+              console.error('Place geometry is not available.');
+            }
+          } else {
+            console.error('Error fetching place details:', status);
+          }
+        });
+      } else {
+        console.error('Selected prediction not found.');
+      }
+    }
+    
+    
+
+    // private _filter(value: string): any[] {
+    //   console.log(value,"602")
+    //   const filterValue = value.toLowerCase();
+    //   console.log(this.allSubCategotyList.filter((subgroup:any) =>
+    //     subgroup.subClassificationName.toLowerCase().includes(filterValue)
+    //   ),"560")
+    //   return this.allSubCategotyList.filter((subgroup:any) =>
+    //     subgroup.subClassificationName.toLowerCase().includes(filterValue)
+    //   );
+    // }
+
+    private _filter(value: string): any[] {
+      const filterValue = value.toLowerCase();
+      return this.allSubCategotyList.filter((subgroup:any) =>
+        subgroup.subClassificationName.toLowerCase().includes(filterValue)
+      );
+    }
+  
+    onOptionSelected(event: any): void {
+      console.log(event, "633");
+      console.log('Selected Option:', event.option.value);
+      this.locationSearchItem = event.option.value;
+    }
+  
+    displaySubgroupName(subgroup: any): string {
+      return subgroup ? subgroup.subClassificationName : '';
     }
 }

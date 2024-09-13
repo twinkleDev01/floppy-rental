@@ -1,4 +1,4 @@
-import { Component, Directive, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
+import { Component, Directive, ElementRef, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -52,9 +52,17 @@ export class ServicesCategoryComponent {
   selectedSubCategoyId:any;
   subCategoryName:any;
   CategoryId:any
+  predictions: any[] = [];
+  searchInput: string = '';
+  placeDetails: any; 
+  placesService!: google.maps.places.PlacesService;
+  autocompleteService: any;
+  searchLocation!:''
   // toppings: FormGroup;
   // Paginator
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('selectDropdown') selectDropdown!: ElementRef;
+
 
   @Output() page = new EventEmitter<PageEvent>()
   @Input() length = 0;
@@ -81,12 +89,22 @@ export class ServicesCategoryComponent {
 
     // Subscribe to route parameters
     this.route.paramMap.subscribe((params:any) => {
+      console.log(params,"89")
      this.subCategoryName = params.get('categoryName');
       this.CategoryId = params.get('id');
-
-      console.log('Category Name from URL:', this.subCategoryName);
-      console.log('Sub ID from URL:', this.CategoryId);
+      this.selectedServiceCategory = params.get('id');
     })
+
+    this.route.queryParams.subscribe(params => {
+      console.log(params,"97")
+      this.latitude = params['latitude']?params['latitude']:0;
+    this.longitude = params['longitude']?params['longitude']:0;
+    this.searchLocation = params['locations'];
+      console.log(this.latitude, this.longitude);
+    });
+    if(this.searchLocation){
+      this.searchInput = this.searchLocation
+    }
 
     if (this.CategoryId) {
       // Call the API to fetch subcategories and match the name
@@ -101,8 +119,11 @@ export class ServicesCategoryComponent {
     this.selectedServiceCategory = selectedCategoryObj
       ? selectedCategoryObj.mainId
       : null;
+      console.log(this.selectedServiceCategory,"selectedServiceCategory 117")
   }
   ngOnInit(){
+    this.autocompleteService = new google.maps.places.AutocompleteService();
+
     const storedData = localStorage.getItem('serviceDetails');
   if (storedData) {
     const data = JSON.parse(storedData);
@@ -127,7 +148,7 @@ export class ServicesCategoryComponent {
 
   this.getLocations()
     this.getCouponList()
-    this.getCurrentLocation()
+    // this.getCurrentLocation()
     // getCategoryList
     this.service.getCategoryList().subscribe((res)=>{
       this.categoriesList = res.data;
@@ -154,6 +175,9 @@ export class ServicesCategoryComponent {
         this.servicesDetails = res.data.items.map((itemWrapper:any) => ({
           ...itemWrapper.item, reviews: itemWrapper.reviews, vender:itemWrapper.vendor})); // Correctly map to items
         this.totalItems = res.data.totalItems; // Correctly set the total items from the response
+
+        this.servicesDetails = this.servicesDetails.find((item:any)=>item.status === 'Aproved')
+        console.log(this.servicesDetails,"173")
   
         if (this.servicesDetails.length > 0) {
           this.vendorName = this.servicesDetails[0]; // Extract vendor name from the first item
@@ -220,9 +244,12 @@ getFilterSubCategory(id: any) {
         this.categories.forEach((category) => {
           category.isChecked = category.SubId === this.selectedSubCategoryId;
         });
-
+if(!this.searchLocation){
+  this.fetchItems(this.CategoryId, this.selectedSubCategoryId);
+}else{
+  this.getItemByLocation()
+}
         // Fetch items for the matched category
-        this.fetchItems(this.CategoryId, this.selectedSubCategoryId);
       } else {
         console.error('No matching subcategory found for name:', this.subCategoryName);
         // Handle the case where no match is found
@@ -307,7 +334,11 @@ onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
     this.pageIndex = event.pageIndex;  // Update current page index
     this.pageSize = event.pageSize;  // Update page size
     this.startIndex = this.pageIndex * this.pageSize;  // Calculate new startIndex
+    if(!this.searchLocation){
     this.fetchItems(this.CategoryId, this.selectedSubCategoryId);  // Fetch new items based on updated page
+    }else{
+      this.getItemByLocation()
+    }
   }
   
 
@@ -432,29 +463,7 @@ if (navigator.geolocation) {
   navigatedSubGroupId:any;
   navigatedMainGroupId:any
   getSearchedItemList(){
-
-    this.selectedSubGroupName = this.selectedCategory;
-
-console.log(this.selectedCategory,this.selectedArea, "370")
-// Loop through each city in the response
-for (const city of this.newLocationId) {
-  // Loop through each area within the current city
-  for (const area of city.areas) {
-    // Find the subgroup with the matching name
-    const subgroup = area.subgroups.find(
-      (sub:any) => {return sub.subgroupName === this.selectedSubGroupName  && area?.areaName === this.selectedArea}
-    );
-
-    // If found, store the subgroupId and exit both loops
-    if (subgroup) {
-    this.selectedSubGroupId = subgroup.subgroupId;
-      // return this.selectedSubGroupId; // Return immediately once found
-    }
-
     
-  }
-}
-
     this.homeService.getSearchedItemList(this.selectedSubGroupName,this.selectedArea,this.latitude,this.longitude).subscribe((res:any)=>{
       
       this.navigatedCategoryItem = res.data.item;
@@ -507,6 +516,106 @@ navigateToServiceRate() {
   this.router.navigate([`/services/service-rate/${this.selectedServiceCategory}`]);
 }
 
+onInputChange() {
+  // Fetch predictions when the user types
+  if (this.searchInput) {
+    this.getPlacePredictions(this.searchInput);
+  } else {
+    this.predictions = []; // Clear predictions if the input is empty
+  }
+}
+
+getPlacePredictions(input: string) {
+  const request = {
+    input,
+    types: ['(regions)'], // Fetch regions, cities, countries, etc.
+  };
+
+  // Use Google's AutocompleteService to get place predictions
+  this.autocompleteService.getPlacePredictions(request, (predictions: any[], status: any) => {
+    if (status === google.maps.places.PlacesServiceStatus.OK && predictions) {
+      this.predictions = predictions;
+      console.log(this.predictions,"539")
+    } else {
+      this.predictions = [];
+    }
+  });
+}
+
+selectPrediction(event: any) {
+  // Get selected prediction from the dropdown
+  const selectedDescription = event.target.value;
+  this.searchInput = selectedDescription;
+  // this.predictions = []; // Clear predictions after selection
+  console.log('Selected Description:', selectedDescription);
+
+  // Log predictions to verify their content
+  console.log('Available Predictions:', this.predictions);
+
+  // Find the selected place
+  const selectedPrediction = this.predictions.find(prediction => prediction.description === selectedDescription);
+
+  if (selectedPrediction) {
+    const placeId = selectedPrediction.place_id; // Ensure 'place_id' is available in predictions
+    console.log('Place ID:', placeId, "562");
+
+    // Fetch place details
+    const request = {
+      placeId: placeId,
+      fields: ['geometry'] // Request geometry to get latitude and longitude
+    };
+
+    this.placesService.getDetails(request, (place, status) => {
+      if (status === google.maps.places.PlacesServiceStatus.OK && place && place.geometry) {
+        const location = place.geometry.location;
+        if (location) {
+          console.log('Latitude:', location.lat());
+          console.log('Longitude:', location.lng());
+          this.placeDetails = {
+            lat: location.lat(),
+            lng: location.lng()
+          };
+          this.predictions = [];
+          console.log('Location:', location, 'Place Details:', this.placeDetails);
+
+           // Optionally, trigger a change event to ensure dropdown closes
+           const selectElement = document.querySelector('select.select-location') as HTMLSelectElement;
+           if (selectElement) {
+             selectElement.dispatchEvent(new Event('change'));
+           }
+        } else {
+          console.error('Place geometry is not available.');
+        }
+      } else {
+        console.error('Error fetching place details:', status);
+      }
+    });
+  } else {
+    console.error('Selected prediction not found.');
+  }
+}
+
+getItemByLocation(){
+  this.service.getServiceLocationWise(this.selectedSubCategoryId,this.searchLocation,this.latitude,this.longitude).subscribe((response:any)=>{
+    console.log(response,"585")
+    if (response.success) {
+      this.servicesDetails = response.data.items.map((itemWrapper:any) => ({
+        ...itemWrapper.item, reviews: itemWrapper.reviews, vender:itemWrapper.vendor})); // Correctly map to items
+      this.totalItems = response.data.totalItems; // Correctly set the total items from the response
+console.log(this.servicesDetails,"590")
+      this.servicesDetails = this.servicesDetails.filter((item:any)=>item.vender.status === 'Approved')
+      console.log(this.servicesDetails,"173")
+
+      if (this.servicesDetails.length > 0) {
+        this.vendorName = this.servicesDetails[0]; // Extract vendor name from the first item
+      }
+
+      this.paginator$.next({ pageIndex: 0, pageSize: 12 });
+    } else {
+      console.error('Failed to fetch items:', response.message); // Log any errors in fetching items
+    }
+  })
+}
 
 }
 

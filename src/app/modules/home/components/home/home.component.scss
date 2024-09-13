@@ -86,6 +86,7 @@ h1 span {
   padding-left: 20px;
   padding-right: 10px;
   margin-top: 30px;
+  position: relative;
 }
 
 .select_box {
@@ -1119,4 +1120,29 @@ h2 span {
 .location-error{
   color: #008cac;
    font-size: 12px;
+}
+.select-location{
+    word-wrap: break-word;
+    position: absolute;
+    z-index: 1;
+    top: 47px;
+    left: 30px;
+    width: auto;
+    border: none;
+    box-shadow: 0 10px 10px lightgray;
+    overflow: auto;
+    height: auto;
+    max-width: 560px;
+    
+}
+.location-auto{
+  border: none;
+  background: transparent;
+}
+.location-auto:active, .location-auto:focus{
+  border: none;
+  outline: none;
+}
+.search-option{
+  padding: 10px;
 }
