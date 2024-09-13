@@ -65,20 +65,15 @@ console.log(data,'dialog')
 
     goCategory(subcategory: any) {
       console.log('56', subcategory);
-      this.router.navigate(
-        [
-          `/services/category/${subcategory?.GoogleName?.toString()
-            ?.trim()
-            ?.replace(/\s+/g, '-')
-            ?.toLowerCase()}/${subcategory.MainId}`,
-        ],
-        {
-          state: {
-            serviceId: subcategory.MainId,
-            subId: subcategory.SubId,
-          },
-        }
-      );
+      // this.router.navigate(
+      //   [
+      //     `/services/category/${subcategory?.SubClassificationName?.toString()
+      //       ?.trim()
+      //       ?.replace(/\s+/g, '-')
+      //       ?.toLowerCase()}/${subcategory.MainId}`,
+      //   ]
+      // );
+      this.router.navigate([`/services/category/${subcategory?.SubClassificationName}/${subcategory.MainId}`]);
       this.dialogRef.close();
     }
 

@@ -6,7 +6,7 @@
     <div class="card_background card_backgroundImg">
             <div class="row d-flex flex-wrap justify-content-center w-100 mt-4 mobileRow">
               <div class="col-md-2 col-sm-4 col-6 mb-3" *ngFor="let card of serviceDataList">
-                  <div class="card text-center clickable" (click)="goToRental(card)">
+                  <div class="card text-center clickable" (click)="goToCategory(card)">
                     <div class="card_img mx-auto">
                       <img [src]="card.image ? (card.image) : 'images/No_Image_Available.jpg'" [alt]="card.classificationName" />
                     </div>

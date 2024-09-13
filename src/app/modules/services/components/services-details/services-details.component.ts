@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { ServicesDetailService } from '../../service/services-detail.service';
 import { environment } from '../../../../../environments/environment.development';
@@ -32,12 +32,20 @@ export class ServicesDetailsComponent {
   startIndex:number=0;
   pageSize:number=0
 
-  constructor(private router: Router,private service:ServicesDetailService, private fb:FormBuilder, private dialog:MatDialog, private toastr:ToastrService) {
-    const navigation = this.router.getCurrentNavigation();
-    this.selectedCard = navigation?.extras?.state?.['card']; 
-    // this.serviceDetailId = this.selectedCard.item?this.selectedCard.item.id:this.selectedCard.id;
-    const urlSegments = this.router.url.split('/');
-    this.serviceDetailId = urlSegments[urlSegments.length - 1];
+  constructor(private router: Router,private service:ServicesDetailService, private fb:FormBuilder, private dialog:MatDialog, private toastr:ToastrService, private route:ActivatedRoute) {
+    // const navigation = this.router.getCurrentNavigation();
+    // this.selectedCard = navigation?.extras?.state?.['card']; 
+    // console.log(this.selectedCard,"38")
+    // const urlSegments = this.router.url.split('/');
+    // this.serviceDetailId = urlSegments[urlSegments.length - 1];
+    this.route.paramMap.subscribe(params => {
+      // this.itemNameDetail = params.get('itemNameDetail');
+      this.serviceDetailId = params.get('id');
+      
+      // console.log('Item Name Detail:', this.itemNameDetail);
+      console.log('Card ID:', this.serviceDetailId);
+    });
+    console.log(this.serviceDetailId,"41")
     this.reviewForm = fb.group({
       name: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]], // Required and no special characters
       email: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/)]], // Required and valid email format with stricter pattern

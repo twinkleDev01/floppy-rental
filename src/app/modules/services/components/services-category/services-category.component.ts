@@ -1,7 +1,7 @@
 import { Component, Directive, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ServicesDetailService } from '../../service/services-detail.service';
 import { environment } from '../../../../../environments/environment.development';
 import { MatCheckboxChange } from '@angular/material/checkbox';
@@ -50,6 +50,8 @@ export class ServicesCategoryComponent {
   allSubgroups: string[] = [];
   originalList:any[]=[];
   selectedSubCategoyId:any;
+  subCategoryName:any;
+  CategoryId:any
   // toppings: FormGroup;
   // Paginator
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -62,39 +64,39 @@ export class ServicesCategoryComponent {
   @Input() showPageSizeField = true;
   paginator$ = new BehaviorSubject<{pageIndex:number,pageSize:number}|null>({pageIndex:0,pageSize:12})
 
-  constructor(private fb: FormBuilder, private router: Router, private service:ServicesDetailService, private homeService:HomeService, private sharedService:SharedService) {
+  constructor(private fb: FormBuilder, private router: Router, private service:ServicesDetailService, private homeService:HomeService, private sharedService:SharedService, private route:ActivatedRoute) {
 
     const urlSegments = this.router.url.split('/');
     this.selectedServiceCategoryId = urlSegments[urlSegments.length - 1];
     console.log(this.selectedServiceCategoryId, '85');
 
 
-    const navigation = this.router.getCurrentNavigation();
-    const state = navigation?.extras?.state ?? {};
-    // this.selectedServiceCategoryId = state?.['serviceId']; 
-    this.location = state['location'] ; // Provide a default value if needed
-    this.subCategory = state['subCategory'] ; // Provide a default value if needed
-    this.selectedServiceCategoryIdThroughLocationSearch = state['mainId']
-    this.selectedServiceSubCategoryIdThroughLocationSearch = state['subId']
-  }
-// private filteringThroughSubcategory(selectedServiceCategoryId:any):void{
-//   const selectedCategoryObj = this.categoriesList.find(
-//     (category) => category.mainId === this.selectedServiceCategoryId
-//   );
-//   this.selectedServiceCategory = selectedCategoryObj
-//     ? selectedCategoryObj.mainId
-//     : null;
-// }
+    // const navigation = this.router.getCurrentNavigation();
+    // const state = navigation?.extras?.state ?? {};
+    // // this.selectedServiceCategoryId = state?.['serviceId']; 
+    // this.location = state['location'] ; // Provide a default value if needed
+    // this.subCategory = state['subCategory'] ; // Provide a default value if needed
+    // this.selectedServiceCategoryIdThroughLocationSearch = state['mainId']
+    // this.selectedServiceSubCategoryIdThroughLocationSearch = state['subId']
+
+    // Subscribe to route parameters
+    this.route.paramMap.subscribe((params:any) => {
+     this.subCategoryName = params.get('categoryName');
+      this.CategoryId = params.get('id');
+
+      console.log('Category Name from URL:', this.subCategoryName);
+      console.log('Sub ID from URL:', this.CategoryId);
+    })
+
+    if (this.CategoryId) {
+      // Call the API to fetch subcategories and match the name
+      this.getFilterSubCategory(this.CategoryId);
+    }
+}
 
  private filteringThroughSubcategory(selectedServiceCategoryId: any): void {
     const selectedCategoryObj = this.categoriesList.find(
       (category) => category.mainId == this.selectedServiceCategoryId
-    );
-    console.log(
-      '98',
-      selectedCategoryObj,
-      this.categoriesList,
-      this.selectedServiceCategoryId
     );
     this.selectedServiceCategory = selectedCategoryObj
       ? selectedCategoryObj.mainId
@@ -142,7 +144,7 @@ export class ServicesCategoryComponent {
     })
     // this.onRatingUpdated(this.currentRating);
     this.selectedServiceCategoryId =  this.selectedServiceCategoryId? this.selectedServiceCategoryId:this.selectedServiceCategoryIdThroughLocationSearch;
-   this.getFilterSubCategory(this.selectedServiceCategoryId);
+  //  this.getFilterSubCategory(this.selectedServiceCategoryId);
   
 }
 
@@ -163,56 +165,73 @@ export class ServicesCategoryComponent {
       }
     });
   }
-  
- 
-    // Handle category change
+
     onCategoryChange(selectedValue: any) {
-      localStorage.removeItem('serviceDetails')
+      console.log(selectedValue.value,"211")
+      this.CategoryId = selectedValue.value
+      // Remove previous service details from localStorage
+      localStorage.removeItem('serviceDetails');
+    
       // Reset all variables to null or default values
       this.selectedServiceCategoryIdThroughLocationSearch = null;
-      this.location = null;  // Provide a default value if needed
-      this.subCategory = null;  // Provide a default value if needed
+      this.location = null;
+      this.subCategory = null;
       this.selectedServiceSubCategoryIdThroughLocationSearch = null;
-      // this.getFilterSubCategory(selectedValue.value);
-      // this.subCatId = this.categories.filter(a=>a.SubId);
-      // this.catId = this.categories.filter((a)=>a.MainId);
-      // console.log(this.subCatId, this.catId, selectedValue.value,this.categories[0].SubClassificationName,"181")
-
-      const selectedSubCategoryId = this.categories?.[0]?.SubId;
-
-        // Navigate
-        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-        this.router.onSameUrlNavigation = "reload";
-      this.router.navigate([`/services/category/${this.categories[0].SubClassificationName}/${selectedValue.value}`], {
-        state: {
-         serviceId: selectedValue.value,
-         subId: selectedSubCategoryId,
+    
+      // Fetch the updated subcategory list based on the selected value
+      this.service.getSubCategoryList(this.CategoryId).subscribe((res:any) => {
+        this.categories = res.data; // Update the category list with new data
+    
+        if (this.categories && this.categories.length > 0) {
+          const selectedSubCategoryName = this.categories[0].SubClassificationName;
+    
+          // Set navigation options
+          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+          this.router.onSameUrlNavigation = 'reload';
+    
+          // Navigate using updated category name and ID
+          this.router.navigate([`/services/category/${selectedSubCategoryName}/${this.CategoryId}`]);
+        } else {
+          console.error('No categories found in response.');
         }
+      }, (error:any) => {
+        console.error('Error fetching subcategories:', error);
       });
     }
-
- getFilterSubCategory(id:any){
-  this.service.getSubCategoryList(id).subscribe((res)=>{
+    
+selectedSubCategoryId:any
+getFilterSubCategory(id: any) {
+  this.service.getSubCategoryList(id).subscribe((res) => {
     this.categories = res.data;
 
-     // Set the first category as the default selected
-  if (this.categories && this.categories.length > 0) {
-    this.selectedCategory = this.selectedServiceSubCategoryIdThroughLocationSearch?this.selectedServiceSubCategoryIdThroughLocationSearch:this.categories[0].SubId;
-    
-    this.categories.forEach((category) => {
-      category.isChecked = category.SubId === this.selectedCategory;
-    });
-    // this.subCatId = this.categories[0].SubId;
-    this.selectedSubCategoyId = this.categories[0].SubId;
-    this.catId = this.categories[0].MainId;
-    this.subCatId = this.selectedCategory;
+    if (this.categories && this.categories.length > 0) {
+      // Attempt to find the category by name
+      const matchedCategory = this.categories.find(
+        (category) => category.SubClassificationName.toLowerCase() === this.subCategoryName.toLowerCase()
+      );
 
-    // Fetch items for the default category
-    if(!this.location)
-    this.fetchItems(this.catId, this.subCatId);
-  }
-  })
- }
+      this.CategoryId = matchedCategory.MainId
+
+      if (matchedCategory) {
+        this.selectedSubCategoryId = matchedCategory.SubId;
+        console.log('Matched Sub ID:', this.selectedSubCategoryId);
+
+        // Mark the matched category as checked
+        this.categories.forEach((category) => {
+          category.isChecked = category.SubId === this.selectedSubCategoryId;
+        });
+
+        // Fetch items for the matched category
+        this.fetchItems(this.CategoryId, this.selectedSubCategoryId);
+      } else {
+        console.error('No matching subcategory found for name:', this.subCategoryName);
+        // Handle the case where no match is found
+      }
+    } else {
+      console.error('No subcategories available.');
+    }
+  });
+}
 
 
 
@@ -224,25 +243,12 @@ onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
        // Uncheck all other checkboxes by setting the selectedCategory as the only selected one
     this.categories.forEach((category) => {
       category.isChecked = category.SubId === subCategoryId;
-    });
-
-    // this.selectedSubCategoyId = subCategoryId;
-    // this.selectedCategory = subCategoryId;
-    // console.log(this.selectedSubCategoyId,"231")
-    // 
-    console.log(subCategoryId,"224")
-    // this.fetchItems(this.selectedServiceCategory, subCategoryId);
+    }); 
 
      // Navigate
      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
      this.router.onSameUrlNavigation = "reload";
-   this.router.navigate([`/services/category/${subCategoryId.SubClassificationName}/${subCategoryId.MainId}`], {
-     state: {
-      serviceId: subCategoryId.MainId,
-      subId: subCategoryId.SubId,
-      //  location: this.selectedArea
-     }
-   });
+   this.router.navigate([`/services/category/${subCategoryId.SubClassificationName}/${subCategoryId.MainId}`])
 
   }
 }
@@ -254,15 +260,6 @@ onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
   toggleViewMobile() {
     this.showFilter = !this.showFilter;
   }
-  // goToDetail(card:any){
-  //   const itemNameDetail = card?.subgroupname?.trim()?.replace(/\s+/g, '-')?.toLowerCase();
-  //   const navigationExtras = {
-  //     state: {
-  //       card: card
-  //     }
-  //   };
-  //   this.router.navigate([`services/service-Details/${itemNameDetail}`], navigationExtras);
-  // }
 
   goToDetail(card: any) {
     const itemNameDetail = card?.subgroupname
@@ -276,8 +273,7 @@ onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
     };
 
     this.router.navigate(
-      [`services/service-Details/${itemNameDetail}/${card?.id}`],
-      navigationExtras
+      [`services/service-Details/${itemNameDetail}/${card?.id}`]
     );
   }
 
@@ -311,7 +307,7 @@ onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
     this.pageIndex = event.pageIndex;  // Update current page index
     this.pageSize = event.pageSize;  // Update page size
     this.startIndex = this.pageIndex * this.pageSize;  // Calculate new startIndex
-    this.fetchItems(this.catId, this.subCatId);  // Fetch new items based on updated page
+    this.fetchItems(this.CategoryId, this.selectedSubCategoryId);  // Fetch new items based on updated page
   }
   
 

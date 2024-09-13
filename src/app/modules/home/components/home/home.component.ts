@@ -251,20 +251,15 @@ thirdCategory!:SubCategories
 
     goCategory(subcategory: any) {
       console.log(subcategory,"253")
-      this.router.navigate(
-        [
-          `/services/category/${subcategory?.googleName
-            ?.trim()
-            ?.replace(/\s+/g, '-')
-            ?.toLowerCase()}/${subcategory.mainId}`,
-        ],
-        {
-          state: {
-            serviceId: subcategory.mainId,
-            subId: subcategory.subId,
-          },
-        }
-      );
+      // this.router.navigate(
+      //   [
+      //     `/services/category/${subcategory?.SubClassificationName
+      //       ?.trim()
+      //       ?.replace(/\s+/g, '-')
+      //       ?.toLowerCase()}/${subcategory.mainId}`,
+      //   ]
+      // );
+      this.router.navigate([`/services/category/${subcategory?.subClassificationName}/${subcategory?.mainId}`]);
     }
 
     getItemlist(){
