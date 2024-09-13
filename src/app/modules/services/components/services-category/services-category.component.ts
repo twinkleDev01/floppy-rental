@@ -176,8 +176,8 @@ export class ServicesCategoryComponent {
           ...itemWrapper.item, reviews: itemWrapper.reviews, vender:itemWrapper.vendor})); // Correctly map to items
         this.totalItems = res.data.totalItems; // Correctly set the total items from the response
 
-        this.servicesDetails = this.servicesDetails.find((item:any)=>item.status === 'Aproved')
-        console.log(this.servicesDetails,"173")
+        // this.servicesDetails = this.servicesDetails.find((item:any)=>item.status === 'Aproved')
+        // console.log(this.servicesDetails,"173")
   
         if (this.servicesDetails.length > 0) {
           this.vendorName = this.servicesDetails[0]; // Extract vendor name from the first item
@@ -603,8 +603,8 @@ getItemByLocation(){
         ...itemWrapper.item, reviews: itemWrapper.reviews, vender:itemWrapper.vendor})); // Correctly map to items
       this.totalItems = response.data.totalItems; // Correctly set the total items from the response
 console.log(this.servicesDetails,"590")
-      this.servicesDetails = this.servicesDetails.filter((item:any)=>item.vender.status === 'Approved')
-      console.log(this.servicesDetails,"173")
+      // this.servicesDetails = this.servicesDetails.filter((item:any)=>item.vender.status === 'Approved')
+      // console.log(this.servicesDetails,"173")
 
       if (this.servicesDetails.length > 0) {
         this.vendorName = this.servicesDetails[0]; // Extract vendor name from the first item
