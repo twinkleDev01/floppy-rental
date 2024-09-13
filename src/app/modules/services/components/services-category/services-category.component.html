@@ -64,7 +64,7 @@
             />
           
             <!-- Select Dropdown for Predictions -->
-            <select *ngIf="predictions.length > 0" size="5" (change)="selectPrediction($event)" class="select-location">
+            <select *ngIf="predictions.length > 0" size="5" (change)="selectPrediction($event)" class="select-location" #selectDropdown>
               <option *ngFor="let prediction of predictions" [value]="prediction.description" class="search-option">
                 <i class="fa-solid fa-location-dot"></i> {{ prediction.description }}
               </option>
