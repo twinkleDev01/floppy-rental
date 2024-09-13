@@ -13,6 +13,7 @@ export class ServicesComponent {
   serviceDataList:any[]=[];
   originalList:any[]=[];
   apiUrl: string = environment.ApiBaseUrl;
+  subSategories:any
 //   services = [
 //     {
 //       "title":"IT-Rental",
@@ -101,20 +102,29 @@ ngOnInit(){
   //   this.router.navigate([`/services/category/${serviceId?.classificationName?.trim()?.replace(/\s+/g, '-')?.toLowerCase()}`], navigationExtras);
   // }
 
-  goToRental(subcategory: any) {
-    this.router.navigate(
-      [
-        `/services/category/${subcategory?.classificationName
-          ?.trim()
-          ?.replace(/\s+/g, '-')
-          ?.toLowerCase()}/${subcategory.mainId}`,
-      ],
-      {
-        state: {
-          serviceId: subcategory.mainId,
-        },
-      }
-    );
+  goToCategory(subcategory: any) {
+
+ // Fetch the updated subcategory list based on the selected value
+ this.service.getSubCategoryList(subcategory.mainId).subscribe((res:any) => {
+  this.subSategories = res.data; // Update the category list with new data
+
+  if (this.subSategories && this.subSategories.length > 0) {
+    const selectedSubCategoryName = this.subSategories[0].SubClassificationName;
+
+    // Set navigation options
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+
+    // Navigate using updated category name and ID
+    this.router.navigate([`/services/category/${selectedSubCategoryName}/${subcategory.mainId}`]);
+  } else {
+    console.error('No categories found in response.');
+  }
+}, (error:any) => {
+  console.error('Error fetching subcategories:', error);
+});
+
+
   }
   
 }
