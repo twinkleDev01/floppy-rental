@@ -82,6 +82,7 @@
               matInput
               [formControl]="searchControl"
               [matAutocomplete]="auto"
+              [matAutocompleteDisabled]="searchControl.value.length === 0"
               placeholder="Search"
               (focus)="onSearchFocus()"
             />

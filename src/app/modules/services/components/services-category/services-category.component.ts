@@ -22,7 +22,7 @@ export class ServicesCategoryComponent {
   currentRating:any;
   showFilter: boolean = false;
   selectedCategory:any;
-  selectedServiceCategory:any
+  selectedServiceCategory!:number
   selectedServiceCategoryId:any;
   selectedServiceCategoryIdThroughLocationSearch:any;
   selectedServiceSubCategoryIdThroughLocationSearch:any
@@ -74,34 +74,29 @@ export class ServicesCategoryComponent {
 
   constructor(private fb: FormBuilder, private router: Router, private service:ServicesDetailService, private homeService:HomeService, private sharedService:SharedService, private route:ActivatedRoute) {
 
+    this.placesService = new google.maps.places.PlacesService(document.createElement('div'));
+
     const urlSegments = this.router.url.split('/');
     this.selectedServiceCategoryId = urlSegments[urlSegments.length - 1];
-    console.log(this.selectedServiceCategoryId, '85');
+    console.log(this.selectedServiceCategory,"81")
 
+  // Subscribe to route parameters
+this.route.paramMap.subscribe((params: any) => {
+  this.subCategoryName = params.get('categoryName');
+  this.CategoryId = params.get('id'); // Convert string to number
+  this.selectedServiceCategory = this.CategoryId; // Set the selected category to match the id
+  console.log(this.selectedServiceCategory,"88")
+});
 
-    // const navigation = this.router.getCurrentNavigation();
-    // const state = navigation?.extras?.state ?? {};
-    // // this.selectedServiceCategoryId = state?.['serviceId']; 
-    // this.location = state['location'] ; // Provide a default value if needed
-    // this.subCategory = state['subCategory'] ; // Provide a default value if needed
-    // this.selectedServiceCategoryIdThroughLocationSearch = state['mainId']
-    // this.selectedServiceSubCategoryIdThroughLocationSearch = state['subId']
+// Subscribe to query parameters
+this.route.queryParams.subscribe(params => {
+  console.log(params, "Query Params 91");
+  this.latitude = params['latitude'] ? params['latitude'] : 0;
+  this.longitude = params['longitude'] ? params['longitude'] : 0;
+  this.searchLocation = params['locations'];
+  console.log(this.latitude, this.longitude);
+});
 
-    // Subscribe to route parameters
-    this.route.paramMap.subscribe((params:any) => {
-      console.log(params,"89")
-     this.subCategoryName = params.get('categoryName');
-      this.CategoryId = params.get('id');
-      this.selectedServiceCategory = params.get('id');
-    })
-
-    this.route.queryParams.subscribe(params => {
-      console.log(params,"97")
-      this.latitude = params['latitude']?params['latitude']:0;
-    this.longitude = params['longitude']?params['longitude']:0;
-    this.searchLocation = params['locations'];
-      console.log(this.latitude, this.longitude);
-    });
     if(this.searchLocation){
       this.searchInput = this.searchLocation
     }
@@ -118,32 +113,18 @@ export class ServicesCategoryComponent {
     );
     this.selectedServiceCategory = selectedCategoryObj
       ? selectedCategoryObj.mainId
-      : null;
+      : this.CategoryId;
       console.log(this.selectedServiceCategory,"selectedServiceCategory 117")
   }
   ngOnInit(){
     this.autocompleteService = new google.maps.places.AutocompleteService();
-
-    const storedData = localStorage.getItem('serviceDetails');
-  if (storedData) {
-    const data = JSON.parse(storedData);
-    this.servicesDetails = data.items.map((itemWrapper:any) => ({
-      ...itemWrapper.item, reviews: itemWrapper.reviews, vender:itemWrapper.vendor})); // Correctly map to items
-      this.totalItems = data.totalItems; 
-      console.log(this.servicesDetails,this.servicesDetails[0].reviews,this.totalItems, "service deyails 88")
-  }
-
-  this.locations = this.locations?.reduce((acc:any, city:any) => {
-    const combinedAreas = city.areas.map((area:any) => `${city.cityName} - ${area.areaName}`);
-    return acc.concat(combinedAreas);
-  }, []);
 
     // Subscribe to value changes of the search control
     this.searchControl.valueChanges.subscribe(value => {
       console.log(value,"97");
       this.filteredSubgroups[0] = value;
      
-      this.getSearchedItemList();
+      // this.getSearchedItemList();
     });
 
   this.getLocations()
@@ -175,9 +156,6 @@ export class ServicesCategoryComponent {
         this.servicesDetails = res.data.items.map((itemWrapper:any) => ({
           ...itemWrapper.item, reviews: itemWrapper.reviews, vender:itemWrapper.vendor})); // Correctly map to items
         this.totalItems = res.data.totalItems; // Correctly set the total items from the response
-
-        // this.servicesDetails = this.servicesDetails.find((item:any)=>item.status === 'Aproved')
-        // console.log(this.servicesDetails,"173")
   
         if (this.servicesDetails.length > 0) {
           this.vendorName = this.servicesDetails[0]; // Extract vendor name from the first item
@@ -193,8 +171,6 @@ export class ServicesCategoryComponent {
     onCategoryChange(selectedValue: any) {
       console.log(selectedValue.value,"211")
       this.CategoryId = selectedValue.value
-      // Remove previous service details from localStorage
-      localStorage.removeItem('serviceDetails');
     
       // Reset all variables to null or default values
       this.selectedServiceCategoryIdThroughLocationSearch = null;
@@ -207,14 +183,28 @@ export class ServicesCategoryComponent {
         this.categories = res.data; // Update the category list with new data
     
         if (this.categories && this.categories.length > 0) {
-          const selectedSubCategoryName = this.categories[0].SubClassificationName;
+          this.subCategoryName = this.categories[0].SubClassificationName;
     
           // Set navigation options
           this.router.routeReuseStrategy.shouldReuseRoute = () => false;
           this.router.onSameUrlNavigation = 'reload';
     
-          // Navigate using updated category name and ID
-          this.router.navigate([`/services/category/${selectedSubCategoryName}/${this.CategoryId}`]);
+          if(!this.searchLocation){
+         // Navigate using updated category name and ID
+            this.router.navigate([`/services/category/${this.subCategoryName}/${this.CategoryId}`]);
+          }else{
+            this.router.navigate([
+              `/services/category/${this.subCategoryName}/${this.CategoryId}`
+            ], {
+              queryParams: {
+                latitude: this.latitude,
+                longitude: this.longitude,
+                locations: this.searchLocation
+              }
+            });
+          }
+
+
         } else {
           console.error('No categories found in response.');
         }
@@ -224,22 +214,23 @@ export class ServicesCategoryComponent {
     }
     
 selectedSubCategoryId:any
+// selectedSubCategoryName:any
 getFilterSubCategory(id: any) {
   this.service.getSubCategoryList(id).subscribe((res) => {
     this.categories = res.data;
-
+console.log(this.categories,this.subCategoryName,"247")
     if (this.categories && this.categories.length > 0) {
       // Attempt to find the category by name
       const matchedCategory = this.categories.find(
         (category) => category.SubClassificationName.toLowerCase() === this.subCategoryName.toLowerCase()
       );
-
+console.log(matchedCategory,"253")
       this.CategoryId = matchedCategory.MainId
 
       if (matchedCategory) {
         this.selectedSubCategoryId = matchedCategory.SubId;
         console.log('Matched Sub ID:', this.selectedSubCategoryId);
-
+        console.log(this.subCategoryName,"260")
         // Mark the matched category as checked
         this.categories.forEach((category) => {
           category.isChecked = category.SubId === this.selectedSubCategoryId;
@@ -272,10 +263,24 @@ onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
       category.isChecked = category.SubId === subCategoryId;
     }); 
 
+    this.subCategoryName = subCategoryId.SubClassificationName
+    this.CategoryId = subCategoryId.MainId
      // Navigate
      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
      this.router.onSameUrlNavigation = "reload";
-   this.router.navigate([`/services/category/${subCategoryId.SubClassificationName}/${subCategoryId.MainId}`])
+     if(!this.searchLocation){
+       this.router.navigate([`/services/category/${this.subCategoryName}/${this.CategoryId}`])
+     }else{
+      this.router.navigate([
+        `/services/category/${this.subCategoryName}/${this.CategoryId}`
+      ], {
+        queryParams: {
+          latitude: this.latitude,
+          longitude: this.longitude,
+          locations: this.searchLocation
+        }
+      });
+     }
 
   }
 }
@@ -410,19 +415,6 @@ if (navigator.geolocation) {
       }, []);
     }); // Store unique subgroups
   }
-  
-
-  onCityChange(event: Event) {
-    const target = event.target as HTMLSelectElement;
-    if (target) {
-      const [cityName, areaName] = target.value.split('|');
-      this.selectedCity = cityName;
-      this.selectedArea = areaName;
-      // this.getFilteredSubgroups(); // Trigger filtering when city changes
-      // this.fetchItems(this.selectedServiceCategory,this.selectedSubCategoyId)
-      this.getSearchedItemList()
-    }
-  }
 
   getFilteredSubgroups() {
     if (!this.selectedCity || !this.selectedArea) {
@@ -454,42 +446,6 @@ if (navigator.geolocation) {
       );
     }
     console.log(this.filteredSubgroups,'357')
-  }
-
-
-  selectedSubGroupId:any;
-  selectedSubGroupName:any;
-  navigatedCategoryItem:any;
-  navigatedSubGroupId:any;
-  navigatedMainGroupId:any
-  getSearchedItemList(){
-    
-    this.homeService.getSearchedItemList(this.selectedSubGroupName,this.selectedArea,this.latitude,this.longitude).subscribe((res:any)=>{
-      
-      this.navigatedCategoryItem = res.data.item;
-      this.navigatedCategoryItem = res.data.items.map((itemWrapper:any) => itemWrapper.item)
-      // 
-  
-    const uniqueSubgroupIds = new Set(this.navigatedCategoryItem.map((item: any) => item.subgroupid));
-    const uniqueMaingroupIds = new Set(this.navigatedCategoryItem.map((item: any) => item.maingroupid));
-    
-    // Assuming there's only one unique value
-    this.navigatedSubGroupId = uniqueSubgroupIds.size === 1 ? Array.from(uniqueSubgroupIds)[0] : null;
-    this.navigatedMainGroupId = uniqueMaingroupIds.size === 1 ? Array.from(uniqueMaingroupIds)[0] : null;
-    
-    
-    console.log(this.navigatedMainGroupId,this.navigatedSubGroupId,"453",`/services/category/${this.selectedSubGroupName}/${this.navigatedMainGroupId}`)
-    // Navigate
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-      this.router.onSameUrlNavigation = "reload";
-    this.router.navigate([`/services/category/${this.selectedSubGroupName}/${this.navigatedMainGroupId}`], {
-      state: {
-        serviceId: this.navigatedMainGroupId,
-        subId: this.navigatedSubGroupId,
-        location: this.selectedArea
-      }
-    });
-    })
   }
 
   averageRating:any
@@ -546,7 +502,6 @@ selectPrediction(event: any) {
   // Get selected prediction from the dropdown
   const selectedDescription = event.target.value;
   this.searchInput = selectedDescription;
-  // this.predictions = []; // Clear predictions after selection
   console.log('Selected Description:', selectedDescription);
 
   // Log predictions to verify their content
@@ -557,7 +512,6 @@ selectPrediction(event: any) {
 
   if (selectedPrediction) {
     const placeId = selectedPrediction.place_id; // Ensure 'place_id' is available in predictions
-    console.log('Place ID:', placeId, "562");
 
     // Fetch place details
     const request = {
@@ -565,7 +519,7 @@ selectPrediction(event: any) {
       fields: ['geometry'] // Request geometry to get latitude and longitude
     };
 
-    this.placesService.getDetails(request, (place, status) => {
+    this.placesService?.getDetails(request, (place, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK && place && place.geometry) {
         const location = place.geometry.location;
         if (location) {
@@ -575,14 +529,27 @@ selectPrediction(event: any) {
             lat: location.lat(),
             lng: location.lng()
           };
-          this.predictions = [];
-          console.log('Location:', location, 'Place Details:', this.placeDetails);
+          // Clear predictions after selection to close the dropdown
+          this.predictions = []; 
+          console.log('Location:', location, 'Place Details:', this.placeDetails, this.subCategoryName);
 
-           // Optionally, trigger a change event to ensure dropdown closes
-           const selectElement = document.querySelector('select.select-location') as HTMLSelectElement;
-           if (selectElement) {
-             selectElement.dispatchEvent(new Event('change'));
-           }
+          console.log("Navigating with params: ", {
+            latitude: this.placeDetails.lat,
+            longitude: this.placeDetails.lng,
+            locations: this.searchInput
+          });
+
+          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+          this.router.onSameUrlNavigation = "reload";
+          this.router.navigate([
+              `/services/category/${this.subCategoryName}/${this.CategoryId}`
+            ], {
+              queryParams: {
+                latitude: this.placeDetails.lat,
+                longitude: this.placeDetails.lng,
+                locations: this.searchInput
+              }
+            });
         } else {
           console.error('Place geometry is not available.');
         }
@@ -595,6 +562,7 @@ selectPrediction(event: any) {
   }
 }
 
+
 getItemByLocation(){
   this.service.getServiceLocationWise(this.selectedSubCategoryId,this.searchLocation,this.latitude,this.longitude).subscribe((response:any)=>{
     console.log(response,"585")
@@ -602,9 +570,6 @@ getItemByLocation(){
       this.servicesDetails = response.data.items.map((itemWrapper:any) => ({
         ...itemWrapper.item, reviews: itemWrapper.reviews, vender:itemWrapper.vendor})); // Correctly map to items
       this.totalItems = response.data.totalItems; // Correctly set the total items from the response
-console.log(this.servicesDetails,"590")
-      // this.servicesDetails = this.servicesDetails.filter((item:any)=>item.vender.status === 'Approved')
-      // console.log(this.servicesDetails,"173")
 
       if (this.servicesDetails.length > 0) {
         this.vendorName = this.servicesDetails[0]; // Extract vendor name from the first item

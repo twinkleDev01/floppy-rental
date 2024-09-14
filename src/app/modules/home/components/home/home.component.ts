@@ -251,7 +251,8 @@ thirdCategory!:SubCategories
           // Initialize filteredSubgroupsName observable after data is loaded
       this.filteredSubgroupsName = this.searchControl.valueChanges.pipe(
         startWith(''),
-        map(value => this._filter(value))
+        // map(value => this._filter(value))
+        map(value => value ? this._filter(value) : [])
       );
           console.log(this.allSubCategotyList); 
       });
