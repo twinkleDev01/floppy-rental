@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, of, tap, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
+import { ToastrService } from 'ngx-toastr';
 
 export interface cartItemsType {
   productTitle: string,
@@ -74,7 +75,7 @@ export class CartService {
   private paymentUrl = 'https://firstfloppy.asptask.in/api/Payments/create-order';
   private addCouponUrl = 'https://firstfloppy.asptask.in/api/Coupon/AddCoupon';
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient,private toastr:ToastrService) { }
 
   getAllCartItems(userId:any){
     // return of (cartItems)
@@ -162,5 +163,26 @@ export class CartService {
 
     return this.http.post(this.addCouponUrl, payload);
   }
+
+  getCartItems(): Observable<any[]> {
+    const userId = localStorage?.getItem('userId');
+    
+    // Return the observable so the caller can subscribe
+    return this.getAllCartItems(userId).pipe(
+      tap((res: any) => {
+        const cartItems = res.data;
+        console.log(cartItems, "27");
+        this.toastr.success(res.message);
+       
+        localStorage.setItem('cartItems', res.data.length.toString());
+      }),
+      catchError((err: any) => {
+        this.toastr.error(err.error.message);
+        // Re-throw the error to handle it outside
+        return throwError(err);
+      })
+    );
+  }
+  
   
 }

@@ -19,13 +19,32 @@ export class HeaderComponent {
   constructor(private route:Router, private auth:AuthService, private toastr:ToastrService, private cartService:CartService) {
   
   }
+  get cartBadge(){
+    return this.cartLength;
+  }
   ngOnInit() { 
    let length = localStorage.getItem('cartItems')
 
     this.cartService.cartLength.subscribe((val)=>{
       this.cartLength = val || length;
-    })
+    });
+    this.auth.isLoggedIn$.subscribe(isLoggedIn => {
+      console.log('Login status changed:', isLoggedIn); // Log status changes
+      if (isLoggedIn) {
+        // If the user is logged in, call the API to fetch cart items
+        this.cartService.getCartItems().subscribe(
+          (cartItems:any) => {
+            console.log(cartItems,"37")
+           this.cartLength = cartItems?.data?.length;
+          },
+          (error) => {
+            // Handle error here
+          }
+        );
+      }
+    });
    }
+   
   ngAfterViewInit() {
     // Initialize Bootstrap components manually if needed
     var myCollapse = document.getElementById('navbarNav');

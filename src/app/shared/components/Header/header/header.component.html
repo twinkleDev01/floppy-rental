@@ -36,7 +36,7 @@
         </ul>        
         <ul class="navbar-nav ml-auto">
           <li class="nav-item login2" style="cursor: pointer;">
-            <a class="nav-link" (click)="goToMyCart()"><i class="fa-solid fa-cart-shopping" [matBadge]="(isLoggedIn$ | async) && cartLength ?cartLength:''" ></i> Cart</a>
+            <a class="nav-link" (click)="goToMyCart()"><i class="fa-solid fa-cart-shopping" [matBadge]="(isLoggedIn$ | async) && cartBadge ?cartBadge:''" ></i> Cart</a>
           </li>
           <li class="nav-item">
             @if (isLoggedIn$ | async) {

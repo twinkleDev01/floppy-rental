@@ -11,11 +11,11 @@
     </div>
 
     <div class="mt-5">
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="loginForm">
         <!-- div -->
         <!-- LoginEmail -->
         <div class="position-relative d-flex justify-content-center align-items-center">
-          <input id="email" name="email" type="text" autocomplete="email" formControlName="emailOrPhone" required
+          <input  type="text" autocomplete="email" formControlName="emailOrPhone"
             (input)="handleValidation()" placeholder="Enter Email or Phone Number"
             class="form-control ps-5 pe-3 py-3 rounded-pill border-0 text-muted bg-dark bg-opacity-10 shadow-sm"
             (keypress)="noSpace($event)" />
@@ -38,7 +38,7 @@
         </div> -->
 
 <!-- Email or Phone Error Message -->
-<div *ngIf="loginForm.get('emailOrPhone')?.invalid && loginForm.get('emailOrPhone')?.touched" class="d-flex justify-content-end text-danger">
+<div *ngIf="loginForm.get('emailOrPhone')?.invalid && loginForm.get('emailOrPhone')?.touched && submitted" class="d-flex justify-content-end text-danger">
   <!-- Required Error -->
   <span *ngIf="loginForm.get('emailOrPhone')?.errors?.['required']">
     <i class="fa fa-exclamation-triangle" style="color: #fe3061;" aria-hidden="true"></i> Required
@@ -111,9 +111,10 @@
         </div>
 
         <div class="d-flex justify-content-center clickable">
-          <button type="submit"
+          <button type="button"
             class="form-control bg-color btn btn-primary rounded-pill px-3 py-3 text-white shadow-sm"
-            [disabled]="loginForm.invalid">
+  
+            (click)="onSubmit()">
             Login
           </button>
         </div>

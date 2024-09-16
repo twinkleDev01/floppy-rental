@@ -59,4 +59,5 @@ export class SharedService {
   getCouponList(): Observable<any> {
     return this.http.get<any>(this.couponListUrl); // Makes an HTTP GET request to the API
   }
+  
 }

@@ -259,15 +259,6 @@ thirdCategory!:SubCategories
       
   }
 
-    // goCategory(subcategory: any){
-    //   this.router.navigate([`/services/category/${subcategory?.googleName?.trim()?.replace(/\s+/g, '-')?.toLowerCase()}`], {
-    //     state: {
-    //       serviceId: subcategory.mainId,
-    //       subId: subcategory.subId
-    //     }
-    //   });
-    // }
-
     goCategory(subcategory: any) {
       console.log(subcategory,"253")
       // this.router.navigate(
@@ -278,7 +269,7 @@ thirdCategory!:SubCategories
       //       ?.toLowerCase()}/${subcategory.mainId}`,
       //   ]
       // );
-      this.router.navigate([`/services/category/${subcategory?.subClassificationName}/${subcategory?.mainId}`]);
+      this.router.navigate([`/services/category/${subcategory?.subClassificationName.replaceAll("/","&")}/${subcategory?.mainId}`]);
     }
 
     getItemlist(){
@@ -446,7 +437,7 @@ if (this.filteredSubgroups.length === 0 && searchValue) {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
         this.router.onSameUrlNavigation = "reload";
         this.router.navigate([
-          `/services/category/${this.locationSearchItem.subClassificationName}/${this.locationSearchItem.mainId}`
+          `/services/category/${this.locationSearchItem.subClassificationName.replaceAll("/","&")}/${this.locationSearchItem.mainId}`
         ], {
           queryParams: {
             latitude: this.placeDetails.lat,

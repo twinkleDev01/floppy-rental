@@ -23,7 +23,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   keyChar: any;
   stage : 'login'|'signup'|'reset'='login'
-
+  submitted = false;
   readonly dialogRef = inject(MatDialogRef<LoginComponent>);
 
   constructor(
@@ -114,6 +114,8 @@ export class LoginComponent {
   
 
   onSubmit() {
+    this.submitted = true;
+    this.loginForm.markAllAsTouched();
     if (this.loginForm.valid) {
 
 // Extract form values
@@ -162,6 +164,7 @@ this.auth.logIn(logInValue).subscribe((response:any)=>{
   }
   // closeLogin
   closeDialog(): void {
+    console.log("165")
     this.loginForm.reset();
     this.dialogRef.close(); // This will close the dialog
   }

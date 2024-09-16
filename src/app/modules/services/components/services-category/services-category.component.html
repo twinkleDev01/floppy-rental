@@ -116,45 +116,50 @@
           </div>
         </section>
         <!-- GridContainer -->
+        @if(servicesDetails.length){
         <div class="grid-container">
-          <div
-            class="grid-item card serviceDetail"
-            *ngFor="let card of servicesDetails | paginate : ((paginator$) | async)"
-          >
-            <div (click)="goToDetail(card)" class="clickable">
-              <img
-                [src]="
-                  card.imagepath ? card.imagepath : 'images/No_Image_Available.jpg'
-                "
-                class="img-fluid"
-              />
-              <h6 class="text-start fw-bold pt-3 vender-name">
-                {{ card?.vendorname }}
-              </h6>
-              <!-- <div class="Staff">
-              SubGroupName <span>{{ card.item.subgroupname }}</span>
-            </div> -->
-              <div class="Staff mb-2 text-start">
-                <span class="text-start main-name">{{ card?.maingroupname }}</span>
-                <span>{{ card?.subgroupname }}</span>
-              </div>
-              <div class="charge pt-2">Monthly Charge For</div>
-              <div class="price">{{ card?.rate }}</div>
-              <hr />
-              <div class="distance">
-                Distance : {{ card?.vender?.distance | json}} KM
-                <app-rating-star
-                  [rating]="calculateAverageRating(card.reviews)"
-                  [starCount]="5"
-                  [color]="'yellow'"
-                  
-                  (ratingUpdated)="onRatingUpdated($event)"
-                >
-                </app-rating-star>
+             <div
+              class="grid-item card serviceDetail"
+              *ngFor="let card of servicesDetails | paginate : ((paginator$) | async)"
+            >
+              <div (click)="goToDetail(card)" class="clickable">
+                <img
+                  [src]="
+                    card.imagepath ? card.imagepath : 'images/No_Image_Available.jpg'
+                  "
+                  class="img-fluid"
+                />
+                <h6 class="text-start fw-bold pt-3 vender-name">
+                  {{ card?.vendorname }}
+                </h6>
+                <!-- <div class="Staff">
+                SubGroupName <span>{{ card.item.subgroupname }}</span>
+              </div> -->
+                <div class="Staff mb-2 text-start">
+                  <span class="text-start main-name">{{ card?.maingroupname }}</span>
+                  <span>{{ card?.subgroupname }}</span>
+                </div>
+                <div class="charge pt-2">Monthly Charge For</div>
+                <div class="price">{{ card?.rate }}</div>
+                <hr />
+                <div class="distance">
+                  Distance : {{ card?.vender?.distance | json}} KM
+                  <app-rating-star
+                    [rating]="calculateAverageRating(card.reviews)"
+                    [starCount]="5"
+                    [color]="'yellow'"
+                    
+                    (ratingUpdated)="onRatingUpdated($event)"
+                  >
+                  </app-rating-star>
+                </div>
               </div>
             </div>
-          </div>
+         
         </div>
+      }@else {
+        <div class="no-service">No Service Available</div>
+      }
         <!-- ContainerGridClosed -->
       </div>
     </div>

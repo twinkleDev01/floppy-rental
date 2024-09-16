@@ -82,10 +82,11 @@ export class ServicesCategoryComponent {
 
   // Subscribe to route parameters
 this.route.paramMap.subscribe((params: any) => {
-  this.subCategoryName = params.get('categoryName');
+  this.subCategoryName = decodeURIComponent(params.get('categoryName'));
+  this.subCategoryName = this.subCategoryName.replaceAll('&', '/');
   this.CategoryId = params.get('id'); // Convert string to number
   this.selectedServiceCategory = this.CategoryId; // Set the selected category to match the id
-  console.log(this.selectedServiceCategory,"88")
+  console.log(this.subCategoryName,"88")
 });
 
 // Subscribe to query parameters

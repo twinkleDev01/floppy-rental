@@ -27,31 +27,20 @@ export class MyCartComponent {
 
   ngOnInit(){
       // Subscribe to login status
-      // this.auth.getLoginStatus().subscribe(isLoggedIn => {
-      //   console.log('Login status changed:', isLoggedIn); // Log status changes
-      //   if (isLoggedIn) {
-      //     // If the user is logged in, call the API to fetch cart items
-      //     this.getCartItems();
-      //   }
-      // });
-      this.getCartItems()
+    
+      // this.getCartItems()
+     this.cartService.getCartItems().subscribe(
+        (cartItems:any) => {
+          this.cartItems = cartItems?.data;
+        },
+        (error) => {
+          // Handle error here
+        }
+      );
     this.getCouponList()
   }
   
-  getCartItems() {
-    this.cartService.getAllCartItems(this.userId).subscribe(
-      (res:any) =>{
-        this.cartItems = res.data
-        console.log(this.cartItems,"27")
-        this.toastr.success(res.message)
-        this.cartService.cartLength.next(res.data.length)
-        localStorage.setItem('cartItems', res.data.length)
-      },
-      (err:any) =>{
-        this.toastr.error(err.error.message)
-      }
-    )
-  }
+ 
     
     updateCart() {
       const payload = [
@@ -60,7 +49,14 @@ export class MyCartComponent {
       this.cartService.UpdateCartDetails(payload).subscribe(
         (res:any)=>{
           this.isUpdate = true;
-          this.getCartItems()
+          this.cartService.getCartItems().subscribe(
+            (cartItems:any) => {
+              this.cartItems = cartItems?.data;
+            },
+            (error) => {
+              // Handle error here
+            }
+          );
            this.toastr.success(res.message)
         },
         (err)=>{
