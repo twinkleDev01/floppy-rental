@@ -254,7 +254,7 @@ export class CheckoutComponent {
           const checkoutOptions = {
             paymentSessionId: response?.payment_session_id
             , // Use cf_order_id for the payment session ID
-            redirectTarget: "_self" ,// optional (_self, _blank, or _top),
+            redirectTarget: "_blank" ,// optional (_self, _blank, or _top),
             appearance: {
               width: "425px",
               height: "700px",
