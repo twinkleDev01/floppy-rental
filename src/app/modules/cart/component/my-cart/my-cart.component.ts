@@ -3,6 +3,7 @@ import { CartService } from "../../services/cart.service";
 import { Router } from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from "../../../../shared/services/shared.service";
+import { AuthService } from "../../../../shared/services/auth.service";
 
 
 @Component({
@@ -19,9 +20,21 @@ export class MyCartComponent {
   discountedPrice: number | null = null; 
   initialAmountToCheckout: number = 0
   discountAmount: number | null = null;
-  constructor(private cartService: CartService, private router:Router, private toastr: ToastrService, private sharedService:SharedService
+  constructor(private cartService: CartService, private router:Router, private toastr: ToastrService, private sharedService:SharedService, private auth:AuthService
   ) {
-    this.getCartItems()
+    
+  }
+
+  ngOnInit(){
+      // Subscribe to login status
+      // this.auth.getLoginStatus().subscribe(isLoggedIn => {
+      //   console.log('Login status changed:', isLoggedIn); // Log status changes
+      //   if (isLoggedIn) {
+      //     // If the user is logged in, call the API to fetch cart items
+      //     this.getCartItems();
+      //   }
+      // });
+      this.getCartItems()
     this.getCouponList()
   }
   
@@ -219,6 +232,7 @@ export class MyCartComponent {
     const selectedCoupon = this.OfferAndCoupon.find((coupon: any) => coupon.couponId === couponId);
   
     if (!selectedCoupon) {
+      this.toastr.clear()
       this.toastr.error('Invalid coupon code.');
       return;
     }

@@ -32,7 +32,7 @@
                                 <button class="input-group-text" [disabled]="+cart.quantity <= 1"
                                     (click)="changeQuantity(cart, -1)">-</button>
                                 <input type="text" class="px-1 text-center form-control" #input
-                                    (ngModelChange)="onInputChange($event, input)" [(ngModel)]="cart.quantity">
+                                    (ngModelChange)="onInputChange($event, input)" [(ngModel)]="cart.quantity" readonly>
                                 <button class="input-group-text" (click)="changeQuantity(cart, 1)">+</button>
                             </div>
                         </td>

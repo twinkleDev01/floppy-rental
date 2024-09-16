@@ -3,7 +3,11 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-lg-8 col-md-7 col-sm-6 detail_div">
+          <div class="position-relative">
+            <span class="position-absolute category_badge">Category</span>
             <img [src]="blogDetail?.image || 'images/No_Image_Available.jpg'" alt="">
+
+          </div>
             <!-- <p>{{blogDetail?.description}}</p> -->
             <!-- <div>
                 <img [src]="blogDetail.image1 || 'images/No_Image_Available.jpg'" class="detail_img" alt="">
@@ -48,7 +52,7 @@
                         <div *ngIf="commentForm.get('email')?.hasError('required') && commentForm.get('email')?.touched" class="error">
                             Email is required.
                           </div>
-                          <div *ngIf="commentForm.get('email')?.hasError('email') && commentForm.get('email')?.touched" class="error">
+                          <div *ngIf="commentForm.get('email')?.hasError('pattern') && commentForm.get('email')?.touched" class="error">
                             Invalid email format.
                           </div>
                           <div *ngIf="commentForm.get('email')?.hasError('whitespace') && commentForm.get('email')?.touched" class="error">

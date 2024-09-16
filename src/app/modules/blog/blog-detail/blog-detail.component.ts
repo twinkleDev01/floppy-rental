@@ -34,7 +34,7 @@ export class BlogDetailComponent {
     this.commentForm = fb.group({
       comment: ["", [Validators.required, noWhitespaceValidator(), Validators.maxLength(this.maxCommentLength)]],
       name: ["", [Validators.required, noWhitespaceValidator(), Validators.pattern('^[a-zA-Z\\s]*$')]],
-      email: ["", [Validators.required, Validators.email, noWhitespaceValidator()]], // Email also includes email format validation
+      email: ["", [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/), noWhitespaceValidator()]], // Email also includes email format validation
       webSite: [""],
       saveWebsiteInfo: [""]
     });
@@ -130,7 +130,7 @@ this.serviceDetail.getCategoryList().subscribe((response:any)=>{
       },
       (error) => {
         console.error('Error saving blog review:', error);
-        this.toastrService.error(error?.message);
+        this.toastrService.error(error?.error?.message);
         // Handle error, like showing an error message
       }
     );

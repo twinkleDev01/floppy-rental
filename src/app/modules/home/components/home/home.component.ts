@@ -438,18 +438,23 @@ if (this.filteredSubgroups.length === 0 && searchValue) {
     }
     
     getSearchedItemList() {
-      // Navigate with query parameters
-      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-      this.router.onSameUrlNavigation = "reload";
-      this.router.navigate([
-        `/services/category/${this.locationSearchItem.subClassificationName}/${this.locationSearchItem.mainId}`
-      ], {
-        queryParams: {
-          latitude: this.placeDetails.lat,
-          longitude: this.placeDetails.lng,
-          locations: this.searchInput
-        }
-      });
+      if(!this.searchInput){
+        this.locationSelected = true;
+      }else if(!this.locationSearchItem){
+        this.error = true;
+      }else{ // Navigate with query parameters
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.router.onSameUrlNavigation = "reload";
+        this.router.navigate([
+          `/services/category/${this.locationSearchItem.subClassificationName}/${this.locationSearchItem.mainId}`
+        ], {
+          queryParams: {
+            latitude: this.placeDetails.lat,
+            longitude: this.placeDetails.lng,
+            locations: this.searchInput
+          }
+        });
+      }
     }
 
     onSearchFocus(): void {
@@ -487,6 +492,9 @@ if (this.filteredSubgroups.length === 0 && searchValue) {
       // Get selected prediction from the dropdown
       const selectedDescription = event.target.value;
       this.searchInput = selectedDescription;
+      if(this.searchInput){
+        this.locationSelected = false;
+      }
       console.log(this.searchInput,"489")
       // this.predictions = []; // Clear predictions after selection
       console.log('Selected Description:', selectedDescription);
@@ -555,6 +563,7 @@ if (this.filteredSubgroups.length === 0 && searchValue) {
       console.log(event, "633");
       console.log('Selected Option:', event.option.value);
       this.locationSearchItem = event.option.value;
+      this.error = false
     }
   
     displaySubgroupName(subgroup: any): string {

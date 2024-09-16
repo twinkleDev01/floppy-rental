@@ -46,7 +46,10 @@ font-weight: 700;
     min-width: 25rem;
   }
   .blog-img{
-    height: 174px;
+    // height: 174px;
+    width: 100%;
+    border-top-left-radius: 17px;
+    border-top-right-radius: 17px;
   }
   :host ::ng-deep .mat-mdc-icon-button.mat-mdc-button-base{
     padding: 5px;

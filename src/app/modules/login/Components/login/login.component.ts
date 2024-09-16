@@ -162,7 +162,7 @@ this.auth.logIn(logInValue).subscribe((response:any)=>{
   }
   // closeLogin
   closeDialog(): void {
-    console.log("CloseLogin")
+    this.loginForm.reset();
     this.dialogRef.close(); // This will close the dialog
   }
 }

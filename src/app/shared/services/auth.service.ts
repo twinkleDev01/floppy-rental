@@ -14,6 +14,7 @@ export class AuthService {
   resetPwdUrl = environment.ApiBaseUrl + 'Auth/passwordreset';
 
   private isLoggedInSubject = new BehaviorSubject<boolean>(!!localStorage.getItem('token'));
+
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
   constructor(private http: HttpClient) { }
 
@@ -37,7 +38,12 @@ export class AuthService {
   }
 
     updateLoginStatus(status: boolean){
+  console.log(status,"40")
       this.isLoggedInSubject.next(status)
+    }
+
+    getLoginStatus(): Observable<boolean> {
+      return this.isLoggedInSubject.asObservable();
     }
 
 }

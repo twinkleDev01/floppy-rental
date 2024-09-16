@@ -97,15 +97,15 @@
           
           
         </div>
-        <div *ngIf="!locationSelected && showError" class="location-error">
+        <div *ngIf="locationSelected" class="location-error">
             Please select a location before searching.
         </div>
         <div *ngIf="error" class="location-error">
             Please enter a search item
         </div>
-        <div *ngIf="itemError" class="location-error">
+        <!-- <div *ngIf="itemError" class="location-error">
             Service Not Available
-        </div>
+        </div> -->
     
         <button (click)="getSearchedItemList()">Search</button>
       </div>
@@ -171,7 +171,7 @@
         <h2 class="text-center"><span>How it</span> works</h2>
         <div class="inner_container">
             <div class="row">
-                <div class="col-lg-4 d-flex justify-content-center align-items-center">
+                <div class="col-lg-4 d-flex justify-content-center align-items-center position-relative">
                     <div class="border_circle">
                         <div class="inner_circle">
                             <div class="inner_circle_img">
@@ -185,8 +185,11 @@
                             </div>
                         </div>
                     </div>
+                    <div class="arrow_box">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
                 </div>
-                <div class="col-lg-4 d-flex justify-content-center align-items-center">
+                <div class="col-lg-4 d-flex justify-content-center align-items-center position-relative">
                     <div class="border_circle">
                         <div class="inner_circle">
                             <div class="inner_circle_img">
@@ -199,6 +202,9 @@
                                 <span class="fs-3 fw-bold">02</span>
                             </div>
                         </div>
+                    </div>
+                    <div class="arrow_box">
+                        <i class="fa-solid fa-arrow-right"></i>
                     </div>
                 </div>
                 <div class="col-lg-4 d-flex justify-content-center align-items-center">
@@ -269,7 +275,7 @@
 </div>
 
 <!-- discount carousel -->
-<app-ad-placement [sortedBottomData]="sortedBottomData"></app-ad-placement>
+<app-ad-placement></app-ad-placement>
 
 
 <!-- house keeping -->

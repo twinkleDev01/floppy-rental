@@ -50,7 +50,7 @@ export class ServicesDetailsComponent {
       name: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]], // Required and no special characters
       email: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/)]], // Required and valid email format with stricter pattern
       phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]], // Required and must be a 10-digit number
-      review: ['', [Validators.required, Validators.minLength(10)]], // Required and minimum length of 10
+      review: ['', [Validators.required, Validators.maxLength(50)]], // Required and minimum length of 10
       rating: [''], // Required validation
       type: [''] // Required validation
     });
@@ -136,8 +136,13 @@ this.service.addNewReview(payload).subscribe((res:any)=>{
     this.getRatingByItemId(this.serviceDetail.item.id);
     this.reviewForm.reset();
     this.currentRating = 0; // Reset currentRating to its default value
+    this.toastr.success(res.message)
   }
-})
+},
+(error: any) => {
+ this.toastr.error(error.error.message);
+}
+)
 }
 
 // add to cart 
