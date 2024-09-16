@@ -171,10 +171,6 @@ export class CartService {
     return this.getAllCartItems(userId).pipe(
       tap((res: any) => {
         const cartItems = res.data;
-        console.log(cartItems, "27");
-        this.toastr.success(res.message);
-       
-        localStorage.setItem('cartItems', res.data.length.toString());
       }),
       catchError((err: any) => {
         this.toastr.error(err.error.message);
