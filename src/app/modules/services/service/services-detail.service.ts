@@ -58,27 +58,61 @@ export class ServicesDetailService {
         catchError(error => this.handleError(error)));
   }
 
-  getItemByCategory(catId: string, subCategoriesId: string, latitude: any, longitude: any, startIndex?: any, pageSize?: any): Observable<any> {
+  // getItemByCategory(catId: string, subCategoriesId: string, latitude: any, longitude: any, startIndex?: any, pageSize?: any): Observable<any> {
+  //   const headers = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     // "Authorization": 'Bearer ' + localStorage.getItem('token')
+  //   });
+  //   const httpOptions = { headers: headers };
+  
+  //   // Base URL
+  //   let url = environment.ApiBaseUrl.concat(`Service/GetItemsByCategory/${catId}/${subCategoriesId}/${latitude}/${longitude}`);
+  
+  //   // Add optional query parameters if they are provided
+  //   if (startIndex !== undefined && pageSize !== undefined) {
+  //     url += `?startIndex=${startIndex}&pageSize=${pageSize}`;
+  //   }
+  
+  //   return this.http.get<any>(url, httpOptions)
+  //     .pipe(
+  //       map((response: any) => response),
+  //       catchError(error => this.handleError(error))
+  //     );
+  // }
+
+  getItemByCategory(
+    catId: number, 
+    subCategoriesId: number, 
+    latitude: number, 
+    longitude: number, 
+    startIndex: number = 0, 
+    pageSize: number = 0
+  ): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       // "Authorization": 'Bearer ' + localStorage.getItem('token')
     });
+    
     const httpOptions = { headers: headers };
   
-    // Base URL
-    let url = environment.ApiBaseUrl.concat(`Service/GetItemsByCategory/${catId}/${subCategoriesId}/${latitude}/${longitude}`);
+    // Construct payload object as per the API requirements
+    const payload = {
+      categoryId: catId,
+      subCategoryId: subCategoriesId,
+      latitude: latitude,
+      longitude: longitude,
+      pageSize: pageSize,
+      startIndex: startIndex
+    };
   
-    // Add optional query parameters if they are provided
-    if (startIndex !== undefined && pageSize !== undefined) {
-      url += `?startIndex=${startIndex}&pageSize=${pageSize}`;
-    }
-  
-    return this.http.get<any>(url, httpOptions)
+    // Make a POST request to the API with the payload
+    return this.http.post<any>(environment.ApiBaseUrl + 'Service/GetItemsByCategory', payload, httpOptions)
       .pipe(
         map((response: any) => response),
         catchError(error => this.handleError(error))
       );
   }
+  
   
 
   getServiceDetailsById(ServiceDetailId:string):Observable<any>{
@@ -159,13 +193,38 @@ export class ServicesDetailService {
     throw new Error('Method not implemented.');
   }
 
-  getServiceLocationWise(subgroupName: string, location: string, latitude:any, logitude:any): Observable<any> {
-    // Construct the URL with the provided parameters
-    const url = `${this.locationServiceWiseUrl}/${subgroupName}/${location}/${latitude}/${logitude}`;
+  // getServiceLocationWise(subgroupName: string, location: string, latitude:any, logitude:any): Observable<any> {
+  //   // Construct the URL with the provided parameters
+  //   const url = `${this.locationServiceWiseUrl}/${subgroupName}/${location}/${latitude}/${logitude}`;
     
-    // Make the GET request and return the observable
-    return this.http.get<any>(url);
+  //   // Make the GET request and return the observable
+  //   return this.http.get<any>(url);
+  // }
+
+  getServiceLocationWise(subgroupId: number, location: string, latitude: number, longitude: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      // "Authorization": 'Bearer ' + localStorage.getItem('token') // Uncomment if needed
+    });
+  
+    const httpOptions = { headers: headers };
+  
+    // Construct the payload as required by the API
+    const payload = {
+      subgroupId: subgroupId,
+      location: location,
+      latitude: latitude,
+      longitude: longitude
+    };
+  
+    // Make the POST request to the API with the payload
+    return this.http.post<any>(this.locationServiceWiseUrl, payload, httpOptions)
+      .pipe(
+        map((response: any) => response), // Handle the response data
+        catchError(error => this.handleError(error)) // Handle any errors
+      );
   }
+  
   addCartItem(data:any){
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

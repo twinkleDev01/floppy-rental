@@ -112,8 +112,8 @@ this.route.queryParams.subscribe(params => {
       (category) => category.mainId == this.selectedServiceCategoryId
     );
     this.selectedServiceCategory = selectedCategoryObj
-      ? selectedCategoryObj.mainId
-      : this.CategoryId;
+      ? +selectedCategoryObj.mainId
+      : +this.CategoryId;
       console.log(this.selectedServiceCategory,"selectedServiceCategory 117")
   }
   ngOnInit(){
@@ -129,6 +129,7 @@ this.route.queryParams.subscribe(params => {
 
   this.getLocations()
     this.getCouponList()
+    this.getBannerData()
     // this.getCurrentLocation()
     // getCategoryList
     this.service.getCategoryList().subscribe((res)=>{
@@ -580,6 +581,26 @@ getItemByLocation(){
       console.error('Failed to fetch items:', response.message); // Log any errors in fetching items
     }
   })
+}
+offerData:any;
+offerListData:any
+getBannerData(){
+  this.homeService.getHomeDetails().subscribe((res: any) => {
+    // Treat res.data as an object with dynamic keys
+    this.offerData = res.data as { [key: string]: any };
+  
+  console.log(this.offerData,"592")
+    // Accessing the Bottom section and sorting
+    const ServiceSideImage = this.offerData['ServiceSideImage'];
+    if (ServiceSideImage) {
+      this.offerListData = ServiceSideImage.sort((a: any, b: any) => a.Seqno - b.Seqno);
+      console.log(this.offerListData,"597")
+    } else {
+      console.error('Bottom data not found:', this.offerData);
+    }
+  });
+
+  
 }
 
 }

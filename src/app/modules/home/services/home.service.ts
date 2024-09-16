@@ -70,23 +70,52 @@ export class HomeService {
   // getLocation(){
   //   return this.http.get<any>(this.locationUrl);
   // }
-  getSearchedItemList(subgroupname:string,location:any,latitude:any,longitude:any ){
+  // getSearchedItemList(subgroupname:string,location:any,latitude:any,longitude:any ){
+  //   const headers = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     // "Authorization": 'Bearer ' + localStorage.getItem('token')
+  //   });
+  //   const httpOptions = {
+  //     headers: headers
+  //   };
+  //   const url = environment.ApiBaseUrl.concat(`Service/searchItems/${subgroupname}/${location}/${latitude}/${longitude}`);
+  //   return this.http.get<any>(url, httpOptions)
+  //     .pipe(map((response:any) => {
+  //       this.locationSearchRes = response.data;
+  //       localStorage.setItem('serviceDetails', JSON.stringify(this.locationSearchRes));
+  //       return response;
+  //     }),
+  //       catchError(error => this.handleError(error)));
+  // }
+
+  getSearchedItemList(subgroupId: number, location: string, latitude: number, longitude: number): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       // "Authorization": 'Bearer ' + localStorage.getItem('token')
     });
-    const httpOptions = {
-      headers: headers
+    
+    const httpOptions = { headers: headers };
+  
+    // Construct payload object as per the API requirements
+    const payload = {
+      subgroupId: subgroupId,
+      location: location,
+      latitude: latitude,
+      longitude: longitude
     };
-    const url = environment.ApiBaseUrl.concat(`Service/searchItems/${subgroupname}/${location}/${latitude}/${longitude}`);
-    return this.http.get<any>(url, httpOptions)
-      .pipe(map((response:any) => {
-        this.locationSearchRes = response.data;
-        localStorage.setItem('serviceDetails', JSON.stringify(this.locationSearchRes));
-        return response;
-      }),
-        catchError(error => this.handleError(error)));
+  
+    // Make a POST request to the API with the payload
+    return this.http.post<any>(environment.ApiBaseUrl.concat('Service/searchItems'), payload, httpOptions)
+      .pipe(
+        map((response: any) => {
+          this.locationSearchRes = response.data;
+          localStorage.setItem('serviceDetails', JSON.stringify(this.locationSearchRes));
+          return response;
+        }),
+        catchError(error => this.handleError(error))
+      );
   }
+  
 
   locations$ = new CacheStorage('id');
   getLocation(httpOptions: HttpOptions = {}) {
