@@ -7,7 +7,7 @@ import { environment } from '../../../../environments/environment.development';
   providedIn: 'root'
 })
 export class ServicesDetailService {
-  locationServiceWiseUrl = 'https://cicd.asptask.in/api/' + 'Service/searchItems'
+  locationServiceWiseUrl = environment.ApiBaseUrl + 'Service/searchItems'
    url = environment.ApiBaseUrl;
    serviceListUrl = `${environment.ApiBaseUrl}Service/service_page`;
   constructor(private http: HttpClient) { }
