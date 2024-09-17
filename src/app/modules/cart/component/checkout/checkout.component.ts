@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 import axios from 'axios';
 import {load} from '@cashfreepayments/cashfree-js';
+import { City, State } from 'country-state-city';
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
@@ -16,32 +17,17 @@ import {load} from '@cashfreepayments/cashfree-js';
   providers: [DatePipe]  // Add DatePipe to providers
 })
 export class CheckoutComponent {
-   cities = [
-    { value: "", text: "Select a city", disabled: true, selected: true },
-    { value: "newYork", text: "New York" },
-    { value: "losAngeles", text: "Los Angeles" },
-    { value: "chicago", text: "Chicago" },
-    { value: "houston", text: "Houston" },
-    { value: "miami", text: "Miami" },
-    // Add more cities as needed
-  ];
+   cities:any[] =  [];
 
-  States = [
-    { value: '', text: 'Select a Continent', disabled: true, selected: true },
-    { value: 'northAmerica', text: 'North America' },
-    { value: 'southAmerica', text: 'South America' },
-    { value: 'europe', text: 'Europe' },
-    { value: 'asia', text: 'Asia' },
-    { value: 'africa', text: 'Africa' },
-    { value: 'australia', text: 'Australia' },
-    { value: 'antarctica', text: 'Antarctica' }
-  ];
+  states: any = [];
 
   checkout: FormGroup;
   selectedPaymentOption: string = 'option5'; 
   sabTotalSaving:any
   AmountToCheckout:any
-   sabTotal:any
+   sabTotal:any;
+   selectedCountryCode:any;
+   selectedStateCode:any
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -156,17 +142,45 @@ export class CheckoutComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log('Selected Location:', result);
+        this.selectedCountryCode = result.countryCode
+        this.selectedStateCode = result.selectedStateCode
         // Patch form with the returned location data
       this.checkout.patchValue({
-        address: result.apartment,
+        address: result.address,
         city: result.area,
-        state: result.country,
+        state: result.state,
         zipCode: result.zipCode, // Assuming zipCode is part of the result
         // Add more fields here as needed
       });
-      console.log(this.checkout.value,"166")
+      this.loadStates(result.countryCode)
+       console.log(this.checkout.value,"166")
+      }
+      if(this.selectedStateCode){
+        this.loadCities(this.selectedStateCode);
       }
     });
+  }
+
+  loadStates(countryCode: string) {
+    const allStates = State.getStatesOfCountry(countryCode);
+    this.states = allStates.map(state => state.name);
+    this.cities = []; // Clear cities when the country changes
+  }
+
+  onStateChange() {
+    const selectedState = State.getStatesOfCountry(this.selectedCountryCode || '').find(s => s.name === this.checkout.value.state);
+    if (selectedState) {
+      this.selectedStateCode = selectedState.isoCode;
+      this.loadCities(this.selectedStateCode);
+    }
+  }
+
+  loadCities(stateCode: string) {
+    if (this.selectedCountryCode) {
+      const allCities = City.getCitiesOfState(this.selectedCountryCode, stateCode);
+      this.cities = allCities.map(city => city.name);
+    }
+    console.log(this.cities,"179")
   }
 
   convertDate(dateString: string): string | null {

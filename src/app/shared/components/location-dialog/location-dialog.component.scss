@@ -133,4 +133,53 @@ padding-bottom: 6px !important;
     // padding-bottom: 20px;
     margin-right: 2rem;
   }
+  .location-card {
+    border: 1px solid #d3d3d3;
+    border-radius: 10px;
+    padding: 5px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    cursor: pointer;
+    background-color: #fff;
+  }
+  .location-card:hover {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Add New Location Styles */
+  .add-location {
+    background-color: #f8f9fa;
+  }
+  
+  .location-text strong {
+    font-size: 13px;
+  }
+  
+  .location-arrow i {
+    font-size: 14px;
+  }
+  
+  /* Location Info Styles */
+  .location-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .location-icon i {
+    font-size: 12px;
+    // color: #007bff;
+  }
+  
+  .location-details {
+    margin-left: 10px;
+    font-size: 11px;
+  }
+  
+  .location-details p {
+    margin: 0;
+    color: #6c757d;
+    font-size: 11px;
+  }
   

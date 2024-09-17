@@ -5,7 +5,36 @@
 </div>
 <hr style="margin-inline: 1rem; margin-block: 0;">
 
-<mat-dialog-content>
+<div class="container mt-3" *ngIf="!showAddLocationForm">
+  <h5>When do you need the services?</h5>
+  <p>Help our teams get to your place on time by locating it on the map below</p>
+
+  <!-- Add New Location Section -->
+  <div class="location-card add-location" (click)="addNewLocation()">
+    <div class="location-text">
+      <strong>Add New Location</strong>
+    </div>
+    <div class="location-arrow">
+      <i class="fa fa-chevron-right"></i>
+    </div>
+  </div>
+
+  <!-- Existing Location Section -->
+  <div class="location-card">
+    <div class="location-info">
+      <span class="location-icon">
+        <i class="fa fa-map-marker"></i>
+      </span>
+      <div class="location-details">
+        <strong>{{selectedAddressType || 'Home'}}</strong>
+        <p>2 J, City Walk, Dubai</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<mat-dialog-content *ngIf="showAddLocationForm">
   <div class="row">
     <!-- Map Container -->
     <div class="col-6">
@@ -29,7 +58,7 @@
 
         <!-- Country Dropdown -->
         <mat-form-field class="oval-form-field">
-          <mat-select [(ngModel)]="country">
+          <mat-select [(ngModel)]="selectedCountry" (selectionChange)="onCountryChange()" placeholder="Select Country">
             <mat-option *ngFor="let country of countries" [value]="country">{{ country }}</mat-option>
           </mat-select>
         </mat-form-field>

@@ -1,5 +1,6 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Country, State } from 'country-state-city';
 
 @Component({
   selector: 'app-location-dialog',
@@ -7,7 +8,13 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./location-dialog.component.scss']
 })
 export class LocationDialogComponent implements AfterViewInit {
-  @ViewChild('googleMap', { static: false }) googleMapElement: any;
+  // @ViewChild('googleMap', { static: false }) googleMapElement: any;
+  @ViewChild('googleMap', { static: false })
+  set googleMapElement(content: any) {
+    if (content  && this.showAddLocationForm) {
+      this.initMap(content);
+    }
+  }
   selectedAddressType = 'Home';
   countries: string[] = ['India', 'Kenya', 'USA', 'Canada'];
   country = 'India';
@@ -17,6 +24,8 @@ export class LocationDialogComponent implements AfterViewInit {
   address = '';
   lat: number = 0;
   lng: number = 0;
+  selectedCountry:any;
+  selectedCountryCode:any
 
   mapOptions: google.maps.MapOptions = {
     center: { lat: -1.286389, lng: 36.817223 }, // Default location
@@ -28,16 +37,32 @@ export class LocationDialogComponent implements AfterViewInit {
   constructor(public dialogRef: MatDialogRef<LocationDialogComponent>) {}
 
   ngAfterViewInit(): void {
-    this.initMap();
+    // this.initMap();
   }
 
-  initMap(): void {
-    if (!this.googleMapElement || !this.googleMapElement.nativeElement) {
+  ngOnInit(): void {
+    this.loadCountries();
+  }
+
+  onCountryChange() {
+    // Get selected country code
+    const selectedCountry = Country.getAllCountries().find(c => c.name === this.selectedCountry);
+    if (selectedCountry) {
+      this.selectedCountryCode = selectedCountry.isoCode;
+      console.log('Selected Country Code:', this.selectedCountryCode); // Check the value
+    } else {
+      this.selectedCountryCode = undefined;
+    }
+  }
+  
+
+  initMap(content:any): void {
+    if (!content || !content.nativeElement) {
       console.error('Google Map element is not available.');
       return;
     }
 
-    this.map = new google.maps.Map(this.googleMapElement.nativeElement, this.mapOptions);
+    this.map = new google.maps.Map(content.nativeElement, this.mapOptions);
 
     // Initialize marker only if the map is available
     this.marker = new google.maps.Marker({
@@ -98,7 +123,12 @@ export class LocationDialogComponent implements AfterViewInit {
       building: this.building,
       apartment: this.apartment,
       address: this.address,
+      countryCode: this.selectedCountryCode,
+      state: this.selectedState,
+      selectedStateCode: this.selectedStateCode,
+      zipCode: this.zipCode
     };
+    this.showAddLocationForm = false;
     this.dialogRef.close(addressData);
   }
 
@@ -165,7 +195,9 @@ export class LocationDialogComponent implements AfterViewInit {
     );
   }
   
-
+  selectedState:any;
+  selectedStateCode:any;
+  zipCode:any
   parseAddressComponents(components: google.maps.GeocoderAddressComponent[]): void {
     components.forEach((component) => {
       const types = component.types;
@@ -177,11 +209,39 @@ export class LocationDialogComponent implements AfterViewInit {
       } else if (types.includes('street_number')) {
         this.apartment = component.long_name;
       } else if (types.includes('country')) {
-        this.country = component.long_name;
+        this.selectedCountry = component.long_name;
+      // You might also need the country code to update the state dropdown
+      this.selectedCountryCode = component.short_name;;
+      } else if (types.includes('administrative_area_level_1')) {
+        this.selectedState = component.long_name
+         // Find the state code based on the state name
+      const state = State.getStatesOfCountry(this.selectedCountryCode || '').find(s => s.name === this.selectedState);
+      if (state) {
+        this.selectedStateCode = state.isoCode;
+        // this.loadCities(this.selectedStateCode); // Load cities when state is determined
+      }
+        // this.onStateChange(); // Trigger state change handling
+      } else if (types.includes('postal_code')) {
+        this.zipCode = component.long_name;
       }
     });
   }
   closeDialog(): void {
     this.dialogRef.close();
   }
+
+  showAddLocationForm = false;
+
+  // Method to toggle the visibility
+  addNewLocation() {
+    this.showAddLocationForm = true;
+  }
+
+
+  loadCountries() {
+    // Get all countries
+    const allCountries = Country.getAllCountries();
+    this.countries = allCountries.map(country => country.name);
+  }
+  
 }

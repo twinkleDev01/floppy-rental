@@ -254,10 +254,11 @@
         <div class="form-grid-item">
           <label for="address">Region/State</label>
             <div class="custom-select-wrapper">
-              <select id="state" formControlName="state" class="form-control pe-3 rounded-2 border-1 text-muted">
-                @for (State of States; track $index) {
+              <select id="state" formControlName="state" class="form-control pe-3 rounded-2 border-1 text-muted" (change)="onStateChange()">
+                <!-- @for (State of states; track $index) {
                   <option [value]="State.value" [value]="State.value" [disabled]="!State.value"> {{State.text}} </option>
-                }
+                } -->
+                <option *ngFor="let state of states" [value]="state">{{ state }}</option>
               </select>
               <i class="fa-solid fa-angle-down"></i>
             </div>
@@ -298,9 +299,10 @@
           <label for="address">City</label>
           <div class="custom-select-wrapper">
             <select id="city" formControlName="city" class="form-control pe-3 rounded-2 border-1 text-muted">
-              @for (citie of cities; track $index) {
+              <!-- @for (citie of cities; track $index) {
                 <option [value]="citie.value" [value]="citie.value" [disabled]="!citie.value"> {{citie.text}} </option>
-              }
+              } -->
+              <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
             </select>
             <i class="fa-solid fa-angle-down"></i>
           </div>

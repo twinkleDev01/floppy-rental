@@ -22,7 +22,7 @@
                     <!-- </p> -->
                     <p><span style="font-weight: bold; color: black;"></span> &nbsp;<span style="font-size: 13px; color: #008cac;">{{ serviceDetail?.item.rate }}</span></p>
                     <p *ngFor="let rate of serviceDetail?.item.packageTrans" class="packageName">
-                        <ng-container *ngIf="rate.productName !== 'image'">
+                        <ng-container *ngIf="rate.productName?.toLowerCase() !== 'image'">
                             {{rate.productValue}}
                           </ng-container>
                       </p>
