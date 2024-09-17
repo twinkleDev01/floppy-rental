@@ -52,9 +52,12 @@ export class MyBookingComponent {
   // ];
 
   bookings:any;
-  constructor(private profileService:ProfileService){}
+  constructor(private profileService:ProfileService){
+    debugger
+  }
 
 ngOnInit(){
+  debugger
   this.getUserBooking();
 }
 

@@ -109,25 +109,25 @@ export class CheckoutComponent {
     this.checkout?.markAllAsTouched();
     if(this.checkout?.invalid)return;
     console.log(this.checkout.value);
-    const payload = {
-      ...this.checkout.value,
-      userId: localStorage.getItem('userId'),
-      totalAmount: this.sabTotal,
-      totalQuantity: this.AmountToCheckout,
-      paymentStatus: null ||'',
-      coupon: null || '',
-    }
-    this.cartService.saveOrderDetails(payload).subscribe(
-      (res:any)=>{
-        this.toaster.success(res.message)
-        this.cartService.cartLength.next(0);
-        localStorage.removeItem('cartItems')
-        this.router.navigate(['profile/my-booking']);
-      },
-      (err)=>{
-        this.toaster.error(err.message)
-      }
-    )
+    // const payload = {
+    //   ...this.checkout.value,
+    //   userId: localStorage.getItem('userId'),
+    //   totalAmount: this.sabTotal,
+    //   totalQuantity: this.AmountToCheckout,
+    //   paymentStatus: null ||'',
+    //   coupon: null || '',
+    // }
+    // this.cartService.saveOrderDetails(payload).subscribe(
+    //   (res:any)=>{
+    //     this.toaster.success(res.message)
+    //     this.cartService.cartLength.next(0);
+    //     localStorage.removeItem('cartItems')
+    //     this.router.navigate(['profile/my-booking']);
+    //   },
+    //   (err)=>{
+    //     this.toaster.error(err.message)
+    //   }
+    // )
   }
   // dateDialog
   openDateTimePicker(): void {
@@ -232,29 +232,28 @@ export class CheckoutComponent {
 
   createNewOrder() {
     const payload = {
-      customerId: '12345',
+      customerId: localStorage.getItem('userId'),
       phone: '9876543210',
       orderId: 'ORD001',
-      amount: 100,
+      amount: 1,
       currency: 'INR',
-      returnUrl: 'https://floppy-rental.vercel.app/'
+      returnUrl: 'http://localhost:4200/profile/my-booking'
     };
 
     this.cartService.createOrder(payload).subscribe(
       async (response) => {
-        console.log('Order created successfully', response);
+        console.log('Order created successfully', response?.payment_session_id);
 
         // Ensure that Cashfree SDK is loaded properly
         try {
           const cashfree = await load({
-            mode: 'production' // or 'production'
+            mode: 'sandbox' // or 'production'
           });
 
           // Ensure that paymentSessionId is correctly obtained
           const checkoutOptions = {
-            paymentSessionId: response?.payment_session_id
-            , // Use cf_order_id for the payment session ID
-            redirectTarget: "_blank" ,// optional (_self, _blank, or _top),
+            paymentSessionId: response.payment_session_id, // Use cf_order_id for the payment session ID
+            redirectTarget: "_self" ,// optional (_self, _blank, or _top),
             appearance: {
               width: "425px",
               height: "700px",
@@ -266,6 +265,7 @@ export class CheckoutComponent {
           // Use the correct method from Cashfree SDK to initiate checkout
           // cashfree.checkout(checkoutOptions);
           cashfree.checkout(checkoutOptions).then((result:any) => {
+            console.log(result, localStorage.setItem('result', JSON.stringify(result)))
             if (result.error) {
               // This will be true when there is any error during the payment
               console.log("There is some payment error, Check for Payment Status");
@@ -276,11 +276,37 @@ export class CheckoutComponent {
               // This is an exceptional case only when the page is opened inside an inAppBrowser
               // In this case the customer will be redirected to return url once payment is completed
               console.log("Payment will be redirected");
+               // Save necessary information for handling after redirect
+    localStorage.setItem('paymentRedirect', 'true');
             }
             if (result.paymentDetails) {
+               // Capture the payment status
+          const paymentStatus = result.paymentDetails.paymentMessage;
               // This will be called whenever the payment is completed irrespective of transaction status
               console.log("Payment has been completed, Check for Payment Status");
               console.log(result.paymentDetails.paymentMessage);
+              // Prepare payload with payment details
+          const payload = {
+            ...this.checkout.value,
+            userId: localStorage.getItem('userId'),
+            totalAmount: this.sabTotal,
+            totalQuantity: this.AmountToCheckout,
+            paymentStatus: paymentStatus || '',
+            coupon: null || '',
+          };
+
+           // Save the order details after successful payment
+          this.cartService.saveOrderDetails(payload).subscribe(
+            (res: any) => {
+              this.toaster.success(res.message);
+              this.cartService.cartLength.next(0);
+              localStorage.removeItem('cartItems');
+              this.router.navigate(['profile/my-booking']);
+            },
+            (err) => {
+              this.toaster.error(err.message);
+            }
+          );
             }
        });
           console.log(cashfree.version(),"version");
