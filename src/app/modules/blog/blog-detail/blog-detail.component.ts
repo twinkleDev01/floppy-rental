@@ -29,7 +29,7 @@ export class BlogDetailComponent {
     // console.log(this.selectedBlog);
     this.route.paramMap.subscribe(params => {
       this.selectedBlog = params.get('id'); // 'maingroupid' is the name you used in the route
-      console.log(params,"31")
+      console.log(params,"31", this.selectedBlog)
     });
     this.commentForm = fb.group({
       comment: ["", [Validators.required, noWhitespaceValidator(), Validators.maxLength(this.maxCommentLength)]],
@@ -111,13 +111,15 @@ this.serviceDetail.getCategoryList().subscribe((response:any)=>{
     this.commentForm?.markAllAsTouched();
     if(this.commentForm?.invalid)return;
     const blogReviewData = {
-      blogid: this.selectedBlog.id, // Assuming the blog ID is available from blogDetail
+      blogid: this.selectedBlog, // Assuming the blog ID is available from blogDetail
+      userId: localStorage.getItem('userId'),
       name: this.commentForm?.get("name")?.value,
       email: this.commentForm?.get("email")?.value,
       website: this.commentForm?.get("webSite")?.value,
       userReview: 0, // Example rating value, adjust as needed
       comment: this.commentForm?.get("comment")?.value, // Adjust or bind to your form input
-      isSaveNameEmailandWebsite: this.commentForm?.get("saveWebsiteInfo")?.value?"1":"0"
+      isSaveNameEmailandWebsite: this.commentForm?.get("saveWebsiteInfo")?.value?"1":"0",
+      request: ''
     };
 
     this.blogService.saveBlogReview(blogReviewData).subscribe(
@@ -178,6 +180,7 @@ this.serviceDetail.getCategoryList().subscribe((response:any)=>{
   getReviewsByBlogId(id:number){
     this.blogService.getReviewsByBlogId(id).subscribe((response:any)=>{
 this.blogReview = response.data
+console.log(this.blogReview,"181")
     })
   }
 
