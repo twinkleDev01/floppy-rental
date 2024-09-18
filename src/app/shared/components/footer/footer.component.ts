@@ -10,12 +10,14 @@ import { SharedService } from '../../services/shared.service';
 })
 export class FooterComponent implements OnInit{
   footerList:any[] = [];
+  widthPerSection = 3
   readonly sharedService = inject(SharedService)
   readonly dialog = inject(MatDialog)
   
   ngOnInit(): void {
     this.sharedService.getFooterList().subscribe((res:any)=>{
       this.footerList = res.data
+      this.widthPerSection = Math.floor(12/this.footerList.length)
     })
   }
 
@@ -41,5 +43,9 @@ getColumnClass(index: number): string {
   } else {
     return 'col-lg-2'; // Apply col-lg-2 to other columns
   }
+}
+
+openPartnerLink() {
+  window.open('https://play.google.com/store/apps/details?id=com.ffvendor.app', '_blank');
 }
 }

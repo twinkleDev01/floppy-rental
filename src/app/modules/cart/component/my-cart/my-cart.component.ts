@@ -32,6 +32,7 @@ export class MyCartComponent {
      this.cartService.getCartItems().subscribe(
         (cartItems:any) => {
           this.cartItems = cartItems?.data;
+          this.cartService.cartLength.next(this.cartItems.length)
         },
         (error) => {
           // Handle error here
@@ -75,6 +76,7 @@ export class MyCartComponent {
   }
     this.cartService.deleteCart(item.id).subscribe(
       (res:any)=>{
+        this.cartService.cartLength.next(this.cartItems.length)
         this.toastr.success(res.message)
         // this.getCartItems()
       },

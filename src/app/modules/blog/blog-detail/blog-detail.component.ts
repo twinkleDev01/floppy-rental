@@ -35,7 +35,7 @@ export class BlogDetailComponent {
       comment: ["", [Validators.required, noWhitespaceValidator(), Validators.maxLength(this.maxCommentLength)]],
       name: ["", [Validators.required, noWhitespaceValidator(), Validators.pattern('^[a-zA-Z\\s]*$')]],
       email: ["", [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/), noWhitespaceValidator()]], // Email also includes email format validation
-      webSite: [""],
+      webSite: ["", [Validators.pattern(/^(https?:\/\/)?([a-zA-Z0-9.-]+)\.([a-zA-Z]{2,})([\/\w .-]*)*\/?$/)]], // Website validation
       saveWebsiteInfo: [""]
     });
     

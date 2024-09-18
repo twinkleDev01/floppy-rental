@@ -7,7 +7,8 @@
               [class.active]="i === 0"
             >
               <img [src]="item.Image || 'images/No_Image_Available.jpg'" [alt]="item.title" class="d-block w-100 bottom-banner" (error)="handleError($event)">
-              <div class="text-center button-ui" *ngIf="isOnHomePage()">
+              <!-- *ngIf="isOnHomePage()" -->
+              <div class="text-center button-ui" >
                 <button class="service_btn" (click)="goToService()">Book A Service</button>
             </div>
                <!-- <img src="images/floppy_logo.png" [alt]="item.title" class="d-block w-100" style="size: 20px;">  -->

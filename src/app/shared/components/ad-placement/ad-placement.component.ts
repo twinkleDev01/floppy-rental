@@ -49,9 +49,23 @@ export class AdPlacementComponent {
   }
   
 
-  goToService(){
-    this.router.navigate(['services'])
+  // goToService(){
+  //   this.router.navigate(['services'])
+  // }
+
+  goToService() {
+    if (this.router.url === '/services') {
+      // Scroll to the top of the page if already on 'services' route
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      // Navigate to 'services' route
+      this.router.navigate(['services']).then(() => {
+        // Scroll to the top after navigation
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
   }
+  
   // Check if the current route is the home page
   isOnHomePage(): boolean {
     return this.router.url === '/';

@@ -104,6 +104,8 @@ export class SignupComponent {
 
   onSubmit() {
     console.log(this.signup.value);
+    this.signup?.markAllAsTouched();
+    if(this.signup?.invalid)return;
   
     if (this.signup.valid) {
       // Handle successful form submission

@@ -20,14 +20,14 @@
   </div>
 
   <!-- Existing Location Section -->
-  <div class="location-card">
+  <div class="location-card" *ngFor="let userAddress of userAddress" (click)="selectLocation(userAddress)">
     <div class="location-info">
       <span class="location-icon">
         <i class="fa fa-map-marker"></i>
       </span>
-      <div class="location-details">
-        <strong>{{selectedAddressType || 'Home'}}</strong>
-        <p>2 J, City Walk, Dubai</p>
+      <div class="location-details" >
+        <strong>{{userAddress.addressType}}</strong>
+        <p>{{userAddress.location}}</p>
       </div>
     </div>
   </div>

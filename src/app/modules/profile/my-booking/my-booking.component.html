@@ -23,7 +23,7 @@
                   <td>{{ booking.time }}</td>
                   <td>
                     <!-- Show all items for each booking -->
-                    <div *ngFor="let item of booking.items; let i = index">
+                    <div *ngFor="let item of booking.items; let i = index" class="table-services">
                       <img [src]="item.image || 'images/No_Image_Available.jpg'" alt="Service Image" class="img-fluid">
                       {{ item.itemName }}<span *ngIf="i < booking.items.length - 1">,</span>
                     </div>

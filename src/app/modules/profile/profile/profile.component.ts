@@ -85,7 +85,13 @@ export class ProfileComponent {
       this.profileForm.get("selectedCountry")?.updateValueAndValidity();
       this.states = State.getStatesOfCountry(selectedCountry.iso2);
       this.cities = City.getCitiesOfState(this.selectedCountry.iso2, this.states?.[0].isoCode);
-      console.log(this.states,"87")
+      console.log(this.states,"87");
+      if(this.states?.length){
+        this.profileForm?.get("state")?.setValue(this.states?.[0]?.isoCode);
+      }
+      if(this.cities?.length){
+        this.profileForm?.get("city")?.setValue(this.cities?.[0]?.name);
+      }
       // this.cities = [];
     } else {
       this.selectedCountryFlag = undefined;
@@ -137,7 +143,7 @@ export class ProfileComponent {
   
       // Format the phone number
       const formattedPhoneNumber = this.formatPhoneNumber(formValue.phone, selectedCountry?.code || '');
-  
+      this.selectedState = this.states.find((state:any) => state.isoCode === formValue?.state);
       const payload = {
         userId: id,
         name: formValue.name,

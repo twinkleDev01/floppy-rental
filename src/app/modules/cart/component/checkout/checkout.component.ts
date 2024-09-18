@@ -143,13 +143,13 @@ export class CheckoutComponent {
       if (result) {
         console.log('Selected Location:', result);
         this.selectedCountryCode = result.countryCode
-        this.selectedStateCode = result.selectedStateCode
+        this.selectedStateCode = result.selectedStateCode || result.stateCode
         // Patch form with the returned location data
       this.checkout.patchValue({
-        address: result.address,
+        address: result.address || result.location,
         city: result.area,
         state: result.state,
-        zipCode: result.zipCode, // Assuming zipCode is part of the result
+        zipCode: result.zipCode || result.pinCode, // Assuming zipCode is part of the result
         // Add more fields here as needed
       });
       this.loadStates(result.countryCode)
@@ -244,20 +244,112 @@ export class CheckoutComponent {
   //   }
   // }
 
+  // createNewOrder() {
+  //   const payload = {
+  //     customerId: localStorage.getItem('userId'),
+  //     phone: '9876543210',
+  //     orderId: 'ORD001',
+  //     amount: 1,
+  //     currency: 'INR',
+  //     returnUrl: 'http://localhost:4200/profile/my-booking'
+  //   };
+
+  //   this.cartService.createOrder(payload).subscribe(
+  //     async (response) => {
+  //       console.log('Order created successfully', response?.payment_session_id);
+
+  //       // Ensure that Cashfree SDK is loaded properly
+  //       try {
+  //         const cashfree = await load({
+  //           mode: 'sandbox' // or 'production'
+  //         });
+
+  //         // Ensure that paymentSessionId is correctly obtained
+  //         const checkoutOptions = {
+  //           paymentSessionId: response.payment_session_id, // Use cf_order_id for the payment session ID
+  //           redirectTarget: "_self" ,// optional (_self, _blank, or _top),
+  //           appearance: {
+  //             width: "425px",
+  //             height: "700px",
+  //         },
+  //         };
+
+  //         console.log('Cashfree SDK loaded', cashfree);
+
+  //         // Use the correct method from Cashfree SDK to initiate checkout
+  //         // cashfree.checkout(checkoutOptions);
+  //         cashfree.checkout(checkoutOptions).then((result:any) => {
+  //           console.log(result, localStorage.setItem('result', JSON.stringify(result)))
+  //           if (result.error) {
+  //             // This will be true when there is any error during the payment
+  //             console.log("There is some payment error, Check for Payment Status");
+  //             console.log(result.error);
+  //           }
+  //           if (result.redirect) {
+  //             // This will be true when the payment redirection page couldnt be opened in the same window
+  //             // This is an exceptional case only when the page is opened inside an inAppBrowser
+  //             // In this case the customer will be redirected to return url once payment is completed
+  //             console.log("Payment will be redirected");
+  //              // Save necessary information for handling after redirect
+  //   localStorage.setItem('paymentRedirect', 'true');
+  //           }
+  //           if (result.paymentDetails) {
+  //              // Capture the payment status
+  //         const paymentStatus = result.paymentDetails.paymentMessage;
+  //             // This will be called whenever the payment is completed irrespective of transaction status
+  //             console.log("Payment has been completed, Check for Payment Status");
+  //             console.log(result.paymentDetails.paymentMessage);
+  //             // Prepare payload with payment details
+  //         const payload = {
+  //           ...this.checkout.value,
+  //           userId: localStorage.getItem('userId'),
+  //           totalAmount: this.sabTotal,
+  //           totalQuantity: this.AmountToCheckout,
+  //           paymentStatus: paymentStatus || '',
+  //           coupon: null || '',
+  //         };
+
+  //          // Save the order details after successful payment
+  //         this.cartService.saveOrderDetails(payload).subscribe(
+  //           (res: any) => {
+  //             this.toaster.success(res.message);
+  //             this.cartService.cartLength.next(0);
+  //             localStorage.removeItem('cartItems');
+  //             this.router.navigate(['profile/my-booking']);
+  //           },
+  //           (err) => {
+  //             this.toaster.error(err.message);
+  //           }
+  //         );
+  //           }
+  //      });
+  //         console.log(cashfree.version(),"version");
+  //       } catch (error) {
+  //         console.error('Error loading Cashfree SDK', error);
+  //       }
+  //     },
+  //     (error) => {
+  //       console.error('Error creating order', error);
+  //     }
+  //   );
+  // }
+order_id:any
   createNewOrder() {
+    const orderId = `ord_id_${Date.now()}`; 
     const payload = {
       customerId: localStorage.getItem('userId'),
       phone: '9876543210',
-      orderId: 'ORD001',
+      orderId,
       amount: 1,
       currency: 'INR',
-      returnUrl: 'http://localhost:4200/profile/my-booking'
+      returnUrl: `${window.location.origin}/profile/my-booking?orderId=${orderId}`
     };
+    localStorage.setItem('payement', JSON.stringify(payload))
 
     this.cartService.createOrder(payload).subscribe(
       async (response) => {
         console.log('Order created successfully', response?.payment_session_id);
-
+this.order_id = response?.order_id
         // Ensure that Cashfree SDK is loaded properly
         try {
           const cashfree = await load({
@@ -279,7 +371,6 @@ export class CheckoutComponent {
           // Use the correct method from Cashfree SDK to initiate checkout
           // cashfree.checkout(checkoutOptions);
           cashfree.checkout(checkoutOptions).then((result:any) => {
-            console.log(result, localStorage.setItem('result', JSON.stringify(result)))
             if (result.error) {
               // This will be true when there is any error during the payment
               console.log("There is some payment error, Check for Payment Status");
@@ -290,37 +381,6 @@ export class CheckoutComponent {
               // This is an exceptional case only when the page is opened inside an inAppBrowser
               // In this case the customer will be redirected to return url once payment is completed
               console.log("Payment will be redirected");
-               // Save necessary information for handling after redirect
-    localStorage.setItem('paymentRedirect', 'true');
-            }
-            if (result.paymentDetails) {
-               // Capture the payment status
-          const paymentStatus = result.paymentDetails.paymentMessage;
-              // This will be called whenever the payment is completed irrespective of transaction status
-              console.log("Payment has been completed, Check for Payment Status");
-              console.log(result.paymentDetails.paymentMessage);
-              // Prepare payload with payment details
-          const payload = {
-            ...this.checkout.value,
-            userId: localStorage.getItem('userId'),
-            totalAmount: this.sabTotal,
-            totalQuantity: this.AmountToCheckout,
-            paymentStatus: paymentStatus || '',
-            coupon: null || '',
-          };
-
-           // Save the order details after successful payment
-          this.cartService.saveOrderDetails(payload).subscribe(
-            (res: any) => {
-              this.toaster.success(res.message);
-              this.cartService.cartLength.next(0);
-              localStorage.removeItem('cartItems');
-              this.router.navigate(['profile/my-booking']);
-            },
-            (err) => {
-              this.toaster.error(err.message);
-            }
-          );
             }
        });
           console.log(cashfree.version(),"version");

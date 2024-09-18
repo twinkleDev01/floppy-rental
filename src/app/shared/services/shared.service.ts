@@ -16,6 +16,8 @@ export class SharedService {
 
     couponListUrl = environment.ApiBaseUrl + 'Coupon/CouponList';
 
+    private addressSaveUrl = environment.ApiBaseUrl + 'Address/save-address';
+
   constructor(private http: HttpClient) {}
 
   // Method to update the full breadcrumb path
@@ -59,5 +61,17 @@ export class SharedService {
   getCouponList(): Observable<any> {
     return this.http.get<any>(this.couponListUrl); // Makes an HTTP GET request to the API
   }
+
+  saveAddress(addressPayload: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.post<any>(this.addressSaveUrl, addressPayload, { headers });
+  }
   
+  getAddressesByUser(userId: number): Observable<any> {
+    const url = `${environment.ApiBaseUrl}Address/get-addresses-by-user/${userId}`;
+    return this.http.get<any>(url);
+  }
 }

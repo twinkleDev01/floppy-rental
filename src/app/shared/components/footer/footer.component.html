@@ -93,7 +93,8 @@
             <div class="footer_img">
               <img src="images/floppy_logo.png" alt="Logo">
             </div>
-            <button>Become A Partner</button>
+            <!-- <button>Become A Partner</button> -->
+            <button (click)="openPartnerLink()">Become A Partner</button>
           </div>
   
           <!-- Dynamic Footer Sections -->
@@ -112,8 +113,8 @@
             </div>
           </div> -->
 
-          <div class="row">
-            <div class="col-lg-3 col-md-8" *ngFor="let section of footerList">
+          <div class="row justify-content-between">
+            <div [class]="'col-lg-'+(widthPerSection)" *ngFor="let section of footerList">
               <div class="row">
                 <div class="col-12">
                   <span>{{ section.parameterDetail }}</span>
@@ -122,12 +123,20 @@
                       <div class="col-md-6">
                         <ul>
                           <li *ngFor="let item of column" style="font-size: 12px;">
-                            <a [href]="item.url" class="text-decoration-none text-white">
+                            <a [href]="item.url" class="text-decoration-none text-white" [attr.target]="section.parameterDetail === 'Social Media' ? '_blank' : null">
                               <ng-container *ngIf="section.parameterDetail === 'Location'">
                                 <img *ngIf="item.tittle.includes('.com')" src="Icons/mail.svg" alt="Mail" style="height: 15px; width: 15px;">
                                 <img *ngIf="item.tittle.includes('+91')" src="Icons/phone.svg" alt="Phone" style="height: 15px; width: 15px;">
                                 <img *ngIf="!item.tittle.includes('+91') && !item.tittle.includes('.com')" src="Icons/Group.svg" alt="Group" style="height: 15px; width: 15px;">
                               </ng-container>
+                              <ng-container *ngIf="section.parameterDetail === 'Social Media'">
+                                <i class="fab fa-facebook" *ngIf="item.tittle === 'Facebook'"></i>
+                                <i class="fab fa-twitter" *ngIf="item.tittle === 'Twitter'"></i>
+                                <i class="fab fa-linkedin" *ngIf="item.tittle === 'LinkedIn'"></i>
+                                <i class="fab fa-youtube" *ngIf="item.tittle === 'Youtube'"></i>
+                                <i class="fab fa-instagram" *ngIf="item.tittle === 'Instagram'"></i>
+                              </ng-container>
+                              
                               {{ item.tittle }}
                             </a>
                           </li>

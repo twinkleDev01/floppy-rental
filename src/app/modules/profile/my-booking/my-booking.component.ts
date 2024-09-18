@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ProfileService } from '../service/profile.service';
+import { ActivatedRoute } from '@angular/router';
 
 interface Booking {
   orderId: string;
@@ -52,12 +53,16 @@ export class MyBookingComponent {
   // ];
 
   bookings:any;
-  constructor(private profileService:ProfileService){
-    debugger
+  constructor(private profileService:ProfileService, private route: ActivatedRoute,){
+    this.route.queryParams.subscribe(params => {
+      // const paymentStatus = params['paymentStatus'];
+      const orderId = params['orderId'];
+      console.log(orderId)
+    })
   }
 
 ngOnInit(){
-  debugger
+  // debugger
   this.getUserBooking();
 }
 

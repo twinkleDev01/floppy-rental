@@ -1,6 +1,8 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Country, State } from 'country-state-city';
+import { SharedService } from '../../services/shared.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-location-dialog',
@@ -25,7 +27,8 @@ export class LocationDialogComponent implements AfterViewInit {
   lat: number = 0;
   lng: number = 0;
   selectedCountry:any;
-  selectedCountryCode:any
+  selectedCountryCode:any;
+  userAddress:any
 
   mapOptions: google.maps.MapOptions = {
     center: { lat: -1.286389, lng: 36.817223 }, // Default location
@@ -34,7 +37,7 @@ export class LocationDialogComponent implements AfterViewInit {
   map!: google.maps.Map;
   marker!: google.maps.Marker; // Use google.maps.Marker instead
 
-  constructor(public dialogRef: MatDialogRef<LocationDialogComponent>) {}
+  constructor(public dialogRef: MatDialogRef<LocationDialogComponent>, private sharedService:SharedService, private toastr:ToastrService) {}
 
   ngAfterViewInit(): void {
     // this.initMap();
@@ -42,6 +45,7 @@ export class LocationDialogComponent implements AfterViewInit {
 
   ngOnInit(): void {
     this.loadCountries();
+    this.getSaveAddress()
   }
 
   onCountryChange() {
@@ -128,6 +132,24 @@ export class LocationDialogComponent implements AfterViewInit {
       selectedStateCode: this.selectedStateCode,
       zipCode: this.zipCode
     };
+    const addressPayload = {
+      userId: localStorage.getItem('userId'), // your dynamic userId
+      addressType: this.selectedAddressType, // your dynamic data
+      location: this.address,
+      city: this.area,
+      state: this.selectedState,
+      pinCode: this.zipCode,
+      area: this.area,
+      country: this.country,
+      stateCode:this.selectedStateCode,
+      countryCode:this.selectedCountryCode
+    };
+this.sharedService.saveAddress(addressPayload).subscribe((response:any)=>{
+  console.log(response,"143")
+  if(response){
+    this.toastr.success(response.message)
+  }
+})
     this.showAddLocationForm = false;
     this.dialogRef.close(addressData);
   }
@@ -243,5 +265,29 @@ export class LocationDialogComponent implements AfterViewInit {
     const allCountries = Country.getAllCountries();
     this.countries = allCountries.map(country => country.name);
   }
+
+  getSaveAddress() {
+    const userId = localStorage.getItem('userId');
   
+    // Check if userId is available in localStorage
+    if (userId) {
+      const parsedUserId = parseInt(userId, 10); // Convert userId to a number
+  
+      this.sharedService.getAddressesByUser(parsedUserId).subscribe(
+        (response: any) => {
+          this.userAddress = response.data
+          console.log(response, "Addresses for user");
+        },
+        (error) => {
+          console.error("Error fetching addresses:", error);
+        }
+      );
+    } else {
+      console.error("No userId found in localStorage");
+    }
+  }
+  
+  selectLocation(address: any) {
+    this.dialogRef.close(address); // Close dialog and return selected address
+  }
 }

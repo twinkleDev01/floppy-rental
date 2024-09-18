@@ -30,7 +30,7 @@
             signup.get('firstName')?.invalid && signup.get('firstName')?.touched
           " class="d-flex justify-content-end text-danger">
           <span *ngIf=" signup.get('firstName')?.errors?.['required']">
-            <i class="fa fa-exclamation-triangle" style="color: #fe3061" aria-hidden="true"></i>Required
+            <i class="fa fa-exclamation-triangle" style="color: #fe3061" aria-hidden="true"></i>Name Required
           </span>
           <span *ngIf="signup.get('firstName')?.errors?.['pattern'] && !signup.get('firstName')?.errors?.['required']">
             <i class="fa fa-exclamation-triangle" style="color: #fe3061" aria-hidden="true"></i>
@@ -53,7 +53,7 @@
             signup.get('lastName')?.invalid && signup.get('lastName')?.touched
           " class="d-flex justify-content-end text-danger">
           <span *ngIf=" signup.get('lastName')?.errors?.['required']">
-            <i class="fa fa-exclamation-triangle" style="color: #fe3061" aria-hidden="true"></i>Required
+            <i class="fa fa-exclamation-triangle" style="color: #fe3061" aria-hidden="true"></i>Last Name Required
           </span>
           <span *ngIf="signup.get('lastName')?.errors?.['pattern'] && !signup.get('lastName')?.errors?.['required']">
             <i class="fa fa-exclamation-triangle" style="color: #fe3061" aria-hidden="true"></i>
@@ -75,7 +75,7 @@
         <div *ngIf="signup.get('email')?.invalid && signup.get('email')?.touched"
           class="d-flex justify-content-end text-danger">
           <span *ngIf=" signup.get('email')?.errors?.['required']">
-            <i class="fa fa-exclamation-triangle" style="color: #fe3061" aria-hidden="true"></i>Required
+            <i class="fa fa-exclamation-triangle" style="color: #fe3061" aria-hidden="true"></i>Email Required
           </span>
           <span *ngIf="signup.get('email')?.errors?.['pattern'] && !signup.get('email')?.errors?.['required']">
             <i class="fa fa-exclamation-triangle" style="color: #fe3061" aria-hidden="true"></i>
@@ -172,7 +172,7 @@
           <div *ngIf="signup.get('password')?.errors?.['required']" style="text-align: right;">
 
             <i class="fa fa-exclamation-triangle" style="color: #fe3061" aria-hidden="true"></i>
-            Password is required.
+            Password required.
           </div>
           
           <!-- Minimum Length Error -->
@@ -200,7 +200,7 @@
         <div class="d-flex justify-content-center pt-4 clickable">
           <button type="submit"
             class="form-control bg-color btn btn-primary rounded-pill px-3 py-3 text-white shadow-sm"
-            [disabled]="signup.invalid">
+            >
             Create Account
           </button>
         </div>
