@@ -183,14 +183,14 @@
                             <p class="fw-bold m-0">{{vendorDetail?.serviceProvider}}</p>
                             <span class="location">{{vendorDetail?.address}}</span>
                             <app-rating-star
-                            [rating]="vendorDetail.averageRating"
+                            [rating]="vendorDetail?.averageRating"
                             [starCount]="5"
                             [color]="'yellow'"
                             (ratingUpdated)="onRatingUpdated($event)"
                           >
                           </app-rating-star>
                             <p class="m-0 des_text"><span class="fw-bold">Services:</span> <span
-                                    class="text-muted">{{vendorDetail?.id}}</span> </p>
+                                    class="text-muted">{{vendorDetail?.servicesName?.join(', ') || ''}}</span> </p>
                             <p class="m-0 des_text"><span class="fw-bold">Category:</span> <span
                                     class="text-muted">{{vendorDetail?.registrationfor}}</span></p>
                         </div>
