@@ -109,6 +109,8 @@ export class ProfileComponent {
       // Set the state name in the form control
       this.profileForm.get('state')?.setValue(this.selectedState.isoCode);
       // Fetch cities based on the selected state
+      console.log(this.selectedState, this.profileForm.get('selectedCountry')?.value)
+      this.selectedCountry = this.profileForm.get('selectedCountry')?.value
       if (this.selectedCountry && this.selectedState) {
         this.cities = City.getCitiesOfState(this.selectedCountry.iso2, this.selectedState.isoCode);
       }
@@ -157,7 +159,8 @@ export class ProfileComponent {
       };
   
       this.profileService.updateUserProfile(payload).subscribe(
-        response => {
+        (response:any) => {
+          this.toastr.success(response.message)
           console.log('Profile updated successfully', response);
         },
         error => {
@@ -226,10 +229,9 @@ export class ProfileComponent {
             const countryCodeObj = this.countries.find((c:any) => fullMobileNumber.startsWith(c.code));
             const countryCode = countryCodeObj?.code || '';
 
-            console.log('Country Code:', countryCode);
+            console.log('Country Code:', countryCode, countryCodeObj);
 
             if (countryCode) {
-              console.error('Country code not found for the mobile number.');
               this.states = State.getStatesOfCountry(countryCodeObj?.iso2);
              
             }
@@ -252,7 +254,7 @@ const patchedCity = this.cities?.find((city:any)=> city?.name === response?.data
               address: response.data.address || '',
               profilePicture: response.data.image
             });
-            console.log(this.profileForm.value);
+            console.log(this.profileForm.get('selectedCountry')?.value);
           } else {
             this.toastr.error('Failed to load profile details');
           }

@@ -12,7 +12,8 @@
 <!--  -->
 <div class="container pt-5">
     <div class="left-column">
-      <form [formGroup]="checkout" (ngSubmit)="onSubmit()">
+      <form [formGroup]="checkout" >
+        <!-- (ngSubmit)="onSubmit()" -->
       <!-- Select Address Section -->
       <div class="select-address shadow-lg p-5 rounded-4">
         <h3>Select Your Address</h3>
@@ -504,7 +505,6 @@
           type="text"
           autocomplete="nameOnCard"
           formControlName="nameOnCard"
-          required
           placeholder=""
           class="form-control pe-3 rounded-2 border-1 text-muted"
           (keypress)="noSpace($event)"
@@ -621,7 +621,7 @@
       </div>
       <!--  -->
           <div class="cardButton d-flex justify-content-center pt-4">
-              <button (click)="onSubmit()">Complete Booking</button>
+              <!-- <button (click)="onSubmit()">Complete Booking</button> -->
               <!-- payment.component.html -->
 <button (click)="createNewOrder()">Pay Now</button>
 

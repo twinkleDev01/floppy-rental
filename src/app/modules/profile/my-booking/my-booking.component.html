@@ -5,12 +5,13 @@
           <div class="table-responsive">
             <table class="table">
               <thead>
-                <tr>
+                <tr style="font-size: 13px;">
                   <th>Order ID</th>
                   <th>Date</th>
                   <th>Time</th>
                   <th>Services</th>
                   <th>Payment Method</th>
+                  <th>Payment Status</th>
                   <th>Status</th>
                   <th>Total</th>
                   <th>Action</th>
@@ -34,24 +35,25 @@
                     </div>
                   </td>
                   <td>{{ booking.paymentMethod }}</td>
+                  <td><span class="status-complete status-badge">{{ booking.paymentStatus | titlecase }}</span></td>
                   <td>
                     <span class="status-badge" [ngClass]="{
-                      'status-pending': booking.paymentStatus === 'Pending',
-                      'status-complete': booking.paymentStatus === 'Complete'
+                      'status-pending': booking.deliveryStatus === 'Pending',
+                      'status-complete': booking.deliveryStatus === 'Completed'
                     }">
-                      {{ booking.paymentStatus }}
+                      {{ booking.deliveryStatus }}
                     </span>
                   </td>
                   <td>{{ calculateTotal(booking) | currency }}</td>
-                  <!-- *ngIf="booking.status=='Pending'" -->
-                  <td class="action-buttons" >
-                    <button class="btn btn-light" (click)="editBooking(booking)"><i class="fas fa-edit"></i></button>
+                  <!-- *ngIf="booking.deliveryStatus === 'Pending'" -->
+                  <td class="action-buttons" *ngIf="booking.deliveryStatus === 'Pending'">
+                    <button class="btn btn-light" (click)="openDateTimePicker(booking)"><i class="fas fa-edit"></i></button>
                     <button class="btn btn-light" (click)="deleteBooking(booking)"><i class="fas fa-times"></i></button>
                   </td>
-                  <!-- *ngIf="booking.status=='Complete'" -->
-                  <td class="action-buttons" >
-                    <button class="review status-badge">Review</button>&nbsp;
-                    <button class="reorder status-badge">Re-order</button>
+                  <!-- *ngIf="booking.deliveryStatus ==='Completed'" -->
+                  <td class="action-buttons" *ngIf="booking.deliveryStatus ==='Completed'">
+                    <button class="review status-badge" (click)="goToDetail(booking.items)">Review</button>&nbsp;
+                    <button class="reorder status-badge" (click)="reAddToCart(booking.items[0])">Re-order</button>
                   </td>
                 </tr>
 

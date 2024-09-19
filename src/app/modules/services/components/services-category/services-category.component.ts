@@ -128,7 +128,7 @@ this.route.queryParams.subscribe(params => {
       // this.getSearchedItemList();
     });
 
-  this.getLocations()
+  // this.getLocations()
     this.getCouponList()
     this.getBannerData()
     // this.getCurrentLocation()
@@ -386,37 +386,37 @@ if (navigator.geolocation) {
     })
   }
 
-  newLocationId:any
-  getLocations() {
-    this.homeService.getLocation().subscribe((response: any) => {
-      const uniqueLocations: any = {};
-      this.newLocationId = response.data
-      response.data.reduce((acc: any, city: any) => {
-        city.areas.forEach((area: any) => {
-          area.subgroups.forEach((subgroup: any) => {
-            const locationKey = `${city.cityName}|${area.areaName}`;
-            if (!uniqueLocations[locationKey]) {
-              uniqueLocations[locationKey] = {
-                cityName: city.cityName,
-                areaName: area.areaName,
-                subgroupName: [subgroup.subgroupName],
-              };
-            } else {
-              uniqueLocations[locationKey].subgroupName.push(
-                subgroup.subgroupName
-              );
-            }
-          });
-        });
-        return acc;
-      }, []);
-      this.locations = Object.values(uniqueLocations);
-      this.allSubgroups = this.locations.reduce((acc: string[], loc: any) => {
-        acc.push(...loc.subgroupName);
-        return acc;
-      }, []);
-    }); // Store unique subgroups
-  }
+  // newLocationId:any
+  // getLocations() {
+  //   this.homeService.getLocation().subscribe((response: any) => {
+  //     const uniqueLocations: any = {};
+  //     this.newLocationId = response.data
+  //     response.data.reduce((acc: any, city: any) => {
+  //       city.areas.forEach((area: any) => {
+  //         area.subgroups.forEach((subgroup: any) => {
+  //           const locationKey = `${city.cityName}|${area.areaName}`;
+  //           if (!uniqueLocations[locationKey]) {
+  //             uniqueLocations[locationKey] = {
+  //               cityName: city.cityName,
+  //               areaName: area.areaName,
+  //               subgroupName: [subgroup.subgroupName],
+  //             };
+  //           } else {
+  //             uniqueLocations[locationKey].subgroupName.push(
+  //               subgroup.subgroupName
+  //             );
+  //           }
+  //         });
+  //       });
+  //       return acc;
+  //     }, []);
+  //     this.locations = Object.values(uniqueLocations);
+  //     this.allSubgroups = this.locations.reduce((acc: string[], loc: any) => {
+  //       acc.push(...loc.subgroupName);
+  //       return acc;
+  //     }, []);
+  //   }); // Store unique subgroups
+  // }
 
   getFilteredSubgroups() {
     if (!this.selectedCity || !this.selectedArea) {

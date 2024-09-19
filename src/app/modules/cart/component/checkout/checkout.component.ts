@@ -41,17 +41,21 @@ export class CheckoutComponent {
     lastName : [''],
     address: ['',[Validators.required]],
     state : ['',[Validators.required]],
-    country : ['india',[Validators.required]],
+    country : ['India',[Validators.required]],
     city : ['',[Validators.required]],
     zipCode : ['',[Validators.required,Validators.maxLength(8)]],
     date : ['',[Validators.required]],
     productId : ['',[Validators.required]],
     slot : ['',[Validators.required]],
-    paymentMethod:[],
-    nameOnCard : ['',[Validators.required]],
-    cardNumber : ['',[Validators.required,Validators.pattern('^[0-9]{16}$')]],
-    expiryDate: ['', [Validators.required, Validators.pattern('(0[1-9]|1[0-2])\\/(\\d{2})')]],
-    cvc: ['', [Validators.required, Validators.pattern('^[0-9]{3,4}$')]],
+    paymentMethod:['Cash Free'],
+    // nameOnCard : ['',[Validators.required]],
+    // cardNumber : ['',[Validators.required,Validators.pattern('^[0-9]{16}$')]],
+    // expiryDate: ['', [Validators.required, Validators.pattern('(0[1-9]|1[0-2])\\/(\\d{2})')]],
+    // cvc: ['', [Validators.required, Validators.pattern('^[0-9]{3,4}$')]],
+    nameOnCard : [''],
+    cardNumber : [''],
+    expiryDate: [''],
+    cvc: [''],
     phone : ['', [Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(10), Validators.maxLength(10)]],
     email: [
       '',
@@ -66,13 +70,21 @@ export class CheckoutComponent {
   })
 
   // CartItems
-  const navigation = this.router.getCurrentNavigation();
-  this.sabTotal = navigation?.extras?.state?.['sabTotal']; 
-  this.sabTotalSaving = navigation?.extras?.state?.['sabTotalSaving']; 
-  this.AmountToCheckout = navigation?.extras?.state?.['AmountToCheckout']; 
-  const productIdFromState = navigation?.extras?.state?.['productId'];
-  this.checkout.get('productId')?.setValue(productIdFromState);
-  console.log(this.sabTotal,this.sabTotalSaving,this.AmountToCheckout);
+  // const navigation = this.router.getCurrentNavigation();
+  // this.sabTotal = navigation?.extras?.state?.['sabTotal']; 
+  // this.sabTotalSaving = navigation?.extras?.state?.['sabTotalSaving']; 
+  // this.AmountToCheckout = navigation?.extras?.state?.['AmountToCheckout']; 
+  // const productIdFromState = navigation?.extras?.state?.['productId'];
+  // this.checkout.get('productId')?.setValue(productIdFromState);
+  // console.log(this.sabTotal,this.sabTotalSaving,this.AmountToCheckout);
+  const myCartData = localStorage.getItem('myCartData');
+  if (myCartData) {
+    const data = JSON.parse(myCartData);
+    this.sabTotal = data.sabTotal;
+    this.sabTotalSaving = data.sabTotalSaving;
+    this.AmountToCheckout = data.AmountToCheckout;
+    this.checkout.get('productId')?.setValue(data.productId);
+  }
 }
 
 
@@ -333,23 +345,48 @@ export class CheckoutComponent {
   //     }
   //   );
   // }
-order_id:any
+
   createNewOrder() {
     const orderId = `ord_id_${Date.now()}`; 
+    // const payload = {
+    //   customerId: localStorage.getItem('userId'),
+    //   phone: '9876543210',
+    //   orderId,
+    //   amount: 1,
+    //   currency: 'INR',
+    //   returnUrl: `${window.location.origin}/profile/my-booking?orderId=${this.order_id}`
+    // };
+    console.log(this.checkout.value,)
+    this.checkout?.markAllAsTouched();
+    if(this.checkout?.invalid)return;
     const payload = {
-      customerId: localStorage.getItem('userId'),
-      phone: '9876543210',
-      orderId,
-      amount: 1,
-      currency: 'INR',
-      returnUrl: `${window.location.origin}/profile/my-booking?orderId=${orderId}`
+      userId: localStorage.getItem('userId') || 0, // Ensure userId is a number or default to 0
+      totalAmount: this.sabTotal || 0, // Ensure totalAmount is a number or default to 0
+      totalQuantity:  0, // Ensure totalQuantity is a number or default to 0
+      firstName: this.checkout.value.firstName || 'string', // Assuming checkout form has firstName
+      lastName: this.checkout.value.lastName || 'string',  // Assuming checkout form has lastName
+      address: this.checkout.value.address || 'string',  // Assuming checkout form has address
+      email: this.checkout.value.email || 'string',  // Assuming checkout form has email
+      phone: this.checkout.value.phone,  // Phone from the original second payload
+      state: this.checkout.value.state || 'string',  // Assuming checkout form has state
+      city: this.checkout.value.city || 'string',  // Assuming checkout form has city
+      zipCode: this.checkout.value.zipCode || 'string',  // Assuming checkout form has zipCode
+      country: this.checkout.value.country || 'string',  // Assuming checkout form has country
+      date: new Date().toISOString(),  // Current date and time in ISO format
+      slot: this.checkout.value.slot || 'string',  // Assuming checkout form has slot
+      coupon: this.checkout.value.coupon || '',  // Assuming checkout form has coupon
+      productId: this.checkout.value.productId,  // Assuming you need to map productId(s) here
+      currency: 'INR',  // Currency from the original second payload
+      returnUrl: `${window.location.origin}/profile/my-booking` // returnUrl from the original second payload
+      // returnUrl: `${window.location.origin}/profile/my-booking?orderId=${this.order_id}`
     };
-    localStorage.setItem('payement', JSON.stringify(payload))
+    
+    // localStorage.setItem('payement', JSON.stringify(payload))
 
     this.cartService.createOrder(payload).subscribe(
       async (response) => {
-        console.log('Order created successfully', response?.payment_session_id);
-this.order_id = response?.order_id
+        console.log('Order created successfully', response?.paymentSessionId);
+        localStorage.setItem('orderId', response?.orderId)
         // Ensure that Cashfree SDK is loaded properly
         try {
           const cashfree = await load({
@@ -358,7 +395,7 @@ this.order_id = response?.order_id
 
           // Ensure that paymentSessionId is correctly obtained
           const checkoutOptions = {
-            paymentSessionId: response.payment_session_id, // Use cf_order_id for the payment session ID
+            paymentSessionId: response.paymentSessionId, // Use cf_order_id for the payment session ID
             redirectTarget: "_self" ,// optional (_self, _blank, or _top),
             appearance: {
               width: "425px",

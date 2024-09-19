@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment.development';
 import { Observable } from 'rxjs';
@@ -9,7 +9,9 @@ import { Observable } from 'rxjs';
 export class ProfileService {
   userBookingiUrl = environment.ApiBaseUrl + 'Order/orderlist/';
 userDetailUrl = environment.ApiBaseUrl + 'User/get_profile_details_by_id/'
-private updateProfileUrl = 'https://firstfloppy.asptask.in/api/User/update_user_profile';
+private updateProfileUrl = environment.ApiBaseUrl + 'User/update_user_profile';
+private deleteUrl = environment.ApiBaseUrl + 'Order'; 
+private updateSlotUrl = environment.ApiBaseUrl + 'Order';
 
   constructor(private http: HttpClient) { }
 
@@ -37,6 +39,23 @@ private updateProfileUrl = 'https://firstfloppy.asptask.in/api/User/update_user_
     image: string; // This will be the base64 image string
   }): Observable<any> {
     return this.http.post<any>(this.updateProfileUrl, payload);
+  }
+
+   // Method to delete an order by id
+   deleteOrder(id: number): Observable<Object> {
+    const url = `${this.deleteUrl}/${id}`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.post(url, { headers });
+  }
+  
+
+
+  // Method to update an order
+  updateOrder(orderData: { orderId: number, newDateTime: string, newSlot: string }): Observable<void> {
+    return this.http.post<void>(this.updateSlotUrl, orderData);
   }
   
 }

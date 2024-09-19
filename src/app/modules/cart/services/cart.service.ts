@@ -173,11 +173,21 @@ export class CartService {
         const cartItems = res.data;
       }),
       catchError((err: any) => {
-        this.toastr.error(err.error.message);
+        // this.toastr.error(err.error.message);
         // Re-throw the error to handle it outside
         return throwError(err);
       })
     );
+  }
+
+  private apiUrl = 'https://firstfloppy.asptask.in/api/Payments/UpdatePaymentStatus';
+  updatePaymentStatus(orderId: string, userId: number): Observable<any> {
+    const payload = {
+      orderId,
+      userId
+    };
+
+    return this.http.post<any>(this.apiUrl, payload);
   }
   
   

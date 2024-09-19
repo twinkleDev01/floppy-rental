@@ -61,7 +61,7 @@ export class MyCartComponent {
            this.toastr.success(res.message)
         },
         (err)=>{
-          this.toastr.error(err.message)
+          // this.toastr.error(err.message)
         }
       )
     }
@@ -85,21 +85,39 @@ export class MyCartComponent {
       }
     )
   }
+  // proceedToCheckout(item: any) {
+  //   console.log(item)
+  //   alert('Are you sure you want to checkout this item')
+  //   if (this.isUpdate) {
+  //     const navigationExtras = {
+  //       state: {
+  //         sabTotal: this.sabTotal,
+  //         sabTotalSaving: this.sabTotalSaving,
+  //         AmountToCheckout: this.AmountToCheckout,
+  //         productId: this.cartItems.map((item: any) => item.id),
+  //       }
+  //     };
+  //     this.router.navigate(['cart/checkout'], navigationExtras);
+  //   }
+  // }
+
   proceedToCheckout(item: any) {
-    console.log(item)
-    alert('Are you sure you want to checkout this item')
+    console.log(item);
+    alert('Are you sure you want to checkout this item');
     if (this.isUpdate) {
-      const navigationExtras = {
-        state: {
-          sabTotal: this.sabTotal,
-          sabTotalSaving: this.sabTotalSaving,
-          AmountToCheckout: this.AmountToCheckout,
-          productId: this.cartItems.map((item: any) => item.id),
-        }
-      };
-      this.router.navigate(['cart/checkout'], navigationExtras);
+      // Store the necessary data in localStorage
+      localStorage.setItem('myCartData', JSON.stringify({
+        sabTotal: this.AmountToCheckout,
+        sabTotalSaving: this.sabTotalSaving,
+        AmountToCheckout: this.AmountToCheckout,
+        productId: this.cartItems.map((item: any) => item.itemId)
+      }));
+  
+      // Navigate to the checkout page without navigation extras
+      this.router.navigate(['cart/checkout']);
     }
   }
+  
   getCouponList() {
     this.sharedService.getCouponList().subscribe((response: any) =>
       this.OfferAndCoupon = response.data
