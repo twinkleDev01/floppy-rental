@@ -115,7 +115,7 @@ this.auth.resetPassword(resetpwd).subscribe((response:any)=>{
 },
 (error: any) => {
   console.error('Registration error', error);
-  this.toastr.error('An error occurred. Please try again later.');
+  this.toastr.error(error.error.message);
 })
     } else {
       // Handle form errors
