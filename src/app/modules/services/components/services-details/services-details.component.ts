@@ -146,8 +146,8 @@ this.service.addNewReview(payload).subscribe((res:any)=>{
 }
 
 // add to cart 
-addToCart(){
- if(localStorage.getItem("userId")){
+addToCart(serviceDetail:any){
+ 
   const payload = {
     itemId:this.serviceDetail.item.itemid||0,
     id:0,
@@ -165,15 +165,31 @@ addToCart(){
   this.service.addCartItem([payload]).subscribe((res:any)=>{
   if(res.success)
     this.toastr.success(res.message)
-    this.router.navigate(['cart'])
+
+ // For guest users, manage cart in localStorage
+ let localCart = localStorage.getItem('myCartItem')
+ ? JSON.parse(localStorage.getItem('myCartItem')!)
+ : [];
+
+// Find the existing item in the cart
+const existingItemIndex = localCart.findIndex((item: any) => item.itemid === serviceDetail.item.itemid);
+
+if (existingItemIndex > -1) {
+ // If item exists, update its quantity
+ localCart[existingItemIndex].quantity += 1;
+} else {
+ // If item doesn't exist, add new item with quantity 1
+ serviceDetail.item.quantity = 1;
+ localCart.push(serviceDetail.item);
+}
+
+// Update the cart in localStorage
+localStorage.setItem('myCartItem', JSON.stringify(localCart));
+
+// Navigate to the cart page
+this.router.navigate(['cart']);
   })
- }else {
-  alert("Please log in before adding items to your cart.")
-  this.dialog.open(LoginComponent, {
-    width: '450',
-    disableClose: true
-  });
- }
+ 
 
 }
 
@@ -333,5 +349,9 @@ displayedReviewsCount = 3; // Initially display 3 reviews
       event.preventDefault();
     }
   }
+
+  // goToCheckout(){
+  //   this.router.navigate(['cart/checkout'])
+  // }
 
 }

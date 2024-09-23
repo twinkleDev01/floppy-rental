@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 import axios from 'axios';
 import {load} from '@cashfreepayments/cashfree-js';
-import { City, State } from 'country-state-city';
+import { City, Country, State } from 'country-state-city';
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
@@ -41,7 +41,7 @@ export class CheckoutComponent {
     lastName : [''],
     address: ['',[Validators.required]],
     state : ['',[Validators.required]],
-    country : ['India',[Validators.required]],
+    country : ['',[Validators.required]],
     city : ['',[Validators.required]],
     zipCode : ['',[Validators.required,Validators.maxLength(8)]],
     date : ['',[Validators.required]],
@@ -137,8 +137,9 @@ export class CheckoutComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log('Selected date and time:',this.checkout.get('date')?.value, result,"130");
+        const selectedDate = result.date
         result.date = this.convertDate(result.date)
-        this.checkout.get('date')?.setValue(result.date);
+        this.checkout.get('date')?.setValue(selectedDate);
         this.checkout.get('slot')?.setValue(result.time);
         console.log(result.date);
       }
@@ -160,6 +161,7 @@ export class CheckoutComponent {
       this.checkout.patchValue({
         address: result.address || result.location,
         city: result.area,
+        country: result.country,
         state: result.state,
         zipCode: result.zipCode || result.pinCode, // Assuming zipCode is part of the result
         // Add more fields here as needed

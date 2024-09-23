@@ -152,7 +152,7 @@ openDateTimePicker(booking:any): void {
 
   goToDetail(card: any) {
     console.log(card,"139")
-    const itemNameDetail = card?.subgroupname
+    const itemNameDetail = card?.subCategoryName
       ?.trim()
       ?.replace(/\s+/g, '-')
       ?.toLowerCase();

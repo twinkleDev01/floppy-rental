@@ -64,15 +64,16 @@ export class HeaderComponent {
   }
 
   goToMyCart(){
-    if(localStorage.getItem("userId")){
-      this.route.navigate(['cart'])
-    }else {
-      alert("Please log in before accessing your cart.");
-      this.dialog.open(LoginComponent, {
-        width: '450',
-        disableClose: true
-      });
-     }
+    // if(localStorage.getItem("userId")){
+    //   this.route.navigate(['cart'])
+    // }else {
+    //   alert("Please log in before accessing your cart.");
+    //   this.dialog.open(LoginComponent, {
+    //     width: '450',
+    //     disableClose: true
+    //   });
+    //  }
+    this.route.navigate(['cart'])
   }
 
   logOut(){

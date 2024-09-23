@@ -4,6 +4,8 @@ import { Router } from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from "../../../../shared/services/shared.service";
 import { AuthService } from "../../../../shared/services/auth.service";
+import { LoginComponent } from "../../../login/Components/login/login.component";
+import { MatDialog } from "@angular/material/dialog";
 
 
 @Component({
@@ -20,7 +22,7 @@ export class MyCartComponent {
   discountedPrice: number | null = null; 
   initialAmountToCheckout: number = 0
   discountAmount: number | null = null;
-  constructor(private cartService: CartService, private router:Router, private toastr: ToastrService, private sharedService:SharedService, private auth:AuthService
+  constructor(private cartService: CartService, private router:Router, private toastr: ToastrService, private sharedService:SharedService, private auth:AuthService, private dialog: MatDialog,
   ) {
     
   }
@@ -29,41 +31,55 @@ export class MyCartComponent {
       // Subscribe to login status
     
       // this.getCartItems()
-     this.cartService.getCartItems().subscribe(
-        (cartItems:any) => {
-          this.cartItems = cartItems?.data;
-          this.cartService.cartLength.next(this.cartItems.length)
-        },
-        (error) => {
-          // Handle error here
-        }
-      );
+      if(localStorage.getItem('userId')){
+       this.cartService.getCartItems().subscribe(
+           (cartItems:any) => {
+            console.log(cartItems.data)
+             this.cartItems = cartItems?.data;
+             this.cartService.cartLength.next(this.cartItems.length)
+           },
+           (error) => {
+             // Handle error here
+           }
+         )
+      }
+      else{
+        this.cartItems = JSON.parse(localStorage.getItem('myCartItem')!)
+        console.log(this.cartItems,"48")
+        this.cartService.cartLength.next(this.cartItems.length)
+      }
     this.getCouponList()
   }
   
  
     
     updateCart() {
+      if(localStorage.getItem('userId')){
       const payload = [
-        ...this.cartItems
-      ]
-      this.cartService.UpdateCartDetails(payload).subscribe(
-        (res:any)=>{
-          this.isUpdate = true;
-          this.cartService.getCartItems().subscribe(
-            (cartItems:any) => {
-              this.cartItems = cartItems?.data;
-            },
-            (error) => {
-              // Handle error here
-            }
-          );
-           this.toastr.success(res.message)
-        },
-        (err)=>{
-          // this.toastr.error(err.message)
-        }
-      )
+          ...this.cartItems
+        ]
+        this.cartService.UpdateCartDetails(payload).subscribe(
+          (res:any)=>{
+            this.isUpdate = true;
+            this.cartService.getCartItems().subscribe(
+              (cartItems:any) => {
+                this.cartItems = cartItems?.data;
+              },
+              (error) => {
+                // Handle error here
+              }
+            );
+             this.toastr.success(res.message)
+          },
+          (err)=>{
+            // this.toastr.error(err.message)
+          }
+        )
+      }else{
+        this.isUpdate = true;
+        localStorage.setItem('myCartItem',JSON.stringify(this.cartItems))
+        this.toastr.success('Item Update Successfully')
+      }
     }
   removeCartItems(item: any) {
     console.log(item)
@@ -73,6 +89,16 @@ export class MyCartComponent {
   if (index !== -1) {
     // Remove the item from the array
     this.cartItems.splice(index, 1);
+
+  // Update local storage after removing the item
+  let localCart = JSON.parse(localStorage.getItem('myCartItem') || '[]');
+  const localIndex = localCart.findIndex((localItem: any) => localItem.id === item.id);
+  
+  if (localIndex !== -1) {
+    localCart.splice(localIndex, 1);
+    localStorage.setItem('myCartItem', JSON.stringify(localCart));
+  }
+
   }
     this.cartService.deleteCart(item.id).subscribe(
       (res:any)=>{
@@ -102,19 +128,27 @@ export class MyCartComponent {
   // }
 
   proceedToCheckout(item: any) {
-    console.log(item);
-    alert('Are you sure you want to checkout this item');
+    console.log(JSON.stringify(this.cartItems), "127");
     if (this.isUpdate) {
+      if(localStorage.getItem("userId")){
+        alert('Are you sure you want to checkout this item');
       // Store the necessary data in localStorage
       localStorage.setItem('myCartData', JSON.stringify({
         sabTotal: this.AmountToCheckout,
         sabTotalSaving: this.sabTotalSaving,
         AmountToCheckout: this.AmountToCheckout,
-        productId: this.cartItems.map((item: any) => item.itemId)
+        productId: this.cartItems.map((item: any) => item.itemId ? item.itemId : item.itemid)
       }));
   
       // Navigate to the checkout page without navigation extras
       this.router.navigate(['cart/checkout']);
+    }else{
+      alert("Please log in before adding items to your cart.")
+  this.dialog.open(LoginComponent, {
+    width: '450',
+    disableClose: true
+  });
+    }
     }
   }
   
@@ -190,7 +224,6 @@ export class MyCartComponent {
   
   get totalTaxAmount() {
     return this.cartItems.reduce((totalAmount, cart) => {
-      console.log(totalAmount, cart)
       return totalAmount + (((cart.itemRate * cart.quantity)-((cart.itemRate * cart.quantity)*cart.discountPercent/100))  * cart.tax / 100);
     }, 0);
   }
