@@ -53,8 +53,10 @@ export class SignupComponent {
         // Validators.pattern('^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,14}$')
         Validators.pattern('^[A-Z](?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{7,14}$')
       ]],
-      firstName: ['',[Validators.required]],
-      lastName: ['',[Validators.required]],
+      firstName: ['',[Validators.required,Validators.maxLength(50),
+        Validators.pattern('^[A-Za-z ]+$')]],
+      lastName: ['',[Validators.required,Validators.maxLength(50),
+        Validators.pattern('^[A-Za-z ]+$')]],
       contactNumber : ['', [Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(10), Validators.maxLength(10)]],
       // country: [this.selectedCountry],
       selectedCountry: [this.selectedCountry],

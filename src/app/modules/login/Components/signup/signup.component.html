@@ -34,7 +34,11 @@
           </span>
           <span *ngIf="signup.get('firstName')?.errors?.['pattern'] && !signup.get('firstName')?.errors?.['required']">
             <i class="fa fa-exclamation-triangle" style="color: #fe3061" aria-hidden="true"></i>
-            Invalid FirstName
+            Invalid First Name
+          </span>
+          <span *ngIf="signup.get('firstName')?.errors?.['maxlength'] && signup.get('firstName')?.touched">
+            <i class="fa fa-exclamation-triangle" style="color: #fe3061" aria-hidden="true"></i>
+            First Name cannot exceed 50 characters.
           </span>
         </div>
 
@@ -58,6 +62,10 @@
           <span *ngIf="signup.get('lastName')?.errors?.['pattern'] && !signup.get('lastName')?.errors?.['required']">
             <i class="fa fa-exclamation-triangle" style="color: #fe3061" aria-hidden="true"></i>
             Invalid Last Name
+          </span>
+          <span *ngIf="signup.get('lastName')?.errors?.['maxlength'] && signup.get('lastName')?.touched">
+            <i class="fa fa-exclamation-triangle" style="color: #fe3061" aria-hidden="true"></i>
+            First Name cannot exceed 50 characters.
           </span>
         </div>
 
