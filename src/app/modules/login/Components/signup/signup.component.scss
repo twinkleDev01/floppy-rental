@@ -10,10 +10,12 @@
 }
 
 .loginContainer {
-    padding: 0.5rem 4rem !important;
+    padding: 0.5rem 3.5rem !important;
     width: 100%;
     max-width: 700px; /* Ensure the container can take up full width */
     box-sizing: border-box; /* Include padding in the width calculation */
+    max-height: 42rem;
+    overflow: auto;
   }
   
   .dataContainer {

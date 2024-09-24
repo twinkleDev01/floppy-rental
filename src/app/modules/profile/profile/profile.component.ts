@@ -40,21 +40,10 @@ export class ProfileComponent {
     private route: Router,
     private profileService: ProfileService,
   ) {
-    // this.profileForm = this.fb.group({
-    //   name: [''],
-    //   phone: [''],
-    //   selectedCountry: [''],
-    //   state: [''],
-    //   pincode: [''],
-    //   locality: [''],
-    //   city: [''],
-    //   address: [''],
-    //   profilePicture: [null]
-    // });
 
     this.profileForm = this.fb.group({
       name: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]+$')]],
-      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10,12}$')]], // Assuming 10-12 digits for phone number
+      phone: ['', [Validators.required,Validators.pattern('^[0-9]{10}$')]], // Assuming 10-12 digits for phone number
       selectedCountry: ['', Validators.required],
       state: ['', Validators.required],
       pincode: ['',[Validators.minLength(6), Validators.maxLength(8), Validators.pattern('^[0-9]+$')]],
@@ -220,6 +209,8 @@ export class ProfileComponent {
             flag: country.flags.svg,
             iso2: country.cca2,
           }));
+          // Sort countries alphabetically by name
+    this.countries.sort((a:any, b:any) => a.name.localeCompare(b.name));
           resolve();
           
         },

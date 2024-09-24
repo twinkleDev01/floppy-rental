@@ -73,9 +73,9 @@
                     <span>INR &nbsp;{{AmountToCheckout}}</span>
                 </b>
                 <div class="proceedToCheckout py-2">
-                    <button (click)="proceedToCheckout(cartItems)" [disabled]="!isUpdate" [title]="!isUpdate? 'Please press Update cart button first before continuing proceed to checkout':''">Proceed To Checkout <i
+                    <button (click)="proceedToCheckout(cartItems)" [disabled]="(isUpdate && cartItems.length === 0) || !isUpdate" [title]="!isUpdate && cartItems.length === 0? 'Please press Update cart button first before continuing proceed to checkout':''">Proceed To Checkout<i
                             class="fa-solid fa-arrow-right-long"></i></button>
-                </div>
+                </div>{{cartItems?.length}}jj{{isUpdate}}
             </div>
         </div>
         <div class="col-md-4 order-2 order-md-3 cards mb-2">

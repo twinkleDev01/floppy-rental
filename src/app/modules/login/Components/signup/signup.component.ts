@@ -71,6 +71,8 @@ export class SignupComponent {
         code: country.idd.root + (country.idd.suffixes ? country.idd.suffixes[0] : ''),
         flag: country.flags.svg
       }));
+      // Sort countries alphabetically by name
+    this.countries.sort((a, b) => a.name.localeCompare(b.name));
       this.signup?.get("selectedCountry")?.setValue(this.countries.find(d=> d.name == "India"));
     });
   }
