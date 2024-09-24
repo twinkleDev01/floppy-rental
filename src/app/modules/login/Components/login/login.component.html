@@ -41,7 +41,7 @@
 <div *ngIf="loginForm.get('emailOrPhone')?.invalid && loginForm.get('emailOrPhone')?.touched && submitted" class="d-flex justify-content-end text-danger">
   <!-- Required Error -->
   <span *ngIf="loginForm.get('emailOrPhone')?.errors?.['required']">
-    <i class="fa fa-exclamation-triangle" style="color: #fe3061;" aria-hidden="true"></i>Email or Phone Required
+    <i class="fa fa-exclamation-triangle" style="color: #fe3061;" aria-hidden="true"></i> Email or Phone Required
   </span>
 
   <!-- Invalid Format Error -->
@@ -86,22 +86,22 @@
         <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger">
           <!-- Required Error -->
           <div *ngIf="loginForm.get('password')?.errors?.['required']" style="font-size: 17px;text-align: end;">
-            <i class="fa fa-exclamation-triangle" style="color: #fe3061;" aria-hidden="true"></i>Password Required.
+            <i class="fa fa-exclamation-triangle" style="color: #fe3061;" aria-hidden="true"></i> Password Required.
           </div>
           
           <!-- Minimum Length Error -->
           <div *ngIf="loginForm.get('password')?.errors?.['minlength'] && !loginForm.get('password')?.errors?.['required']" style="font-size: 17px; text-align: end;">
-            Password must be at least 8 characters long.
+            <i class="fa fa-exclamation-triangle" style="color: #fe3061;" aria-hidden="true"></i> Password must be at least 8 characters long.
           </div>
         
           <!-- Maximum Length Error -->
           <div *ngIf="loginForm.get('password')?.errors?.['maxlength'] && !loginForm.get('password')?.errors?.['required']" style="font-size: 17px; text-align: end;">
-            Password must not exceed 14 characters.
+            <i class="fa fa-exclamation-triangle" style="color: #fe3061;" aria-hidden="true"></i> Password must not exceed 14 characters.
           </div>
         
           <!-- Pattern Error -->
           <div *ngIf="loginForm.get('password')?.errors?.['pattern'] && !loginForm.get('password')?.errors?.['required']" style="font-size: 17px; text-align: end;">
-            Password must contain first one uppercase letter and one special character.[e.g., Ranjan$].
+            <i class="fa fa-exclamation-triangle" style="color: #fe3061;" aria-hidden="true"></i> Password must contain first one uppercase letter and one special character.[e.g., Ranjan$].
           </div>
         </div>
 

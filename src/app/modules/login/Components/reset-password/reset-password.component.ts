@@ -99,7 +99,8 @@ onCountryChange(selectedCountry: any) {
   }
   
   onSubmit() {
-    console.log(this.loginForm.value);
+    this.loginForm?.markAllAsTouched();
+    if(this.loginForm?.invalid)return;
     if (this.loginForm.valid) {
       const resetpwd = {
         email: this.loginForm.value.emailOrPhone,
