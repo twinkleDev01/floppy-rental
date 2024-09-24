@@ -46,8 +46,7 @@ export class AuthService {
      
       this.isLoggedInSubject.asObservable().subscribe((res:any)=>{
         console.log(res,"res");
-       
-;      })
+            })
       return this.isLoggedInSubject.asObservable();
     }
 

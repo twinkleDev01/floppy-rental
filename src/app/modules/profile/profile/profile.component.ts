@@ -40,17 +40,30 @@ export class ProfileComponent {
     private route: Router,
     private profileService: ProfileService,
   ) {
+    // this.profileForm = this.fb.group({
+    //   name: [''],
+    //   phone: [''],
+    //   selectedCountry: [''],
+    //   state: [''],
+    //   pincode: [''],
+    //   locality: [''],
+    //   city: [''],
+    //   address: [''],
+    //   profilePicture: [null]
+    // });
+
     this.profileForm = this.fb.group({
-      name: [''],
-      phone: [''],
-      selectedCountry: [''],
-      state: [''],
-      pincode: [''],
+      name: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]+$')]],
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10,12}$')]], // Assuming 10-12 digits for phone number
+      selectedCountry: ['', Validators.required],
+      state: ['', Validators.required],
+      pincode: ['',[Validators.minLength(6), Validators.maxLength(8), Validators.pattern('^[0-9]+$')]],
       locality: [''],
-      city: [''],
-      address: [''],
+      city: ['', Validators.required],
+      address: ['', Validators.required],
       profilePicture: [null]
     });
+    
   }
 
   getCountries(): Observable<any> {
@@ -138,6 +151,8 @@ export class ProfileComponent {
   }
 
   onProfileSubmit(): void {
+    this.profileForm?.markAllAsTouched();
+    if(this.profileForm?.invalid)return;
     if (this.profileForm.valid) {
       const id = Number(localStorage.getItem('userId'));
       const formValue = this.profileForm.value;

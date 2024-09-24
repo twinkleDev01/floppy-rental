@@ -11,6 +11,7 @@ import {
 import { AuthService } from '../../../../shared/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { ServicesDetailService } from '../../../services/service/services-detail.service';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +31,8 @@ export class LoginComponent {
     public dialog: MatDialog,
     private fb: FormBuilder,
     private auth: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private service: ServicesDetailService
   ) {
     console.log("login")
 
@@ -136,6 +138,26 @@ const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailOrPhone);
 this.auth.logIn(logInValue).subscribe((response:any)=>{
   console.log(response,"88")
   if(response.success){
+    const cartItems = JSON.parse(localStorage.getItem('myCartItem')!)
+    const payload = cartItems.map((item:any) => ({
+      itemId: item.itemid || 0,
+      id: 0,
+      itemName: item.itemName || item.specication || 'Unknown Item',
+      itemRate: Number(item.rate?.replace(/[^\d.-]/g, "")) || 0,
+      price: Number(item.rate?.replace(/[^\d.-]/g, "")) || 0,
+      quantity: 1,
+      userId: Number(response.data.userId) || 0,
+      processStatus: '',
+      discountPercent: 0,
+      discountAmount: 0,
+      tax: item.tax || 0,
+      image: item.imagepath || ''
+    }));
+    
+    // Assuming `addCartItem` accepts an array
+    this.service.addCartItem(payload).subscribe((res: any) => {
+      console.log(res, "149");
+    });
     localStorage.setItem("token",response.data.token)
     localStorage.setItem("userId",response.data.userId)
     this.auth.updateLoginStatus(true);

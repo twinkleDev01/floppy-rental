@@ -43,7 +43,13 @@
                                 <i class="fas fa-user"></i>
                               </span>
                               <input id="name" formControlName="name" type="text" autocomplete="name"
-                                     required placeholder="Enter Full Name" class="input_name" (keypress)="noSpace($event)" />
+                                      placeholder="Enter Full Name" class="input_name" (keypress)="noSpace($event)" />
+                                      <div *ngIf="profileForm.get('name')?.touched && profileForm.get('name')?.hasError('required')" class="text-danger">
+                                        Full Name is required
+                                      </div>
+                                      <div *ngIf="profileForm.get('name')?.touched && profileForm.get('name')?.hasError('pattern')" class="text-danger">
+                                        Name should contain only letters and spaces
+                                      </div>
                             </div>
                           </div>
                           <div class="col-lg-6 mt_2">
@@ -68,9 +74,15 @@
                               </mat-select>
                               <span class="country-code px-2">{{ profileForm.get('selectedCountry')?.value?.code }}</span>
                               <input id="phone" formControlName="phone" type="text"
-                                     autocomplete="phone" required maxlength="12" placeholder="" style="height: 42px"
+                                     autocomplete="phone" maxlength="12" placeholder="" style="height: 42px"
                                      class="w-100 border-0 text-muted bg-transparent"
                                      style="outline: none; box-shadow: none;" (keypress)="noSpace($event)" />
+                            </div>
+                            <div *ngIf="profileForm.get('phone')?.touched && profileForm.get('phone')?.hasError('required')" class="text-danger">
+                              Phone Number is required
+                            </div>
+                            <div *ngIf="profileForm.get('phone')?.touched && profileForm.get('phone')?.hasError('pattern')" class="text-danger">
+                              Enter a valid phone number
                             </div>
                           </div>
                           <!-- <div class="col-lg-3 mt-3 d-flex flex-column">
@@ -83,11 +95,23 @@
                             <span class="fs-6 fw-bold mb-2">State</span>
                             <select formControlName="state" class="custom-select" id="state" (change)="onStateChange($event)">
                               <option *ngFor="let state of states" [value]="state.isoCode">{{ state.name }}</option>
-                            </select>                            
+                            </select> 
+                            <div *ngIf="profileForm.get('state')?.touched && profileForm.get('state')?.hasError('required')" class="text-danger">
+                              State is required
+                            </div>                           
                           </div>                        
                           <div class="col-lg-3 mt-3 d-flex flex-column">
                             <span class="fs-6 fw-bold mb-2">Pincode</span>
                             <input formControlName="pincode" placeholder="Pincode" class="input_box">
+                            <div *ngIf="profileForm.get('pincode')?.touched && profileForm.get('pincode')?.hasError('minlength')" class="text-danger">
+                              Pincode must be at least 6 digits long
+                            </div>
+                            <div *ngIf="profileForm.get('pincode')?.touched && profileForm.get('pincode')?.hasError('maxlength')" class="text-danger">
+                              Pincode cannot be more than 8 digits long
+                            </div>
+                            <div *ngIf="profileForm.get('pincode')?.touched && profileForm.get('pincode')?.hasError('pattern')" class="text-danger">
+                              Pincode must contain only numbers
+                            </div>
                           </div>
                           <div class="col-lg-3 mt-3 d-flex flex-column">
                             <span class="fs-6 fw-bold mb-2">Locality/Town</span>
@@ -100,10 +124,16 @@
                               <option value="pune">Pune</option> -->
                               <option *ngFor="let city of cities" [value]="city.name">{{ city.name }}</option>
                             </select>
+                            <div *ngIf="profileForm.get('city')?.touched && profileForm.get('city')?.hasError('required')" class="text-danger">
+                              City is required
+                            </div> 
                           </div>
                           <div class="col-lg-12 mt-3">
                             <span class="fw-bold fs-6">Address</span>
                             <textarea formControlName="address" class="input_box" id="" rows="5"></textarea>
+                            <div *ngIf="profileForm.get('address')?.touched && profileForm.get('address')?.hasError('required')" class="text-danger">
+                              Address is required
+                            </div>
                           </div>
                         </div>
                         <button  class="load_more" (click)="onProfileSubmit()">

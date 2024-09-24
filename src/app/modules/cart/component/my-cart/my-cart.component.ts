@@ -6,6 +6,7 @@ import { SharedService } from "../../../../shared/services/shared.service";
 import { AuthService } from "../../../../shared/services/auth.service";
 import { LoginComponent } from "../../../login/Components/login/login.component";
 import { MatDialog } from "@angular/material/dialog";
+import { ServicesDetailService } from "../../../services/service/services-detail.service";
 
 
 @Component({
@@ -22,18 +23,75 @@ export class MyCartComponent {
   discountedPrice: number | null = null; 
   initialAmountToCheckout: number = 0
   discountAmount: number | null = null;
-  constructor(private cartService: CartService, private router:Router, private toastr: ToastrService, private sharedService:SharedService, private auth:AuthService, private dialog: MatDialog,
+  constructor(private cartService: CartService, private router:Router, private toastr: ToastrService, private sharedService:SharedService, private auth:AuthService, private dialog: MatDialog, private service:ServicesDetailService
   ) {
     
   }
 
   ngOnInit(){
       // Subscribe to login status
+      this.auth.isLoggedIn$.subscribe(isLoggedIn => {
+        console.log('Login status changed:', isLoggedIn); // Log status changes
+       if(isLoggedIn){
+        this.cartService.getCartItems().subscribe(
+          (cartItems:any) => {
+
+// Get the cart items from localStorage
+let localCartItems = JSON.parse(localStorage.getItem('myCartItem') || '[]');
+
+// Update localStorage `id` based on matching `itemid`
+localCartItems = localCartItems.map((localItem: any) => {
+ // Find matching item in the API response based on `itemId`
+ const matchedApiItem = cartItems.data.find((apiItem:any) => apiItem.itemId === localItem.itemid);
+
+ if (matchedApiItem) {
+   // Update the `id` in the local storage item with the API `id`
+   localItem.id = matchedApiItem.id;
+ }
+
+ return localItem; // Return the updated local item
+});
+
+// Save the updated cart items back to localStorage
+localStorage.setItem('myCartItem', JSON.stringify(localCartItems));
+console.log("Updated localStorage:", localCartItems);
+
+           console.log(cartItems.data)
+            this.cartItems = cartItems?.data;
+            this.cartService.cartLength.next(this.cartItems.length)
+          },
+          (error) => {
+            // Handle error here
+          }
+        )
+       }
+    })
     
       // this.getCartItems()
       if(localStorage.getItem('userId')){
        this.cartService.getCartItems().subscribe(
            (cartItems:any) => {
+
+// Get the cart items from localStorage
+let localCartItems = JSON.parse(localStorage.getItem('myCartItem') || '[]');
+
+// Update localStorage `id` based on matching `itemid`
+localCartItems = localCartItems.map((localItem: any) => {
+  // Find matching item in the API response based on `itemId`
+  const matchedApiItem = cartItems.data.find((apiItem:any) => apiItem.itemId === localItem.itemid);
+
+  if (matchedApiItem) {
+    // Update the `id` in the local storage item with the API `id`
+    localItem.id = matchedApiItem.id;
+  }
+
+  return localItem; // Return the updated local item
+});
+
+// Save the updated cart items back to localStorage
+localStorage.setItem('myCartItem', JSON.stringify(localCartItems));
+console.log("Updated localStorage:", localCartItems);
+
             console.log(cartItems.data)
              this.cartItems = cartItems?.data;
              this.cartService.cartLength.next(this.cartItems.length)
@@ -81,36 +139,77 @@ export class MyCartComponent {
         this.toastr.success('Item Update Successfully')
       }
     }
+  // removeCartItems(item: any) {
+  //   console.log(item)
+  //   // Find the index of the item to remove using a different variable name
+  // const index = this.cartItems.findIndex(cartItem => cartItem === item);
+  
+  // if (index !== -1) {
+  //   // Remove the item from the array
+  //   this.cartItems.splice(index, 1);
+
+  // // Update local storage after removing the item
+  // let localCart = JSON.parse(localStorage.getItem('myCartItem') || '[]');
+  // const localIndex = localCart.findIndex((localItem: any) => localItem.id === item.id);
+  
+  // if (localIndex !== -1) {
+  //   localCart.splice(localIndex, 1);
+  //   localStorage.setItem('myCartItem', JSON.stringify(localCart));
+  // }
+
+  // }
+  //   this.cartService.deleteCart(item.id).subscribe(
+  //     (res:any)=>{
+  //       this.cartService.cartLength.next(this.cartItems.length)
+  //       this.toastr.success(res.message)
+  //       // this.getCartItems()
+  //     },
+  //     (err:any) => {
+  //       this.toastr.error(err.message)
+  //     }
+  //   )
+  // }
+
   removeCartItems(item: any) {
-    console.log(item)
-    // Find the index of the item to remove using a different variable name
-  const index = this.cartItems.findIndex(cartItem => cartItem === item);
+    console.log(item);
   
-  if (index !== -1) {
-    // Remove the item from the array
-    this.cartItems.splice(index, 1);
-
-  // Update local storage after removing the item
-  let localCart = JSON.parse(localStorage.getItem('myCartItem') || '[]');
-  const localIndex = localCart.findIndex((localItem: any) => localItem.id === item.id);
+    const index = this.cartItems.findIndex(cartItem => cartItem.id === item.id);
   
-  if (localIndex !== -1) {
-    localCart.splice(localIndex, 1);
-    localStorage.setItem('myCartItem', JSON.stringify(localCart));
-  }
+    if (index !== -1) {
+        console.log("Item found in cartItems");
 
-  }
+        // Remove the item from cartItems
+        this.cartItems.splice(index, 1);
+  
+        // Update local storage after removing the item
+        let localCart = JSON.parse(localStorage.getItem('myCartItem') || '[]');
+        console.log(localCart, "Local Cart Before Removal");
+        const localIndex = localCart.find((localItem: any) => localItem.id === item.id);
+        console.log(localIndex,item.itemId, "Local Index of Item to Remove");
+
+        if (localIndex !== -1) {
+            console.log("Removing item from localCart");
+            localCart.splice(localIndex, 1);
+            localStorage.setItem('myCartItem', JSON.stringify(localCart));
+        } else {
+            console.log("Item not found in localCart");
+        }
+  
+        this.cartService.cartLength.next(localCart.length);
+    }
+  console.log(item.id,"143")
     this.cartService.deleteCart(item.id).subscribe(
-      (res:any)=>{
-        this.cartService.cartLength.next(this.cartItems.length)
-        this.toastr.success(res.message)
-        // this.getCartItems()
-      },
-      (err:any) => {
-        this.toastr.error(err.message)
-      }
-    )
-  }
+        (res: any) => {
+            this.toastr.success(res.message);
+        },
+        (err: any) => {
+            this.toastr.error(err.message);
+        }
+    );
+}
+
+  
+ 
   // proceedToCheckout(item: any) {
   //   console.log(item)
   //   alert('Are you sure you want to checkout this item')
@@ -130,7 +229,7 @@ export class MyCartComponent {
   proceedToCheckout(item: any) {
     console.log(JSON.stringify(this.cartItems), "127");
     if (this.isUpdate) {
-      if(localStorage.getItem("userId")){
+      if(localStorage.getItem("userId")){ 
         alert('Are you sure you want to checkout this item');
       // Store the necessary data in localStorage
       localStorage.setItem('myCartData', JSON.stringify({
@@ -307,5 +406,11 @@ export class MyCartComponent {
       this.toastr.error('Invalid coupon code.');
     }
   }
+
+  ngOnChanges(){
+    this.auth.isLoggedIn$.subscribe(isLoggedIn => {
+      console.log('Login status changed:', isLoggedIn); // Log status changes
+     
+  })}
   
 }
