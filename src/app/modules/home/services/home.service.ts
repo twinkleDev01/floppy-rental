@@ -1,9 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { catchError, map, Observable } from 'rxjs';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { catchError, map, Observable, of } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
 import { HttpOptions } from '../../../shared/components/common/cache';
 import { CacheStorage } from  '../../../shared/components/common/cache';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,10 @@ export class HomeService {
   itemlistUrl = environment.ApiBaseUrl + 'Home/item-list';
   locationUrl = environment.ApiBaseUrl + 'Home/Locations';
   locationSearchRes: any;
-  constructor(private http: HttpClient) { }
+  isBrowser!: boolean;
+  constructor(private http: HttpClient, @Inject(PLATFORM_ID) platformId: Object) { 
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   get locationSearchResGetter(){
     return this.locationSearchRes;
@@ -38,6 +42,7 @@ export class HomeService {
   }
 
   getServiceList():Observable<any>{
+    if(this.isBrowser){
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       // "Authorization": 'Bearer ' + localStorage.getItem('token')
@@ -51,6 +56,9 @@ export class HomeService {
         return response;
       }),
         catchError(error => this.handleError(error)));
+    }else{
+      return of([])
+    }
   }
 
   getSubCategories(categoryId: number): Observable<any> {
@@ -67,28 +75,10 @@ export class HomeService {
   getItemlist(){
     return this.http.get<any>(this.itemlistUrl);
   }
-  // getLocation(){
-  //   return this.http.get<any>(this.locationUrl);
-  // }
-  // getSearchedItemList(subgroupname:string,location:any,latitude:any,longitude:any ){
-  //   const headers = new HttpHeaders({
-  //     'Content-Type': 'application/json',
-  //     // "Authorization": 'Bearer ' + localStorage.getItem('token')
-  //   });
-  //   const httpOptions = {
-  //     headers: headers
-  //   };
-  //   const url = environment.ApiBaseUrl.concat(`Service/searchItems/${subgroupname}/${location}/${latitude}/${longitude}`);
-  //   return this.http.get<any>(url, httpOptions)
-  //     .pipe(map((response:any) => {
-  //       this.locationSearchRes = response.data;
-  //       localStorage.setItem('serviceDetails', JSON.stringify(this.locationSearchRes));
-  //       return response;
-  //     }),
-  //       catchError(error => this.handleError(error)));
-  // }
+  
 
   getSearchedItemList(subgroupId: number, location: string, latitude: number, longitude: number): Observable<any> {
+    if(this.isBrowser){
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       // "Authorization": 'Bearer ' + localStorage.getItem('token')
@@ -114,6 +104,9 @@ export class HomeService {
         }),
         catchError(error => this.handleError(error))
       );
+    }else{
+      return of([])
+    }
   }
   
 

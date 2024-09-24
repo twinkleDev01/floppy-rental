@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { ServicesDetailService } from '../../service/services-detail.service';
@@ -8,6 +8,7 @@ import { LoginComponent } from '../../../login/Components/login/login.component'
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Review } from '../_models/serivece.model';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-services-details',
@@ -30,9 +31,13 @@ export class ServicesDetailsComponent {
   reviews: Review[] = [];
   reviewForm:any =FormGroup;
   startIndex:number=0;
-  pageSize:number=0
+  pageSize:number=0;
+  isBrowser!: boolean;
 
-  constructor(private router: Router,private service:ServicesDetailService, private fb:FormBuilder, private dialog:MatDialog, private toastr:ToastrService, private route:ActivatedRoute) {
+  constructor(private router: Router,private service:ServicesDetailService, private fb:FormBuilder, private dialog:MatDialog, private toastr:ToastrService, private route:ActivatedRoute, @Inject(PLATFORM_ID) platformId: Object) {
+
+    this.isBrowser = isPlatformBrowser(platformId);
+
     // const navigation = this.router.getCurrentNavigation();
     // this.selectedCard = navigation?.extras?.state?.['card']; 
     // console.log(this.selectedCard,"38")
@@ -147,7 +152,7 @@ this.service.addNewReview(payload).subscribe((res:any)=>{
 
 // add to cart 
 addToCart(serviceDetail:any){
- 
+  if(this.isBrowser){
   const payload = {
     itemId:this.serviceDetail.item.itemid||0,
     id:0,
@@ -190,7 +195,7 @@ localStorage.setItem('myCartItem', JSON.stringify(localCart));
 this.router.navigate(['cart']);
   })
  
-
+  }
 }
 
 onRatingUpdated(newRating: number) {

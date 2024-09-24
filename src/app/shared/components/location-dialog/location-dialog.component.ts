@@ -1,8 +1,9 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Country, State } from 'country-state-city';
 import { SharedService } from '../../services/shared.service';
 import { ToastrService } from 'ngx-toastr';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-location-dialog',
@@ -29,7 +30,7 @@ export class LocationDialogComponent implements AfterViewInit {
   selectedCountry:any;
   selectedCountryCode:any;
   userAddress:any
-
+  isBrowser!: boolean;
   mapOptions: google.maps.MapOptions = {
     center: { lat: -1.286389, lng: 36.817223 }, // Default location
     zoom: 15,
@@ -37,7 +38,9 @@ export class LocationDialogComponent implements AfterViewInit {
   map!: google.maps.Map;
   marker!: google.maps.Marker; // Use google.maps.Marker instead
 
-  constructor(public dialogRef: MatDialogRef<LocationDialogComponent>, private sharedService:SharedService, private toastr:ToastrService) {}
+  constructor(public dialogRef: MatDialogRef<LocationDialogComponent>, private sharedService:SharedService, private toastr:ToastrService, @Inject(PLATFORM_ID) platformId: Object) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   ngAfterViewInit(): void {
     // this.initMap();
@@ -120,6 +123,7 @@ export class LocationDialogComponent implements AfterViewInit {
   }
 
   onConfirm(): void {
+    if(this.isBrowser){
     const addressData = {
       addressType: this.selectedAddressType,
       country: this.country,
@@ -152,6 +156,7 @@ this.sharedService.saveAddress(addressPayload).subscribe((response:any)=>{
 })
     this.showAddLocationForm = false;
     this.dialogRef.close(addressData);
+}
   }
 
   onCancel(): void {
@@ -267,6 +272,7 @@ this.sharedService.saveAddress(addressPayload).subscribe((response:any)=>{
   }
 
   getSaveAddress() {
+    if(this.isBrowser){
     const userId = localStorage.getItem('userId');
   
     // Check if userId is available in localStorage
@@ -285,6 +291,7 @@ this.sharedService.saveAddress(addressPayload).subscribe((response:any)=>{
     } else {
       console.error("No userId found in localStorage");
     }
+  }
   }
   
   selectLocation(address: any) {

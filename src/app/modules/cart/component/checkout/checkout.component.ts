@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -27,14 +27,16 @@ export class CheckoutComponent {
   AmountToCheckout:any
    sabTotal:any;
    selectedCountryCode:any;
-   selectedStateCode:any
+   selectedStateCode:any;
+   isBrowser!: boolean;
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private dialog: MatDialog,
     private cartService:CartService,
     private toaster:ToastrService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    @Inject(PLATFORM_ID) platformId: Object
   ){
     this.checkout = this.fb.group({
     firstName: ['',[Validators.required]],
@@ -77,6 +79,7 @@ export class CheckoutComponent {
   // const productIdFromState = navigation?.extras?.state?.['productId'];
   // this.checkout.get('productId')?.setValue(productIdFromState);
   // console.log(this.sabTotal,this.sabTotalSaving,this.AmountToCheckout);
+  if(this.isBrowser){
   const myCartData = localStorage.getItem('myCartData');
   if (myCartData) {
     const data = JSON.parse(myCartData);
@@ -85,6 +88,7 @@ export class CheckoutComponent {
     this.AmountToCheckout = data.AmountToCheckout;
     this.checkout.get('productId')?.setValue(data.productId);
   }
+}
 }
 
 
@@ -349,6 +353,7 @@ export class CheckoutComponent {
   // }
 
   createNewOrder() {
+    if(this.isBrowser){
     const orderId = `ord_id_${Date.now()}`; 
     // const payload = {
     //   customerId: localStorage.getItem('userId'),
@@ -431,5 +436,6 @@ export class CheckoutComponent {
         console.error('Error creating order', error);
       }
     );
+  }
   }
 }

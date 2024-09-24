@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, inject, PLATFORM_ID } from '@angular/core';
 import {
   MatDialog,
   MatDialogRef,
@@ -12,6 +12,7 @@ import { AuthService } from '../../../../shared/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { ServicesDetailService } from '../../../services/service/services-detail.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -26,14 +27,17 @@ export class LoginComponent {
   stage : 'login'|'signup'|'reset'='login'
   submitted = false;
   readonly dialogRef = inject(MatDialogRef<LoginComponent>);
-
+  isBrowser!: boolean;
   constructor(
     public dialog: MatDialog,
     private fb: FormBuilder,
     private auth: AuthService,
     private toastr: ToastrService,
-    private service: ServicesDetailService
+    private service: ServicesDetailService,
+    @Inject(PLATFORM_ID) platformId: Object
   ) {
+    this.isBrowser = isPlatformBrowser(platformId);
+
     console.log("login")
 
     this.loginForm = this.fb.group({
@@ -116,6 +120,7 @@ export class LoginComponent {
   
 
   onSubmit() {
+    if(this.isBrowser){
     this.submitted = true;
     this.loginForm.markAllAsTouched();
     if (this.loginForm.valid) {
@@ -174,6 +179,7 @@ this.auth.logIn(logInValue).subscribe((response:any)=>{
       // Handle form errors
       console.log('Form is invalid');
     }
+  }
   }
   //
   openResetPasswordDialog(): void {
