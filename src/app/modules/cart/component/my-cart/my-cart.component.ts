@@ -72,50 +72,54 @@ export class MyCartComponent {
 //             // Handle error here
 //           }
 //         )
+console.log("75");
 this.updateCartItemsFromApi();
+       }else{
+        if(localStorage.getItem('userId')){
+          //        this.cartService.getCartItems().subscribe(
+          //            (cartItems:any) => {
+          
+          // // Get the cart items from localStorage
+          // let localCartItems = JSON.parse(localStorage.getItem('myCartItem') || '[]');
+          
+          // // Update localStorage `id` based on matching `itemid`
+          // localCartItems = localCartItems.map((localItem: any) => {
+          //   // Find matching item in the API response based on `itemId`
+          //   const matchedApiItem = cartItems.data.find((apiItem:any) => apiItem.itemId === localItem.itemid);
+          
+          //   if (matchedApiItem) {
+          //     // Update the `id` in the local storage item with the API `id`
+          //     localItem.id = matchedApiItem.id;
+          //   }
+          
+          //   return localItem; // Return the updated local item
+          // });
+          
+          // // Save the updated cart items back to localStorage
+          // localStorage.setItem('myCartItem', JSON.stringify(localCartItems));
+          // console.log("Updated localStorage:", localCartItems);
+          
+          //             console.log(cartItems.data)
+          //              this.cartItems = cartItems?.data;
+          //              this.cartService.cartLength.next(this.cartItems.length)
+          //            },
+          //            (error) => {
+          //              // Handle error here
+          //            }
+          //          )
+          console.log("109");
+          this.updateCartItemsFromApi();
+                }
+                else{
+                  this.cartItems = JSON.parse(localStorage.getItem('myCartItem')!)
+                  console.log(this.cartItems,"48")
+                  this.cartService.cartLength.next(this.cartItems.length)
+                }
        }
     })
   }
       // this.getCartItems()
-      if(localStorage.getItem('userId')){
-//        this.cartService.getCartItems().subscribe(
-//            (cartItems:any) => {
-
-// // Get the cart items from localStorage
-// let localCartItems = JSON.parse(localStorage.getItem('myCartItem') || '[]');
-
-// // Update localStorage `id` based on matching `itemid`
-// localCartItems = localCartItems.map((localItem: any) => {
-//   // Find matching item in the API response based on `itemId`
-//   const matchedApiItem = cartItems.data.find((apiItem:any) => apiItem.itemId === localItem.itemid);
-
-//   if (matchedApiItem) {
-//     // Update the `id` in the local storage item with the API `id`
-//     localItem.id = matchedApiItem.id;
-//   }
-
-//   return localItem; // Return the updated local item
-// });
-
-// // Save the updated cart items back to localStorage
-// localStorage.setItem('myCartItem', JSON.stringify(localCartItems));
-// console.log("Updated localStorage:", localCartItems);
-
-//             console.log(cartItems.data)
-//              this.cartItems = cartItems?.data;
-//              this.cartService.cartLength.next(this.cartItems.length)
-//            },
-//            (error) => {
-//              // Handle error here
-//            }
-//          )
-this.updateCartItemsFromApi();
-      }
-      else{
-        this.cartItems = JSON.parse(localStorage.getItem('myCartItem')!)
-        console.log(this.cartItems,"48")
-        this.cartService.cartLength.next(this.cartItems.length)
-      }
+      
     this.getCouponList()
     }
   }
