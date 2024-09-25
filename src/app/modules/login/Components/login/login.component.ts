@@ -139,7 +139,7 @@ this.auth.logIn(logInValue).subscribe((response:any)=>{
   console.log(response,"88")
   if(response.success){
     const cartItems = JSON.parse(localStorage.getItem('myCartItem')!)
-    const payload = cartItems.map((item:any) => ({
+    const payload = cartItems?.map((item:any) => ({
       itemId: item.itemid || 0,
       id: 0,
       itemName: item.itemName || item.specication || 'Unknown Item',
