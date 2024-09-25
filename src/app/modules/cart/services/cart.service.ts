@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject, catchError, Observable, of, tap, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
 import { ToastrService } from 'ngx-toastr';
+import { isPlatformBrowser } from '@angular/common';
 
 export interface cartItemsType {
   productTitle: string,
@@ -71,11 +72,17 @@ export class CartService {
 
   public cartLength: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   url = environment.ApiBaseUrl
-  token = localStorage.getItem("token"); // Replace with your actual token
+  token:any // Replace with your actual token
   private paymentUrl = 'https://firstfloppy.asptask.in/api/Payments/create-order';
   private addCouponUrl = 'https://firstfloppy.asptask.in/api/Coupon/AddCoupon';
+  isBrowser: boolean;
 
-  constructor(private http:HttpClient,private toastr:ToastrService) { }
+  constructor(private http:HttpClient,private toastr:ToastrService, @Inject(PLATFORM_ID) platformId: Object) {
+    this.isBrowser = isPlatformBrowser(platformId);
+    if(this.isBrowser){ 
+    this.token = localStorage.getItem("token");
+    }
+  }
 
   getAllCartItems(userId:any){
     // return of (cartItems)
@@ -165,6 +172,7 @@ export class CartService {
   }
 
   getCartItems(): Observable<any[]> {
+    if(this.isBrowser){
     const userId = localStorage?.getItem('userId');
     
     // Return the observable so the caller can subscribe
@@ -178,6 +186,9 @@ export class CartService {
         return throwError(err);
       })
     );
+  }else{
+    return of([])
+  }
   }
 
   private apiUrl = 'https://firstfloppy.asptask.in/api/Payments/UpdatePaymentStatus';

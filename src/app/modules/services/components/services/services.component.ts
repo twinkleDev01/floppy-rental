@@ -116,7 +116,7 @@ ngOnInit(){
     this.router.onSameUrlNavigation = 'reload';
 
     // Navigate using updated category name and ID
-    this.router.navigate([`/services/category/${selectedSubCategoryName}/${subcategory.mainId}`]);
+    this.router.navigate([`/services/category/${selectedSubCategoryName?.replaceAll("/","$")}/${subcategory.mainId}`]);
   } else {
     console.error('No categories found in response.');
   }

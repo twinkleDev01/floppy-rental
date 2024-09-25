@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, EventEmitter, inject, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Inject, inject, Output, PLATFORM_ID } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-signup',
@@ -25,15 +26,19 @@ export class SignupComponent {
    countries: any[] = [];
    private apiUrl = 'https://restcountries.com/v3.1/all';
    readonly dialogRef = inject(MatDialogRef<SignupComponent>);
-
+   isBrowser!: boolean;
   constructor(
     private fb: FormBuilder,
     private http:HttpClient,
     private cdr:ChangeDetectorRef,
     private auth:AuthService,
     private router:Router,
-    private toaster:ToastrService
+    private toaster:ToastrService,
+    @Inject(PLATFORM_ID) platformId: Object
   ) {
+
+    this.isBrowser = isPlatformBrowser(platformId);
+
     console.log("Signup")
     this.signup = this.fb.group({
       email: [
@@ -107,6 +112,7 @@ export class SignupComponent {
   }
 
   onSubmit() {
+    if(this.isBrowser){
     console.log(this.signup.value);
     this.signup?.markAllAsTouched();
     if(this.signup?.invalid)return;
@@ -145,10 +151,20 @@ export class SignupComponent {
       console.log('Form is invalid');
     }
   }
+  }
   
    // closeLogin
    closeDialog(): void {
     console.log("CloseLogin")
     this.dialogRef.close(); // This will close the dialog
+  }
+
+  // Prevent leading whitespace
+  preventLeadingWhitespace(event: KeyboardEvent): void {
+    const input = (event.target as HTMLInputElement).value;
+    // Prevent a space if the input is empty or has only leading whitespace
+    if (event.key === ' ' && input.trim().length === 0) {
+      event.preventDefault();
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, inject, PLATFORM_ID } from '@angular/core';
 import {
   MatDialog,
   MatDialogRef,
@@ -12,6 +12,7 @@ import { AuthService } from '../../../../shared/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { ServicesDetailService } from '../../../services/service/services-detail.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -26,14 +27,17 @@ export class LoginComponent {
   stage : 'login'|'signup'|'reset'='login'
   submitted = false;
   readonly dialogRef = inject(MatDialogRef<LoginComponent>);
-
+  isBrowser!: boolean;
   constructor(
     public dialog: MatDialog,
     private fb: FormBuilder,
     private auth: AuthService,
     private toastr: ToastrService,
-    private service: ServicesDetailService
+    private service: ServicesDetailService,
+    @Inject(PLATFORM_ID) platformId: Object
   ) {
+    this.isBrowser = isPlatformBrowser(platformId);
+
     console.log("login")
 
     this.loginForm = this.fb.group({
@@ -116,6 +120,7 @@ export class LoginComponent {
   
 
   onSubmit() {
+    if(this.isBrowser){
     this.submitted = true;
     this.loginForm.markAllAsTouched();
     if (this.loginForm.valid) {
@@ -141,11 +146,11 @@ this.auth.logIn(logInValue).subscribe((response:any)=>{
     const cartItems = JSON.parse(localStorage.getItem('myCartItem')!)
     const payload = cartItems?.map((item:any) => ({
       itemId: item.itemid || 0,
-      id: 0,
+      id: item.itemid,
       itemName: item.itemName || item.specication || 'Unknown Item',
       itemRate: Number(item.rate?.replace(/[^\d.-]/g, "")) || 0,
       price: Number(item.rate?.replace(/[^\d.-]/g, "")) || 0,
-      quantity: 1,
+      quantity: item.quantity,
       userId: Number(response.data.userId) || 0,
       processStatus: '',
       discountPercent: 0,
@@ -175,6 +180,7 @@ this.auth.logIn(logInValue).subscribe((response:any)=>{
       console.log('Form is invalid');
     }
   }
+  }
   //
   openResetPasswordDialog(): void {
     this.stage = 'reset';
@@ -189,5 +195,14 @@ this.auth.logIn(logInValue).subscribe((response:any)=>{
     console.log("165")
     this.loginForm.reset();
     this.dialogRef.close(); // This will close the dialog
+  }
+
+  // Prevent leading whitespace
+  preventLeadingWhitespace(event: KeyboardEvent): void {
+    const input = (event.target as HTMLInputElement).value;
+    // Prevent a space if the input is empty or has only leading whitespace
+    if (event.key === ' ' && input.trim().length === 0) {
+      event.preventDefault();
+    }
   }
 }

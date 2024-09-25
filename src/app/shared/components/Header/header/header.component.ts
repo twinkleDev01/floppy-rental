@@ -1,10 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, Inject, inject, PLATFORM_ID } from '@angular/core';
 import { LoginComponent } from '../../../../modules/login/Components/login/login.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { CartService } from '../../../../modules/cart/services/cart.service';
+import { isPlatformBrowser } from '@angular/common';
 declare var bootstrap: any;  
 @Component({
   selector: 'app-header',
@@ -13,21 +14,23 @@ declare var bootstrap: any;
 })
 export class HeaderComponent {
   cartLength:any;
-  
+  isBrowser!: boolean;
   isLoggedIn$ = inject(AuthService).isLoggedIn$;
   readonly dialog = inject(MatDialog)
-  constructor(private route:Router, private auth:AuthService, private toastr:ToastrService, private cartService:CartService) {
-  
+  constructor(private route:Router, private auth:AuthService, private toastr:ToastrService, private cartService:CartService, @Inject(PLATFORM_ID) platformId: Object) {
+    this.isBrowser = isPlatformBrowser(platformId);
   }
   get cartBadge(){
     return this.cartLength;
   }
   ngOnInit() { 
+    if(this.isBrowser){
    let length = localStorage.getItem('cartItems')
 
     this.cartService.cartLength.subscribe((val)=>{
       this.cartLength = val || length;
     });
+    if(this.auth.isLoggedIn$){
     this.auth.isLoggedIn$.subscribe(isLoggedIn => {
       console.log('Login status changed:', isLoggedIn); // Log status changes
       if (isLoggedIn) {
@@ -43,9 +46,12 @@ export class HeaderComponent {
         );
       }
     });
+  }
+  }
    }
    
   ngAfterViewInit() {
+    if(this.isBrowser){
     // Initialize Bootstrap components manually if needed
     var myCollapse = document.getElementById('navbarNav');
     var bsCollapse = new bootstrap.Collapse(myCollapse, {
@@ -54,6 +60,7 @@ export class HeaderComponent {
     this.cartService.cartLength.subscribe((val)=>{
       this.cartLength = val || length;
     })
+  }
   }
 
   openDialog(): void {
@@ -77,6 +84,7 @@ export class HeaderComponent {
   }
 
   logOut(){
+    if(this.isBrowser){
     const userId = localStorage.getItem('userId');
     if(userId){
       this.auth.logout(userId).subscribe((response:any)=>{
@@ -93,5 +101,6 @@ export class HeaderComponent {
       }
     )
     }
+  }
   }
 }

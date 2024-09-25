@@ -185,10 +185,12 @@ h2 span {
   border-radius: 15px;
   border: none;
   margin: 1px 20px 20px 1px;
+  cursor: pointer;
 }
 
 .card:hover {
   box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 }
 
 .card_h3 {
@@ -1168,4 +1170,7 @@ h2 span {
 }
 .search-option{
   padding: 10px;
+}
+.location-auto::placeholder{
+  font-size: 15px;
 }

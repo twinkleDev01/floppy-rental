@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, Output, PLATFORM_ID, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../../shared/services/auth.service';
@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { ProfileService } from '../service/profile.service';
 import { Country, State, City } from 'country-state-city';
 import { MatSelectChange } from '@angular/material/select';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
@@ -26,7 +27,7 @@ export class ProfileComponent {
   selectedState: any;
   selectedCity: any;
   private apiUrl = 'https://restcountries.com/v3.1/all';
-  
+  isBrowser!: boolean;
   @ViewChild('country') country!: ElementRef;
   @ViewChild('city') city!: ElementRef;
   @ViewChild('state') state!: ElementRef;
@@ -39,7 +40,10 @@ export class ProfileComponent {
     private toastr: ToastrService,
     private route: Router,
     private profileService: ProfileService,
+    @Inject(PLATFORM_ID) platformId: Object
   ) {
+
+    this.isBrowser = isPlatformBrowser(platformId);
 
     this.profileForm = this.fb.group({
       name: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]+$')]],
@@ -49,7 +53,7 @@ export class ProfileComponent {
       pincode: ['',[Validators.minLength(6), Validators.maxLength(8), Validators.pattern('^[0-9]+$')]],
       locality: [''],
       city: ['', Validators.required],
-      address: ['', Validators.required],
+      address: ['', [Validators.required, Validators.maxLength(50)]],
       profilePicture: [null]
     });
     
@@ -140,6 +144,7 @@ export class ProfileComponent {
   }
 
   onProfileSubmit(): void {
+    if(this.isBrowser){
     this.profileForm?.markAllAsTouched();
     if(this.profileForm?.invalid)return;
     if (this.profileForm.valid) {
@@ -175,9 +180,11 @@ export class ProfileComponent {
     } else {
       this.toastr.error('Form is invalid');
     }
+  }
   }  
 
   logOut(): void {
+    if(this.isBrowser){
     const userId = localStorage.getItem('userId');
     if (userId) {
       this.auth.logout(userId).subscribe(
@@ -197,6 +204,7 @@ export class ProfileComponent {
         }
       );
     }
+  }
   }
 
   fetchCountries(): Promise<void> {
@@ -223,6 +231,7 @@ export class ProfileComponent {
   }
 
   getUserDetailById(): void {
+    if(this.isBrowser){
     const id = localStorage.getItem('userId');
     if (id) {
       this.profileService.getProfileDetailsById(Number(id)).subscribe(
@@ -272,6 +281,7 @@ const patchedCity = this.cities?.find((city:any)=> city?.name === response?.data
       );
     }
   }
+  }
 
   onProfilePictureChange(event: any): void {
     const file = event.target.files[0];
@@ -298,6 +308,15 @@ const patchedCity = this.cities?.find((city:any)=> city?.name === response?.data
         console.error('Error reading file:', error);
       };
       reader.readAsDataURL(file);
+    }
+  }
+
+  // Prevent leading whitespace
+  preventLeadingWhitespace(event: KeyboardEvent): void {
+    const input = (event.target as HTMLInputElement).value;
+    // Prevent a space if the input is empty or has only leading whitespace
+    if (event.key === ' ' && input.trim().length === 0) {
+      event.preventDefault();
     }
   }
 }
