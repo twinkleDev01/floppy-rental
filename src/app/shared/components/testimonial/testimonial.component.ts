@@ -19,7 +19,7 @@ constructor(private sharedService:SharedService){}
     mouseDrag: false,
     touchDrag: false,
     pullDrag: false,
-    autoplay: true,
+    autoplay: false,
     dots: false,
     navSpeed: 700,
     navText: ['<', '>'],

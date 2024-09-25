@@ -158,4 +158,13 @@ export class SignupComponent {
     console.log("CloseLogin")
     this.dialogRef.close(); // This will close the dialog
   }
+
+  // Prevent leading whitespace
+  preventLeadingWhitespace(event: KeyboardEvent): void {
+    const input = (event.target as HTMLInputElement).value;
+    // Prevent a space if the input is empty or has only leading whitespace
+    if (event.key === ' ' && input.trim().length === 0) {
+      event.preventDefault();
+    }
+  }
 }

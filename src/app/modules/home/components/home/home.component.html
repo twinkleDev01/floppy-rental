@@ -44,7 +44,7 @@
               type="text"
               [(ngModel)]="searchInput"
               (input)="onInputChange()"
-              placeholder="Type to search for a location..."
+              placeholder="Type to search for a location"
               class="autocomplete-input location-auto"
             />
           
@@ -286,7 +286,7 @@
         <owl-carousel-o [options]="customOptions">
             <ng-template carouselSlide *ngFor="let subcategory of thirdCategory?.subcategories | slice:0:4">
                 <div class="card_salon" (click)="goCategory(subcategory)">
-                    <img [src]="subcategory.image || 'images/No_Image_Available.jpg'" alt="{{ subcategory.subClassificationName }}">
+                    <img [src]="subcategory.image || 'images/No_Image_Available.jpg'" alt="{{ subcategory.subClassificationName }}" class="carousel-image">
                     <!-- <img src="images/facial.png" alt=""> -->
                     <h3>{{ subcategory?.subClassificationName }}</h3>
                 </div>

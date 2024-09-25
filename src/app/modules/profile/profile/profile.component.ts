@@ -53,7 +53,7 @@ export class ProfileComponent {
       pincode: ['',[Validators.minLength(6), Validators.maxLength(8), Validators.pattern('^[0-9]+$')]],
       locality: [''],
       city: ['', Validators.required],
-      address: ['', Validators.required],
+      address: ['', [Validators.required, Validators.maxLength(50)]],
       profilePicture: [null]
     });
     
@@ -308,6 +308,15 @@ const patchedCity = this.cities?.find((city:any)=> city?.name === response?.data
         console.error('Error reading file:', error);
       };
       reader.readAsDataURL(file);
+    }
+  }
+
+  // Prevent leading whitespace
+  preventLeadingWhitespace(event: KeyboardEvent): void {
+    const input = (event.target as HTMLInputElement).value;
+    // Prevent a space if the input is empty or has only leading whitespace
+    if (event.key === ' ' && input.trim().length === 0) {
+      event.preventDefault();
     }
   }
 }

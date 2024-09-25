@@ -41,73 +41,75 @@ export class MyCartComponent {
       this.auth.isLoggedIn$.subscribe(isLoggedIn => {
         console.log('Login status changed:', isLoggedIn); // Log status changes
        if(isLoggedIn){
-        this.cartService.getCartItems().subscribe(
-          (cartItems:any) => {
+//         this.cartService.getCartItems().subscribe(
+//           (cartItems:any) => {
 
-// Get the cart items from localStorage
-let localCartItems = JSON.parse(localStorage.getItem('myCartItem') || '[]');
+// // Get the cart items from localStorage
+// let localCartItems = JSON.parse(localStorage.getItem('myCartItem') || '[]');
 
-// Update localStorage `id` based on matching `itemid`
-localCartItems = localCartItems.map((localItem: any) => {
- // Find matching item in the API response based on `itemId`
- const matchedApiItem = cartItems.data.find((apiItem:any) => apiItem.itemId === localItem.itemid);
+// // Update localStorage `id` based on matching `itemid`
+// localCartItems = localCartItems.map((localItem: any) => {
+//  // Find matching item in the API response based on `itemId`
+//  const matchedApiItem = cartItems.data.find((apiItem:any) => apiItem.itemId === localItem.itemid);
 
- if (matchedApiItem) {
-   // Update the `id` in the local storage item with the API `id`
-   localItem.id = matchedApiItem.id;
- }
+//  if (matchedApiItem) {
+//    // Update the `id` in the local storage item with the API `id`
+//    localItem.id = matchedApiItem.id;
+//  }
 
- return localItem; // Return the updated local item
-});
+//  return localItem; // Return the updated local item
+// });
 
-// Save the updated cart items back to localStorage
-localStorage.setItem('myCartItem', JSON.stringify(localCartItems));
-console.log("Updated localStorage:", localCartItems);
+// // Save the updated cart items back to localStorage
+// localStorage.setItem('myCartItem', JSON.stringify(localCartItems));
+// console.log("Updated localStorage:", localCartItems);
 
-           console.log(cartItems.data)
-            this.cartItems = cartItems?.data;
-            this.cartService.cartLength.next(this.cartItems.length)
-          },
-          (error) => {
-            // Handle error here
-          }
-        )
+//            console.log(cartItems.data)
+//             this.cartItems = cartItems?.data;
+//             this.cartService.cartLength.next(this.cartItems.length)
+//           },
+//           (error) => {
+//             // Handle error here
+//           }
+//         )
+this.updateCartItemsFromApi();
        }
     })
   }
       // this.getCartItems()
       if(localStorage.getItem('userId')){
-       this.cartService.getCartItems().subscribe(
-           (cartItems:any) => {
+//        this.cartService.getCartItems().subscribe(
+//            (cartItems:any) => {
 
-// Get the cart items from localStorage
-let localCartItems = JSON.parse(localStorage.getItem('myCartItem') || '[]');
+// // Get the cart items from localStorage
+// let localCartItems = JSON.parse(localStorage.getItem('myCartItem') || '[]');
 
-// Update localStorage `id` based on matching `itemid`
-localCartItems = localCartItems.map((localItem: any) => {
-  // Find matching item in the API response based on `itemId`
-  const matchedApiItem = cartItems.data.find((apiItem:any) => apiItem.itemId === localItem.itemid);
+// // Update localStorage `id` based on matching `itemid`
+// localCartItems = localCartItems.map((localItem: any) => {
+//   // Find matching item in the API response based on `itemId`
+//   const matchedApiItem = cartItems.data.find((apiItem:any) => apiItem.itemId === localItem.itemid);
 
-  if (matchedApiItem) {
-    // Update the `id` in the local storage item with the API `id`
-    localItem.id = matchedApiItem.id;
-  }
+//   if (matchedApiItem) {
+//     // Update the `id` in the local storage item with the API `id`
+//     localItem.id = matchedApiItem.id;
+//   }
 
-  return localItem; // Return the updated local item
-});
+//   return localItem; // Return the updated local item
+// });
 
-// Save the updated cart items back to localStorage
-localStorage.setItem('myCartItem', JSON.stringify(localCartItems));
-console.log("Updated localStorage:", localCartItems);
+// // Save the updated cart items back to localStorage
+// localStorage.setItem('myCartItem', JSON.stringify(localCartItems));
+// console.log("Updated localStorage:", localCartItems);
 
-            console.log(cartItems.data)
-             this.cartItems = cartItems?.data;
-             this.cartService.cartLength.next(this.cartItems.length)
-           },
-           (error) => {
-             // Handle error here
-           }
-         )
+//             console.log(cartItems.data)
+//              this.cartItems = cartItems?.data;
+//              this.cartService.cartLength.next(this.cartItems.length)
+//            },
+//            (error) => {
+//              // Handle error here
+//            }
+//          )
+this.updateCartItemsFromApi();
       }
       else{
         this.cartItems = JSON.parse(localStorage.getItem('myCartItem')!)
@@ -117,8 +119,43 @@ console.log("Updated localStorage:", localCartItems);
     this.getCouponList()
     }
   }
+
+
+  updateCartItemsFromApi() {
+    this.cartService.getCartItems().subscribe(
+      (cartItems: any) => {
+        this.syncCartWithLocalStorage(cartItems.data);
+        this.cartItems = cartItems?.data;
+        this.cartService.cartLength.next(this.cartItems.length);
+        console.log('Cart items from API:', this.cartItems);
+      },
+      (error) => {
+        console.error('Error fetching cart items from API:', error);
+      }
+    );
+  }
   
- 
+  syncCartWithLocalStorage(apiCartItems: any[]) {
+    // Get the cart items from localStorage
+    let localCartItems = JSON.parse(localStorage.getItem('myCartItem') || '[]');
+  
+    // Update localStorage `id` based on matching `itemid`
+    localCartItems = localCartItems.map((localItem: any) => {
+      const matchedApiItem = apiCartItems.find(apiItem => apiItem.itemId === localItem.itemid);
+  
+      if (matchedApiItem) {
+        localItem.id = matchedApiItem.id; // Update the id in the localStorage item
+      }
+  
+      return localItem;
+    });
+  
+    // Save the updated cart items back to localStorage
+    localStorage.setItem('myCartItem', JSON.stringify(localCartItems));
+    console.log('Updated localStorage:', localCartItems);
+  }
+
+
     
     updateCart() {
       if(this.isBrowser){

@@ -152,6 +152,7 @@ this.service.addNewReview(payload).subscribe((res:any)=>{
 
 // add to cart 
 addToCart(serviceDetail:any){
+  console.log(serviceDetail,"155")
   if(this.isBrowser){
   const payload = {
     itemId:this.serviceDetail.item.itemid||0,
@@ -179,10 +180,12 @@ addToCart(serviceDetail:any){
 // Find the existing item in the cart
 const existingItemIndex = localCart.findIndex((item: any) => item.itemid === serviceDetail.item.itemid);
 
+console.log(existingItemIndex,"183")
 if (existingItemIndex > -1) {
  // If item exists, update its quantity
  localCart[existingItemIndex].quantity += 1;
 } else {
+  console.log(serviceDetail.item.quantity)
  // If item doesn't exist, add new item with quantity 1
  serviceDetail.item.quantity = 1;
  localCart.push(serviceDetail.item);

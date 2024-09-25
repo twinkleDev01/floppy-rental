@@ -146,11 +146,11 @@ this.auth.logIn(logInValue).subscribe((response:any)=>{
     const cartItems = JSON.parse(localStorage.getItem('myCartItem')!)
     const payload = cartItems.map((item:any) => ({
       itemId: item.itemid || 0,
-      id: 0,
+      id: item.itemid,
       itemName: item.itemName || item.specication || 'Unknown Item',
       itemRate: Number(item.rate?.replace(/[^\d.-]/g, "")) || 0,
       price: Number(item.rate?.replace(/[^\d.-]/g, "")) || 0,
-      quantity: 1,
+      quantity: item.quantity,
       userId: Number(response.data.userId) || 0,
       processStatus: '',
       discountPercent: 0,
@@ -195,5 +195,14 @@ this.auth.logIn(logInValue).subscribe((response:any)=>{
     console.log("165")
     this.loginForm.reset();
     this.dialogRef.close(); // This will close the dialog
+  }
+
+  // Prevent leading whitespace
+  preventLeadingWhitespace(event: KeyboardEvent): void {
+    const input = (event.target as HTMLInputElement).value;
+    // Prevent a space if the input is empty or has only leading whitespace
+    if (event.key === ' ' && input.trim().length === 0) {
+      event.preventDefault();
+    }
   }
 }
