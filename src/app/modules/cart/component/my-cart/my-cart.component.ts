@@ -228,6 +228,7 @@ this.updateCartItemsFromApi();
             console.log("Removing item from localCart");
             localCart.splice(localIndex, 1);
             localStorage.setItem('myCartItem', JSON.stringify(localCart));
+            this.toastr.success("Cart item deleted successfully");
         } else {
             console.log("Item not found in localCart");
         }
