@@ -163,21 +163,34 @@ this.updateCartItemsFromApi();
     
     updateCart() {
       if(this.isBrowser){
-      if(localStorage.getItem('userId')){
+      // if(localStorage.getItem('userId')){
       const payload = [
           ...this.cartItems
         ]
         this.cartService.UpdateCartDetails(payload).subscribe(
           (res:any)=>{
             this.isUpdate = true;
+            if(localStorage.getItem('userId')){
             this.cartService.getCartItems().subscribe(
               (cartItems:any) => {
                 this.cartItems = cartItems?.data;
+
+                 
               },
               (error) => {
                 // Handle error here
               }
             );
+          }
+          // Update the localStorage based on the latest cart items and their quantities
+          const localCartItems = JSON.parse(localStorage.getItem('myCartItem') || '[]');
+          this.cartItems.forEach((updatedItem: any) => {
+            const localItem = localCartItems.find((item: any) => item.id === updatedItem.id);
+            if (localItem) {
+              localItem.quantity = updatedItem.quantity; // Update the quantity
+            }
+          });
+          localStorage.setItem('myCartItem', JSON.stringify(localCartItems));
              this.toastr.success(res.message)
           },
           (err)=>{
@@ -189,7 +202,7 @@ this.updateCartItemsFromApi();
         localStorage.setItem('myCartItem',JSON.stringify(this.cartItems))
         this.toastr.success('Item Update Successfully')
       }
-    }
+    // }
     }
  
 
@@ -233,29 +246,13 @@ this.updateCartItemsFromApi();
   }
 }
 
-  
- 
-  // proceedToCheckout(item: any) {
-  //   console.log(item)
-  //   alert('Are you sure you want to checkout this item')
-  //   if (this.isUpdate) {
-  //     const navigationExtras = {
-  //       state: {
-  //         sabTotal: this.sabTotal,
-  //         sabTotalSaving: this.sabTotalSaving,
-  //         AmountToCheckout: this.AmountToCheckout,
-  //         productId: this.cartItems.map((item: any) => item.id),
-  //       }
-  //     };
-  //     this.router.navigate(['cart/checkout'], navigationExtras);
-  //   }
-  // }
 
   proceedToCheckout(item: any) {
     if(this.isBrowser){
     console.log(JSON.stringify(this.cartItems), "127");
     if (this.isUpdate) {
       if(localStorage.getItem("userId")){ 
+        this.updateCart()
         alert('Are you sure you want to checkout this item');
       // Store the necessary data in localStorage
       localStorage.setItem('myCartData', JSON.stringify({
