@@ -46,7 +46,7 @@ export class ProfileComponent {
     this.isBrowser = isPlatformBrowser(platformId);
 
     this.profileForm = this.fb.group({
-      name: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]+$')]],
+      name: ['', [Validators.required,Validators.pattern('^[a-zA-Z ]+$'), Validators.maxLength(50)]],
       phone: ['', [Validators.required,Validators.pattern('^[0-9]{10}$')]], // Assuming 10-12 digits for phone number
       selectedCountry: ['', Validators.required],
       state: ['', Validators.required],

@@ -50,6 +50,9 @@
                                       <div *ngIf="profileForm.get('name')?.touched && profileForm.get('name')?.hasError('pattern')" class="text-danger">
                                         Name should contain only letters and spaces
                                       </div>
+                                      <div *ngIf="profileForm.get('name')?.hasError('maxlength') && profileForm.get('name')?.touched" class="text-danger">
+                                        Name cannot exceed 20 characters.
+                                      </div>
                             </div>
                           </div>
                           <div class="col-lg-6 mt_2">
