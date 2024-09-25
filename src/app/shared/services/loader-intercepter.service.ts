@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { LoaderService } from './loader.service';
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { finalize, Observable } from 'rxjs';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpErrorResponse } from '@angular/common/http';
+import { finalize, Observable, tap } from 'rxjs';
+import { AuthService } from './auth.service'; // Assuming AuthService handles logout
 
 @Injectable({
   providedIn: 'root'
@@ -10,15 +11,25 @@ export class LoaderInterceptor implements HttpInterceptor {
 
   requestCounter = 0;
 
-  constructor(private loaderService: LoaderService) {}
+  constructor(
+    private loaderService: LoaderService,
+    private authService: AuthService // Inject AuthService for logout
+  ) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-  
-this.beginRequest();
+    this.beginRequest();
     return next.handle(request).pipe(
+      tap({
+        error: (err: any) => {
+          if (err instanceof HttpErrorResponse && err.status === 401) {
+            localStorage.removeItem('token')
+            localStorage.removeItem('userId')
+          }
+        }
+      }),
       finalize(() => {
         this.endRequest();
-      }) // Hide loader on response
+      })
     );
   }
 
@@ -26,16 +37,13 @@ this.beginRequest();
     this.requestCounter = Math.max(this.requestCounter, 0) + 1;
     if (this.requestCounter === 1) {
       this.loaderService.show(); // Show loader on API call
-   
-  
     }
   }
 
   private endRequest(): void {
     this.requestCounter = Math.max(this.requestCounter, 1) - 1;
     if (this.requestCounter === 0) {
-      this.loaderService.hide()
-     
+      this.loaderService.hide(); // Hide loader on response
     }
   }
 }
