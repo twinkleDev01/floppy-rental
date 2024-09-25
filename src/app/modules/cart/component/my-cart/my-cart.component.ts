@@ -240,7 +240,7 @@ this.updateCartItemsFromApi();
             this.toastr.success(res.message);
         },
         (err: any) => {
-            this.toastr.error(err.message);
+            // this.toastr.error(err.message);
         }
     );
   }
