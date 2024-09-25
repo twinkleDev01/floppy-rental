@@ -21,8 +21,8 @@
                             <div class="d-flex align-items-center">
                                 <span class="mx-1" (click)="removeCartItems(cart)"><i
                                         class="fa-regular fa-circle-xmark"></i></span>
-                                <img class="mx-1 img-fluid rounded" style="max-width:40px; height: 100%"
-                                    [src]="cart.image?cart.image:'images/Service-detail-img/profile-icon.png'">
+                                        <img class="mx-1 img-fluid rounded" style="max-width:40px; height: 38px"
+                                        [src]="cart.image ? cart.image : (cart.imagepath ? cart.imagepath : 'images/No_Image_Available.jpg')">
                                 {{cart.itemName}}
                             </div>
                         </td>
