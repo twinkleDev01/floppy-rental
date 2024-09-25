@@ -1,17 +1,22 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { EventEmitter, Inject, Injectable, PLATFORM_ID } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ScrollService {
   public contentVisible = new EventEmitter<void>();
-
-  constructor() {
+  isBrowser!: boolean;
+  constructor(@Inject(PLATFORM_ID) platformId: Object) {
+    this.isBrowser = isPlatformBrowser(platformId);
+    if(this.isBrowser){
     window.addEventListener('scroll', this.onScroll.bind(this));
     console.log("service")
+    }
   }
 
   private onScroll() {
+    if(this.isBrowser){
     console.log('scroll')
     const element = document.getElementById('lazy-load-target');
     if (element) {
@@ -20,5 +25,6 @@ export class ScrollService {
         this.contentVisible.emit(); // Emit an event when the element is visible
       }
     }
+  }
   }
 }

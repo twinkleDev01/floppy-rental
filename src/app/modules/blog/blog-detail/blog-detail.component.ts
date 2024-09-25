@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Inject, Input, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BlogService } from '../service/blog.service';
 import { ServicesDetailService } from '../../services/service/services-detail.service';
@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { noWhitespaceValidator } from '../../../shared/components/common/no-whitespace.validator';
 import { BlogReview } from '../_models/blog.model';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-blog-detail',
@@ -22,8 +23,11 @@ export class BlogDetailComponent {
   maxCommentLength = 50;
   selectedCategory: string = '';
   blogReview:BlogReview[]=[];
-  orignalCategories:any[]=[]
-  constructor(private router: Router, private blogService:BlogService, private serviceDetail:ServicesDetailService,private fb:FormBuilder,private toastrService:ToastrService, private route:ActivatedRoute) {
+  orignalCategories:any[]=[];
+  isBrowser!: boolean;
+  constructor(private router: Router, private blogService:BlogService, private serviceDetail:ServicesDetailService,private fb:FormBuilder,private toastrService:ToastrService, private route:ActivatedRoute, @Inject(PLATFORM_ID) platformId: Object) {
+
+    this.isBrowser = isPlatformBrowser(platformId);
     // const navigation = this.router.getCurrentNavigation();
     // this.selectedBlog = navigation?.extras?.state?.['blog']; 
     // console.log(this.selectedBlog);
@@ -56,8 +60,9 @@ export class BlogDetailComponent {
 this.blogService.getBlogDetails(this.selectedBlog).subscribe((response:any)=>{
   this.blogDetail = response.data
   this.getReviewsByBlogId(this.blogDetail.blogId)
+  if(this.isBrowser){
   const userId = localStorage.getItem("userId");
-
+  
   if (this.blogDetail && this.blogDetail.blogTrans && userId) {
     // Find the matching item based on userId
     const matchingItem = this.blogDetail.blogTrans.find((item: any) => item.userid === Number(userId));
@@ -78,6 +83,7 @@ this.blogService.getBlogDetails(this.selectedBlog).subscribe((response:any)=>{
   } else {
     console.log("No matching items found or invalid data.");
   }
+}
 })
   }
 
@@ -108,6 +114,7 @@ this.serviceDetail.getCategoryList().subscribe((response:any)=>{
   // }
 
   saveReview() {
+    if(this.isBrowser){
     this.commentForm?.markAllAsTouched();
     if(this.commentForm?.invalid)return;
     const blogReviewData = {
@@ -136,6 +143,7 @@ this.serviceDetail.getCategoryList().subscribe((response:any)=>{
         // Handle error, like showing an error message
       }
     );
+  }
   }
 
   // Prevent leading whitespace

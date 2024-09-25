@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { HomeService } from '../../services/home.service';
 import { environment } from '../../../../../environments/environment.development';
@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { Item, SubCategories } from '../../_models/home.model';
 import { FormControl } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -133,16 +134,20 @@ thirdCategory!:SubCategories
   placeDetails: any; // For storing selected place details
   filteredSubgroupsName: Observable<any[]> = new Observable();
   placesService!: google.maps.places.PlacesService;
-
-  constructor(private homeService: HomeService, public dialog: MatDialog, private service:ServicesDetailService,private scrollService:ScrollService, private router:Router){
+  isBrowser!: boolean;
+  constructor(private homeService: HomeService, public dialog: MatDialog, private service:ServicesDetailService,private scrollService:ScrollService, private router:Router, @Inject(PLATFORM_ID) platformId: Object){
     // this.initializeLocations();
+    this.isBrowser = isPlatformBrowser(platformId);
+    if(this.isBrowser){
     this.placesService = new google.maps.places.PlacesService(document.createElement('div'));
+    }
   }
 
   ngAfterViewInit() {
     }
 
     ngOnInit(){
+      if(this.isBrowser){
       // / Initialize the Google Places Autocomplete service
       this.autocompleteService = new google.maps.places.AutocompleteService();
 
@@ -157,7 +162,7 @@ thirdCategory!:SubCategories
       this.serviceDataList = this.serviceDataList?.filter((iterable:any)=> iterable?.status === 1);
     })
     this.fetchSubCategories()
-
+  }
   }
 
 

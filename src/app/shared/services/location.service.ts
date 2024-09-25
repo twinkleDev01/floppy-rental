@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,11 @@ export class LocationService {
   locationsRef = {
     latitude: 0, longitude: 0
   }
-  constructor() {
+  isBrowser!: boolean;
+  constructor(@Inject(PLATFORM_ID) platformId: Object) {
+    this.isBrowser = isPlatformBrowser(platformId);
+
+if(this.isBrowser){
     navigator.geolocation.getCurrentPosition((position) => {
       console.log(position.coords);
       const {latitude, longitude} = position.coords;
@@ -30,5 +35,6 @@ export class LocationService {
         }
       );
     })
+  }
    }
 }

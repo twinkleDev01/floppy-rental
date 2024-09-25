@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { ProfileService } from '../service/profile.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CartService } from '../../cart/services/cart.service';
@@ -7,6 +7,7 @@ import { DatePickerDialogComponent } from '../../../shared/components/date-picke
 import { ServicesDetailService } from '../../services/service/services-detail.service';
 import { LoginComponent } from '../../login/Components/login/login.component';
 import { ToastrService } from 'ngx-toastr';
+import { isPlatformBrowser } from '@angular/common';
 
 interface Booking {
   orderId: string;
@@ -25,41 +26,12 @@ interface Booking {
   styleUrl: './my-booking.component.scss'
 })
 export class MyBookingComponent {
-  // bookings: Booking[] = [
-  //   {
-  //     orderId: '#1001',
-  //     date: '8 Jun, 2024',
-  //     time: '09:00 am to 10:05 am',
-  //     serviceImage: 'images/Service-detail-img/room_cleaning.png',
-  //     serviceName: 'Niti Group Facility Services',
-  //     paymentMethod: 'Paypal',
-  //     status: 'Pending',
-  //     total: 22.00
-  //   },
-  //   {
-  //     orderId: '#1002',
-  //     date: '8 Jun, 2024',
-  //     time: '09:00 am to 10:05 am',
-  //     serviceImage: 'images/Service-detail-img/room_cleaning.png',
-  //     serviceName: 'Niti Group Facility Services',
-  //     paymentMethod: 'Google Pay',
-  //     status: 'Complete',
-  //     total: 22.00
-  //   },
-  //   {
-  //     orderId: '#1003',
-  //     date: '8 Jun, 2024',
-  //     time: '09:00 am to 10:05 am',
-  //     serviceImage: 'images/Service-detail-img/room_cleaning.png',
-  //     serviceName: 'Niti Group Facility Services',
-  //     paymentMethod: 'Google Pay',
-  //     status: 'Pending',
-  //     total: 22.00
-  //   }
-  // ];
-
+  isBrowser!: boolean;
   bookings:any;
-  constructor(private profileService:ProfileService, private route: ActivatedRoute, private cartService:CartService, private router:Router, private dialog: MatDialog, private service:ServicesDetailService, private toastr:ToastrService){
+  constructor(private profileService:ProfileService, private route: ActivatedRoute, private cartService:CartService, private router:Router, private dialog: MatDialog, private service:ServicesDetailService, private toastr:ToastrService, @Inject(PLATFORM_ID) platformId: Object){
+
+    this.isBrowser = isPlatformBrowser(platformId);
+
     this.route.queryParams.subscribe(params => {
       // const paymentStatus = params['paymentStatus'];
       const orderId = params['orderId'];
@@ -73,6 +45,7 @@ ngOnInit(){
 }
 
 getUserBooking() {
+  if(this.isBrowser){
   const userId = localStorage.getItem('userId');
   // Ensure that userId is not null or undefined
   if (userId) {
@@ -88,6 +61,7 @@ getUserBooking() {
   } else {
     console.error('User ID not found in local storage.');
   }
+}
 }
 
 openDateTimePicker(booking:any): void {
@@ -121,6 +95,7 @@ openDateTimePicker(booking:any): void {
   }
   
   updatePayment() {
+    if(this.isBrowser){
     const orderId = localStorage.getItem('orderId');
     const userIdString = localStorage.getItem('userId');
     
@@ -148,6 +123,7 @@ openDateTimePicker(booking:any): void {
         console.error('Error updating payment status', error);
       }
     );
+  }
   }
 
   goToDetail(card: any) {
@@ -211,6 +187,7 @@ console.log(item,"161")
 
   // add to cart 
 reAddToCart(item:any){
+  if(this.isBrowser){
   console.log(item,"214")
   if(localStorage.getItem("userId")){
    const payload = {
@@ -239,7 +216,7 @@ reAddToCart(item:any){
      disableClose: true
    });
   }
- 
+}
  }
 
 }
