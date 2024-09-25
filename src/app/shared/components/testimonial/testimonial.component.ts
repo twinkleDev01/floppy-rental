@@ -1,6 +1,7 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, PLATFORM_ID, ViewChild } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { SharedService } from '../../services/shared.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-testimonial',
@@ -12,7 +13,10 @@ export class TestimonialComponent {
   @ViewChild('textContent') textContent!: ElementRef;
   isTruncated = false;
   isExpanded: { [key: number]: boolean } = {};
-constructor(private sharedService:SharedService){}
+  isBrowser!: boolean;
+constructor(private sharedService:SharedService, @Inject(PLATFORM_ID) platformId: Object){
+  this.isBrowser = isPlatformBrowser(platformId);
+}
 
   customOptions: OwlOptions = {
     loop: true,

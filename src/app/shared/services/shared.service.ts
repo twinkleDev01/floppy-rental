@@ -17,6 +17,7 @@ export class SharedService {
     couponListUrl = environment.ApiBaseUrl + 'Coupon/CouponList';
 
     private addressSaveUrl = environment.ApiBaseUrl + 'Address/save-address';
+    private metaTagUrl = 'https://firstfloppy.asptask.in/api/MetaTag/GetMetagByPageName';
 
   constructor(private http: HttpClient) {}
 
@@ -73,5 +74,9 @@ export class SharedService {
   getAddressesByUser(userId: number): Observable<any> {
     const url = `${environment.ApiBaseUrl}Address/get-addresses-by-user/${userId}`;
     return this.http.get<any>(url);
+  }
+
+  getMetaTags(pageName: string): Observable<any> {
+    return this.http.get(`${this.metaTagUrl}/${pageName}`);
   }
 }
