@@ -168,6 +168,7 @@ addToCart(serviceDetail:any){
     tax: 0,
     image:this.serviceDetail.item.imagepath?this.serviceDetail.item.imagepath:''
   }
+ 
   this.service.addCartItem([payload]).subscribe((res:any)=>{
   if(res.success)
     this.toastr.success(res.message)
@@ -190,15 +191,25 @@ if (existingItemIndex > -1) {
  serviceDetail.item.quantity = 1;
  localCart.push(serviceDetail.item);
 }
-
 // Update the cart in localStorage
 localStorage.setItem('myCartItem', JSON.stringify(localCart));
 
+if(localStorage.getItem('userId')){
+this.updateCartDetails('myCartItem')
+}
 // Navigate to the cart page
 this.router.navigate(['cart']);
   })
  
   }
+}
+
+updateCartDetails (storageKey: string){
+  console.log("206", storageKey)
+  const items = JSON.parse(localStorage[storageKey] || '[]');
+  localStorage[storageKey] = JSON.stringify(
+      items.map((d:any)=> ({...d, cartUpdated: true}))
+  )
 }
 
 onRatingUpdated(newRating: number) {

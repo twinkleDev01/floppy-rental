@@ -143,8 +143,9 @@ const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailOrPhone);
 this.auth.logIn(logInValue).subscribe((response:any)=>{
   console.log(response,"88")
   if(response.success){
-    const cartItems = JSON.parse(localStorage.getItem('myCartItem')!)
-    const payload = cartItems.map((item:any) => ({
+    const cartItems = JSON.parse(localStorage.getItem('myCartItem')!)?.filter((item:any)=>!item?.cartUpdated);
+ 
+    const payload = cartItems?.map((item:any) => ({
       itemId: item.itemid || 0,
       id: item.itemid,
       itemName: item.itemName || item.specication || 'Unknown Item',
@@ -159,6 +160,9 @@ this.auth.logIn(logInValue).subscribe((response:any)=>{
       image: item.imagepath || ''
     }));
     
+    this.updateCartDetails('myCartItem')
+    console.log("163")
+
     // Assuming `addCartItem` accepts an array
     this.service.addCartItem(payload).subscribe((res: any) => {
       console.log(res, "149");
@@ -181,6 +185,15 @@ this.auth.logIn(logInValue).subscribe((response:any)=>{
     }
   }
   }
+
+  updateCartDetails (storageKey: string){
+    console.log("206", storageKey)
+    const items = JSON.parse(localStorage[storageKey] || '[]');
+    localStorage[storageKey] = JSON.stringify(
+        items.map((d:any)=> ({...d, cartUpdated: true}))
+    )
+  }
+
   //
   openResetPasswordDialog(): void {
     this.stage = 'reset';

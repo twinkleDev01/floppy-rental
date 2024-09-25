@@ -86,7 +86,7 @@ export class ServicesCategoryComponent {
   // Subscribe to route parameters
 this.route.paramMap.subscribe((params: any) => {
   this.subCategoryName = decodeURIComponent(params.get('categoryName'));
-  this.subCategoryName = this.subCategoryName.replaceAll('&', '/');
+  this.subCategoryName = this.subCategoryName.replaceAll('$', '/');
   this.CategoryId = params.get('id'); // Convert string to number
   this.selectedServiceCategory = this.CategoryId; // Set the selected category to match the id
   console.log(this.subCategoryName,"88")
@@ -196,10 +196,10 @@ this.route.queryParams.subscribe(params => {
     
           if(!this.searchLocation){
          // Navigate using updated category name and ID
-            this.router.navigate([`/services/category/${this.subCategoryName}/${this.CategoryId}`]);
+            this.router.navigate([`/services/category/${this.subCategoryName?.replaceAll("/","$")}/${this.CategoryId}`]);
           }else{
             this.router.navigate([
-              `/services/category/${this.subCategoryName}/${this.CategoryId}`
+              `/services/category/${this.subCategoryName?.replaceAll("/","$")}/${this.CategoryId}`
             ], {
               queryParams: {
                 latitude: this.latitude,
@@ -274,10 +274,10 @@ onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
      this.router.onSameUrlNavigation = "reload";
      if(!this.searchLocation){
-       this.router.navigate([`/services/category/${this.subCategoryName}/${this.CategoryId}`])
+       this.router.navigate([`/services/category/${this.subCategoryName?.replaceAll("/","$")}/${this.CategoryId}`])
      }else{
       this.router.navigate([
-        `/services/category/${this.subCategoryName}/${this.CategoryId}`
+        `/services/category/${this.subCategoryName?.replaceAll("/","$")}/${this.CategoryId}`
       ], {
         queryParams: {
           latitude: this.latitude,
@@ -547,7 +547,7 @@ selectPrediction(event: any) {
           this.router.routeReuseStrategy.shouldReuseRoute = () => false;
           this.router.onSameUrlNavigation = "reload";
           this.router.navigate([
-              `/services/category/${this.subCategoryName}/${this.CategoryId}`
+              `/services/category/${this.subCategoryName?.replaceAll("/","$")}/${this.CategoryId}`
             ], {
               queryParams: {
                 latitude: this.placeDetails.lat,

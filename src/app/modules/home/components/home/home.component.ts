@@ -274,7 +274,7 @@ thirdCategory!:SubCategories
       //       ?.toLowerCase()}/${subcategory.mainId}`,
       //   ]
       // );
-      this.router.navigate([`/services/category/${subcategory?.subClassificationName.replaceAll("/","&")}/${subcategory?.mainId}`]);
+      this.router.navigate([`/services/category/${subcategory?.subClassificationName.replaceAll("/","$")}/${subcategory?.mainId}`]);
     }
 
     getItemlist(){
