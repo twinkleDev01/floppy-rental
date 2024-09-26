@@ -10,8 +10,6 @@ import { TestimonialComponent } from './components/testimonial/testimonial.compo
 import {MatRadioModule} from '@angular/material/radio';
 import { RatingStarComponent } from './components/rating-star/rating-star.component';
 import {MatIconModule} from '@angular/material/icon';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {MatTooltipModule} from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
