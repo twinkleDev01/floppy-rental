@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, inject, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, Output, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmPasswordValidator } from '../../confirm-password.validator';
 import { HttpClient } from '@angular/common/http';
@@ -12,15 +12,15 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.scss'
 })
-export class ResetPasswordComponent {
+export class ResetPasswordComponent implements OnInit {
   @Output() handleNavigation = new EventEmitter<'login'>()
 
-  selectedCountry: string = '+91'; 
+  selectedCountry = '+91'; 
   // countries: any;
   selectedCountryFlag: any;
    countries: any[] = [];
-  passwordType: string = 'password';
-  confirmPasswordType: string ='confirmPassword'
+  passwordType = 'password';
+  confirmPasswordType ='confirmPassword'
   loginForm: FormGroup;
   keyChar:any;
   private apiUrl = 'https://restcountries.com/v3.1/all';

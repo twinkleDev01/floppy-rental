@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, map, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { AddressListResponse, AddressPayload, AddressResponse, CouponListResponse, FooterListResponse, MetaTagResponse, TestimonialResponse } from './_model/shared.model';
 
 @Injectable({
   providedIn: 'root',
 })
+
 export class SharedService {
   public base: BehaviorSubject<string> = new BehaviorSubject<string>('home');
   public page: BehaviorSubject<string> = new BehaviorSubject<string>('');
@@ -34,11 +36,11 @@ export class SharedService {
     }
   }
 
-  getTestimonials(): Observable<any> {
-    return this.http.get<any>(this.TestmonialsUrl);
+  getTestimonials(): Observable<TestimonialResponse> {
+    return this.http.get<TestimonialResponse>(this.TestmonialsUrl);
   }
 
-  getFooterList() {
+  getFooterList(): Observable<FooterListResponse> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -46,37 +48,39 @@ export class SharedService {
       headers: headers,
     };
     return this.http
-      .get(this.url + 'Footer/fetch-listData-footer', httpOptions)
+      .get<FooterListResponse>(this.url + 'Footer/fetch-listData-footer', httpOptions)
       .pipe(
-        map((res) => {
-          return res;
-        }),
-        catchError((err: any) => this.handleError(err))
+        map((res: FooterListResponse) => res), // Response is typed now
+        catchError((err) => this.handleError(err))
       );
   }
+  
 
-  handleError(error: any): any {
-    throw new Error('Method not implemented.');
+  handleError(error: HttpErrorResponse): Observable<never> {
+    // Handle the error, log it, or rethrow
+    console.error('An error occurred:', error);
+    return throwError(() => new Error(error.message || 'Unknown error'));
+  }
+  
+
+  getCouponList(): Observable<CouponListResponse> {
+    return this.http.get<CouponListResponse>(this.couponListUrl); // Makes an HTTP GET request to the API
   }
 
-  getCouponList(): Observable<any> {
-    return this.http.get<any>(this.couponListUrl); // Makes an HTTP GET request to the API
-  }
-
-  saveAddress(addressPayload: any): Observable<any> {
+  saveAddress(addressPayload: AddressPayload): Observable<AddressResponse> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
 
-    return this.http.post<any>(this.addressSaveUrl, addressPayload, { headers });
+    return this.http.post<AddressResponse>(this.addressSaveUrl, addressPayload, { headers });
   }
   
-  getAddressesByUser(userId: number): Observable<any> {
+  getAddressesByUser(userId: number): Observable<AddressListResponse> {
     const url = `${environment.ApiBaseUrl}Address/get-addresses-by-user/${userId}`;
-    return this.http.get<any>(url);
+    return this.http.get<AddressListResponse>(url);
   }
 
-  getMetaTags(pageName: string): Observable<any> {
-    return this.http.get(`${this.metaTagUrl}/${pageName}`);
+  getMetaTags(pageName: string): Observable<MetaTagResponse> {
+    return this.http.get<MetaTagResponse>(`${this.metaTagUrl}/${pageName}`);
   }
 }

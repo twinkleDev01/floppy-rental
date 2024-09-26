@@ -9,12 +9,36 @@ export interface SubCategories {
     classificationName:string
   }
   export interface Item {
-    imagepath?: string; // Optional, as it can be undefined
+    imagepath?: string; 
     itemName: string;
     specicationname: string;
-    showOnDastboard?: number; // Optional, based on usage in the HTML
+    showOnDastboard?: number; 
   }
   
   export interface ItemList {
     itemList: Item[];
   }
+  export interface SliderItem {
+    Image: string;
+    URL: string;
+    Tittle: string;
+    Status: number;
+    Seqno: number;
+  }
+  
+  export interface SliderData {
+    Middle: SliderItem[];
+    Bottom: SliderItem[];
+    ServiceSideImage: SliderItem[];
+    Top: SliderItem[];
+  }
+  
+  export interface SliderResponse {
+    success: boolean;
+    message: string;
+    data: SliderData;
+  }
+
+ 
+  
+  

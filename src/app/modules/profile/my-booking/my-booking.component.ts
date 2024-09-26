@@ -1,4 +1,4 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, PLATFORM_ID, OnInit } from '@angular/core';
 import { ProfileService } from '../service/profile.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CartService } from '../../cart/services/cart.service';
@@ -8,34 +8,24 @@ import { ServicesDetailService } from '../../services/service/services-detail.se
 import { LoginComponent } from '../../login/Components/login/login.component';
 import { ToastrService } from 'ngx-toastr';
 import { isPlatformBrowser } from '@angular/common';
+import { ApiResponse, CartItem } from '../service/profile.model';
 
-interface Booking {
-  orderId: string;
-  date: string;
-  time: string;
-  serviceImage: string;
-  serviceName: string;
-  paymentMethod: string;
-  status: string;
-  total: number;
-}
 
 @Component({
   selector: 'app-my-booking',
   templateUrl: './my-booking.component.html',
   styleUrl: './my-booking.component.scss'
 })
-export class MyBookingComponent {
+export class MyBookingComponent implements OnInit {
   isBrowser!: boolean;
   bookings:any;
-  constructor(private profileService:ProfileService, private route: ActivatedRoute, private cartService:CartService, private router:Router, private dialog: MatDialog, private service:ServicesDetailService, private toastr:ToastrService, @Inject(PLATFORM_ID) platformId: Object){
+  constructor(private profileService:ProfileService, private route: ActivatedRoute, private cartService:CartService, private router:Router, private dialog: MatDialog, private service:ServicesDetailService, private toastr:ToastrService, @Inject(PLATFORM_ID) platformId: object){
 
     this.isBrowser = isPlatformBrowser(platformId);
 
     this.route.queryParams.subscribe(params => {
       // const paymentStatus = params['paymentStatus'];
       const orderId = params['orderId'];
-      console.log(orderId)
     })
   }
 
@@ -54,7 +44,7 @@ getUserBooking() {
         this.bookings = response.data
         console.log(response.data, "62");
       },
-      (error: any) => {
+      (error) => {
         console.error('Error fetching user bookings:', error);
       }
     );
@@ -73,17 +63,11 @@ openDateTimePicker(booking:any): void {
   });
   dialogRef.afterClosed().subscribe(result => {
     if (result) {
-     console.log(result,"97");
      this.updateOrder(data, result.date, result.time)
     }
   });
 }
 
-  // deleteBooking(booking: Booking): void {
-  //   // Logic for deleting the booking
-  //   this.bookings = this.bookings.filter((b:any) => b !== booking);
-  //   console.log('Deleted booking:', booking);
-  // }
 
   calculateTotal(booking: any): number {
     if (!booking.items || booking.items.length === 0) {
@@ -127,7 +111,6 @@ openDateTimePicker(booking:any): void {
   }
 
   goToDetail(card: any) {
-    console.log(card,"139")
     const itemNameDetail = card?.subCategoryName
       ?.trim()
       ?.replace(/\s+/g, '-')
@@ -140,11 +123,9 @@ openDateTimePicker(booking:any): void {
   
   // Method to call delete service
   deleteBooking(item: any) {
-console.log(item,"161")
     this.profileService.deleteOrder(item.leadEntryId).subscribe({
       next: () => {
         this.getUserBooking()
-        console.log('Order deleted successfully');
         // Handle success (e.g., update UI or notify the user)
       },
       error: (err) => {
@@ -186,12 +167,12 @@ console.log(item,"161")
   }
 
   // add to cart 
-reAddToCart(item:any){
+reAddToCart(item:CartItem){
   if(this.isBrowser){
   console.log(item,"214")
   if(localStorage.getItem("userId")){
    const payload = {
-     itemId:item.itemid||0,
+     itemId:item.itemId||0,
      id:0,
      itemName:item.itemName,
      itemRate:Number(item.itemRate),
@@ -204,7 +185,7 @@ reAddToCart(item:any){
      tax: 0,
      image:item.image,
    }
-   this.service.addCartItem([payload]).subscribe((res:any)=>{
+   this.service.addCartItem([payload]).subscribe((res:ApiResponse)=>{
    if(res.success)
      this.toastr.success(res.message)
      this.router.navigate(['cart'])

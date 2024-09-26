@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment.development';
 import { Observable } from 'rxjs';
+import { ApiResponsegetProfileDetailsById, UpdateUserProfilePayload, UpdateUserProfileResponse } from './profile.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,28 +22,19 @@ private updateSlotUrl = environment.ApiBaseUrl + 'Order';
     return this.http.get(url); // Perform HTTP GET request
   }
 
-  getProfileDetailsById(id: number): Observable<any> {
+  getProfileDetailsById(id: number): Observable<ApiResponsegetProfileDetailsById> {
     const url = this.userDetailUrl + `${id}`;
-    return this.http.get<any>(url);
+    return this.http.get<ApiResponsegetProfileDetailsById>(url);
   }
 
   // Method to update user profile
-  updateUserProfile(payload: {
-    userId: number;
-    name: string;
-    phone: string;
-    pincode: string;
-    locality: string;
-    address: string;
-    state: string;
-    city: string;
-    image: string; // This will be the base64 image string
-  }): Observable<any> {
-    return this.http.post<any>(this.updateProfileUrl, payload);
-  }
+  updateUserProfile(payload: UpdateUserProfilePayload): Observable<UpdateUserProfileResponse> {
+    return this.http.post<UpdateUserProfileResponse>(this.updateProfileUrl, payload);
+}
+
 
    // Method to delete an order by id
-   deleteOrder(id: number): Observable<Object> {
+   deleteOrder(id: number): Observable<object> {
     const url = `${this.deleteUrl}/${id}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'

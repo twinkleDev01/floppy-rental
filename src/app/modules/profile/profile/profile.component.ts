@@ -1,30 +1,31 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, Output, PLATFORM_ID, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, Output, PLATFORM_ID, ViewChild, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../../shared/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { ProfileService } from '../service/profile.service';
-import { Country, State, City } from 'country-state-city';
+import { State, City } from 'country-state-city';
 import { MatSelectChange } from '@angular/material/select';
 import { isPlatformBrowser } from '@angular/common';
+import { CountriesArray, Country, selectedCountry, selectedState, StatesArray } from '../service/profile.model';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
   @Output() handleNavigationSignup = new EventEmitter();
-  passwordType: string = 'password';
-  selectedCountry: any; 
+  passwordType = 'password';
+  selectedCountry!: selectedCountry; 
   selectedCountryFlag: string | undefined;
   profileForm: FormGroup;
-  countries: any;
-  states: any;
+  countries!: CountriesArray;
+  states!: any;
   cities: any;
-  selectedState: any;
+  selectedState!: selectedState;
   selectedCity: any;
   private apiUrl = 'https://restcountries.com/v3.1/all';
   isBrowser!: boolean;
@@ -40,7 +41,7 @@ export class ProfileComponent {
     private toastr: ToastrService,
     private route: Router,
     private profileService: ProfileService,
-    @Inject(PLATFORM_ID) platformId: Object
+    @Inject(PLATFORM_ID) platformId: object
   ) {
 
     this.isBrowser = isPlatformBrowser(platformId);
@@ -82,7 +83,6 @@ export class ProfileComponent {
   
   onCountryChange(event: MatSelectChange): void {
     const selectedCountry = event.value;
-    console.log(selectedCountry, "selectedCountry");
     
     if (selectedCountry) {
       this.selectedCountry = selectedCountry;
@@ -91,7 +91,6 @@ export class ProfileComponent {
       this.profileForm.get("selectedCountry")?.updateValueAndValidity();
       this.states = State.getStatesOfCountry(selectedCountry.iso2);
       this.cities = City.getCitiesOfState(this.selectedCountry.iso2, this.states?.[0].isoCode);
-      console.log(this.states,"87");
       if(this.states?.length){
         this.profileForm?.get("state")?.setValue(this.states?.[0]?.isoCode);
       }
@@ -102,6 +101,8 @@ export class ProfileComponent {
     } else {
       this.selectedCountryFlag = undefined;
     }
+    
+
   }
 
   onStateChange(event: Event): void {
@@ -110,18 +111,14 @@ export class ProfileComponent {
   
     // Find the selected state object based on isoCode
     this.selectedState = this.states.find((state:any) => state.isoCode === selectedIsoCode);
-  console.log(this.selectedState,"100")
     if (this.selectedState) {
       // Set the state name in the form control
       this.profileForm.get('state')?.setValue(this.selectedState.isoCode);
       // Fetch cities based on the selected state
-      console.log(this.selectedState, this.profileForm.get('selectedCountry')?.value)
       this.selectedCountry = this.profileForm.get('selectedCountry')?.value
       if (this.selectedCountry && this.selectedState) {
         this.cities = City.getCitiesOfState(this.selectedCountry.iso2, this.selectedState.isoCode);
       }
-    } else {
-      console.warn('State not found for ISO code:', selectedIsoCode);
     }
   }
   
@@ -170,10 +167,8 @@ export class ProfileComponent {
       this.profileService.updateUserProfile(payload).subscribe(
         (response:any) => {
           this.toastr.success(response.message)
-          console.log('Profile updated successfully', response);
         },
         error => {
-          console.error('Error updating profile', error);
           this.toastr.error('Failed to update profile');
         }
       );
@@ -199,7 +194,6 @@ export class ProfileComponent {
           }
         },
         (error: any) => {
-          console.error('Logout error', error);
           this.toastr.error('An error occurred. Please try again later.');
         }
       );
@@ -223,7 +217,6 @@ export class ProfileComponent {
           
         },
         (error) => {
-          console.error('Error fetching countries:', error);
           reject(error);
         }
       );
@@ -238,13 +231,10 @@ export class ProfileComponent {
         (response: any) => {
           if (response.success) {
             const fullMobileNumber = response.data.mobileNo;
-            console.log('Full Mobile Number:', fullMobileNumber);
-            console.log('Available Countries:', this.countries);
 
-            const countryCodeObj = this.countries.find((c:any) => fullMobileNumber.startsWith(c.code));
+            const countryCodeObj = this.countries.find((c:Country) => fullMobileNumber.startsWith(c.code));
             const countryCode = countryCodeObj?.code || '';
 
-            console.log('Country Code:', countryCode, countryCodeObj);
 
             if (countryCode) {
               this.states = State.getStatesOfCountry(countryCodeObj?.iso2);
@@ -253,10 +243,9 @@ export class ProfileComponent {
 
             const escapedCountryCode = countryCode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             const phone = fullMobileNumber.replace(new RegExp(`^${escapedCountryCode}`), '').trim();
-            console.log('Contact Number:', phone);
 const patchedState = this.states?.find((state:any)=> state?.name === response?.data?.state)?.isoCode;
 
-this.cities = City.getCitiesOfState(countryCodeObj?.iso2, patchedState);
+this.cities = City.getCitiesOfState(countryCodeObj?.iso2 || '', patchedState);
 const patchedCity = this.cities?.find((city:any)=> city?.name === response?.data?.city)?.name;
             this.profileForm.patchValue({
               name: response.data.name || '',
@@ -269,13 +258,11 @@ const patchedCity = this.cities?.find((city:any)=> city?.name === response?.data
               address: response.data.address || '',
               profilePicture: response.data.image
             });
-            console.log(this.profileForm.get('selectedCountry')?.value);
           } else {
             this.toastr.error('Failed to load profile details');
           }
         },
         (error) => {
-          console.error('Error fetching profile details:', error);
           this.toastr.error('Failed to load profile details');
         }
       );
@@ -283,33 +270,40 @@ const patchedCity = this.cities?.find((city:any)=> city?.name === response?.data
   }
   }
 
-  onProfilePictureChange(event: any): void {
-    const file = event.target.files[0];
-    if (file) {
+  onProfilePictureChange(event: Event): void {
+    const input = event.target as HTMLInputElement | null; 
+  
+    // Check if input is not null and has files
+    if (input && input.files && input.files.length > 0) {
+      const file = input.files[0];
+  
+      // Check if the selected file is an image
       if (!file.type.startsWith('image/')) {
-        console.error('Selected file is not an image.');
         this.toastr.error('Selected file is not an image.');
         return;
       }
-
+  
+      // Check file size
       const maxSize = 2 * 1024 * 1024; // 2MB
       if (file.size > maxSize) {
-        console.error('Selected file is too large.');
         this.toastr.error('Selected file is too large.');
         return;
       }
-
+  
       const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.profileForm.get('profilePicture')?.setValue(e.target.result);
-        console.log('File data URL:', e.target.result);
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        // Set the profile picture in the form
+        this.profileForm.get('profilePicture')?.setValue(e.target?.result); // Optional chaining
       };
+      
       reader.onerror = (error) => {
         console.error('Error reading file:', error);
       };
+  
       reader.readAsDataURL(file);
     }
   }
+  
 
   // Prevent leading whitespace
   preventLeadingWhitespace(event: KeyboardEvent): void {

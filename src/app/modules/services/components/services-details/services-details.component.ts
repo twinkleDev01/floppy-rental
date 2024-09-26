@@ -1,4 +1,4 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, PLATFORM_ID, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { ServicesDetailService } from '../../service/services-detail.service';
@@ -15,7 +15,7 @@ import { isPlatformBrowser, ViewportScroller } from '@angular/common';
   templateUrl: './services-details.component.html',
   styleUrl: './services-details.component.scss'
 })
-export class ServicesDetailsComponent {
+export class ServicesDetailsComponent implements OnInit {
   apiUrl: string = environment.ApiBaseUrl;
   currentRating = 0;
   selectedCard: any;
@@ -26,31 +26,21 @@ export class ServicesDetailsComponent {
   vendorDetail:any;
   subgroupid:any;
   maingroupid:any;
-  latitude:number = 0;
-  longitude:number = 0;
+  latitude = 0;
+  longitude = 0;
   reviews: Review[] = [];
   reviewForm:any =FormGroup;
-  startIndex:number=0;
-  pageSize:number=0;
+  startIndex=0;
+  pageSize=0;
   isBrowser!: boolean;
 
-  constructor(private router: Router,private service:ServicesDetailService, private fb:FormBuilder, private dialog:MatDialog, private toastr:ToastrService, private route:ActivatedRoute, @Inject(PLATFORM_ID) platformId: Object, private viewportScroller: ViewportScroller) {
+  constructor(private router: Router,private service:ServicesDetailService, private fb:FormBuilder, private dialog:MatDialog, private toastr:ToastrService, private route:ActivatedRoute, @Inject(PLATFORM_ID) platformId: object, private viewportScroller: ViewportScroller) {
 
     this.isBrowser = isPlatformBrowser(platformId);
 
-    // const navigation = this.router.getCurrentNavigation();
-    // this.selectedCard = navigation?.extras?.state?.['card']; 
-    // console.log(this.selectedCard,"38")
-    // const urlSegments = this.router.url.split('/');
-    // this.serviceDetailId = urlSegments[urlSegments.length - 1];
     this.route.paramMap.subscribe(params => {
-      // this.itemNameDetail = params.get('itemNameDetail');
       this.serviceDetailId = params.get('id');
-      
-      // console.log('Item Name Detail:', this.itemNameDetail);
-      console.log('Card ID:', this.serviceDetailId);
     });
-    console.log(this.serviceDetailId,"41")
     this.reviewForm = fb.group({
       name: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]], // Required and no special characters
       email: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/)]], // Required and valid email format with stricter pattern
@@ -72,7 +62,6 @@ export class ServicesDetailsComponent {
   getServiceDetailById(id:any){
     this.service.getServiceDetailsById(id).subscribe((res)=>{
       this.serviceDetail = res.data;
-      console.log(res.data.item.itemid,"61")
       this.getRatingByItemId(res.data.item.itemid)
       this.vendorId = this.serviceDetail.item.vendorid;
 
@@ -97,25 +86,20 @@ export class ServicesDetailsComponent {
 
   // get ratings
   getRatingByItemId(id: string) {
-    console.log('Fetching ratings for ID:', id);
     this.service.getRatingByItemId(id).subscribe(
       (res: any) => {
         // Check for successful response
         if (res.success && res.data) {
           // If data is present, set reviews and calculate average rating
           this.reviews = res.data;
-          console.log('Received rating data:', this.reviews);
           this.calculateAverageRating(this.reviews, true);
         } else {
           // If no data or unsuccessful response, reset reviews and average rating
           this.reviews = [];
-          console.log('No rating data found or unsuccessful response.');
           this.calculateAverageRating([], true); // Pass empty array for no ratings
         }
       },
       (error) => {
-        // Handle HTTP error response
-        console.error('Error fetching rating data:', error);
         this.reviews = [];
         this.calculateAverageRating([], true); // Pass empty array for error case
       }
@@ -126,7 +110,6 @@ export class ServicesDetailsComponent {
 // Rating
 addReview(){
   if (this.reviewForm.invalid) {
-    console.log("92")
     this.reviewForm.markAllAsTouched(); // Mark all fields as touched to trigger validation messages
     return;
   }
@@ -153,7 +136,6 @@ this.service.addNewReview(payload).subscribe((res:any)=>{
 
 // add to cart 
 addToCart(serviceDetail:any){
-  console.log(serviceDetail,"155")
   if(this.isBrowser){
   const payload = {
     itemId:this.serviceDetail.item.itemid||0,
@@ -175,19 +157,16 @@ addToCart(serviceDetail:any){
     this.toastr.success(res.message)
 
  // For guest users, manage cart in localStorage
- let localCart = localStorage.getItem('myCartItem')
+ const localCart = localStorage.getItem('myCartItem')
  ? JSON.parse(localStorage.getItem('myCartItem')!)
  : [];
 
 // Find the existing item in the cart
 const existingItemIndex = localCart.findIndex((item: any) => item.itemid === serviceDetail.item.itemid);
-
-console.log(existingItemIndex,"183")
 if (existingItemIndex > -1) {
  // If item exists, update its quantity
  localCart[existingItemIndex].quantity += 1;
 } else {
-  console.log(serviceDetail.item.quantity)
  // If item doesn't exist, add new item with quantity 1
  serviceDetail.item.quantity = 1;
  localCart.push(serviceDetail.item);
@@ -206,7 +185,6 @@ this.router.navigate(['cart']);
 }
 
 updateCartDetails (storageKey: string){
-  console.log("206", storageKey)
   const items = JSON.parse(localStorage[storageKey] || '[]');
   localStorage[storageKey] = JSON.stringify(
       items.map((d:any)=> ({...d, cartUpdated: true}))
@@ -215,7 +193,6 @@ updateCartDetails (storageKey: string){
 
 onRatingUpdated(newRating: number) {
   this.currentRating = newRating;
-  console.log("New Rating: ", this.currentRating);
 }
 
 // location
@@ -227,8 +204,6 @@ navigator.geolocation.getCurrentPosition(
         // Success callback
         this.latitude = position.coords.latitude;
         this.longitude = position.coords.longitude;
-
-        console.log(`Latitude: ${this.latitude}, Longitude: ${this.longitude}`);
     },
     (error) => {
         // Error callback
@@ -241,9 +216,7 @@ navigator.geolocation.getCurrentPosition(
         maximumAge: 0 // Do not use a cached position
     }
 );
-} else {
-console.error("Geolocation is not supported by this browser.");
-}
+} 
 }
 
   public doctorSlider: OwlOptions = {

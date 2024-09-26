@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -6,16 +6,16 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
   templateUrl: './rating-star.component.html',
   styleUrl: './rating-star.component.scss'
 })
-export class RatingStarComponent {
+export class RatingStarComponent implements OnInit {
   
-  @Input() rating: number = 0; // Initialize the rating
-  @Input() starCount: number = 5; // Default to 5 stars
-  @Input() color: string = 'warn'; // Set the default color
+  @Input() rating = 0; // Initialize the rating
+  @Input() starCount = 5; // Default to 5 stars
+  @Input() color = 'warn'; // Set the default color
   @Input() needReview = false;
   @Output() ratingUpdated = new EventEmitter<number>();
 
   ratingArr: number[] = [];
-  selectedCategory: string = 'Housekeeping Staff';
+  selectedCategory = 'Housekeeping Staff';
   categories: string[] = ['Housekeeping Staff', 'Pantry Boy', 'Supervisor/Floor Manager', 'Multitasking Staff', 'Electrician/Plumber/Carpenter', 'Horticulture And Landscaping Service'];
   toppings: FormGroup;
 

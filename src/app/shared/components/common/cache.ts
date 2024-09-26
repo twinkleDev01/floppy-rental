@@ -5,16 +5,12 @@ import { map } from 'rxjs/operators';
 export interface HttpOptions {
   headers?:
     | HttpHeaders
-    | {
-        [header: string]: string | string[];
-      };
+    | Record<string, string | string[]>;
   context?: HttpContext;
   params?:
     | HttpParams
     | { hideLoader: 'true' | 'false' }
-    | {
-        [param: string]: string | string[];
-      };
+    | Record<string, string | string[]>;
   reportProgress?: boolean;
   withCredentials?: boolean;
 }
@@ -55,7 +51,7 @@ export class CacheStorage<T = any> {
     if (this.db.data.length && !this.hasFilteredData)
       return of(this.db).pipe(
         map((res) => {
-          let Data = res;
+          const Data = res;
           if (options.params) {
             Object.entries(options.params).forEach(([k, v]) => {
               const value = v.includes(',')

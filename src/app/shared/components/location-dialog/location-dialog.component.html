@@ -1,7 +1,10 @@
 <!-- <h2 mat-dialog-title>Select Location</h2> -->
 <div class="dialog-header">
   <h2 mat-dialog-title>Select Location</h2>
-  <i class="fa fa-times close-icon" (click)="closeDialog()"></i>
+  <i class="fa fa-times close-icon" (click)="closeDialog()" (keydown.enter)="closeDialog()"
+  (keydown.space)="closeDialog()"
+  tabindex="0" 
+  role="button"></i>
 </div>
 <hr style="margin-inline: 1rem; margin-block: 0;">
 
@@ -10,7 +13,10 @@
   <p>Help our teams get to your place on time by locating it on the map below</p>
 
   <!-- Add New Location Section -->
-  <div class="location-card add-location" (click)="addNewLocation()">
+  <div class="location-card add-location" (click)="addNewLocation()" (keydown.enter)="addNewLocation()"
+  (keydown.space)="addNewLocation()"
+  tabindex="0" 
+  role="button">
     <div class="location-text">
       <strong>Add New Location</strong>
     </div>
@@ -20,7 +26,10 @@
   </div>
 
   <!-- Existing Location Section -->
-  <div class="location-card" *ngFor="let userAddress of userAddress" (click)="selectLocation(userAddress)">
+  <div class="location-card" *ngFor="let userAddress of userAddress" (click)="selectLocation(userAddress)" (keydown.enter)="selectLocation(userAddress)"
+  (keydown.space)="selectLocation(userAddress)"
+  tabindex="0" 
+  role="button">
     <div class="location-info">
       <span class="location-icon">
         <i class="fa fa-map-marker"></i>
@@ -38,7 +47,10 @@
   <div class="row">
     <!-- Map Container -->
     <div class="col-6">
-      <a class="current-location" (click)="useCurrentLocation()">
+      <a class="current-location" (click)="useCurrentLocation()" (keydown.enter)="useCurrentLocation()"
+      (keydown.space)="useCurrentLocation()"
+      tabindex="0" 
+      role="button">
         <mat-icon>location_on</mat-icon> Use Current Location
       </a>
       <div #googleMap class="map-container" style="height: 22rem; width: 100%; border-radius: 20px;"></div>

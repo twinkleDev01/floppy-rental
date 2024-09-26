@@ -1,4 +1,4 @@
-import { Component, Inject, PLATFORM_ID } from "@angular/core";
+import { Component, Inject, PLATFORM_ID, OnInit } from "@angular/core";
 import { CartService } from "../../services/cart.service";
 import { Router } from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
@@ -15,19 +15,19 @@ import { isPlatformBrowser } from "@angular/common";
   templateUrl: './my-cart.component.html',
   styleUrl: './my-cart.component.scss'
 })
-export class MyCartComponent {
+export class MyCartComponent implements OnInit {
   cartItems: any[] = []
   OfferAndCoupon: any
-  isUpdate: boolean = false
+  isUpdate = false
   userId: any;
-  noCouponAvailable:boolean = false
+  noCouponAvailable = false
   couponCode!:number;
   discountedPrice: number | null = null; 
-  initialAmountToCheckout: number = 0
+  initialAmountToCheckout = 0
   discountAmount: number | null = null;
   isBrowser!: boolean;
 
-  constructor(private cartService: CartService, private router:Router, private toastr: ToastrService, private sharedService:SharedService, private auth:AuthService, private dialog: MatDialog, private service:ServicesDetailService, @Inject(PLATFORM_ID) platformId: Object
+  constructor(private cartService: CartService, private router:Router, private toastr: ToastrService, private sharedService:SharedService, private auth:AuthService, private dialog: MatDialog, private service:ServicesDetailService, @Inject(PLATFORM_ID) platformId: object
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
     if(this.isBrowser){
@@ -40,80 +40,14 @@ export class MyCartComponent {
       // Subscribe to login status
       if(this.auth.isLoggedIn$){
       this.auth.isLoggedIn$.subscribe(isLoggedIn => {
-        console.log('Login status changed:', isLoggedIn); // Log status changes
        if(isLoggedIn){
-//         this.cartService.getCartItems().subscribe(
-//           (cartItems:any) => {
-
-// // Get the cart items from localStorage
-// let localCartItems = JSON.parse(localStorage.getItem('myCartItem') || '[]');
-
-// // Update localStorage `id` based on matching `itemid`
-// localCartItems = localCartItems.map((localItem: any) => {
-//  // Find matching item in the API response based on `itemId`
-//  const matchedApiItem = cartItems.data.find((apiItem:any) => apiItem.itemId === localItem.itemid);
-
-//  if (matchedApiItem) {
-//    // Update the `id` in the local storage item with the API `id`
-//    localItem.id = matchedApiItem.id;
-//  }
-
-//  return localItem; // Return the updated local item
-// });
-
-// // Save the updated cart items back to localStorage
-// localStorage.setItem('myCartItem', JSON.stringify(localCartItems));
-// console.log("Updated localStorage:", localCartItems);
-
-//            console.log(cartItems.data)
-//             this.cartItems = cartItems?.data;
-//             this.cartService.cartLength.next(this.cartItems.length)
-//           },
-//           (error) => {
-//             // Handle error here
-//           }
-//         )
-console.log("75");
 this.updateCartItemsFromApi();
        }else{
         if(localStorage.getItem('userId')){
-          //        this.cartService.getCartItems().subscribe(
-          //            (cartItems:any) => {
-          
-          // // Get the cart items from localStorage
-          // let localCartItems = JSON.parse(localStorage.getItem('myCartItem') || '[]');
-          
-          // // Update localStorage `id` based on matching `itemid`
-          // localCartItems = localCartItems.map((localItem: any) => {
-          //   // Find matching item in the API response based on `itemId`
-          //   const matchedApiItem = cartItems.data.find((apiItem:any) => apiItem.itemId === localItem.itemid);
-          
-          //   if (matchedApiItem) {
-          //     // Update the `id` in the local storage item with the API `id`
-          //     localItem.id = matchedApiItem.id;
-          //   }
-          
-          //   return localItem; // Return the updated local item
-          // });
-          
-          // // Save the updated cart items back to localStorage
-          // localStorage.setItem('myCartItem', JSON.stringify(localCartItems));
-          // console.log("Updated localStorage:", localCartItems);
-          
-          //             console.log(cartItems.data)
-          //              this.cartItems = cartItems?.data;
-          //              this.cartService.cartLength.next(this.cartItems.length)
-          //            },
-          //            (error) => {
-          //              // Handle error here
-          //            }
-          //          )
-          console.log("109");
           this.updateCartItemsFromApi();
                 }
                 else{
                   this.cartItems = JSON.parse(localStorage.getItem('myCartItem')!)
-                  console.log(this.cartItems,"48")
                   this.cartService.cartLength.next(this.cartItems.length)
                 }
        }
@@ -132,7 +66,6 @@ this.updateCartItemsFromApi();
         this.syncCartWithLocalStorage(cartItems.data);
         this.cartItems = cartItems?.data;
         this.cartService.cartLength.next(this.cartItems.length);
-        console.log('Cart items from API:', this.cartItems);
       },
       (error) => {
         console.error('Error fetching cart items from API:', error);
@@ -157,7 +90,6 @@ this.updateCartItemsFromApi();
   
     // Save the updated cart items back to localStorage
     localStorage.setItem('myCartItem', JSON.stringify(localCartItems));
-    console.log('Updated localStorage:', localCartItems);
   }
 
 
@@ -173,7 +105,6 @@ this.updateCartItemsFromApi();
           (res:any)=>{
             // this.isUpdate = true;
             if(localStorage.getItem('userId')){
-              console.log("175")
             this.cartService.getCartItems().subscribe(
               (cartItems:any) => {
                 this.cartItems = cartItems?.data;
@@ -185,7 +116,6 @@ this.updateCartItemsFromApi();
               }
             );
           }
-          console.log("187")
           // Update the localStorage based on the latest cart items and their quantities
           const localCartItems = JSON.parse(localStorage.getItem('myCartItem') || '[]');
           this.cartItems.forEach((updatedItem: any) => {
@@ -217,34 +147,26 @@ this.updateCartItemsFromApi();
 
   removeCartItems(item: any) {
     if(this.isBrowser){
-    console.log(item);
   
     const index = this.cartItems.findIndex(cartItem => cartItem.id === item.id);
   
     if (index !== -1) {
-        console.log("Item found in cartItems");
 
         // Remove the item from cartItems
         this.cartItems.splice(index, 1);
   
         // Update local storage after removing the item
-        let localCart = JSON.parse(localStorage.getItem('myCartItem') || '[]');
-        console.log(localCart, "Local Cart Before Removal");
+        const localCart = JSON.parse(localStorage.getItem('myCartItem') || '[]');
         const localIndex = localCart.find((localItem: any) => localItem.id === item.id);
-        console.log(localIndex,item.itemId, "Local Index of Item to Remove");
 
         if (localIndex !== -1) {
-            console.log("Removing item from localCart");
             localCart.splice(localIndex, 1);
             localStorage.setItem('myCartItem', JSON.stringify(localCart));
             this.toastr.success("Cart item deleted successfully");
-        } else {
-            console.log("Item not found in localCart");
-        }
+        } 
   
         this.cartService.cartLength.next(localCart.length);
     }
-  console.log(item.id,"143")
     this.cartService.deleteCart(item.id).subscribe(
         (res: any) => {
             this.toastr.success(res.message);
@@ -259,7 +181,6 @@ this.updateCartItemsFromApi();
 
   proceedToCheckout(item: any) {
     if(this.isBrowser){
-    console.log(JSON.stringify(this.cartItems), "127");
     if (this.isUpdate) {
       if(localStorage.getItem("userId")){ 
         this.updateCart()
@@ -330,22 +251,10 @@ this.updateCartItemsFromApi();
     }, 0
     )
   }
-  // get sabTotalSaving() {
-  //   if (this.discountAmount !== null) {
-  //     console.log("Discounted Price Applied:", this.discountAmount);
-  //     return this.discountAmount; // Use the discounted price from the API response
-  //   }
-  //   return this.cartItems.reduce((totalAmount, cart, index) => {
-  //     return totalAmount + ((cart.itemRate * cart.quantity)*cart.discountPercent/100)
-  //   }, 0
-  //   )
-  // }
-  //getter for tax amount
  
   get sabTotalSaving() {
     // Check if discountAmount is available (not null or undefined)
     if (this.discountAmount !== null && this.discountAmount !== undefined) {
-      console.log("Discount Amount from API Applied:", this.discountAmount);
       return this.discountAmount; // Use the discount amount from the API response
     }
   
@@ -365,7 +274,6 @@ this.updateCartItemsFromApi();
   // Getter for total amount to checkout
   get AmountToCheckout() {
     if (this.discountedPrice !== null) {
-      console.log("Discounted Price Applied:", this.discountedPrice);
       return this.discountedPrice; // Use the discounted price from the API response
     }
     this.initialAmountToCheckout = this.sabTotal - this.sabTotalSaving + this.totalTaxAmount;
@@ -374,7 +282,6 @@ this.updateCartItemsFromApi();
 
 
   applyCoupon(couponCode: any) {
-    console.log(couponCode)
     if(couponCode== undefined){
       this.noCouponAvailable = true; return
     }
@@ -397,14 +304,12 @@ this.updateCartItemsFromApi();
       this.cartService.addCoupon(userId, couponId, totalPrice).subscribe(
         (response) => {
           if (response) {
-            console.log('Coupon added successfully:', response);
             this.discountAmount = response.data.discountAmount;
             this.discountedPrice = response.data.discountedPrice; // Set discounted price from the response
             this.toastr.success(response.message);
           }
         },
         (error) => {
-          console.error('Error adding coupon:', error);
           this.toastr.error(error.error.message);
         }
       );

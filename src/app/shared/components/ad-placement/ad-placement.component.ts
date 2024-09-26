@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { HomeService } from '../../../modules/home/services/home.service';
@@ -8,7 +8,7 @@ import { HomeService } from '../../../modules/home/services/home.service';
   templateUrl: './ad-placement.component.html',
   styleUrl: './ad-placement.component.scss'
 })
-export class AdPlacementComponent {
+export class AdPlacementComponent implements OnInit, OnChanges {
   // @Input() sortedBottomData: any;
   sortedBottomData:any[]=[];
   homeBannerData:any
@@ -77,7 +77,7 @@ export class AdPlacementComponent {
   getBannerData(){
     this.homeService.getHomeDetails().subscribe((res: any) => {
       // Treat res.data as an object with dynamic keys
-      this.homeBannerData = res.data as { [key: string]: any };
+      this.homeBannerData = res.data as Record<string, any>;
     
     
       // Accessing the Bottom section and sorting

@@ -1,4 +1,4 @@
-import { Component, Inject, Input, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, PLATFORM_ID, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BlogService } from '../service/blog.service';
 import { ServicesDetailService } from '../../services/service/services-detail.service';
@@ -13,7 +13,7 @@ import { isPlatformBrowser, ViewportScroller } from '@angular/common';
   templateUrl: './blog-detail.component.html',
   styleUrl: './blog-detail.component.scss'
 })
-export class BlogDetailComponent {
+export class BlogDetailComponent implements OnInit {
   number=4
   selectedBlog: any;
   Categories:any;
@@ -21,19 +21,15 @@ export class BlogDetailComponent {
   comment:any;
   commentForm!:FormGroup;
   maxCommentLength = 50;
-  selectedCategory: string = '';
+  selectedCategory = '';
   blogReview:BlogReview[]=[];
   orignalCategories:any[]=[];
   isBrowser!: boolean;
-  constructor(private router: Router, private blogService:BlogService, private serviceDetail:ServicesDetailService,private fb:FormBuilder,private toastrService:ToastrService, private route:ActivatedRoute, @Inject(PLATFORM_ID) platformId: Object, private viewportScroller: ViewportScroller) {
+  constructor(private router: Router, private blogService:BlogService, private serviceDetail:ServicesDetailService,private fb:FormBuilder,private toastrService:ToastrService, private route:ActivatedRoute, @Inject(PLATFORM_ID) platformId: object, private viewportScroller: ViewportScroller) {
     this.viewportScroller.scrollToPosition([0, 0]); // Scroll to the top of the page
     this.isBrowser = isPlatformBrowser(platformId);
-    // const navigation = this.router.getCurrentNavigation();
-    // this.selectedBlog = navigation?.extras?.state?.['blog']; 
-    // console.log(this.selectedBlog);
     this.route.paramMap.subscribe(params => {
       this.selectedBlog = params.get('id'); // 'maingroupid' is the name you used in the route
-      console.log(params,"31", this.selectedBlog)
     });
     this.commentForm = fb.group({
       comment: ["", [Validators.required, noWhitespaceValidator(), Validators.maxLength(this.maxCommentLength)]],
@@ -45,12 +41,7 @@ export class BlogDetailComponent {
     
   }
 
-  blogDetail:any
-
-  // Categories=[
-  //   'Housekeeping Staff','Beauty','Air Conditioning','Lifestyle','Electrician/ Plumber/ Carpenter','Horticulture And Landscaping Service'
-  // ]
-
+  blogDetail:any;
   ngOnInit(){
     this.viewportScroller.scrollToPosition([0, 0]); // Scroll to the top of the page
     this.getBlogDetail();
@@ -71,26 +62,20 @@ this.blogService.getBlogDetails(this.selectedBlog).subscribe((response:any)=>{
     if (matchingItem && matchingItem.isSaveNameEmailandWebsite === 1) {
       // Store in a variable if isSaveNameEmailandWebsite is 1
       this.savedItem = matchingItem; 
-      console.log(this.savedItem, "Saved Item");
       this.commentForm?.patchValue({
         name:this.savedItem?.name,
         email:this.savedItem?.email,
         webSite:this.savedItem?.website,
         saveWebsiteInfo:this.savedItem?.isSaveNameEmailandWebsite
       })
-    } else {
-      console.log("No item with isSaveNameEmailandWebsite status 1 found.");
-    }
-  } else {
-    console.log("No matching items found or invalid data.");
-  }
+    } 
+  } 
 }
 })
   }
 
   getCategoryList(){
 this.serviceDetail.getCategoryList().subscribe((response:any)=>{
-  console.log(response)
   this.Categories = response.data
   this.orignalCategories = [...this.Categories]
   this.Categories = this.Categories.filter((category:any)=>category.status === 1)
@@ -98,21 +83,10 @@ this.serviceDetail.getCategoryList().subscribe((response:any)=>{
   }
   blogDataEvent(event:any):void{
     if(event){
-      console.log(event,"event")
       this.blogDetail = event;
       this.getReviewsByBlogId(this.blogDetail.id)
     }
   }
-
-  // goToCategory(serviceDetail:any){
-  //   console.log(serviceDetail,"serviceId")
-  //   const navigationExtras = {
-  //     state: {
-  //       serviceId: serviceDetail?.mainId,
-  //     }
-  //   };
-  //   this.router.navigate([`/services/category/${serviceDetail?.classificationName?.trim()?.replace(/\s+/g, '-')?.toLowerCase()}`], navigationExtras);
-  // }
 
   saveReview() {
     if(this.isBrowser){
@@ -132,14 +106,12 @@ this.serviceDetail.getCategoryList().subscribe((response:any)=>{
 
     this.blogService.saveBlogReview(blogReviewData).subscribe(
       (response) => {
-        // console.log('Blog review saved successfully:', response);
         this.getReviewsByBlogId(this.blogDetail.blogId)
         this.commentForm?.reset();
         this.toastrService.success(response?.message);
         // Handle success, like showing a success message or resetting the form
       },
       (error) => {
-        console.error('Error saving blog review:', error);
         this.toastrService.error(error?.error?.message);
         // Handle error, like showing an error message
       }
@@ -188,8 +160,7 @@ this.serviceDetail.getCategoryList().subscribe((response:any)=>{
 
   getReviewsByBlogId(id:number){
     this.blogService.getReviewsByBlogId(id).subscribe((response:any)=>{
-this.blogReview = response.data
-console.log(this.blogReview,"181")
+this.blogReview = response.data;
     })
   }
 

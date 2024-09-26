@@ -1,4 +1,4 @@
-import { Component, Inject } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { HomeService } from "../../services/home.service";
 import { Router } from "@angular/router";
@@ -27,13 +27,14 @@ import { Router } from "@angular/router";
       `,
     styleUrls: ["./home.component.scss"],
   })
-  export class ServiceDialogComponent {
+  export class ServiceDialogComponent implements OnInit{
     selectedCategory:any;
     subcategoryData:any;
 
     constructor(public dialogRef: MatDialogRef<ServiceDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private homeService: HomeService, private router:Router){
 console.log(data,'dialog')
       this.selectedCategory = data.item
+      console.log(data,'37')
     }
 
     ngOnInit() {
@@ -43,8 +44,8 @@ console.log(data,'dialog')
     fetchSubCategories(categoryId: number) {
       this.homeService.getSubCategories(categoryId).subscribe(
         (response: any) => {
-          this.subcategoryData = response.data; // Adjust according to your API's response structure
-          console.log(this.subcategoryData)
+          this.subcategoryData = response.data; 
+          console.log(this.subcategoryData,'49')
         },
         (error) => {
           console.error('Error fetching subcategories', error);

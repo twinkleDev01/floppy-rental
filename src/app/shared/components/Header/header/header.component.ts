@@ -1,4 +1,4 @@
-import { Component, Inject, inject, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, inject, PLATFORM_ID, OnInit, AfterViewInit } from '@angular/core';
 import { LoginComponent } from '../../../../modules/login/Components/login/login.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -6,18 +6,18 @@ import { AuthService } from '../../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { CartService } from '../../../../modules/cart/services/cart.service';
 import { isPlatformBrowser } from '@angular/common';
-declare var bootstrap: any;  
+declare let bootstrap: any;  
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit, AfterViewInit {
   cartLength:any;
   isBrowser!: boolean;
   isLoggedIn$ = inject(AuthService).isLoggedIn$;
   readonly dialog = inject(MatDialog)
-  constructor(private route:Router, private auth:AuthService, private toastr:ToastrService, private cartService:CartService, @Inject(PLATFORM_ID) platformId: Object) {
+  constructor(private route:Router, private auth:AuthService, private toastr:ToastrService, private cartService:CartService, @Inject(PLATFORM_ID) platformId: object) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
   get cartBadge(){
@@ -25,7 +25,7 @@ export class HeaderComponent {
   }
   ngOnInit() { 
     if(this.isBrowser){
-   let length = localStorage.getItem('cartItems')
+   const length = localStorage.getItem('cartItems')
 
     this.cartService.cartLength.subscribe((val)=>{
       this.cartLength = val || length;
@@ -53,8 +53,8 @@ export class HeaderComponent {
   ngAfterViewInit() {
     if(this.isBrowser){
     // Initialize Bootstrap components manually if needed
-    var myCollapse = document.getElementById('navbarNav');
-    var bsCollapse = new bootstrap.Collapse(myCollapse, {
+    const myCollapse = document.getElementById('navbarNav');
+    const bsCollapse = new bootstrap.Collapse(myCollapse, {
       toggle: false
     });
     this.cartService.cartLength.subscribe((val)=>{

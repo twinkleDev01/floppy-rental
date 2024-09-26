@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ServicesDetailService } from '../../../service/services-detail.service';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 
@@ -7,7 +7,7 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
   templateUrl: './service-rate.component.html',
   styleUrl: './service-rate.component.scss'
 })
-export class ServiceRateComponent {
+export class ServiceRateComponent implements OnInit {
 serviceListRate:any;
 selectedServiceCategory:any
   constructor(private serviceDetail:ServicesDetailService, private route:ActivatedRoute){
