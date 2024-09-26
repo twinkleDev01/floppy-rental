@@ -39,6 +39,7 @@
             <a class="nav-link" (click)="goToMyCart()"><i class="fa-solid fa-cart-shopping" [matBadge]="cartBadge ?cartBadge:''" ></i> Cart</a>
             <!-- (isLoggedIn$ | async) &&  -->
           </li>
+          @if(isBrowser){
           <li class="nav-item">
             @if (isLoggedIn$ | async) {
               <div class="profile-menu">
@@ -56,6 +57,7 @@
             }
 
           </li>
+        }
         </ul>
       </div>
     </div>

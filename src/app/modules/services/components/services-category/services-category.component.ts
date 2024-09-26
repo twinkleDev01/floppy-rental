@@ -8,7 +8,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { BehaviorSubject } from 'rxjs';
 import { HomeService } from '../../../home/services/home.service';
 import { SharedService } from '../../../../shared/services/shared.service';
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-services-category',
@@ -74,7 +74,7 @@ export class ServicesCategoryComponent {
   isBrowser!: boolean;
   paginator$ = new BehaviorSubject<{pageIndex:number,pageSize:number}|null>({pageIndex:0,pageSize:12})
 
-  constructor(private fb: FormBuilder, private router: Router, private service:ServicesDetailService, private homeService:HomeService, private sharedService:SharedService, private route:ActivatedRoute, @Inject(PLATFORM_ID) platformId: Object) {
+  constructor(private fb: FormBuilder, private router: Router, private service:ServicesDetailService, private homeService:HomeService, private sharedService:SharedService, private route:ActivatedRoute, @Inject(PLATFORM_ID) platformId: Object, private viewportScroller: ViewportScroller) {
     this.isBrowser = isPlatformBrowser(platformId);
     if(this.isBrowser){
     this.placesService = new google.maps.places.PlacesService(document.createElement('div'));
@@ -121,6 +121,7 @@ this.route.queryParams.subscribe(params => {
       console.log(this.selectedServiceCategory,"selectedServiceCategory 117")
   }
   ngOnInit(){
+    this.viewportScroller.scrollToPosition([0, 0]); // Scroll to the top of the page
     this.autocompleteService = new google.maps.places.AutocompleteService();
 
     // Subscribe to value changes of the search control
