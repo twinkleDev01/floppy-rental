@@ -163,14 +163,16 @@ this.updateCartItemsFromApi();
     
     updateCart() {
       if(this.isBrowser){
-      // if(localStorage.getItem('userId')){
+        this.isUpdate = true;
+      if(localStorage.getItem('userId')){
       const payload = [
           ...this.cartItems
         ]
         this.cartService.UpdateCartDetails(payload).subscribe(
           (res:any)=>{
-            this.isUpdate = true;
+            // this.isUpdate = true;
             if(localStorage.getItem('userId')){
+              console.log("175")
             this.cartService.getCartItems().subscribe(
               (cartItems:any) => {
                 this.cartItems = cartItems?.data;
@@ -182,6 +184,7 @@ this.updateCartItemsFromApi();
               }
             );
           }
+          console.log("187")
           // Update the localStorage based on the latest cart items and their quantities
           const localCartItems = JSON.parse(localStorage.getItem('myCartItem') || '[]');
           this.cartItems.forEach((updatedItem: any) => {
@@ -200,9 +203,14 @@ this.updateCartItemsFromApi();
       }else{
         this.isUpdate = true;
         localStorage.setItem('myCartItem',JSON.stringify(this.cartItems))
-        this.toastr.success('Item Update Successfully')
+        if(this.cartItems.length){
+
+          this.toastr.success('Item Update Successfully')
+        }else{
+          this.toastr.warning("Please add Item before update the cart")
+        }
       }
-    // }
+    }
     }
  
 

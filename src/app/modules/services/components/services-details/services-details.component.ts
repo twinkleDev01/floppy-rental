@@ -8,7 +8,7 @@ import { LoginComponent } from '../../../login/Components/login/login.component'
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Review } from '../_models/serivece.model';
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-services-details',
@@ -34,7 +34,7 @@ export class ServicesDetailsComponent {
   pageSize:number=0;
   isBrowser!: boolean;
 
-  constructor(private router: Router,private service:ServicesDetailService, private fb:FormBuilder, private dialog:MatDialog, private toastr:ToastrService, private route:ActivatedRoute, @Inject(PLATFORM_ID) platformId: Object) {
+  constructor(private router: Router,private service:ServicesDetailService, private fb:FormBuilder, private dialog:MatDialog, private toastr:ToastrService, private route:ActivatedRoute, @Inject(PLATFORM_ID) platformId: Object, private viewportScroller: ViewportScroller) {
 
     this.isBrowser = isPlatformBrowser(platformId);
 
@@ -62,6 +62,7 @@ export class ServicesDetailsComponent {
   }
 
   ngOnInit(){
+    this.viewportScroller.scrollToPosition([0, 0]); // Scroll to the top of the page
     this.getCurrentLocation()
     this.onRatingUpdated(this.currentRating)
     this.getServiceDetailById(this.serviceDetailId)

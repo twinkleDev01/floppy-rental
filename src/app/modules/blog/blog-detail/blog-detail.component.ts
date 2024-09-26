@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { noWhitespaceValidator } from '../../../shared/components/common/no-whitespace.validator';
 import { BlogReview } from '../_models/blog.model';
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-blog-detail',
@@ -25,8 +25,8 @@ export class BlogDetailComponent {
   blogReview:BlogReview[]=[];
   orignalCategories:any[]=[];
   isBrowser!: boolean;
-  constructor(private router: Router, private blogService:BlogService, private serviceDetail:ServicesDetailService,private fb:FormBuilder,private toastrService:ToastrService, private route:ActivatedRoute, @Inject(PLATFORM_ID) platformId: Object) {
-
+  constructor(private router: Router, private blogService:BlogService, private serviceDetail:ServicesDetailService,private fb:FormBuilder,private toastrService:ToastrService, private route:ActivatedRoute, @Inject(PLATFORM_ID) platformId: Object, private viewportScroller: ViewportScroller) {
+    this.viewportScroller.scrollToPosition([0, 0]); // Scroll to the top of the page
     this.isBrowser = isPlatformBrowser(platformId);
     // const navigation = this.router.getCurrentNavigation();
     // this.selectedBlog = navigation?.extras?.state?.['blog']; 
@@ -52,6 +52,7 @@ export class BlogDetailComponent {
   // ]
 
   ngOnInit(){
+    this.viewportScroller.scrollToPosition([0, 0]); // Scroll to the top of the page
     this.getBlogDetail();
     this.getCategoryList();
   }
