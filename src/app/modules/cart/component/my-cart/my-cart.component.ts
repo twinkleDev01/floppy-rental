@@ -1,4 +1,4 @@
-import { Component, Inject, PLATFORM_ID } from "@angular/core";
+import { Component, Inject, PLATFORM_ID, OnInit } from "@angular/core";
 import { CartService } from "../../services/cart.service";
 import { Router } from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
@@ -15,19 +15,19 @@ import { isPlatformBrowser } from "@angular/common";
   templateUrl: './my-cart.component.html',
   styleUrl: './my-cart.component.scss'
 })
-export class MyCartComponent {
+export class MyCartComponent implements OnInit {
   cartItems: any[] = []
   OfferAndCoupon: any
-  isUpdate: boolean = false
+  isUpdate = false
   userId: any;
-  noCouponAvailable:boolean = false
+  noCouponAvailable = false
   couponCode!:number;
   discountedPrice: number | null = null; 
-  initialAmountToCheckout: number = 0
+  initialAmountToCheckout = 0
   discountAmount: number | null = null;
   isBrowser!: boolean;
 
-  constructor(private cartService: CartService, private router:Router, private toastr: ToastrService, private sharedService:SharedService, private auth:AuthService, private dialog: MatDialog, private service:ServicesDetailService, @Inject(PLATFORM_ID) platformId: Object
+  constructor(private cartService: CartService, private router:Router, private toastr: ToastrService, private sharedService:SharedService, private auth:AuthService, private dialog: MatDialog, private service:ServicesDetailService, @Inject(PLATFORM_ID) platformId: object
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
     if(this.isBrowser){
@@ -228,7 +228,7 @@ this.updateCartItemsFromApi();
         this.cartItems.splice(index, 1);
   
         // Update local storage after removing the item
-        let localCart = JSON.parse(localStorage.getItem('myCartItem') || '[]');
+        const localCart = JSON.parse(localStorage.getItem('myCartItem') || '[]');
         console.log(localCart, "Local Cart Before Removal");
         const localIndex = localCart.find((localItem: any) => localItem.id === item.id);
         console.log(localIndex,item.itemId, "Local Index of Item to Remove");

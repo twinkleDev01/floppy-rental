@@ -77,7 +77,7 @@ export class CartService {
   private addCouponUrl = 'https://firstfloppy.asptask.in/api/Coupon/AddCoupon';
   isBrowser: boolean;
 
-  constructor(private http:HttpClient,private toastr:ToastrService, @Inject(PLATFORM_ID) platformId: Object) {
+  constructor(private http:HttpClient,private toastr:ToastrService, @Inject(PLATFORM_ID) platformId: object) {
     this.isBrowser = isPlatformBrowser(platformId);
     if(this.isBrowser){ 
     this.token = localStorage.getItem("token");

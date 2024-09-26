@@ -22,7 +22,7 @@ export class CheckoutComponent {
   states: any = [];
 
   checkout: FormGroup;
-  selectedPaymentOption: string = 'option5'; 
+  selectedPaymentOption = 'option5'; 
   sabTotalSaving:any
   AmountToCheckout:any
    sabTotal:any;
@@ -36,7 +36,7 @@ export class CheckoutComponent {
     private cartService:CartService,
     private toaster:ToastrService,
     private datePipe: DatePipe,
-    @Inject(PLATFORM_ID) platformId: Object
+    @Inject(PLATFORM_ID) platformId: object
   ){
     this.checkout = this.fb.group({
     firstName: ['',[Validators.required]],

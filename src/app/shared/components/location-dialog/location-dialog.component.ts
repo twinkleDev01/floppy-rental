@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, Inject, PLATFORM_ID, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Country, State } from 'country-state-city';
 import { SharedService } from '../../services/shared.service';
@@ -10,7 +10,7 @@ import { isPlatformBrowser } from '@angular/common';
   templateUrl: './location-dialog.component.html',
   styleUrls: ['./location-dialog.component.scss']
 })
-export class LocationDialogComponent implements AfterViewInit {
+export class LocationDialogComponent implements AfterViewInit, OnInit {
   // @ViewChild('googleMap', { static: false }) googleMapElement: any;
   @ViewChild('googleMap', { static: false })
   set googleMapElement(content: any) {
@@ -25,8 +25,8 @@ export class LocationDialogComponent implements AfterViewInit {
   building = '';
   apartment = '';
   address = '';
-  lat: number = 0;
-  lng: number = 0;
+  lat = 0;
+  lng = 0;
   selectedCountry:any;
   selectedCountryCode:any;
   userAddress:any
@@ -38,7 +38,7 @@ export class LocationDialogComponent implements AfterViewInit {
   map!: google.maps.Map;
   marker!: google.maps.Marker; // Use google.maps.Marker instead
 
-  constructor(public dialogRef: MatDialogRef<LocationDialogComponent>, private sharedService:SharedService, private toastr:ToastrService, @Inject(PLATFORM_ID) platformId: Object) {
+  constructor(public dialogRef: MatDialogRef<LocationDialogComponent>, private sharedService:SharedService, private toastr:ToastrService, @Inject(PLATFORM_ID) platformId: object) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 

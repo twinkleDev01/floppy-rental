@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ServicesDetailService } from '../../service/services-detail.service';
 import { environment } from '../../../../../environments/environment.development';
@@ -9,7 +9,7 @@ import { ViewportScroller } from '@angular/common';
   templateUrl: './services.component.html',
   styleUrl: './services.component.scss'
 })
-export class ServicesComponent {
+export class ServicesComponent implements OnInit {
   serviceDataList:any[]=[];
   originalList:any[]=[];
   apiUrl: string = environment.ApiBaseUrl;

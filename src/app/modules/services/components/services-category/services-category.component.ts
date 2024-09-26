@@ -1,4 +1,4 @@
-import { Component, Directive, ElementRef, EventEmitter, Inject, inject, Input, Output, PLATFORM_ID, ViewChild } from '@angular/core';
+import { Component, Directive, ElementRef, EventEmitter, Inject, inject, Input, Output, PLATFORM_ID, ViewChild, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,13 +15,13 @@ import { isPlatformBrowser, ViewportScroller } from '@angular/common';
   templateUrl: './services-category.component.html',
   styleUrl: './services-category.component.scss'
 })
-export class ServicesCategoryComponent {
+export class ServicesCategoryComponent implements OnInit {
   apiUrl: string = environment.ApiBaseUrl;
   searchControl: FormControl = new FormControl('');
   servicesDetails:any[]=[];
   private readonly _formBuilder = inject(FormBuilder);
   currentRating:any;
-  showFilter: boolean = false;
+  showFilter = false;
   selectedCategory:any;
   selectedServiceCategory!:number
   selectedServiceCategoryId:any;
@@ -41,12 +41,12 @@ export class ServicesCategoryComponent {
   longitude:any = 0;
   location:any;
   subCategory:any;
-  startIndex:number=0
-  totalItems: number = 0; // Total number of items for paginator
+  startIndex=0
+  totalItems = 0; // Total number of items for paginator
   couponList:any;
   locations: any[] = [];
-  selectedCity: string = '';
-  selectedArea: string = '';
+  selectedCity = '';
+  selectedArea = '';
   filteredSubgroups: string[] = [];
   allSubgroups: string[] = [];
   originalList:any[]=[];
@@ -54,7 +54,7 @@ export class ServicesCategoryComponent {
   subCategoryName:any;
   CategoryId:any
   predictions: any[] = [];
-  searchInput: string = '';
+  searchInput = '';
   placeDetails: any; 
   placesService!: google.maps.places.PlacesService;
   autocompleteService: any;
@@ -74,7 +74,7 @@ export class ServicesCategoryComponent {
   isBrowser!: boolean;
   paginator$ = new BehaviorSubject<{pageIndex:number,pageSize:number}|null>({pageIndex:0,pageSize:12})
 
-  constructor(private fb: FormBuilder, private router: Router, private service:ServicesDetailService, private homeService:HomeService, private sharedService:SharedService, private route:ActivatedRoute, @Inject(PLATFORM_ID) platformId: Object, private viewportScroller: ViewportScroller) {
+  constructor(private fb: FormBuilder, private router: Router, private service:ServicesDetailService, private homeService:HomeService, private sharedService:SharedService, private route:ActivatedRoute, @Inject(PLATFORM_ID) platformId: object, private viewportScroller: ViewportScroller) {
     this.isBrowser = isPlatformBrowser(platformId);
     if(this.isBrowser){
     this.placesService = new google.maps.places.PlacesService(document.createElement('div'));
@@ -592,7 +592,7 @@ offerListData:any
 getBannerData(){
   this.homeService.getHomeDetails().subscribe((res: any) => {
     // Treat res.data as an object with dynamic keys
-    this.offerData = res.data as { [key: string]: any };
+    this.offerData = res.data as Record<string, any>;
   
   console.log(this.offerData,"592")
     // Accessing the Bottom section and sorting

@@ -85,8 +85,8 @@ export class ServicesDetailService {
     subCategoriesId: number, 
     latitude: number, 
     longitude: number, 
-    startIndex: number = 0, 
-    pageSize: number = 0
+    startIndex = 0, 
+    pageSize = 0
   ): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

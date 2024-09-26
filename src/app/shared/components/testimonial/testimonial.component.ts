@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, PLATFORM_ID, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, PLATFORM_ID, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { SharedService } from '../../services/shared.service';
 import { isPlatformBrowser } from '@angular/common';
@@ -8,13 +8,13 @@ import { isPlatformBrowser } from '@angular/common';
   templateUrl: './testimonial.component.html',
   styleUrl: './testimonial.component.scss'
 })
-export class TestimonialComponent {
+export class TestimonialComponent implements OnInit, AfterViewInit {
   testimonials:any;
   @ViewChild('textContent') textContent!: ElementRef;
   isTruncated = false;
-  isExpanded: { [key: number]: boolean } = {};
+  isExpanded: Record<number, boolean> = {};
   isBrowser!: boolean;
-constructor(private sharedService:SharedService, @Inject(PLATFORM_ID) platformId: Object){
+constructor(private sharedService:SharedService, @Inject(PLATFORM_ID) platformId: object){
   this.isBrowser = isPlatformBrowser(platformId);
 }
 

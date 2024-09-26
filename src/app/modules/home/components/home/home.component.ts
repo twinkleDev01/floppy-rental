@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, PLATFORM_ID, ViewChild, AfterViewInit } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { HomeService } from '../../services/home.service';
 import { environment } from '../../../../../environments/environment.development';
@@ -16,7 +16,7 @@ import { isPlatformBrowser } from '@angular/common';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
   searchControl: FormControl = new FormControl('');
   navigatedMainGroupId:any;
   navigatedSubGroupId:any;
@@ -24,9 +24,9 @@ export class HomeComponent implements OnInit {
   locations: any[] = [];
   filteredSubgroups: string[] = [];
   allSubgroups: string[] = [];
-  selectedCity: string = '';
-  selectedArea: string = '';
-  selectedSubGroupName: string = '';
+  selectedCity = '';
+  selectedArea = '';
+  selectedSubGroupName = '';
   homeBannerData: any;
 sortedTopData:any[]=[];
 sortedMiddleData:any[]=[];
@@ -130,12 +130,12 @@ thirdCategory!:SubCategories
   showError = false;
   autocompleteService: any;
   predictions: any[] = [];
-  searchInput: string = '';
+  searchInput = '';
   placeDetails: any; // For storing selected place details
-  filteredSubgroupsName: Observable<any[]> = new Observable();
+  filteredSubgroupsName = new Observable<any[]>();
   placesService!: google.maps.places.PlacesService;
   isBrowser!: boolean;
-  constructor(private homeService: HomeService, public dialog: MatDialog, private service:ServicesDetailService,private scrollService:ScrollService, private router:Router, @Inject(PLATFORM_ID) platformId: Object){
+  constructor(private homeService: HomeService, public dialog: MatDialog, private service:ServicesDetailService,private scrollService:ScrollService, private router:Router, @Inject(PLATFORM_ID) platformId: object){
     // this.initializeLocations();
     this.isBrowser = isPlatformBrowser(platformId);
     if(this.isBrowser){
@@ -190,7 +190,7 @@ thirdCategory!:SubCategories
     getBannerData(){
       this.homeService.getHomeDetails().subscribe((res: any) => {
         // Treat res.data as an object with dynamic keys
-        this.homeBannerData = res.data as { [key: string]: any };
+        this.homeBannerData = res.data as Record<string, any>;
       
         // Accessing the Top section and sorting
         const topData = this.homeBannerData['Top'];

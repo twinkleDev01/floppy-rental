@@ -59,7 +59,7 @@
                             <span class="fs-6 fw-bold">Phone Number</span>
                             <div class="w-100 mt-2 position-relative d-flex justify-content-center align-items-center bg-dark rounded-pill bg-opacity-10 shadow-sm">
                               <div class="image-field" *ngIf="profileForm.get('selectedCountry')?.value?.flag">
-                                <img [src]="profileForm.get('selectedCountry')?.value.flag" width="20" class="me-2" />
+                                <img [src]="profileForm.get('selectedCountry')?.value.flag" width="20" class="me-2" alt="flag" />
                               </div>
                               <mat-select formControlName="selectedCountry"  (selectionChange)="onCountryChange($event)" #country panelWidth="250px" style="
                                     width: 80px;

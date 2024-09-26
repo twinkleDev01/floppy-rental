@@ -9,7 +9,7 @@ export class LocationService {
     latitude: 0, longitude: 0
   }
   isBrowser!: boolean;
-  constructor(@Inject(PLATFORM_ID) platformId: Object) {
+  constructor(@Inject(PLATFORM_ID) platformId: object) {
     this.isBrowser = isPlatformBrowser(platformId);
 
 if(this.isBrowser){

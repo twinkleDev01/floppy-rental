@@ -21,7 +21,7 @@ import { isPlatformBrowser } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
-  passwordType: string = 'password';
+  passwordType = 'password';
   loginForm: FormGroup;
   keyChar: any;
   stage : 'login'|'signup'|'reset'='login'
@@ -34,7 +34,7 @@ export class LoginComponent {
     private auth: AuthService,
     private toastr: ToastrService,
     private service: ServicesDetailService,
-    @Inject(PLATFORM_ID) platformId: Object
+    @Inject(PLATFORM_ID) platformId: object
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
 

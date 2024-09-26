@@ -17,7 +17,7 @@ export class AuthService {
   private isLoggedInSubject;
 
   isLoggedIn$;
-  constructor(private http: HttpClient, @Inject(PLATFORM_ID) platformId: Object) { 
+  constructor(private http: HttpClient, @Inject(PLATFORM_ID) platformId: object) { 
     this.isBrowser = isPlatformBrowser(platformId);
     if(this.isBrowser){
       this.isLoggedInSubject = new BehaviorSubject<boolean>(!!localStorage.getItem('token'));

@@ -1,4 +1,4 @@
-import { Component, Inject, Input, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, PLATFORM_ID, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BlogService } from '../service/blog.service';
 import { ServicesDetailService } from '../../services/service/services-detail.service';
@@ -13,7 +13,7 @@ import { isPlatformBrowser, ViewportScroller } from '@angular/common';
   templateUrl: './blog-detail.component.html',
   styleUrl: './blog-detail.component.scss'
 })
-export class BlogDetailComponent {
+export class BlogDetailComponent implements OnInit {
   number=4
   selectedBlog: any;
   Categories:any;
@@ -21,11 +21,11 @@ export class BlogDetailComponent {
   comment:any;
   commentForm!:FormGroup;
   maxCommentLength = 50;
-  selectedCategory: string = '';
+  selectedCategory = '';
   blogReview:BlogReview[]=[];
   orignalCategories:any[]=[];
   isBrowser!: boolean;
-  constructor(private router: Router, private blogService:BlogService, private serviceDetail:ServicesDetailService,private fb:FormBuilder,private toastrService:ToastrService, private route:ActivatedRoute, @Inject(PLATFORM_ID) platformId: Object, private viewportScroller: ViewportScroller) {
+  constructor(private router: Router, private blogService:BlogService, private serviceDetail:ServicesDetailService,private fb:FormBuilder,private toastrService:ToastrService, private route:ActivatedRoute, @Inject(PLATFORM_ID) platformId: object, private viewportScroller: ViewportScroller) {
     this.viewportScroller.scrollToPosition([0, 0]); // Scroll to the top of the page
     this.isBrowser = isPlatformBrowser(platformId);
     // const navigation = this.router.getCurrentNavigation();

@@ -137,7 +137,7 @@ import {
         if (
           this.vr.element.nativeElement.childNodes[0].childNodes[0].childNodes[2]
         ) {
-          let nodeArray =
+          const nodeArray =
             this.vr.element.nativeElement.childNodes[0].childNodes[0]
               .childNodes[2].childNodes;
           setTimeout(() => {

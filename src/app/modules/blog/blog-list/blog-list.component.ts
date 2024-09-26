@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BlogService } from '../service/blog.service';
 import { Blog } from '../_models/blog.model';
@@ -10,17 +10,17 @@ import { PageEvent } from '@angular/material/paginator';
   templateUrl: './blog-list.component.html',
   styleUrl: './blog-list.component.scss'
 })
-export class BlogListComponent {
+export class BlogListComponent implements OnInit {
   @Output() blogData = new EventEmitter();
   @Input()
   BlogNumber!: number;
   blog:Blog[]=[];
-  blogLimit: number = 10
-  startIndex:number=0;
+  blogLimit = 10
+  startIndex=0;
   blogLength:any
-  selectedCategory: string = '';
+  selectedCategory = '';
   originalBlogList:any
-  @Input() showPaginator: boolean = true;
+  @Input() showPaginator = true;
   @HostBinding('class.small-parent') isSmallParent = false;
 
   @HostListener('window:resize', ['$event'])
@@ -32,7 +32,7 @@ export class BlogListComponent {
   @Input() pageSizeOptions: number[] = [5, 10, 25, 100];
   @Input() showPageSizeField = true;
   paginator$ = new BehaviorSubject<{pageIndex:number,pageSize:number}|null>({pageIndex:0,pageSize:10})
-  onResize(event: Event) {
+  onResize() {
     this.checkParentSize();
   }
 

@@ -7,7 +7,7 @@ import { EventEmitter, Inject, Injectable, PLATFORM_ID } from '@angular/core';
 export class ScrollService {
   public contentVisible = new EventEmitter<void>();
   isBrowser!: boolean;
-  constructor(@Inject(PLATFORM_ID) platformId: Object) {
+  constructor(@Inject(PLATFORM_ID) platformId: object) {
     this.isBrowser = isPlatformBrowser(platformId);
     if(this.isBrowser){
     window.addEventListener('scroll', this.onScroll.bind(this));

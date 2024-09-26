@@ -1,4 +1,4 @@
-@if(stage == 'login') {
+@if(stage === 'login') {
 <div class="container loginContainer d-flex">
   <div class="dataContainer custom-container">
     <div class="iconCancel pt-1"><mat-icon (click)="closeDialog()">cancel</mat-icon></div>
@@ -129,9 +129,9 @@
   </div>
 </div>
 }
-@else if(stage == 'reset') {
+@else if(stage === 'reset') {
 <app-reset-password (handleNavigation)="stage = $event"></app-reset-password>
 }
-@else if(stage == 'signup') {
+@else if(stage === 'signup') {
 <app-signup (handleNavigationSignup)="stage = $event"></app-signup>
 }

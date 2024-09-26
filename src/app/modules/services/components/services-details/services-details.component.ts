@@ -1,4 +1,4 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, PLATFORM_ID, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { ServicesDetailService } from '../../service/services-detail.service';
@@ -15,7 +15,7 @@ import { isPlatformBrowser, ViewportScroller } from '@angular/common';
   templateUrl: './services-details.component.html',
   styleUrl: './services-details.component.scss'
 })
-export class ServicesDetailsComponent {
+export class ServicesDetailsComponent implements OnInit {
   apiUrl: string = environment.ApiBaseUrl;
   currentRating = 0;
   selectedCard: any;
@@ -26,15 +26,15 @@ export class ServicesDetailsComponent {
   vendorDetail:any;
   subgroupid:any;
   maingroupid:any;
-  latitude:number = 0;
-  longitude:number = 0;
+  latitude = 0;
+  longitude = 0;
   reviews: Review[] = [];
   reviewForm:any =FormGroup;
-  startIndex:number=0;
-  pageSize:number=0;
+  startIndex=0;
+  pageSize=0;
   isBrowser!: boolean;
 
-  constructor(private router: Router,private service:ServicesDetailService, private fb:FormBuilder, private dialog:MatDialog, private toastr:ToastrService, private route:ActivatedRoute, @Inject(PLATFORM_ID) platformId: Object, private viewportScroller: ViewportScroller) {
+  constructor(private router: Router,private service:ServicesDetailService, private fb:FormBuilder, private dialog:MatDialog, private toastr:ToastrService, private route:ActivatedRoute, @Inject(PLATFORM_ID) platformId: object, private viewportScroller: ViewportScroller) {
 
     this.isBrowser = isPlatformBrowser(platformId);
 
@@ -175,7 +175,7 @@ addToCart(serviceDetail:any){
     this.toastr.success(res.message)
 
  // For guest users, manage cart in localStorage
- let localCart = localStorage.getItem('myCartItem')
+ const localCart = localStorage.getItem('myCartItem')
  ? JSON.parse(localStorage.getItem('myCartItem')!)
  : [];
 

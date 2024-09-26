@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, EventEmitter, Inject, inject, Output, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Inject, inject, Output, PLATFORM_ID, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
@@ -13,10 +13,10 @@ import { isPlatformBrowser } from '@angular/common';
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss'
 })
-export class SignupComponent {
+export class SignupComponent implements OnInit {
   // @Output() handleNavigationSignup = new EventEmitter<'login'>()
   @Output() handleNavigationSignup = new EventEmitter()
-  passwordType: string = 'password';
+  passwordType = 'password';
   selectedCountry!: string ; 
   // countries: any;
   selectedCountryFlag: any;
@@ -34,7 +34,7 @@ export class SignupComponent {
     private auth:AuthService,
     private router:Router,
     private toaster:ToastrService,
-    @Inject(PLATFORM_ID) platformId: Object
+    @Inject(PLATFORM_ID) platformId: object
   ) {
 
     this.isBrowser = isPlatformBrowser(platformId);
