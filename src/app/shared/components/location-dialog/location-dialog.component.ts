@@ -1,19 +1,20 @@
-import { Component, ViewChild, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, ViewChild,Inject, PLATFORM_ID, ElementRef } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Country, State } from 'country-state-city';
 import { SharedService } from '../../services/shared.service';
 import { ToastrService } from 'ngx-toastr';
 import { isPlatformBrowser } from '@angular/common';
+import { AddressesResponse, AddressObj, AddressResponse } from '../../services/_model/shared.model';
 
 @Component({
   selector: 'app-location-dialog',
   templateUrl: './location-dialog.component.html',
   styleUrls: ['./location-dialog.component.scss']
 })
-export class LocationDialogComponent implements AfterViewInit {
+export class LocationDialogComponent {
   // @ViewChild('googleMap', { static: false }) googleMapElement: any;
   @ViewChild('googleMap', { static: false })
-  set googleMapElement(content: any) {
+  set googleMapElement(content: ElementRef) {
     if (content  && this.showAddLocationForm) {
       this.initMap(content);
     }
@@ -25,11 +26,11 @@ export class LocationDialogComponent implements AfterViewInit {
   building = '';
   apartment = '';
   address = '';
-  lat: number = 0;
-  lng: number = 0;
-  selectedCountry:any;
-  selectedCountryCode:any;
-  userAddress:any
+  lat = 0;
+  lng = 0;
+  selectedCountry!:string;
+  selectedCountryCode!:string;
+  userAddress:AddressObj[] = [];
   isBrowser!: boolean;
   mapOptions: google.maps.MapOptions = {
     center: { lat: -1.286389, lng: 36.817223 }, // Default location
@@ -38,12 +39,8 @@ export class LocationDialogComponent implements AfterViewInit {
   map!: google.maps.Map;
   marker!: google.maps.Marker; // Use google.maps.Marker instead
 
-  constructor(public dialogRef: MatDialogRef<LocationDialogComponent>, private sharedService:SharedService, private toastr:ToastrService, @Inject(PLATFORM_ID) platformId: Object) {
+  constructor(public dialogRef: MatDialogRef<LocationDialogComponent>, private sharedService:SharedService, private toastr:ToastrService, @Inject(PLATFORM_ID) platformId: object) {
     this.isBrowser = isPlatformBrowser(platformId);
-  }
-
-  ngAfterViewInit(): void {
-    // this.initMap();
   }
 
   ngOnInit(): void {
@@ -58,12 +55,12 @@ export class LocationDialogComponent implements AfterViewInit {
       this.selectedCountryCode = selectedCountry.isoCode;
       console.log('Selected Country Code:', this.selectedCountryCode); // Check the value
     } else {
-      this.selectedCountryCode = undefined;
+      this.selectedCountryCode = "";
     }
   }
   
 
-  initMap(content:any): void {
+  initMap(content:ElementRef): void {
     if (!content || !content.nativeElement) {
       console.error('Google Map element is not available.');
       return;
@@ -148,7 +145,7 @@ export class LocationDialogComponent implements AfterViewInit {
       stateCode:this.selectedStateCode,
       countryCode:this.selectedCountryCode
     };
-this.sharedService.saveAddress(addressPayload).subscribe((response:any)=>{
+this.sharedService.saveAddress(addressPayload).subscribe((response:AddressResponse)=>{
   console.log(response,"143")
   if(response){
     this.toastr.success(response.message)
@@ -222,9 +219,9 @@ this.sharedService.saveAddress(addressPayload).subscribe((response:any)=>{
     );
   }
   
-  selectedState:any;
-  selectedStateCode:any;
-  zipCode:any
+  selectedState!:string;
+  selectedStateCode!:string;
+  zipCode!:string
   parseAddressComponents(components: google.maps.GeocoderAddressComponent[]): void {
     components.forEach((component) => {
       const types = component.types;
@@ -280,7 +277,7 @@ this.sharedService.saveAddress(addressPayload).subscribe((response:any)=>{
       const parsedUserId = parseInt(userId, 10); // Convert userId to a number
   
       this.sharedService.getAddressesByUser(parsedUserId).subscribe(
-        (response: any) => {
+        (response: AddressesResponse) => {
           this.userAddress = response.data
           console.log(response, "Addresses for user");
         },
@@ -294,7 +291,8 @@ this.sharedService.saveAddress(addressPayload).subscribe((response:any)=>{
   }
   }
   
-  selectLocation(address: any) {
+  selectLocation(address: AddressObj) {
+    console.log("298", address)
     this.dialogRef.close(address); // Close dialog and return selected address
   }
 }

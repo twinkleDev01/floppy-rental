@@ -10,9 +10,11 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
 import { ServicesDetailService } from '../../../services/service/services-detail.service';
 import { isPlatformBrowser } from '@angular/common';
+import { LoginPayload, LoginResponse } from '../../_model/login.model';
+import { HttpErrorResponse } from '@angular/common/http';
+import { AddCartItemResponse, CartItemPayload } from '../../../services/components/_models/serivece.model';
 
 @Component({
   selector: 'app-login',
@@ -21,9 +23,8 @@ import { isPlatformBrowser } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
-  passwordType: string = 'password';
+  passwordType = 'password';
   loginForm: FormGroup;
-  keyChar: any;
   stage : 'login'|'signup'|'reset'='login'
   submitted = false;
   readonly dialogRef = inject(MatDialogRef<LoginComponent>);
@@ -34,7 +35,7 @@ export class LoginComponent {
     private auth: AuthService,
     private toastr: ToastrService,
     private service: ServicesDetailService,
-    @Inject(PLATFORM_ID) platformId: Object
+    @Inject(PLATFORM_ID) platformId: object
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
 
@@ -46,6 +47,7 @@ export class LoginComponent {
         [
           Validators.required,
           Validators.pattern(
+            // eslint-disable-next-line no-useless-escape
             /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
           ),
         ],
@@ -61,35 +63,6 @@ export class LoginComponent {
     console.log(this.passwordType);
   }
 
-  noSpace(event: any) {
-    // if (event.keyCode === 32 && !event.target.value) return false;
-    if (event.key === ' ' && !event.ctrlKey && !event.metaKey) {
-      event.preventDefault();
-      return false;
-    }
-    return true;
-  }
-
-  // handleValidation() {
-  //   const input = this.loginForm.get('emailOrPhone');
-  //   input?.setValidators([Validators.required]);
-  //   // input?.clearValidators();
-  //   if (isNaN(+input?.value)) {
-  //     input?.addValidators(
-  //       Validators.pattern(
-  //         /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
-  //       )
-  //     );
-  //   } else {
-  //     input?.addValidators([
-  //       Validators.pattern('[0-9]*'),
-  //       Validators.minLength(10),
-  //       Validators.maxLength(10),
-  //     ]);
-  //   }
-  // }
-
-
   handleValidation() {
     const input = this.loginForm.get('emailOrPhone');
     if (!input) return; // Check if input exists
@@ -102,6 +75,7 @@ export class LoginComponent {
       input.setValidators([
         Validators.required,
         Validators.pattern(
+          // eslint-disable-next-line no-useless-escape
           /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\\.,;:\s@\"]+\.)+[^<>()[\]\\.,;:\s@\"]{2,})$/ // Email pattern
         ),
       ]);
@@ -134,18 +108,20 @@ const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailOrPhone);
 
 
       // Prepare the data object
-  const logInValue = {
+  const logInValue:LoginPayload = {
     email: isEmail ? emailOrPhone : null,
     password: password,
     mobileNumber: isEmail ? null : '+91' + emailOrPhone
   };
       console.log('Form Submitted!', this.loginForm.value);
-this.auth.logIn(logInValue).subscribe((response:any)=>{
+this.auth.logIn(logInValue).subscribe((response:LoginResponse)=>{
   console.log(response,"88")
   if(response.success){
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const cartItems = JSON.parse(localStorage.getItem('myCartItem')!)?.filter((item:any)=>!item?.cartUpdated);
  
-    const payload = cartItems?.map((item:any) => ({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const payload: CartItemPayload[]= cartItems?.map((item:any) => ({
       itemId: item.itemid || 0,
       id: item.itemid,
       itemName: item.itemName || item.specication || 'Unknown Item',
@@ -164,7 +140,7 @@ this.auth.logIn(logInValue).subscribe((response:any)=>{
     console.log("163")
 
     // Assuming `addCartItem` accepts an array
-    this.service.addCartItem(payload).subscribe((res: any) => {
+    this.service.addCartItem(payload).subscribe((res: AddCartItemResponse) => {
       console.log(res, "149");
     });
     localStorage.setItem("token",response.data.token)
@@ -174,7 +150,7 @@ this.auth.logIn(logInValue).subscribe((response:any)=>{
     this.dialogRef.close();
   }
 },
- (error: any) => {
+ (error: HttpErrorResponse) => {
   console.error('Login error', error);
   this.toastr.error(error.error.message);
 }
@@ -190,6 +166,7 @@ this.auth.logIn(logInValue).subscribe((response:any)=>{
     console.log("206", storageKey)
     const items = JSON.parse(localStorage[storageKey] || '[]');
     localStorage[storageKey] = JSON.stringify(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         items.map((d:any)=> ({...d, cartUpdated: true}))
     )
   }
