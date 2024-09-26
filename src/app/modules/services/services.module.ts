@@ -11,8 +11,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTabsModule} from '@angular/material/tabs';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import {MatPaginatorModule} from '@angular/material/paginator';
@@ -37,8 +35,6 @@ import { MatInputModule } from '@angular/material/input';
     ReactiveFormsModule,
     MatButtonModule,
     MatIconModule,
-    MatSnackBarModule,
-    MatTooltipModule,
     MatTabsModule,
     CarouselModule,
     MatPaginatorModule,
