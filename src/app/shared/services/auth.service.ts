@@ -1,8 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import { isPlatformBrowser } from '@angular/common';
+import { LoginPayload, LoginResponse, RegisterPayload, RegistrationResponse } from '../../modules/login/_model/login.model';
 
 @Injectable({
   providedIn: 'root'
@@ -26,12 +27,12 @@ export class AuthService {
   }
 
     // Method to register a new user
-    register(userData: any): Observable<any> {
-      return this.http.post<any>(this.registerUrl, userData);
+    register(userData: RegisterPayload): Observable<RegistrationResponse> {
+      return this.http.post<RegistrationResponse>(this.registerUrl, userData);
     }
 
-    logIn(userData: any): Observable<any> {
-      return this.http.post<any>(this.loginUrl, userData);
+    logIn(userData: LoginPayload): Observable<LoginResponse> {
+      return this.http.post<LoginResponse>(this.loginUrl, userData);
     }
 
    logout(userId: string): Observable<any> {

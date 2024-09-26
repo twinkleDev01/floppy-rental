@@ -26,7 +26,6 @@ export class MyBookingComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       // const paymentStatus = params['paymentStatus'];
       const orderId = params['orderId'];
-      console.log(orderId)
     })
   }
 
@@ -64,17 +63,11 @@ openDateTimePicker(booking:any): void {
   });
   dialogRef.afterClosed().subscribe(result => {
     if (result) {
-     console.log(result,"97");
      this.updateOrder(data, result.date, result.time)
     }
   });
 }
 
-  // deleteBooking(booking: Booking): void {
-  //   // Logic for deleting the booking
-  //   this.bookings = this.bookings.filter((b:any) => b !== booking);
-  //   console.log('Deleted booking:', booking);
-  // }
 
   calculateTotal(booking: any): number {
     if (!booking.items || booking.items.length === 0) {
@@ -118,7 +111,6 @@ openDateTimePicker(booking:any): void {
   }
 
   goToDetail(card: any) {
-    console.log(card,"139")
     const itemNameDetail = card?.subCategoryName
       ?.trim()
       ?.replace(/\s+/g, '-')
@@ -131,11 +123,9 @@ openDateTimePicker(booking:any): void {
   
   // Method to call delete service
   deleteBooking(item: any) {
-console.log(item,"161")
     this.profileService.deleteOrder(item.leadEntryId).subscribe({
       next: () => {
         this.getUserBooking()
-        console.log('Order deleted successfully');
         // Handle success (e.g., update UI or notify the user)
       },
       error: (err) => {

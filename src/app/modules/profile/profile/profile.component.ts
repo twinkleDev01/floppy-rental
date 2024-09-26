@@ -83,7 +83,6 @@ export class ProfileComponent implements OnInit {
   
   onCountryChange(event: MatSelectChange): void {
     const selectedCountry = event.value;
-    console.log(selectedCountry, "selectedCountry");
     
     if (selectedCountry) {
       this.selectedCountry = selectedCountry;
@@ -91,9 +90,7 @@ export class ProfileComponent implements OnInit {
       this.profileForm.get("selectedCountry")?.setValue(selectedCountry);
       this.profileForm.get("selectedCountry")?.updateValueAndValidity();
       this.states = State.getStatesOfCountry(selectedCountry.iso2);
-      console.log(this.states, "states");
       this.cities = City.getCitiesOfState(this.selectedCountry.iso2, this.states?.[0].isoCode);
-      console.log(this.cities,"cities");
       if(this.states?.length){
         this.profileForm?.get("state")?.setValue(this.states?.[0]?.isoCode);
       }
@@ -114,18 +111,14 @@ export class ProfileComponent implements OnInit {
   
     // Find the selected state object based on isoCode
     this.selectedState = this.states.find((state:any) => state.isoCode === selectedIsoCode);
-  console.log(this.selectedState,"100")
     if (this.selectedState) {
       // Set the state name in the form control
       this.profileForm.get('state')?.setValue(this.selectedState.isoCode);
       // Fetch cities based on the selected state
-      console.log(this.selectedState, this.profileForm.get('selectedCountry')?.value)
       this.selectedCountry = this.profileForm.get('selectedCountry')?.value
       if (this.selectedCountry && this.selectedState) {
         this.cities = City.getCitiesOfState(this.selectedCountry.iso2, this.selectedState.isoCode);
       }
-    } else {
-      console.warn('State not found for ISO code:', selectedIsoCode);
     }
   }
   
@@ -135,7 +128,6 @@ export class ProfileComponent implements OnInit {
     const target = event.target as HTMLSelectElement;
     const selectedCity = JSON.parse(target.value);
     this.selectedCity = selectedCity;
-    console.log(this.selectedCity, "selectedCity")
     this.profileForm.get('city')?.setValue(selectedCity.name);
   }
 
@@ -175,10 +167,8 @@ export class ProfileComponent implements OnInit {
       this.profileService.updateUserProfile(payload).subscribe(
         (response:any) => {
           this.toastr.success(response.message)
-          console.log('Profile updated successfully', response);
         },
         error => {
-          console.error('Error updating profile', error);
           this.toastr.error('Failed to update profile');
         }
       );
@@ -204,7 +194,6 @@ export class ProfileComponent implements OnInit {
           }
         },
         (error: any) => {
-          console.error('Logout error', error);
           this.toastr.error('An error occurred. Please try again later.');
         }
       );
@@ -216,7 +205,6 @@ export class ProfileComponent implements OnInit {
     return new Promise<void>((resolve, reject) => {
       this.getCountries().subscribe(
         (data) => {
-          console.log(data,214)
           this.countries = data.map((country: any) => ({
             name: country.name.common,
             code: country.idd.root + (country.idd.suffixes ? country.idd.suffixes[0] : ''),
@@ -229,7 +217,6 @@ export class ProfileComponent implements OnInit {
           
         },
         (error) => {
-          console.error('Error fetching countries:', error);
           reject(error);
         }
       );
@@ -244,13 +231,10 @@ export class ProfileComponent implements OnInit {
         (response: any) => {
           if (response.success) {
             const fullMobileNumber = response.data.mobileNo;
-            console.log('Full Mobile Number:', fullMobileNumber);
-            console.log('Available Countries:', this.countries);
 
             const countryCodeObj = this.countries.find((c:Country) => fullMobileNumber.startsWith(c.code));
             const countryCode = countryCodeObj?.code || '';
 
-            console.log('Country Code:', countryCode, countryCodeObj);
 
             if (countryCode) {
               this.states = State.getStatesOfCountry(countryCodeObj?.iso2);
@@ -259,7 +243,6 @@ export class ProfileComponent implements OnInit {
 
             const escapedCountryCode = countryCode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             const phone = fullMobileNumber.replace(new RegExp(`^${escapedCountryCode}`), '').trim();
-            console.log('Contact Number:', phone);
 const patchedState = this.states?.find((state:any)=> state?.name === response?.data?.state)?.isoCode;
 
 this.cities = City.getCitiesOfState(countryCodeObj?.iso2 || '', patchedState);
@@ -275,13 +258,11 @@ const patchedCity = this.cities?.find((city:any)=> city?.name === response?.data
               address: response.data.address || '',
               profilePicture: response.data.image
             });
-            console.log(this.profileForm.get('selectedCountry')?.value);
           } else {
             this.toastr.error('Failed to load profile details');
           }
         },
         (error) => {
-          console.error('Error fetching profile details:', error);
           this.toastr.error('Failed to load profile details');
         }
       );
@@ -298,7 +279,6 @@ const patchedCity = this.cities?.find((city:any)=> city?.name === response?.data
   
       // Check if the selected file is an image
       if (!file.type.startsWith('image/')) {
-        console.error('Selected file is not an image.');
         this.toastr.error('Selected file is not an image.');
         return;
       }
@@ -306,7 +286,6 @@ const patchedCity = this.cities?.find((city:any)=> city?.name === response?.data
       // Check file size
       const maxSize = 2 * 1024 * 1024; // 2MB
       if (file.size > maxSize) {
-        console.error('Selected file is too large.');
         this.toastr.error('Selected file is too large.');
         return;
       }
@@ -315,7 +294,6 @@ const patchedCity = this.cities?.find((city:any)=> city?.name === response?.data
       reader.onload = (e: ProgressEvent<FileReader>) => {
         // Set the profile picture in the form
         this.profileForm.get('profilePicture')?.setValue(e.target?.result); // Optional chaining
-        console.log('File data URL:', e.target?.result);
       };
       
       reader.onerror = (error) => {

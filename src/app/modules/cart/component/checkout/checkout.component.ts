@@ -6,7 +6,7 @@ import { DatePickerDialogComponent } from '../../../../shared/components/date-pi
 import { LocationDialogComponent } from '../../../../shared/components/location-dialog/location-dialog.component';
 import { CartService } from '../../services/cart.service';
 import { ToastrService } from 'ngx-toastr';
-import { DatePipe } from '@angular/common';
+import { DatePipe, isPlatformBrowser } from '@angular/common';
 import axios from 'axios';
 import {load} from '@cashfreepayments/cashfree-js';
 import { City, Country, State } from 'country-state-city';
@@ -38,6 +38,7 @@ export class CheckoutComponent {
     private datePipe: DatePipe,
     @Inject(PLATFORM_ID) platformId: object
   ){
+    this.isBrowser = isPlatformBrowser(platformId);
     this.checkout = this.fb.group({
     firstName: ['',[Validators.required]],
     lastName : [''],
@@ -79,16 +80,31 @@ export class CheckoutComponent {
   // const productIdFromState = navigation?.extras?.state?.['productId'];
   // this.checkout.get('productId')?.setValue(productIdFromState);
   // console.log(this.sabTotal,this.sabTotalSaving,this.AmountToCheckout);
-  if(this.isBrowser){
-  const myCartData = localStorage.getItem('myCartData');
-  if (myCartData) {
-    const data = JSON.parse(myCartData);
-    this.sabTotal = data.sabTotal;
-    this.sabTotalSaving = data.sabTotalSaving;
-    this.AmountToCheckout = data.AmountToCheckout;
-    this.checkout.get('productId')?.setValue(data.productId);
-  }
+//   if(this.isBrowser){
+//   const myCartData = localStorage.getItem('myCartData');
+//   console.log(myCartData,"84", localStorage.getItem('myCartData'))
+//   if (myCartData) {
+//     const data = JSON.parse(myCartData);
+//     this.sabTotal = data.sabTotal;
+//     this.sabTotalSaving = data.sabTotalSaving;
+//     this.AmountToCheckout = data.AmountToCheckout;
+//     this.checkout.get('productId')?.setValue(data.productId);
+//   }
+// }
 }
+
+ngOnInit(){
+  if(this.isBrowser){
+    const myCartData = localStorage.getItem('myCartData');
+    console.log(myCartData,"84", localStorage.getItem('myCartData'))
+    if (myCartData) {
+      const data = JSON.parse(myCartData);
+      this.sabTotal = data.sabTotal;
+      this.sabTotalSaving = data.sabTotalSaving;
+      this.AmountToCheckout = data.AmountToCheckout;
+      this.checkout.get('productId')?.setValue(data.productId);
+    }
+  }
 }
 
 

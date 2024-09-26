@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
+import { AddCartItemResponse, CartItemPayload } from '../components/_models/serivece.model';
 
 @Injectable({
   providedIn: 'root'
@@ -225,19 +226,20 @@ export class ServicesDetailService {
       );
   }
   
-  addCartItem(data:any){
+  addCartItem(data: CartItemPayload[]): Observable<AddCartItemResponse> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       // "Authorization": 'Bearer ' + localStorage.getItem('token')
     });
+
     const httpOptions = {
       headers: headers
     };
-    return this.http.post(this.url+'Cart/add-cart-items',data, httpOptions)
-      .pipe(map((response:any) => {
-        return response;
-      }),
-        catchError(error => this.handleError(error)));
+
+    return this.http.post<AddCartItemResponse>(this.url + 'Cart/add-cart-items', data, httpOptions)
   }
+  
+
+
 
 }

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component, EventEmitter, Inject, inject, Output, PLATFORM_ID, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -7,6 +7,7 @@ import { AuthService } from '../../../../shared/services/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { isPlatformBrowser } from '@angular/common';
+import { CountryModel, RegistrationResponse } from '../../_model/login.model';
 
 @Component({
   selector: 'app-signup',
@@ -17,13 +18,10 @@ export class SignupComponent implements OnInit {
   // @Output() handleNavigationSignup = new EventEmitter<'login'>()
   @Output() handleNavigationSignup = new EventEmitter()
   passwordType = 'password';
-  selectedCountry!: string ; 
-  // countries: any;
-  selectedCountryFlag: any;
+  selectedCountry!:CountryModel;
+  selectedCountryFlag!: string;
   signup: FormGroup;
-  keyChar: any;
-  // countries: any;
-   countries: any[] = [];
+   countries :CountryModel[]= [];
    private apiUrl = 'https://restcountries.com/v3.1/all';
    readonly dialogRef = inject(MatDialogRef<SignupComponent>);
    isBrowser!: boolean;
@@ -46,6 +44,7 @@ export class SignupComponent implements OnInit {
         [
           Validators.required,
           Validators.pattern(
+            // eslint-disable-next-line no-useless-escape
             /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
           ),
         ],
@@ -68,11 +67,13 @@ export class SignupComponent implements OnInit {
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getCountries(): Observable<any> {
     return this.http.get(this.apiUrl);
   }
   ngOnInit(){
     this.getCountries().subscribe((data) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this.countries = data.map((country: any) => ({
         name: country.name.common,
         code: country.idd.root + (country.idd.suffixes ? country.idd.suffixes[0] : ''),
@@ -91,24 +92,6 @@ export class SignupComponent implements OnInit {
   handleNavigation(){
     console.log('login signup')
     this.handleNavigationSignup.emit('login')
-  }
-
-  onCountryChange(selectedCountry: any) {
-    console.log(selectedCountry,"selectedCountry")
-    if (selectedCountry) {
-      this.selectedCountryFlag = selectedCountry.flag;
-      this.signup?.get("selectedCountry")?.setValue(this.selectedCountry);
-      this.signup?.get("selectedCountry")?.updateValueAndValidity();
-      
-    } else {
-      this.selectedCountryFlag = null;
-    }
-   
-  }
-  
-  noSpace(event: any) {
-    if (event.keyCode === 32 && !event.target.value) return false;
-    return true;
   }
 
   onSubmit() {
@@ -131,8 +114,8 @@ export class SignupComponent implements OnInit {
   
       // Call the register method from AuthService
       this.auth.register(registerValue).subscribe(
-        (response: any) => {
-  
+        (response: RegistrationResponse) => {
+  console.log(response,"135")
           if (response.success) {
             this.toaster.success('Registration successful!');
             localStorage.setItem("token",response.data.token);
@@ -141,7 +124,7 @@ export class SignupComponent implements OnInit {
             this.dialogRef.close(); 
           } 
         },
-        (error: any) => {
+        (error: HttpErrorResponse) => {
           console.error('Registration error', error);
           this.toaster.error(error?.error?.message);
         }
