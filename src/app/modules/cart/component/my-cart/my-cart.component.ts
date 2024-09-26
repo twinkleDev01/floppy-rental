@@ -20,6 +20,7 @@ export class MyCartComponent {
   OfferAndCoupon: any
   isUpdate: boolean = false
   userId: any;
+  noCouponAvailable:boolean = false
   couponCode!:number;
   discountedPrice: number | null = null; 
   initialAmountToCheckout: number = 0
@@ -236,6 +237,7 @@ this.updateCartItemsFromApi();
             console.log("Removing item from localCart");
             localCart.splice(localIndex, 1);
             localStorage.setItem('myCartItem', JSON.stringify(localCart));
+            this.toastr.success("Cart item deleted successfully");
         } else {
             console.log("Item not found in localCart");
         }
@@ -372,6 +374,10 @@ this.updateCartItemsFromApi();
 
 
   applyCoupon(couponCode: any) {
+    console.log(couponCode)
+    if(couponCode== undefined){
+      this.noCouponAvailable = true; return
+    }
     if(this.isBrowser){
     const userId = Number(localStorage.getItem('userId'));
     const couponId = Number(couponCode);
@@ -409,6 +415,17 @@ this.updateCartItemsFromApi();
   }
   }
 
-  
+  OnCouponFilled() {
+    this.noCouponAvailable=false
+  }
+
+  // Prevent leading whitespace
+  preventLeadingWhitespace(event: KeyboardEvent): void {
+    const input = (event.target as HTMLInputElement).value;
+    // Prevent a space if the input is empty or has only leading whitespace
+    if (event.key === ' ' && input.trim().length === 0) {
+      event.preventDefault();
+    }
+  }
   
 }

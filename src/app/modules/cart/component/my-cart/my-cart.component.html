@@ -82,11 +82,12 @@
             <div class="p-2 apply-coupon">
                 <h5> <strong>Coupon Code</strong></h5>
                 <div class="d-flex justify-content-between">
-                    <input type="text" class="px-1 form-control w-50" placeholder="Enter Code" [(ngModel)]="couponCode">
+                        <input type="text" class="px-1 form-control w-50 " (keydown)="preventLeadingWhitespace($event)" placeholder="Enter Code" [(ngModel)]="couponCode" (ngModelChange)="OnCouponFilled()">
                     <div class="d-flex align-items-center">
                         <button (click)="applyCoupon(couponCode)">Apply</button>
                     </div>
                 </div>
+                <span *ngIf="noCouponAvailable" style="font-size: 12px; " class="text-danger">Please Enter coupon code</span>
                 <hr>
                 @for (item of OfferAndCoupon; track item) {
                 <div class="d-flex justify-content-between">
