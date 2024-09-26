@@ -11,13 +11,11 @@ export class ScrollService {
     this.isBrowser = isPlatformBrowser(platformId);
     if(this.isBrowser){
     window.addEventListener('scroll', this.onScroll.bind(this));
-    console.log("service")
     }
   }
 
   private onScroll() {
     if(this.isBrowser){
-    console.log('scroll')
     const element = document.getElementById('lazy-load-target');
     if (element) {
       const rect = element.getBoundingClientRect();
