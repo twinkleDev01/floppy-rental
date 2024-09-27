@@ -41,9 +41,11 @@
                     }
                     }
                     @else {
-                    <tr class="text-center">
-                        <td colspan="4"> <strong class="text-danger">Data Not Found</strong> </td>
-                    </tr>
+                        @if(isBrowser){
+                             <tr class="text-center">
+                                <td colspan="4"> <strong class="text-danger">Data Not Found</strong> </td>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>

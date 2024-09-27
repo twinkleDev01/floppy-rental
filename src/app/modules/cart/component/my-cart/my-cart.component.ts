@@ -247,7 +247,7 @@ this.updateCartItemsFromApi();
   console.log(item.id,"143")
     this.cartService.deleteCart(item.id).subscribe(
         (res: any) => {
-            this.toastr.success(res.message);
+            // this.toastr.success(res.message);
         },
         (err: any) => {
             // this.toastr.error(err.message);
