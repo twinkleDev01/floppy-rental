@@ -6,7 +6,7 @@ import { DatePickerDialogComponent } from '../../../../shared/components/date-pi
 import { LocationDialogComponent } from '../../../../shared/components/location-dialog/location-dialog.component';
 import { CartService } from '../../services/cart.service';
 import { ToastrService } from 'ngx-toastr';
-import { DatePipe } from '@angular/common';
+import { DatePipe, isPlatformBrowser } from '@angular/common';
 import axios from 'axios';
 import {load} from '@cashfreepayments/cashfree-js';
 import { City, Country, State } from 'country-state-city';
@@ -36,8 +36,9 @@ export class CheckoutComponent {
     private cartService:CartService,
     private toaster:ToastrService,
     private datePipe: DatePipe,
-    @Inject(PLATFORM_ID) platformId: Object
+    @Inject(PLATFORM_ID) platformId: object
   ){
+    this.isBrowser = isPlatformBrowser(platformId);
     this.checkout = this.fb.group({
     firstName: ['',[Validators.required]],
     lastName : [''],

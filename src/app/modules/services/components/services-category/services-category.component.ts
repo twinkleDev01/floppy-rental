@@ -9,6 +9,7 @@ import { BehaviorSubject } from 'rxjs';
 import { HomeService } from '../../../home/services/home.service';
 import { SharedService } from '../../../../shared/services/shared.service';
 import { isPlatformBrowser, ViewportScroller } from '@angular/common';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-services-category',
@@ -74,7 +75,8 @@ export class ServicesCategoryComponent {
   isBrowser!: boolean;
   paginator$ = new BehaviorSubject<{pageIndex:number,pageSize:number}|null>({pageIndex:0,pageSize:12})
 
-  constructor(private fb: FormBuilder, private router: Router, private service:ServicesDetailService, private homeService:HomeService, private sharedService:SharedService, private route:ActivatedRoute, @Inject(PLATFORM_ID) platformId: Object, private viewportScroller: ViewportScroller) {
+  constructor(private fb: FormBuilder, private router: Router, private service:ServicesDetailService, private homeService:HomeService, private sharedService:SharedService, private route:ActivatedRoute, @Inject(PLATFORM_ID) platformId: Object, private viewportScroller: ViewportScroller, private metaService: Meta,
+  private titleService: Title) {
     this.isBrowser = isPlatformBrowser(platformId);
     if(this.isBrowser){
     this.placesService = new google.maps.places.PlacesService(document.createElement('div'));
@@ -122,6 +124,31 @@ this.route.queryParams.subscribe(params => {
   }
   ngOnInit(){
     this.viewportScroller.scrollToPosition([0, 0]); // Scroll to the top of the page
+console.log(this.subCategoryName,"126")
+
+    if (this.subCategoryName) {
+      // Fetch meta tags from the API for the current page
+      this.sharedService.getMetaTags(this.subCategoryName).subscribe((res: any) => {
+        if (res?.success) {
+          const metaData = res.data;
+
+          // Update the title
+          this.titleService.setTitle(metaData.title || 'Default Title');
+          console.log('Updating meta tags with:', metaData);
+          // Update meta tags
+          this.metaService.addTags([
+            { name: 'description', content: metaData.description || 'Default description' },
+            { name: 'keywords', content: metaData.keywords || 'default, keywords' },
+            { property: 'og:title', content: metaData.ogTitle || metaData.title },
+            { property: 'og:description', content: metaData.ogDescription || metaData.description },
+            { property: 'og:image', content: metaData.ogImage || 'default-image-url.jpg' }
+          ]);
+          console.log('Meta tags updated');
+        }
+      });
+    }
+
+
     this.autocompleteService = new google.maps.places.AutocompleteService();
 
     // Subscribe to value changes of the search control

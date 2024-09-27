@@ -8,16 +8,8 @@
             <img [src]="blogDetail?.image || 'images/No_Image_Available.jpg'" alt="">
 
           </div>
-            <!-- <p>{{blogDetail?.description}}</p> -->
-            <!-- <div>
-                <img [src]="blogDetail.image1 || 'images/No_Image_Available.jpg'" class="detail_img" alt="">
-                <img [src]="blogDetail.image2 || 'images/No_Image_Available.jpg'" class="detail_img" alt="">
-            </div> -->
             <p [innerHtml]=blogDetail?.blogDescription>
             </p>
-            <!-- <p >
-                {{blogDetail?.blogDescription}}
-            </p> -->
             <div class="Comment_section" [formGroup]="commentForm">
                 <h5>Leave A Comment</h5>
                 <textarea name="" id="" rows="6" class="comment_box" placeholder="Comment" formControlName="comment"  (keydown)="preventLeadingWhitespace($event)"
