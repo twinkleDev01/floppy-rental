@@ -91,6 +91,8 @@
                           <div class="col-lg-3 mt-3 d-flex flex-column">
                             <span class="fs-6 fw-bold mb-2">State</span>
                             <select formControlName="state" class="custom-select" id="state" (change)="onStateChange($event)">
+                               <!-- Placeholder option -->
+  <option value="" disabled selected>Select State</option>
                               <option *ngFor="let state of states" [value]="state.isoCode">{{ state.name }}</option>
                             </select> 
                             <div *ngIf="profileForm.get('state')?.touched && profileForm.get('state')?.hasError('required')" class="text-danger">
@@ -117,7 +119,8 @@
                           <div class="col-lg-3 mt-3">
                             <span class="fs-6 fw-bold">City</span>
                             <select formControlName="city" class="custom-select mt-2" id="city" #city (change)="onCityChange($event)">
-                             
+                              <!-- Placeholder option -->
+  <option value="" disabled selected>Select City</option>
                               <option *ngFor="let city of cities" [value]="city.name">{{ city.name }}</option>
                             </select>
                             <div *ngIf="profileForm.get('city')?.touched && profileForm.get('city')?.hasError('required')" class="text-danger">
