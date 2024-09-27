@@ -36,7 +36,7 @@
                                 <button class="input-group-text" (click)="changeQuantity(cart, 1)">+</button>
                             </div>
                         </td>
-                         <td>INR {{cart.itemRate * (+cart.quantity) }}</td>
+                         <td>INR {{cart.itemRate * (+cart.quantity) | number:'1.2-2'}}</td>
                     </tr>
                     }
                     }
@@ -57,20 +57,20 @@
                 <h5> <strong>Card Totals</strong></h5>
                 <div class="d-flex justify-content-between font py-1">
                     <span>Sub-total</span>
-                    <strong>INR &nbsp;{{sabTotal}}</strong>
+                    <strong>INR &nbsp;{{sabTotal | number:'1.2-2'}}</strong>
                 </div>
                 <div class="d-flex justify-content-between font">
                     <span>Your total Saving</span>
-                    <strong>INR &nbsp; {{sabTotalSaving}}</strong>
+                    <strong>INR &nbsp; {{sabTotalSaving | number:'1.2-2'}}</strong>
                 </div>
                 <div class="d-flex justify-content-between font py-1">
                     <span>Taxes & Fee</span>
-                    <strong> INR &nbsp;{{totalTaxAmount}}</strong>
+                    <strong> INR &nbsp;{{totalTaxAmount | number:'1.2-2'}}</strong>
                 </div>
                 <hr>
                 <b class="d-flex justify-content-between">
                     <span>Total</span>
-                    <span>INR &nbsp;{{AmountToCheckout}}</span>
+                    <span>INR &nbsp;{{AmountToCheckout | number:'1.2-2'}}</span>
                 </b>
                 <div class="proceedToCheckout py-2">
                     <button (click)="proceedToCheckout(cartItems)" [disabled]="(isUpdate && cartItems.length === 0) || !isUpdate" [title]="!isUpdate && cartItems.length === 0? 'Please press Update cart button first before continuing proceed to checkout':''">Proceed To Checkout<i
