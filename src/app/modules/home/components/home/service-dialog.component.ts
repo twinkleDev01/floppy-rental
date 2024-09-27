@@ -73,7 +73,7 @@ console.log(data,'dialog')
       //       ?.toLowerCase()}/${subcategory.MainId}`,
       //   ]
       // );
-      this.router.navigate([`/services/category/${subcategory?.SubClassificationName.replaceAll("/","&")}/${subcategory.MainId}`]);
+      this.router.navigate([`/services/category/${subcategory?.SubClassificationName.replaceAll("/","$")}/${subcategory.MainId}`]);
       this.dialogRef.close();
     }
 
