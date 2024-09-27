@@ -1,4 +1,4 @@
-import { Component, Directive, ElementRef, EventEmitter, Inject, inject, Input, Output, PLATFORM_ID, ViewChild } from '@angular/core';
+import { Component, Directive, ElementRef, EventEmitter, Inject, inject, Input, Output, PLATFORM_ID, ViewChild, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,13 +16,13 @@ import { Meta, Title } from '@angular/platform-browser';
   templateUrl: './services-category.component.html',
   styleUrl: './services-category.component.scss'
 })
-export class ServicesCategoryComponent {
+export class ServicesCategoryComponent implements OnInit {
   apiUrl: string = environment.ApiBaseUrl;
   searchControl: FormControl = new FormControl('');
   servicesDetails:any[]=[];
   private readonly _formBuilder = inject(FormBuilder);
   currentRating:any;
-  showFilter: boolean = false;
+  showFilter = false;
   selectedCategory:any;
   selectedServiceCategory!:number
   selectedServiceCategoryId:any;
@@ -83,7 +83,6 @@ export class ServicesCategoryComponent {
     }
     const urlSegments = this.router.url.split('/');
     this.selectedServiceCategoryId = urlSegments[urlSegments.length - 1];
-    console.log(this.selectedServiceCategory,"81")
 
   // Subscribe to route parameters
 this.route.paramMap.subscribe((params: any) => {
@@ -91,16 +90,13 @@ this.route.paramMap.subscribe((params: any) => {
   this.subCategoryName = this.subCategoryName.replaceAll('$', '/');
   this.CategoryId = params.get('id'); // Convert string to number
   this.selectedServiceCategory = this.CategoryId; // Set the selected category to match the id
-  console.log(this.subCategoryName,"88")
 });
 
 // Subscribe to query parameters
 this.route.queryParams.subscribe(params => {
-  console.log(params, "Query Params 91");
   this.latitude = params['latitude'] ? params['latitude'] : 0;
   this.longitude = params['longitude'] ? params['longitude'] : 0;
   this.searchLocation = params['locations'];
-  console.log(this.latitude, this.longitude);
 });
 
     if(this.searchLocation){
@@ -120,10 +116,31 @@ this.route.queryParams.subscribe(params => {
     this.selectedServiceCategory = selectedCategoryObj
       ? +selectedCategoryObj.mainId
       : +this.CategoryId;
-      console.log(this.selectedServiceCategory,"selectedServiceCategory 117")
   }
   ngOnInit(){
-    this.viewportScroller.scrollToPosition([0, 0]); // Scroll to the top of the page
+    this.viewportScroller.scrollToPosition([0, 0]); 
+
+    if (this.subCategoryName) {
+      // Fetch meta tags from the API for the current page
+      this.sharedService.getMetaTags(this.subCategoryName).subscribe((res: any) => {
+        if (res?.success) {
+          const metaData = res.data;
+
+          // Update the title
+          this.titleService.setTitle(metaData.title || 'Default Title');
+          // Update meta tags
+          this.metaService.addTags([
+            { name: 'description', content: metaData.description || 'Default description' },
+            { name: 'keywords', content: metaData.keywords || 'default, keywords' },
+            { property: 'og:title', content: metaData.ogTitle || metaData.title },
+            { property: 'og:description', content: metaData.ogDescription || metaData.description },
+            { property: 'og:image', content: metaData.ogImage || 'default-image-url.jpg' }
+          ]);
+        }
+      });
+    }
+
+
 console.log(this.subCategoryName,"126")
 
     if (this.subCategoryName) {
@@ -153,7 +170,6 @@ console.log(this.subCategoryName,"126")
 
     // Subscribe to value changes of the search control
     this.searchControl.valueChanges.subscribe(value => {
-      console.log(value,"97");
       this.filteredSubgroups[0] = value;
      
       // this.getSearchedItemList();
@@ -195,14 +211,11 @@ console.log(this.subCategoryName,"126")
         }
   
         this.paginator$.next({ pageIndex: 0, pageSize: 12 });
-      } else {
-        console.error('Failed to fetch items:', res.message); // Log any errors in fetching items
-      }
+      } 
     });
   }
 
     onCategoryChange(selectedValue: any) {
-      console.log(selectedValue.value,"211")
       this.CategoryId = selectedValue.value
     
       // Reset all variables to null or default values
@@ -238,9 +251,7 @@ console.log(this.subCategoryName,"126")
           }
 
 
-        } else {
-          console.error('No categories found in response.');
-        }
+        } 
       }, (error:any) => {
         console.error('Error fetching subcategories:', error);
       });
@@ -251,19 +262,15 @@ selectedSubCategoryId:any
 getFilterSubCategory(id: any) {
   this.service.getSubCategoryList(id).subscribe((res) => {
     this.categories = res.data;
-console.log(this.categories,this.subCategoryName,"247")
     if (this.categories && this.categories.length > 0) {
       // Attempt to find the category by name
       const matchedCategory = this.categories.find(
         (category) => category.SubClassificationName.toLowerCase() === this.subCategoryName.toLowerCase()
       );
-console.log(matchedCategory,"253")
       this.CategoryId = matchedCategory.MainId
 
       if (matchedCategory) {
         this.selectedSubCategoryId = matchedCategory.SubId;
-        console.log('Matched Sub ID:', this.selectedSubCategoryId);
-        console.log(this.subCategoryName,"260")
         // Mark the matched category as checked
         this.categories.forEach((category) => {
           category.isChecked = category.SubId === this.selectedSubCategoryId;
@@ -274,13 +281,8 @@ if(!this.searchLocation){
   this.getItemByLocation()
 }
         // Fetch items for the matched category
-      } else {
-        console.error('No matching subcategory found for name:', this.subCategoryName);
-        // Handle the case where no match is found
-      }
-    } else {
-      console.error('No subcategories available.');
-    }
+      } 
+    } 
   });
 }
 
@@ -288,7 +290,6 @@ if(!this.searchLocation){
 
 onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
   if (event.checked) {
-    console.log(event,"221")
     // Set the selectedCategory to the newly checked checkbox's value
 
        // Uncheck all other checkboxes by setting the selectedCategory as the only selected one
@@ -400,8 +401,6 @@ if (navigator.geolocation) {
           maximumAge: 0 // Do not use a cached position
       }
   );
-} else {
-  console.error("Geolocation is not supported by this browser.");
 }
   }
 
@@ -452,7 +451,6 @@ if (navigator.geolocation) {
   getFilteredSubgroups() {
     if (!this.selectedCity || !this.selectedArea) {
       this.filteredSubgroups = this.allSubgroups;
-      console.log(this.filteredSubgroups,'331')
       this.applySearchFilter(); // Apply search filter if applicable
       return;
     }
@@ -464,7 +462,6 @@ if (navigator.geolocation) {
     );
     // Extract unique subgroup names
     this.filteredSubgroups = filteredLocations.subgroupName;
-    console.log(this.filteredSubgroups,'343')
     // Apply search filtering
     this.applySearchFilter(); // Apply search filter if applicable
   }
@@ -478,7 +475,6 @@ if (navigator.geolocation) {
         subgroup.toLowerCase().includes(searchValue)
       );
     }
-    console.log(this.filteredSubgroups,'357')
   }
 
   averageRating:any
@@ -524,7 +520,6 @@ getPlacePredictions(input: string) {
   this.autocompleteService.getPlacePredictions(request, (predictions: any[], status: any) => {
     if (status === google.maps.places.PlacesServiceStatus.OK && predictions) {
       this.predictions = predictions;
-      console.log(this.predictions,"539")
     } else {
       this.predictions = [];
     }
@@ -535,10 +530,6 @@ selectPrediction(event: any) {
   // Get selected prediction from the dropdown
   const selectedDescription = event.target.value;
   this.searchInput = selectedDescription;
-  console.log('Selected Description:', selectedDescription);
-
-  // Log predictions to verify their content
-  console.log('Available Predictions:', this.predictions);
 
   // Find the selected place
   const selectedPrediction = this.predictions.find(prediction => prediction.description === selectedDescription);
@@ -556,21 +547,12 @@ selectPrediction(event: any) {
       if (status === google.maps.places.PlacesServiceStatus.OK && place && place.geometry) {
         const location = place.geometry.location;
         if (location) {
-          console.log('Latitude:', location.lat());
-          console.log('Longitude:', location.lng());
           this.placeDetails = {
             lat: location.lat(),
             lng: location.lng()
           };
           // Clear predictions after selection to close the dropdown
           this.predictions = []; 
-          console.log('Location:', location, 'Place Details:', this.placeDetails, this.subCategoryName);
-
-          console.log("Navigating with params: ", {
-            latitude: this.placeDetails.lat,
-            longitude: this.placeDetails.lng,
-            locations: this.searchInput
-          });
 
           this.router.routeReuseStrategy.shouldReuseRoute = () => false;
           this.router.onSameUrlNavigation = "reload";
@@ -583,22 +565,15 @@ selectPrediction(event: any) {
                 locations: this.searchInput
               }
             });
-        } else {
-          console.error('Place geometry is not available.');
         }
-      } else {
-        console.error('Error fetching place details:', status);
-      }
+      } 
     });
-  } else {
-    console.error('Selected prediction not found.');
-  }
+  } 
 }
 
 
 getItemByLocation(){
   this.service.getServiceLocationWise(this.selectedSubCategoryId,this.searchLocation,this.latitude,this.longitude).subscribe((response:any)=>{
-    console.log(response,"585")
     if (response.success) {
       this.servicesDetails = response.data.items.map((itemWrapper:any) => ({
         ...itemWrapper.item, reviews: itemWrapper.reviews, vender:itemWrapper.vendor})); // Correctly map to items
@@ -609,9 +584,7 @@ getItemByLocation(){
       }
 
       this.paginator$.next({ pageIndex: 0, pageSize: 12 });
-    } else {
-      console.error('Failed to fetch items:', response.message); // Log any errors in fetching items
-    }
+    } 
   })
 }
 offerData:any;
@@ -619,17 +592,12 @@ offerListData:any
 getBannerData(){
   this.homeService.getHomeDetails().subscribe((res: any) => {
     // Treat res.data as an object with dynamic keys
-    this.offerData = res.data as { [key: string]: any };
-  
-  console.log(this.offerData,"592")
+    this.offerData = res.data as Record<string, any>;
     // Accessing the Bottom section and sorting
     const ServiceSideImage = this.offerData['ServiceSideImage'];
     if (ServiceSideImage) {
       this.offerListData = ServiceSideImage.sort((a: any, b: any) => a.Seqno - b.Seqno);
-      console.log(this.offerListData,"597")
-    } else {
-      console.error('Bottom data not found:', this.offerData);
-    }
+    } 
   });
 
   
