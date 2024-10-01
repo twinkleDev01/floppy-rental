@@ -75,8 +75,9 @@
                     <span>INR &nbsp;{{AmountToCheckout | number:'1.2-2'}}</span>
                 </b>
                 <div class="proceedToCheckout py-2">
-                    <button (click)="proceedToCheckout(cartItems)" [disabled]="(isUpdate && cartItems.length === 0) || !isUpdate" [title]="!isUpdate && cartItems.length === 0? 'Please press Update cart button first before continuing proceed to checkout':''">Proceed To Checkout<i
+                    <button *ngIf="!isPlaceInquiryOnly()" (click)="proceedToCheckout(cartItems)" [disabled]="(isUpdate && cartItems.length === 0) || !isUpdate" [title]="!isUpdate && cartItems.length === 0? 'Please press Update cart button first before continuing proceed to checkout':''">Proceed To Checkout<i
                             class="fa-solid fa-arrow-right-long"></i></button>
+                            <button  *ngIf="isPlaceInquiryOnly()" (click)="placeInquiry(cartItems)" [disabled]="(isUpdate && cartItems.length === 0) || !isUpdate" [title]="!isUpdate && cartItems.length === 0? 'Please press Update cart button first before continuing place inquiry':''">Place Inquiry</button>
                 </div>
             </div>
         </div>

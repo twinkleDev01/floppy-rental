@@ -118,28 +118,8 @@ this.route.queryParams.subscribe(params => {
       : +this.CategoryId;
   }
   ngOnInit(){
+    if(this.isBrowser){
     this.viewportScroller.scrollToPosition([0, 0]); 
-
-    if (this.subCategoryName) {
-      // Fetch meta tags from the API for the current page
-      this.sharedService.getMetaTags(this.subCategoryName).subscribe((res: any) => {
-        if (res?.success) {
-          const metaData = res.data;
-
-          // Update the title
-          this.titleService.setTitle(metaData.title || 'Default Title');
-          // Update meta tags
-          this.metaService.addTags([
-            { name: 'description', content: metaData.description || 'Default description' },
-            { name: 'keywords', content: metaData.keywords || 'default, keywords' },
-            { property: 'og:title', content: metaData.ogTitle || metaData.title },
-            { property: 'og:description', content: metaData.ogDescription || metaData.description },
-            { property: 'og:image', content: metaData.ogImage || 'default-image-url.jpg' }
-          ]);
-        }
-      });
-    }
-
 
 console.log(this.subCategoryName,"126")
 
@@ -198,6 +178,7 @@ console.log(this.subCategoryName,"126")
   //  this.getFilterSubCategory(this.selectedServiceCategoryId);
   
 }
+  }
 
   fetchItems(catId: any, subCatId: any) {
     this.service.getItemByCategory(catId, subCatId, this.latitude, this.longitude, this.startIndex, this.pageSize).subscribe((res) => {

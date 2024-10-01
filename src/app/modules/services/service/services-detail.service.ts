@@ -237,7 +237,8 @@ export class ServicesDetailService {
       .pipe(map((response:any) => {
         return response;
       }),
-        catchError(error => this.handleError(error)));
+        // catchError(error => this.handleError(error))
+      );
   }
 
 }

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, of, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of, tap, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
 import { ToastrService } from 'ngx-toastr';
 import { isPlatformBrowser } from '@angular/common';
@@ -105,16 +105,16 @@ export class CartService {
     return this.http.post(this.url+`Cart/update-cart-items`,CardItemId ,httpOptions)
   }
 
-  deleteCart(CardItemId:any){
-    // return of (cartItems)
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-    const httpOptions = {
-      headers: headers
-    };
-    return this.http.post(this.url+`Cart/delete-cart-item/${CardItemId}` ,httpOptions)
-  }
+  // deleteCart(CardItemId:any){
+  //   // return of (cartItems)
+  //   const headers = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //   });
+  //   const httpOptions = {
+  //     headers: headers
+  //   };
+  //   return this.http.post(this.url+`Cart/delete-cart-item/${CardItemId}` ,httpOptions)
+  // }
   
   // getOfferAndCoupon(){
   //   return of (couponCodes)
@@ -139,6 +139,20 @@ export class CartService {
   //   return this.http.post(this.url+`Order/save_order_details`,details ,httpOptions)
   // }
 
+
+  deleteCart(cardItemIds: any[]) {
+    const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+    });
+    const httpOptions = {
+        headers: headers
+    };
+
+    return this.http.post(this.url + 'Cart/delete-cart-item', cardItemIds, httpOptions);
+}
+
+  
+
   saveOrderDetails(details: any) {
     console.log(this.token,"133")
     const headers = new HttpHeaders({
@@ -153,6 +167,7 @@ export class CartService {
   }
 
   createOrder(payload: any): Observable<any> {
+    this.token = localStorage.getItem("token")
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.token}`
@@ -192,14 +207,36 @@ export class CartService {
   }
 
   private apiUrl = 'https://firstfloppy.asptask.in/api/Payments/UpdatePaymentStatus';
-  updatePaymentStatus(orderId: string, userId: number): Observable<any> {
+  updatePaymentStatus(orderId: string, userId: number, isCashOnDelivery: boolean): Observable<any> {
     const payload = {
       orderId,
-      userId
+      userId,
+      isCashOnDelivery
     };
 
     return this.http.post<any>(this.apiUrl, payload);
   }
+
+  placeEnquiry(cartItems: any[]): Observable<any> {
+    const token = localStorage.getItem("token");
+  
+    // Create HTTP headers with the authorization token
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+  
+    const httpOptions = {
+      headers: headers
+    };
+  
+    // Extract all `itemId` values from cartItems
+    const cardItemIds = cartItems.map(item => item.id);
+  
+    // Send the array of item IDs directly in the request body
+    return this.http.post(this.url + 'PlaceEnquiry/placeenquiry', cardItemIds, httpOptions);
+  }
+  
   
   
 }

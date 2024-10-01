@@ -40,8 +40,8 @@ export class MyBookingComponent {
   }
 
 ngOnInit(){
-  this.getUserBooking();
   this.updatePayment()
+  this.getUserBooking();
 }
 
 getUserBooking() {
@@ -96,8 +96,9 @@ openDateTimePicker(booking:any): void {
   
   updatePayment() {
     if(this.isBrowser){
-    const orderId = localStorage.getItem('orderId');
+      const orderId = localStorage.getItem('orderId'); // Default to empty string if orderId is null;
     const userIdString = localStorage.getItem('userId');
+    const isCashOnDelivery = JSON.parse(localStorage.getItem('isCashOnDelivery') || 'false');
     
     // Handle cases where localStorage might return null
     if (!orderId || !userIdString) {
@@ -115,9 +116,13 @@ openDateTimePicker(booking:any): void {
     }
   
     // Call the service method
-    this.cartService.updatePaymentStatus(orderId, userId).subscribe(
+    this.cartService.updatePaymentStatus(orderId, userId, isCashOnDelivery).subscribe(
       response => {
+        this.toastr.success('order Successfully')
+        localStorage.removeItem('orderId')
+        localStorage.removeItem('isCashOnDelivery')
         console.log('Payment status updated successfully', response);
+        this.getUserBooking();
       },
       error => {
         console.error('Error updating payment status', error);
