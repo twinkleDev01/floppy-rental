@@ -25,6 +25,7 @@ export class LoaderInterceptor implements HttpInterceptor {
           if (err instanceof HttpErrorResponse && err.status === 401) {
             localStorage.removeItem('token')
             localStorage.removeItem('userId')
+            this.authService.updateLoginStatus(false);
           }
         }
       }),

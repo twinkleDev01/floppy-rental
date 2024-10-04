@@ -22,7 +22,7 @@
         >cancel</mat-icon
       >
       <!--  -->
-      <div class="container mt-5">
+      <!-- <div class="container mt-5">
         <h2 class="fw-bold fs-4">CATEGORY</h2>
         <mat-radio-group
           aria-labelledby="example-radio-group-label"
@@ -40,21 +40,14 @@
           }
         </mat-radio-group>
       </div>
-      <hr />
+      <hr /> -->
 
       <!-- LocationArea -->
-      <div class="container">
+      <!-- <div class="container">
         <h2 class="fw-bold fs-4">AREA</h2>
         <div class="location_search">
           <i class="fa-solid fa-location-dot"></i>
-          <!-- <select class="select_box" name="location" id="location" (change)="onCityChange($event)">
-            <option value="">Select</option>
-            <option *ngFor="let location of locations" [value]="location.cityName + '|' + location.areaName">
-              {{ location.cityName }} - {{ location.areaName }}
-            </option>
-          </select> -->
           <div style="width: 300px;">
-            <!-- Searchable input field -->
             <input
               type="text"
               [(ngModel)]="searchInput"
@@ -62,8 +55,6 @@
               placeholder="Type to search for a location..."
               class="autocomplete-input location-auto"
             />
-          
-            <!-- Select Dropdown for Predictions -->
             <select *ngIf="predictions.length > 0" size="5" (change)="selectPrediction($event)" class="select-location" #selectDropdown>
               <option *ngFor="let prediction of predictions" [value]="prediction.description" class="search-option">
                 <i class="fa-solid fa-location-dot"></i> {{ prediction.description }}
@@ -72,9 +63,9 @@
           </div>
         </div>
       </div>
-      <hr />
+      <hr /> -->
       <div class="container">
-        <h2 class="fw-bold fs-4">SUB CATEGORY</h2>
+        <h2 class="fw-bold fs-4 pt-5">Services</h2>
         <!--  -->
         <mat-checkbox-group
           aria-labelledby="example-radio-group-label"
@@ -139,8 +130,8 @@
                   <span class="text-start main-name">{{ card?.maingroupname }}</span>
                   <span>{{ card?.subgroupname }}</span>
                 </div>
-                <div class="charge pt-2">Monthly Charge For</div>
-                <div class="price">{{ card?.rate }}</div>
+                <!-- <div class="charge pt-2">Monthly Charge For</div> -->
+                <div class="price">₹ {{ card?.rate }}</div>
                 <hr />
                 <div class="distance">
                   Distance : {{ card?.vender?.distance | json}} KM
