@@ -442,7 +442,7 @@ if (this.filteredSubgroups.length === 0 && searchValue) {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
         this.router.onSameUrlNavigation = "reload";
         this.router.navigate([
-          `/services/category/${this.locationSearchItem.subClassificationName.replaceAll("/","&")}/${this.locationSearchItem.mainId}`
+          `/services/category/${this.locationSearchItem.subClassificationName.replaceAll("/","$")}/${this.locationSearchItem.mainId}`
         ], {
           queryParams: {
             latitude: this.placeDetails.lat,

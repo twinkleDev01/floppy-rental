@@ -24,7 +24,7 @@
                             <img 
                               class="profile-user-img img-circle"
                               id="imagePreview"
-                              [src]="profileForm.get('profilePicture')?.value || 'images/profile_pic.png'" 
+                              [src]="profileForm.get('profilePicture')?.value || 'images/doload.jpg'" 
                               alt="User profile picture"
                             />
                             <input type="file" id="imageUpload" accept=".png, .jpg, .jpeg" (change)="onProfilePictureChange($event)" />
@@ -39,9 +39,6 @@
                           <div class="col-lg-6 d-flex flex-column">
                             <span class="fs-6 fw-bold mb-2">Full Name</span>
                             <div class="input-wrapper">
-                              <!-- <span class="input-icon">
-                                <i class="fas fa-user"></i>
-                              </span> -->
                               <input id="name" formControlName="name" type="text" autocomplete="name"
                                       placeholder="Enter Full Name" class="input_name" (keypress)="noSpace($event)" (keydown)="preventLeadingWhitespace($event)" />
                                       <div *ngIf="profileForm.get('name')?.touched && profileForm.get('name')?.hasError('required')" class="text-danger">
@@ -59,7 +56,7 @@
                             <span class="fs-6 fw-bold">Phone Number</span>
                             <div class="w-100 mt-2 position-relative d-flex justify-content-center align-items-center bg-dark rounded-pill bg-opacity-10 shadow-sm">
                               <div class="image-field" *ngIf="profileForm.get('selectedCountry')?.value?.flag">
-                                <img [src]="profileForm.get('selectedCountry')?.value.flag" width="20" class="me-2" />
+                                <img [src]="profileForm.get('selectedCountry')?.value.flag" width="20" class="me-2" alt="flag" />
                               </div>
                               <mat-select formControlName="selectedCountry"  (selectionChange)="onCountryChange($event)" #country panelWidth="250px" style="
                                     width: 80px;
@@ -88,15 +85,11 @@
                               Enter a valid phone number
                             </div>
                           </div>
-                          <!-- <div class="col-lg-3 mt-3 d-flex flex-column">
-                            <span class="fs-6 fw-bold mb-2">State</span>
-                            <select formControlName="state" class="custom-select" id="state"  #state (change)="onStateChange($event)">
-                              <option *ngFor="let state of states" [value]="state">{{ state.name }}</option>
-                            </select>
-                          </div> -->
                           <div class="col-lg-3 mt-3 d-flex flex-column">
                             <span class="fs-6 fw-bold mb-2">State</span>
                             <select formControlName="state" class="custom-select" id="state" (change)="onStateChange($event)">
+                               <!-- Placeholder option -->
+  <option value="" disabled selected>Select State</option>
                               <option *ngFor="let state of states" [value]="state.isoCode">{{ state.name }}</option>
                             </select> 
                             <div *ngIf="profileForm.get('state')?.touched && profileForm.get('state')?.hasError('required')" class="text-danger">
@@ -123,8 +116,8 @@
                           <div class="col-lg-3 mt-3">
                             <span class="fs-6 fw-bold">City</span>
                             <select formControlName="city" class="custom-select mt-2" id="city" #city (change)="onCityChange($event)">
-                              <!-- <option value="delhi">Delhi</option>
-                              <option value="pune">Pune</option> -->
+                              <!-- Placeholder option -->
+  <option value="" disabled selected>Select City</option>
                               <option *ngFor="let city of cities" [value]="city.name">{{ city.name }}</option>
                             </select>
                             <div *ngIf="profileForm.get('city')?.touched && profileForm.get('city')?.hasError('required')" class="text-danger">

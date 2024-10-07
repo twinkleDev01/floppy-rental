@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Review } from '../_models/serivece.model';
 import { isPlatformBrowser, ViewportScroller } from '@angular/common';
+import { error } from 'console';
 
 @Component({
   selector: 'app-services-details',
@@ -171,42 +172,96 @@ addToCart(serviceDetail:any){
   }
  
   this.service.addCartItem([payload]).subscribe((res:any)=>{
-  if(res.success)
-    this.toastr.success(res.message)
+  if(res.success){
+  //   this.toastr.success(res.message)
 
  // For guest users, manage cart in localStorage
  let localCart = localStorage.getItem('myCartItem')
  ? JSON.parse(localStorage.getItem('myCartItem')!)
  : [];
 
+ // Check for vendor and category mismatch
+ const mismatchItemIndex = localCart.findIndex((item: any) =>
+  item.vendorid !== serviceDetail.item.vendorid ||
+  item.maingroupid !== serviceDetail.item.maingroupid
+);
+console.log(mismatchItemIndex,"187")
+
+if (mismatchItemIndex > -1) {
+  // Show error message if a mismatch is found
+  this.toastr.error('Cannot add items from different vendor or category');
+  return; // Exit the function without adding the item
+}
 // Find the existing item in the cart
 const existingItemIndex = localCart.findIndex((item: any) => item.itemid === serviceDetail.item.itemid);
 
 console.log(existingItemIndex,"183")
 if (existingItemIndex > -1) {
- // If item exists, update its quantity
- localCart[existingItemIndex].quantity += 1;
+  // If item exists, update its quantity
+  localCart[existingItemIndex].quantity += 1;
 } else {
   console.log(serviceDetail.item.quantity)
- // If item doesn't exist, add new item with quantity 1
- serviceDetail.item.quantity = 1;
- localCart.push(serviceDetail.item);
+  // If item doesn't exist, add new item with quantity 1
+  serviceDetail.item.quantity = 1;
+  localCart.push(serviceDetail.item);
 }
 // Update the cart in localStorage
 localStorage.setItem('myCartItem', JSON.stringify(localCart));
 
 if(localStorage.getItem('userId')){
-this.updateCartDetails('myCartItem')
+  this.updateCartDetails('myCartItem')
 }
 // Navigate to the cart page
+this.toastr.success('Item added successfully')
 this.router.navigate(['cart']);
-  })
+ } 
+}, (error)=>{
+    // Handle the case where the response was not successful
+   // For guest users, manage cart in localStorage
+ let localCart = localStorage.getItem('myCartItem')
+ ? JSON.parse(localStorage.getItem('myCartItem')!)
+ : [];
+
+ // Check for vendor and category mismatch
+ const mismatchItemIndex = localCart.findIndex((item: any) =>
+  item.vendorid !== serviceDetail.item.vendorid ||
+  item.maingroupid !== serviceDetail.item.maingroupid
+);
+console.log(mismatchItemIndex,"187")
+
+if (mismatchItemIndex > -1) {
+  // Show error message if a mismatch is found
+  this.toastr.error('Cannot add items from different vendor or category');
+  return; // Exit the function without adding the item
+}
+// Find the existing item in the cart
+const existingItemIndex = localCart.findIndex((item: any) => item.itemid === serviceDetail.item.itemid);
+
+console.log(existingItemIndex,"183")
+if (existingItemIndex > -1) {
+  // If item exists, update its quantity
+  localCart[existingItemIndex].quantity += 1;
+} else {
+  console.log(serviceDetail.item.quantity)
+  // If item doesn't exist, add new item with quantity 1
+  serviceDetail.item.quantity = 1;
+  localCart.push(serviceDetail.item);
+}
+// Update the cart in localStorage
+localStorage.setItem('myCartItem', JSON.stringify(localCart));
+
+if(localStorage.getItem('userId')){
+  this.updateCartDetails('myCartItem')
+}
+// Navigate to the cart page
+this.toastr.success('Item added successfully')
+this.router.navigate(['cart']);
+})
  
   }
 }
 
 updateCartDetails (storageKey: string){
-  console.log("206", storageKey)
   const items = JSON.parse(localStorage[storageKey] || '[]');
   localStorage[storageKey] = JSON.stringify(
       items.map((d:any)=> ({...d, cartUpdated: true}))
@@ -215,11 +270,11 @@ updateCartDetails (storageKey: string){
 
 onRatingUpdated(newRating: number) {
   this.currentRating = newRating;
-  console.log("New Rating: ", this.currentRating);
 }
 
 // location
 getCurrentLocation(){
+  if(this.isBrowser){
   // Check if the browser supports Geolocation API
 if (navigator.geolocation) {
 navigator.geolocation.getCurrentPosition(
@@ -227,8 +282,6 @@ navigator.geolocation.getCurrentPosition(
         // Success callback
         this.latitude = position.coords.latitude;
         this.longitude = position.coords.longitude;
-
-        console.log(`Latitude: ${this.latitude}, Longitude: ${this.longitude}`);
     },
     (error) => {
         // Error callback
@@ -243,6 +296,7 @@ navigator.geolocation.getCurrentPosition(
 );
 } else {
 console.error("Geolocation is not supported by this browser.");
+}
 }
 }
 
@@ -276,20 +330,6 @@ console.error("Geolocation is not supported by this browser.");
         },
       },
     };
-// reviews=[
-//   {
-//     name:'Floyd Miles',
-//     address:'London,UK',
-//     description:'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet. Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
-//     profileImg:'images/Service-detail-img/profile-icon.png'
-//   },
-//   {
-//     name:'Floyd Miles',
-//     address:'London,UK',
-//     description:'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet. Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
-//     profileImg:'images/Service-detail-img/profile-icon.png'
-//   },
-//  ]
 
 
 isImageUrl(url: string): boolean {

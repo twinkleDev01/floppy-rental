@@ -16,14 +16,16 @@ export class LoaderInterceptor implements HttpInterceptor {
     private authService: AuthService // Inject AuthService for logout
   ) {}
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.beginRequest();
     return next.handle(request).pipe(
       tap({
-        error: (err: any) => {
+        error: (err: HttpErrorResponse) => {
           if (err instanceof HttpErrorResponse && err.status === 401) {
             localStorage.removeItem('token')
             localStorage.removeItem('userId')
+            this.authService.updateLoginStatus(false);
           }
         }
       }),

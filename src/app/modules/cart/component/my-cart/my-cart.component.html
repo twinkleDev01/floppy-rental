@@ -14,7 +14,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if (cartItems.length) {
+                    @if (cartItems?.length) {
                     @for(cart of cartItems; track cart){
                     <tr>
                         <td>
@@ -26,7 +26,7 @@
                                 {{cart.itemName}}
                             </div>
                         </td>
-                        <td>INR {{cart.itemRate}}</td>
+                        <td>₹ {{cart.itemRate}}</td>
                         <td>
                             <div class="input-group mb-3" style="max-width: 200px">
                                 <button class="input-group-text" [disabled]="+cart.quantity <= 1"
@@ -36,18 +36,20 @@
                                 <button class="input-group-text" (click)="changeQuantity(cart, 1)">+</button>
                             </div>
                         </td>
-                         <td>INR {{cart.itemRate * (+cart.quantity) }}</td>
+                         <td>₹ {{cart.itemRate * (+cart.quantity) | number:'1.2-2'}}</td>
                     </tr>
                     }
                     }
                     @else {
-                    <tr class="text-center">
-                        <td colspan="4"> <strong class="text-danger">Data Not Found</strong> </td>
-                    </tr>
+                        @if(isBrowser){
+                             <tr class="text-center">
+                                <td colspan="4"> <strong class="text-danger">Data Not Found</strong> </td>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>
-            <div class="update-cart d-flex justify-content-end">
+            <div class="update-cart d-flex justify-content-end" *ngIf="isQuantityChanged">
                 <button (click)="updateCart()">Update Cart</button>
             </div>
         </div>
@@ -57,24 +59,25 @@
                 <h5> <strong>Card Totals</strong></h5>
                 <div class="d-flex justify-content-between font py-1">
                     <span>Sub-total</span>
-                    <strong>INR &nbsp;{{sabTotal}}</strong>
+                    <strong>₹ &nbsp;{{sabTotal | number:'1.2-2'}}</strong>
                 </div>
                 <div class="d-flex justify-content-between font">
                     <span>Your total Saving</span>
-                    <strong>INR &nbsp; {{sabTotalSaving}}</strong>
+                    <strong>₹ &nbsp; {{sabTotalSaving | number:'1.2-2'}}</strong>
                 </div>
                 <div class="d-flex justify-content-between font py-1">
                     <span>Taxes & Fee</span>
-                    <strong> INR &nbsp;{{totalTaxAmount}}</strong>
+                    <strong> ₹ &nbsp;{{totalTaxAmount | number:'1.2-2'}}</strong>
                 </div>
                 <hr>
                 <b class="d-flex justify-content-between">
                     <span>Total</span>
-                    <span>INR &nbsp;{{AmountToCheckout}}</span>
+                    <span>₹ &nbsp;{{AmountToCheckout | number:'1.2-2'}}</span>
                 </b>
                 <div class="proceedToCheckout py-2">
-                    <button (click)="proceedToCheckout(cartItems)" [disabled]="(isUpdate && cartItems.length === 0) || !isUpdate" [title]="!isUpdate && cartItems.length === 0? 'Please press Update cart button first before continuing proceed to checkout':''">Proceed To Checkout<i
+                    <button *ngIf="!isPlaceInquiryOnly()" (click)="proceedToCheckout(cartItems)" [disabled]="(isUpdate && cartItems?.length === 0) || (!isUpdate && isQuantityChanged) || (isUpdate && isQuantityChanged && cartItems?.length === 0)" [title]="!isUpdate && cartItems?.length === 0? 'Please press Update cart button first before continuing proceed to checkout':''">Proceed To Checkout<i
                             class="fa-solid fa-arrow-right-long"></i></button>
+                            <button  *ngIf="isPlaceInquiryOnly()" (click)="placeInquiry(cartItems)" [disabled]="(isUpdate && cartItems?.length === 0) || (!isUpdate && isQuantityChanged) || (isUpdate && isQuantityChanged && cartItems?.length === 0)" [title]="!isUpdate && cartItems?.length === 0? 'Please press Update cart button first before continuing place enquiry':''">Place Enquiry</button>
                 </div>
             </div>
         </div>

@@ -32,16 +32,16 @@ export class MyBookingComponent {
 
     this.isBrowser = isPlatformBrowser(platformId);
 
-    this.route.queryParams.subscribe(params => {
-      // const paymentStatus = params['paymentStatus'];
-      const orderId = params['orderId'];
-      console.log(orderId)
-    })
+    // this.route.queryParams.subscribe(params => {
+    //   // const paymentStatus = params['paymentStatus'];
+    //   const orderId = params['orderId'];
+    //   console.log(orderId)
+    // })
   }
 
 ngOnInit(){
-  this.getUserBooking();
   this.updatePayment()
+  this.getUserBooking();
 }
 
 getUserBooking() {
@@ -96,8 +96,10 @@ openDateTimePicker(booking:any): void {
   
   updatePayment() {
     if(this.isBrowser){
-    const orderId = localStorage.getItem('orderId');
+      const orderId = localStorage.getItem('orderId'); // Default to empty string if orderId is null;
     const userIdString = localStorage.getItem('userId');
+    const isCashOnDelivery = JSON.parse(localStorage.getItem('isCashOnDelivery') || 'false');
+    const paymentReferenceOrderId = localStorage.getItem('paymentOrderReferenceId') || '';
     
     // Handle cases where localStorage might return null
     if (!orderId || !userIdString) {
@@ -115,9 +117,13 @@ openDateTimePicker(booking:any): void {
     }
   
     // Call the service method
-    this.cartService.updatePaymentStatus(orderId, userId).subscribe(
+    this.cartService.updatePaymentStatus(paymentReferenceOrderId, orderId, userId, isCashOnDelivery).subscribe(
       response => {
+        this.toastr.success('Your order has been placed successfully')
+        localStorage.removeItem('orderId')
+        localStorage.removeItem('isCashOnDelivery')
         console.log('Payment status updated successfully', response);
+        this.getUserBooking();
       },
       error => {
         console.error('Error updating payment status', error);

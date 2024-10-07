@@ -12,7 +12,12 @@ import { Router } from "@angular/router";
       <i class="fa fa-times close-icon" (click)="closeDialog()"></i>
     </div>
 <div class="row mt-4 justify-content-center">
-              <div class="col-sm-3" *ngFor="let subcategory of subcategoryData">
+              <div class="col-sm-3"    [ngClass]="{
+        'col-sm-3': subcategoryData.length >= 4, 
+        'col-sm-4': subcategoryData.length === 3, 
+        'col-sm-6': subcategoryData.length === 2, 
+        'col-sm-12': subcategoryData.length === 1
+     }" *ngFor="let subcategory of subcategoryData">
                   <div class="dialog-card text-center clickable" (click)="goCategory(subcategory)">
                     <div class="dialog_card_img mx-auto">
                       <img [src]="subcategory.Image ||'images/No_Image_Available.jpg'" [alt]="subcategory.SubClassificationName"/>
@@ -73,7 +78,7 @@ console.log(data,'dialog')
       //       ?.toLowerCase()}/${subcategory.MainId}`,
       //   ]
       // );
-      this.router.navigate([`/services/category/${subcategory?.SubClassificationName.replaceAll("/","&")}/${subcategory.MainId}`]);
+      this.router.navigate([`/services/category/${subcategory?.SubClassificationName.replaceAll("/","$")}/${subcategory.MainId}`]);
       this.dialogRef.close();
     }
 

@@ -40,80 +40,14 @@ export class MyCartComponent {
       // Subscribe to login status
       if(this.auth.isLoggedIn$){
       this.auth.isLoggedIn$.subscribe(isLoggedIn => {
-        console.log('Login status changed:', isLoggedIn); // Log status changes
        if(isLoggedIn){
-//         this.cartService.getCartItems().subscribe(
-//           (cartItems:any) => {
-
-// // Get the cart items from localStorage
-// let localCartItems = JSON.parse(localStorage.getItem('myCartItem') || '[]');
-
-// // Update localStorage `id` based on matching `itemid`
-// localCartItems = localCartItems.map((localItem: any) => {
-//  // Find matching item in the API response based on `itemId`
-//  const matchedApiItem = cartItems.data.find((apiItem:any) => apiItem.itemId === localItem.itemid);
-
-//  if (matchedApiItem) {
-//    // Update the `id` in the local storage item with the API `id`
-//    localItem.id = matchedApiItem.id;
-//  }
-
-//  return localItem; // Return the updated local item
-// });
-
-// // Save the updated cart items back to localStorage
-// localStorage.setItem('myCartItem', JSON.stringify(localCartItems));
-// console.log("Updated localStorage:", localCartItems);
-
-//            console.log(cartItems.data)
-//             this.cartItems = cartItems?.data;
-//             this.cartService.cartLength.next(this.cartItems.length)
-//           },
-//           (error) => {
-//             // Handle error here
-//           }
-//         )
-console.log("75");
 this.updateCartItemsFromApi();
        }else{
         if(localStorage.getItem('userId')){
-          //        this.cartService.getCartItems().subscribe(
-          //            (cartItems:any) => {
-          
-          // // Get the cart items from localStorage
-          // let localCartItems = JSON.parse(localStorage.getItem('myCartItem') || '[]');
-          
-          // // Update localStorage `id` based on matching `itemid`
-          // localCartItems = localCartItems.map((localItem: any) => {
-          //   // Find matching item in the API response based on `itemId`
-          //   const matchedApiItem = cartItems.data.find((apiItem:any) => apiItem.itemId === localItem.itemid);
-          
-          //   if (matchedApiItem) {
-          //     // Update the `id` in the local storage item with the API `id`
-          //     localItem.id = matchedApiItem.id;
-          //   }
-          
-          //   return localItem; // Return the updated local item
-          // });
-          
-          // // Save the updated cart items back to localStorage
-          // localStorage.setItem('myCartItem', JSON.stringify(localCartItems));
-          // console.log("Updated localStorage:", localCartItems);
-          
-          //             console.log(cartItems.data)
-          //              this.cartItems = cartItems?.data;
-          //              this.cartService.cartLength.next(this.cartItems.length)
-          //            },
-          //            (error) => {
-          //              // Handle error here
-          //            }
-          //          )
-          console.log("109");
           this.updateCartItemsFromApi();
                 }
                 else{
                   this.cartItems = JSON.parse(localStorage.getItem('myCartItem')!)
-                  console.log(this.cartItems,"48")
                   this.cartService.cartLength.next(this.cartItems.length)
                 }
        }
@@ -211,13 +145,14 @@ this.updateCartItemsFromApi();
           this.toastr.warning("Please add Item before update the cart")
         }
       }
+      this.isQuantityChanged = false;
     }
     }
  
 
   removeCartItems(item: any) {
     if(this.isBrowser){
-    console.log(item);
+    console.log(item, "154");
   
     const index = this.cartItems.findIndex(cartItem => cartItem.id === item.id);
   
@@ -230,24 +165,29 @@ this.updateCartItemsFromApi();
         // Update local storage after removing the item
         let localCart = JSON.parse(localStorage.getItem('myCartItem') || '[]');
         console.log(localCart, "Local Cart Before Removal");
-        const localIndex = localCart.find((localItem: any) => localItem.id === item.id);
-        console.log(localIndex,item.itemId, "Local Index of Item to Remove");
 
-        if (localIndex !== -1) {
-            console.log("Removing item from localCart");
-            localCart.splice(localIndex, 1);
-            localStorage.setItem('myCartItem', JSON.stringify(localCart));
-            this.toastr.success("Cart item deleted successfully");
-        } else {
-            console.log("Item not found in localCart");
-        }
+        const localIndex = localCart.findIndex((localItem: any) => 
+          localItem.itemId === item.itemId || localItem.itemid === item.itemId
+        );
+
+console.log(localIndex, item.itemId, "Local Index of Item to Remove");
+
+if (localIndex !== -1) {
+    // If item is found, remove it from the localCart
+    console.log("Removing item from localCart");
+    localCart.splice(localIndex, 1);
+    localStorage.setItem('myCartItem', JSON.stringify(localCart));
+    this.toastr.success("Cart item deleted successfully");
+} else {
+    console.log("Item not found in localCart");
+}
   
         this.cartService.cartLength.next(localCart.length);
     }
   console.log(item.id,"143")
-    this.cartService.deleteCart(item.id).subscribe(
+    this.cartService.deleteCart([item.id]).subscribe(
         (res: any) => {
-            this.toastr.success(res.message);
+            // this.toastr.success(res.message);
         },
         (err: any) => {
             // this.toastr.error(err.message);
@@ -260,28 +200,33 @@ this.updateCartItemsFromApi();
   proceedToCheckout(item: any) {
     if(this.isBrowser){
     console.log(JSON.stringify(this.cartItems), "127");
-    if (this.isUpdate) {
+    // if (this.isUpdate) {
       if(localStorage.getItem("userId")){ 
         this.updateCart()
-        alert('Are you sure you want to checkout this item');
+        // alert('Are you sure you want to checkout this item');
       // Store the necessary data in localStorage
       localStorage.setItem('myCartData', JSON.stringify({
         sabTotal: this.AmountToCheckout,
         sabTotalSaving: this.sabTotalSaving,
         AmountToCheckout: this.AmountToCheckout,
-        productId: this.cartItems.map((item: any) => item.itemId ? item.itemId : item.itemid)
+        // productId: this.cartItems.map((item: any) => item.itemId ? item.itemId : item.itemid),
+        // venderId: this.cartItems.map((item: any) => item.vendorId)
+        products: this.cartItems.map((item: any) => ({
+          productId: item.itemId ? item.itemId : item.itemid,
+          vendorId: item.vendorId?item.vendorId:item.vendorid
+        }))        
       }));
   
       // Navigate to the checkout page without navigation extras
       this.router.navigate(['cart/checkout']);
     }else{
-      alert("Please log in before adding items to your cart.")
+      // alert("Please log in before adding items to your cart.")
   this.dialog.open(LoginComponent, {
     width: '450',
     disableClose: true
   });
     }
-    }
+    // }
   }
   }
   
@@ -305,6 +250,7 @@ this.updateCartItemsFromApi();
     cart.quantity = parseInt(cart.quantity, 10).toString().padStart(2, '0');
   }
 
+  isQuantityChanged = false
   // Handle quantity change (+/- buttons)
   changeQuantity(cart: any, change: number): void {
 
@@ -320,12 +266,13 @@ this.updateCartItemsFromApi();
     // cart.quantity = quantity.toString().padStart(2, '0');
     // Update the cart quantity directly as a number
   cart.quantity = quantity;  // Keep it as a number without padding
+  this.isQuantityChanged = true;
   }
   
 
   
   get sabTotal() {
-    return this.cartItems.reduce((totalAmount, cart, index) => {
+    return this.cartItems?.reduce((totalAmount, cart, index) => {
       return totalAmount + (cart.itemRate * cart.quantity)
     }, 0
     )
@@ -350,13 +297,13 @@ this.updateCartItemsFromApi();
     }
   
     // Calculate the savings from the cart items if no API discount is available
-    return this.cartItems.reduce((totalAmount, cart) => {
+    return this.cartItems?.reduce((totalAmount, cart) => {
       return totalAmount + ((cart.itemRate * cart.quantity) * cart.discountPercent / 100);
     }, 0);
   }
   
   get totalTaxAmount() {
-    return this.cartItems.reduce((totalAmount, cart) => {
+    return this.cartItems?.reduce((totalAmount, cart) => {
       return totalAmount + (((cart.itemRate * cart.quantity)-((cart.itemRate * cart.quantity)*cart.discountPercent/100))  * cart.tax / 100);
     }, 0);
   }
@@ -427,5 +374,86 @@ this.updateCartItemsFromApi();
       event.preventDefault();
     }
   }
+
+  isPlaceInquiryOnly(): boolean {
+    return this.cartItems?.every(item => item.groupType === 'Place Enquiry');
+}
+
+// placeInquiry(cartItems: any[]) {
+//   if (cartItems && cartItems.length > 0) {
+//     console.log(cartItems, "385");
+
+//     // Pass all cart items to the service, which will extract the item IDs
+//     this.cartService.placeEnquiry(cartItems).subscribe(
+//       (response: any) => {
+//         console.log(response, "390");
+//         if(response.result.success){
+//           const cardItemIds = cartItems.map(item => item.id);
+//           this.cartService.deleteCart([cardItemIds])
+//         }
+//       },
+//       (error: any) => {
+//         console.error("Error occurred:", error);
+//       }
+//     );
+//   } else {
+//     console.error("No items in the cart or cart is undefined.");
+//   }
+// }
+
+placeInquiry(cartItems: any[]) {
+  if (cartItems && cartItems.length > 0) {
+    console.log(cartItems, "385 - Cart Items");
+
+    // Pass all cart items to the service, which will extract the item IDs
+    this.cartService.placeEnquiry(cartItems).subscribe(
+      (response: any) => {
+        console.log(response, "390 - API Response");
+
+        if (response.result && response.result.success) {
+          console.log("Enquiry placed successfully, proceeding to delete items...");
+
+          // Extract item IDs from cart items
+          const cardItemIds = cartItems.map(item => item.id);
+          console.log(cardItemIds, "Item IDs to be deleted");
+
+          // Call deleteCart with the extracted item IDs
+          this.cartService.deleteCart(cardItemIds).subscribe(
+            (deleteResponse: any) => {
+              console.log("Items deleted successfully:", deleteResponse);
+
+              
+              // Retrieve the current cart from local storage
+              const cart = JSON.parse(localStorage.getItem('myCartItem') || '[]');
+
+              // Filter out the items that were deleted
+              const updatedCart = cart.filter((item: any) => !cardItemIds.includes(item.id));
+
+              // Update local storage with the new cart
+              localStorage.setItem('myCartItem', JSON.stringify(updatedCart));
+              this.cartService.cartLength.next(0)
+
+              console.log("Updated cart in local storage:", updatedCart);
+
+              this.router.navigate(['']);
+            },
+            (deleteError: any) => {
+              console.error("Error occurred during item deletion:", deleteError);
+            }
+          );
+        } else {
+          console.error("Inquiry placement failed:", response);
+        }
+      },
+      (error: any) => {
+        console.error("Error occurred during inquiry placement:", error);
+      }
+    );
+  } else {
+    console.error("No items in the cart or cart is undefined.");
+  }
+}
+
+
   
 }

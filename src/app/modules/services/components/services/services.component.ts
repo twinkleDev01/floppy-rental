@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ServicesDetailService } from '../../service/services-detail.service';
 import { environment } from '../../../../../environments/environment.development';
@@ -9,7 +9,7 @@ import { ViewportScroller } from '@angular/common';
   templateUrl: './services.component.html',
   styleUrl: './services.component.scss'
 })
-export class ServicesComponent {
+export class ServicesComponent implements OnInit {
   serviceDataList:any[]=[];
   originalList:any[]=[];
   apiUrl: string = environment.ApiBaseUrl;
@@ -85,22 +85,11 @@ ngOnInit(){
   this.viewportScroller.scrollToPosition([0, 0]); // Scroll to the top of the page
    // ServiceCategoryList
    this.service.getServiceList().subscribe((res:any)=>{
-    console.log("SErviceList",res)
     this.serviceDataList = res.data;
     this.originalList = [...res?.data];
       this.serviceDataList = this.serviceDataList?.filter((iterable:any)=> iterable?.status === 1);
-    console.log(this.serviceDataList,"serviceDataListtt")
    })
 }
-  // goToRental(serviceId:any){
-  //   console.log(serviceId,"serviceId")
-  //   const navigationExtras = {
-  //     state: {
-  //       serviceId: serviceId?.mainId,
-  //     }
-  //   };
-  //   this.router.navigate([`/services/category/${serviceId?.classificationName?.trim()?.replace(/\s+/g, '-')?.toLowerCase()}`], navigationExtras);
-  // }
 
   goToCategory(subcategory: any) {
 
@@ -117,9 +106,7 @@ ngOnInit(){
 
     // Navigate using updated category name and ID
     this.router.navigate([`/services/category/${selectedSubCategoryName?.replaceAll("/","$")}/${subcategory.mainId}`]);
-  } else {
-    console.error('No categories found in response.');
-  }
+  } 
 }, (error:any) => {
   console.error('Error fetching subcategories:', error);
 });

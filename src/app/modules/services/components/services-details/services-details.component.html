@@ -20,15 +20,15 @@
                     <span style="font-size: 13px; color:gray;">{{averageRating}} Review</span>
                 </div>
                     <!-- </p> -->
-                    <p><span style="font-weight: bold; color: black;"></span> &nbsp;<span style="font-size: 13px; color: #008cac;">{{ serviceDetail?.item.rate }}</span></p>
+                    <p><span style="font-weight: bold; color: black;"></span> &nbsp;<span style="font-size: 18px; color: #008cac;">₹ {{ serviceDetail?.item.rate }}</span></p>
                     <p *ngFor="let rate of serviceDetail?.item.packageTrans" class="packageName">
                         <ng-container *ngIf="rate.productName?.toLowerCase() !== 'image'">
                             {{rate.productValue}}
                           </ng-container>
                       </p>
                       
-                         <p><img src="images/Service-detail-img/green_tick.png" alt="" class="green-tick"> {{ serviceDetail?.item.maingroupname }}</p>
-                        <p> <img src="images/Service-detail-img/green_tick.png" alt="" class="green-tick"> {{ serviceDetail?.item.subgroupname }}</p>
+                         <!-- <p><img src="images/Service-detail-img/green_tick.png" alt="" class="green-tick"> {{ serviceDetail?.item.maingroupname }}</p>
+                        <p> <img src="images/Service-detail-img/green_tick.png" alt="" class="green-tick"> {{ serviceDetail?.item.subgroupname }}</p> -->
                         <p> <img src="images/Service-detail-img/green_tick.png" alt="" class="green-tick"> {{ serviceDetail?.item.specication }}</p>
                         <!-- <li>{{ serviceDetail?.item.id }}</li> -->
                    
@@ -226,8 +226,8 @@
                             <span class="main-name">{{ card.item.maingroupname }}</span>
                             <span>{{ card?.item.subgroupname }}</span>
                           </div>
-                          <div class="charge pt-2">Monthly Charge For</div>
-                          <div class="price">{{ card.item.rate }}</div>
+                          <!-- <div class="charge pt-2">Monthly Charge For</div> -->
+                          <div class="price">₹ {{ card.item.rate }}</div>
                           <hr />
                           <div class="distance">
                             Distance : {{ card.vendor?.distance }} KM
