@@ -258,9 +258,7 @@ console.log('Formatted Date:', this.selectedDateIst);
 
   createNewOrder() {
     if(this.isBrowser){
-      localStorage.removeItem('myCartItem')
-      console.log(this.checkout.value)
-      this.cartService.cartLength.next(0);
+ 
     const orderId = `ord_id_${Date.now()}`;
     this.checkout?.markAllAsTouched();
     if(this.checkout?.invalid)return;
@@ -293,17 +291,23 @@ console.log('Formatted Date:', this.selectedDateIst);
     this.cartService.createOrder(payload).subscribe(
       async (response) => {
         console.log(response,"294")
-        if (response?.paymentSessionId === null) {
+        if (response?.paymentMode === 'Cash on Delivery') {
           localStorage.setItem('orderId', response.orderId)
           localStorage.setItem('paymentMode', response.paymentMode)
           localStorage.setItem('paymentOrderReferenceId', response.paymentOrderReferenceId)
           this.router.navigateByUrl('/profile/my-booking');
+          localStorage.removeItem('myCartItem')
+          console.log(this.checkout.value)
+          this.cartService.cartLength.next(0);
           return;
         }
         console.log('Order created successfully', response?.paymentSessionId);
         localStorage.setItem('orderId', response?.orderId)
         localStorage.setItem('paymentMode', response.paymentMode)
           localStorage.setItem('paymentOrderReferenceId', response.paymentOrderReferenceId)
+          localStorage.removeItem('myCartItem')
+          console.log(this.checkout.value)
+          this.cartService.cartLength.next(0);
         // Ensure that Cashfree SDK is loaded properly
         try {
           const cashfree = await load({

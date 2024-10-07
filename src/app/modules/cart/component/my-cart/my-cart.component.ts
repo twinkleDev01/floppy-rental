@@ -213,7 +213,7 @@ if (localIndex !== -1) {
         // venderId: this.cartItems.map((item: any) => item.vendorId)
         products: this.cartItems.map((item: any) => ({
           productId: item.itemId ? item.itemId : item.itemid,
-          vendorId: item.vendorId
+          vendorId: item.vendorId?item.vendorId:item.vendorid
         }))        
       }));
   
@@ -272,7 +272,7 @@ if (localIndex !== -1) {
 
   
   get sabTotal() {
-    return this.cartItems.reduce((totalAmount, cart, index) => {
+    return this.cartItems?.reduce((totalAmount, cart, index) => {
       return totalAmount + (cart.itemRate * cart.quantity)
     }, 0
     )
@@ -297,13 +297,13 @@ if (localIndex !== -1) {
     }
   
     // Calculate the savings from the cart items if no API discount is available
-    return this.cartItems.reduce((totalAmount, cart) => {
+    return this.cartItems?.reduce((totalAmount, cart) => {
       return totalAmount + ((cart.itemRate * cart.quantity) * cart.discountPercent / 100);
     }, 0);
   }
   
   get totalTaxAmount() {
-    return this.cartItems.reduce((totalAmount, cart) => {
+    return this.cartItems?.reduce((totalAmount, cart) => {
       return totalAmount + (((cart.itemRate * cart.quantity)-((cart.itemRate * cart.quantity)*cart.discountPercent/100))  * cart.tax / 100);
     }, 0);
   }
@@ -376,7 +376,7 @@ if (localIndex !== -1) {
   }
 
   isPlaceInquiryOnly(): boolean {
-    return this.cartItems.every(item => item.groupType === 'Place Enquiry');
+    return this.cartItems?.every(item => item.groupType === 'Place Enquiry');
 }
 
 // placeInquiry(cartItems: any[]) {

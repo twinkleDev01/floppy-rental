@@ -137,6 +137,7 @@ export class CartService {
 
   createOrder(payload: any): Observable<any> {
     this.token = localStorage.getItem("token")
+    console.log(this.token,"140")
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.token}`
@@ -177,6 +178,19 @@ export class CartService {
 
   private apiUrl = environment.ApiBaseUrl + 'Payments/UpdatePaymentStatus';
   updatePaymentStatus(paymentReferenceOrderId: string, orderId: string, userId: number, isCashOnDelivery: boolean): Observable<any> {
+
+    const token = localStorage.getItem("token");
+  
+    // Create HTTP headers with the authorization token
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
+    const httpOptions = {
+      headers: headers
+    };
+
     const payload = {
       paymentReferenceOrderId,
       orderId,
@@ -184,7 +198,7 @@ export class CartService {
       isCashOnDelivery
     };
 
-    return this.http.post<any>(this.apiUrl, payload);
+    return this.http.post<any>(this.apiUrl, payload, httpOptions);
   }
 
   placeEnquiry(cartItems: any[]): Observable<any> {
