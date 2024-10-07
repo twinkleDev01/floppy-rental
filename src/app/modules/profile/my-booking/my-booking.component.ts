@@ -119,7 +119,7 @@ openDateTimePicker(booking:any): void {
     // Call the service method
     this.cartService.updatePaymentStatus(paymentReferenceOrderId, orderId, userId, isCashOnDelivery).subscribe(
       response => {
-        this.toastr.success('order Successfully')
+        this.toastr.success('Your order has been placed successfully')
         localStorage.removeItem('orderId')
         localStorage.removeItem('isCashOnDelivery')
         console.log('Payment status updated successfully', response);
