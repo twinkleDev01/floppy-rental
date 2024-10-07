@@ -23,6 +23,8 @@ export class CheckoutComponent {
    cities:any[] =  [];
 
   states: any = [];
+  latitude:any;
+  logitude:any;
 
   checkout: FormGroup;
   selectedPaymentOption = 'option5'; 
@@ -266,7 +268,7 @@ console.log('Formatted Date:', this.selectedDateIst);
     
     const payload = {
       userId: localStorage.getItem('userId') || 0, // Ensure userId is a number or default to 0
-      totalAmount: this.sabTotal || 0, // Ensure totalAmount is a number or default to 0
+      totalAmount: parseFloat(this.sabTotal.toFixed(2)) || 0, // Ensure totalAmount is a number or default to 0
       totalQuantity:  0, // Ensure totalQuantity is a number or default to 0
       firstName: this.extractFirstName(this.checkout.value.firstName) || 'string', // Assuming checkout form has firstName
       lastName: this.extractLastName(this.checkout.value.firstName) || 'string',  // Assuming checkout form has lastName
@@ -283,7 +285,9 @@ console.log('Formatted Date:', this.selectedDateIst);
       products: this.products,  // Assuming you need to map productId(s) here
       currency: 'INR',  // Currency from the original second payload
       returnUrl: `${window.location.origin}/profile/my-booking`, // returnUrl from the original second payload
-      isCashOnDelivery:this.isCashOnDelivery
+      isCashOnDelivery:this.isCashOnDelivery,
+      latitude: this.latitude.toString(),
+      longitude: this.logitude.toString(),
     };
     
     localStorage.setItem('isCashOnDelivery', JSON.stringify(this.isCashOnDelivery));
@@ -395,7 +399,8 @@ console.log('Formatted Date:', this.selectedDateIst);
       navigator.geolocation.getCurrentPosition((position) => {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
-
+        this.latitude = position.coords.latitude;
+this.logitude = position.coords.longitude;
         // Call reverse geocoding API to convert lat, lng to address
         this.getCountryFromCoordinates(lat, lng);
       }, (error) => {

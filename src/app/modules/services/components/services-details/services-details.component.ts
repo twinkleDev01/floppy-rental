@@ -217,8 +217,45 @@ this.router.navigate(['cart']);
  } 
 }, (error)=>{
     // Handle the case where the response was not successful
-    console.log("Error in response");
-    this.toastr.error(error.error.message);
+   // For guest users, manage cart in localStorage
+ let localCart = localStorage.getItem('myCartItem')
+ ? JSON.parse(localStorage.getItem('myCartItem')!)
+ : [];
+
+ // Check for vendor and category mismatch
+ const mismatchItemIndex = localCart.findIndex((item: any) =>
+  item.vendorid !== serviceDetail.item.vendorid ||
+  item.maingroupid !== serviceDetail.item.maingroupid
+);
+console.log(mismatchItemIndex,"187")
+
+if (mismatchItemIndex > -1) {
+  // Show error message if a mismatch is found
+  this.toastr.error('Cannot add items from different vendor or category');
+  return; // Exit the function without adding the item
+}
+// Find the existing item in the cart
+const existingItemIndex = localCart.findIndex((item: any) => item.itemid === serviceDetail.item.itemid);
+
+console.log(existingItemIndex,"183")
+if (existingItemIndex > -1) {
+  // If item exists, update its quantity
+  localCart[existingItemIndex].quantity += 1;
+} else {
+  console.log(serviceDetail.item.quantity)
+  // If item doesn't exist, add new item with quantity 1
+  serviceDetail.item.quantity = 1;
+  localCart.push(serviceDetail.item);
+}
+// Update the cart in localStorage
+localStorage.setItem('myCartItem', JSON.stringify(localCart));
+
+if(localStorage.getItem('userId')){
+  this.updateCartDetails('myCartItem')
+}
+// Navigate to the cart page
+this.toastr.success('Item added successfully')
+this.router.navigate(['cart']);
 })
  
   }
