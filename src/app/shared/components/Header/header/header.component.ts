@@ -31,10 +31,13 @@ export class HeaderComponent {
       this.cartLength = val || length;
     });
     if(this.auth.isLoggedIn$){
+      
     this.auth.isLoggedIn$.subscribe(isLoggedIn => {
       console.log('Login status changed:', isLoggedIn); // Log status changes
       if (isLoggedIn) {
         // If the user is logged in, call the API to fetch cart items
+// Delay the API call by a specified timeout (e.g., 500 milliseconds)
+setTimeout(() => {
         this.cartService.getCartItems().subscribe(
           (cartItems:any) => {
             console.log(cartItems,"37")
@@ -44,6 +47,7 @@ export class HeaderComponent {
             // Handle error here
           }
         );
+      }, 500); // Adjust the timeout as needed (e.g., 500 milliseconds)
       }
     });
   }
