@@ -158,7 +158,7 @@ console.log(this.subCategoryName,"126")
   // this.getLocations()
     this.getCouponList()
     this.getBannerData()
-    // this.getCurrentLocation()
+    this.getCurrentLocation()
     // getCategoryList
     this.service.getCategoryList().subscribe((res)=>{
       this.categoriesList = res.data;
@@ -363,6 +363,7 @@ onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
   
 
   getCurrentLocation(){
+    console.log("366")
     // Check if the browser supports Geolocation API
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(
@@ -370,6 +371,7 @@ if (navigator.geolocation) {
           // Success callback
           this.latitude = position.coords.latitude;
           this.longitude = position.coords.longitude;
+          console.log(this.latitude, this.longitude,"373")
       },
       (error) => {
           // Error callback
