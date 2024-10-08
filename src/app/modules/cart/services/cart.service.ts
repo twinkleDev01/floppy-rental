@@ -177,7 +177,7 @@ export class CartService {
   }
 
   private apiUrl = environment.ApiBaseUrl + 'Payments/UpdatePaymentStatus';
-  updatePaymentStatus(paymentReferenceOrderId: string, orderId: string, userId: number, isCashOnDelivery: boolean): Observable<any> {
+  updatePaymentStatus(paymentReferenceOrderId: string, orderId: string, userId: number, isCashOnDelivery: boolean, email: string): Observable<any> {
 
     const token = localStorage.getItem("token");
   
@@ -195,7 +195,8 @@ export class CartService {
       paymentReferenceOrderId,
       orderId,
       userId,
-      isCashOnDelivery
+      isCashOnDelivery,
+      email
     };
 
     return this.http.post<any>(this.apiUrl, payload, httpOptions);
