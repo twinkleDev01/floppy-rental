@@ -26,6 +26,8 @@ export class MyCartComponent {
   initialAmountToCheckout: number = 0
   discountAmount: number | null = null;
   isBrowser!: boolean;
+  longitude:any;
+  latitude:any
 
   constructor(private cartService: CartService, private router:Router, private toastr: ToastrService, private sharedService:SharedService, private auth:AuthService, private dialog: MatDialog, private service:ServicesDetailService, @Inject(PLATFORM_ID) platformId: Object
   ) {
@@ -55,8 +57,9 @@ this.updateCartItemsFromApi();
   }
       // this.getCartItems()
       
-    this.getCouponList()
     }
+    this.getCouponList()
+    this.getCurrentLocation()
   }
 
 
@@ -410,12 +413,24 @@ placeInquiry(cartItems: any[]) {
 
     if(localStorage.getItem('userId')){
 
+      const userId = localStorage.getItem('userId');
+      const latitude = this.latitude;  // Assume you have latitude from somewhere in your component
+      const longitude = this.longitude; // Assume you have longitude from somewhere in your component
+
+      // Create the request payload
+      const inquiryPayload = {
+        itemIds: cartItems.map(item => item.itemId?item.itemId:item.itemid),  // Assuming each item has an 'id' property
+        userId: Number(userId),  // Ensure userId is a number
+        latitude: String(latitude),  // Ensure latitude is a string
+        longitude: String(longitude)  // Ensure longitude is a string
+      };
+
       // Pass all cart items to the service, which will extract the item IDs
-      this.cartService.placeEnquiry(cartItems).subscribe(
+      this.cartService.placeEnquiry(inquiryPayload).subscribe(
         (response: any) => {
           console.log(response, "390 - API Response");
   
-          if (response.result && response.result.success) {
+          if (response.success) {
             console.log("Enquiry placed successfully, proceeding to delete items...");
   this.toastr.success('Enquiry placed successfully')
             // Extract item IDs from cart items
@@ -466,6 +481,19 @@ placeInquiry(cartItems: any[]) {
   }
 }
 
-
+getCurrentLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+      this.latitude = position.coords.latitude;
+this.longitude = position.coords.longitude;
+    }, (error) => {
+      console.error('Error fetching location: ', error);
+    });
+  } else {
+    console.log('Geolocation is not supported by this browser.');
+  }
+}
   
 }

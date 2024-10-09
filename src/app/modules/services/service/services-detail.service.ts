@@ -193,9 +193,9 @@ export class ServicesDetailService {
     throw new Error('Method not implemented.');
   }
 
-  // getServiceLocationWise(subgroupName: string, location: string, latitude:any, logitude:any): Observable<any> {
+  // getServiceLocationWise(subgroupName: string, location: string, latitude:any, longitude:any): Observable<any> {
   //   // Construct the URL with the provided parameters
-  //   const url = `${this.locationServiceWiseUrl}/${subgroupName}/${location}/${latitude}/${logitude}`;
+  //   const url = `${this.locationServiceWiseUrl}/${subgroupName}/${location}/${latitude}/${longitude}`;
     
   //   // Make the GET request and return the observable
   //   return this.http.get<any>(url);

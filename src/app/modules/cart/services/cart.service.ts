@@ -202,7 +202,7 @@ export class CartService {
     return this.http.post<any>(this.apiUrl, payload, httpOptions);
   }
 
-  placeEnquiry(cartItems: any[]): Observable<any> {
+  placeEnquiry(inquiryPayload: any): Observable<any> {
     const token = localStorage.getItem("token");
   
     // Create HTTP headers with the authorization token
@@ -216,10 +216,10 @@ export class CartService {
     };
   
     // Extract all `itemId` values from cartItems
-    const cardItemIds = cartItems.map(item => item.itemId);
+    // const cardItemIds = cartItems.map(item => item.itemId);
   
     // Send the array of item IDs directly in the request body
-    return this.http.post(this.url + 'PlaceEnquiry/placeenquiry', cardItemIds, httpOptions);
+    return this.http.post(this.url + 'PlaceEnquiry/placeenquiry', inquiryPayload, httpOptions);
   }
   
   
