@@ -196,6 +196,7 @@ thirdCategory!:SubCategories
         const topData = this.homeBannerData['Top'];
         if (topData) {
           this.sortedTopData = topData.sort((a: any, b: any) => a.Seqno - b.Seqno);
+          console.log("199",this.sortedTopData)
         } else {
           console.error('Top data not found:', this.homeBannerData);
         }
