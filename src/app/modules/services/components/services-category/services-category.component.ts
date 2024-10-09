@@ -363,7 +363,6 @@ onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
   
 
   getCurrentLocation(){
-    console.log("366")
     // Check if the browser supports Geolocation API
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(

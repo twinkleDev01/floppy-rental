@@ -82,7 +82,7 @@ export class ServicesDetailService {
 
   getItemByCategory(
     catId: number, 
-    subCategoriesId: number, 
+    subCategoryIds: number[], 
     latitude: number, 
     longitude: number, 
     startIndex: number = 0, 
@@ -98,7 +98,7 @@ export class ServicesDetailService {
     // Construct payload object as per the API requirements
     const payload = {
       categoryId: catId,
-      subCategoryId: subCategoriesId,
+      subCategoryIds: Array.isArray(subCategoryIds) ? subCategoryIds : [subCategoryIds], // Force array
       latitude: latitude,
       longitude: longitude,
       pageSize: pageSize,
