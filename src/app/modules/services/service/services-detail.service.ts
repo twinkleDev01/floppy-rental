@@ -80,9 +80,43 @@ export class ServicesDetailService {
   //     );
   // }
 
+  // getItemByCategory(
+  //   catId: number, 
+  //   subCategoryIds: number[], 
+  //   latitude: number, 
+  //   longitude: number, 
+  //   startIndex: number = 0, 
+  //   pageSize: number = 0
+  // ): Observable<any> {
+  //   const headers = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     // "Authorization": 'Bearer ' + localStorage.getItem('token')
+  //   });
+    
+  //   const httpOptions = { headers: headers };
+  
+  //   // Construct payload object as per the API requirements
+  //   const payload = {
+  //     categoryId: catId,
+  //     subCategoryIds: Array.isArray(subCategoryIds) ? subCategoryIds : [subCategoryIds], // Force array
+  //     latitude: latitude,
+  //     longitude: longitude,
+  //     pageSize: pageSize,
+  //     startIndex: startIndex
+  //   };
+  
+  //   // Make a POST request to the API with the payload
+  //   return this.http.post<any>(environment.ApiBaseUrl + 'Service/GetItemsByCategory', payload, httpOptions)
+  //     .pipe(
+  //       map((response: any) => response),
+  //       catchError(error => this.handleError(error))
+  //     );
+  // }
+
+
   getItemByCategory(
     catId: number, 
-    subCategoryIds: number[], 
+    subCategoryId: number, 
     latitude: number, 
     longitude: number, 
     startIndex: number = 0, 
@@ -98,7 +132,7 @@ export class ServicesDetailService {
     // Construct payload object as per the API requirements
     const payload = {
       categoryId: catId,
-      subCategoryIds: Array.isArray(subCategoryIds) ? subCategoryIds : [subCategoryIds], // Force array
+      subCategoryId: subCategoryId, // Force array
       latitude: latitude,
       longitude: longitude,
       pageSize: pageSize,
