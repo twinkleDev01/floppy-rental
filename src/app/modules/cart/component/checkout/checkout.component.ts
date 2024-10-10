@@ -24,7 +24,7 @@ export class CheckoutComponent {
 
   states: any = [];
   latitude:any;
-  logitude:any;
+  longitude:any;
 
   checkout: FormGroup;
   selectedPaymentOption = 'option5'; 
@@ -287,7 +287,7 @@ console.log('Formatted Date:', this.selectedDateIst);
       returnUrl: `${window.location.origin}/profile/my-booking`, // returnUrl from the original second payload
       isCashOnDelivery:this.isCashOnDelivery,
       latitude: this.latitude.toString(),
-      longitude: this.logitude.toString(),
+      longitude: this.longitude.toString(),
     };
     
     localStorage.setItem('isCashOnDelivery', JSON.stringify(this.isCashOnDelivery));
@@ -400,7 +400,7 @@ console.log('Formatted Date:', this.selectedDateIst);
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
         this.latitude = position.coords.latitude;
-this.logitude = position.coords.longitude;
+this.longitude = position.coords.longitude;
         // Call reverse geocoding API to convert lat, lng to address
         this.getCountryFromCoordinates(lat, lng);
       }, (error) => {

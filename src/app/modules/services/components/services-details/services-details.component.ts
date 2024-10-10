@@ -190,6 +190,7 @@ console.log(mismatchItemIndex,"187")
 if (mismatchItemIndex > -1) {
   // Show error message if a mismatch is found
   this.toastr.error('Cannot add items from different vendor or category');
+  console.log("193")
   return; // Exit the function without adding the item
 }
 // Find the existing item in the cart
@@ -232,6 +233,7 @@ console.log(mismatchItemIndex,"187")
 if (mismatchItemIndex > -1) {
   // Show error message if a mismatch is found
   this.toastr.error('Cannot add items from different vendor or category');
+  console.log("236")
   return; // Exit the function without adding the item
 }
 // Find the existing item in the cart

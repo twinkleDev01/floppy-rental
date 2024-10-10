@@ -82,7 +82,7 @@ export class ServicesDetailService {
 
   getItemByCategory(
     catId: number, 
-    subCategoriesId: number, 
+    subCategoryIds: number[], 
     latitude: number, 
     longitude: number, 
     startIndex: number = 0, 
@@ -98,7 +98,7 @@ export class ServicesDetailService {
     // Construct payload object as per the API requirements
     const payload = {
       categoryId: catId,
-      subCategoryId: subCategoriesId,
+      subCategoryIds: Array.isArray(subCategoryIds) ? subCategoryIds : [subCategoryIds], // Force array
       latitude: latitude,
       longitude: longitude,
       pageSize: pageSize,
@@ -193,9 +193,9 @@ export class ServicesDetailService {
     throw new Error('Method not implemented.');
   }
 
-  // getServiceLocationWise(subgroupName: string, location: string, latitude:any, logitude:any): Observable<any> {
+  // getServiceLocationWise(subgroupName: string, location: string, latitude:any, longitude:any): Observable<any> {
   //   // Construct the URL with the provided parameters
-  //   const url = `${this.locationServiceWiseUrl}/${subgroupName}/${location}/${latitude}/${logitude}`;
+  //   const url = `${this.locationServiceWiseUrl}/${subgroupName}/${location}/${latitude}/${longitude}`;
     
   //   // Make the GET request and return the observable
   //   return this.http.get<any>(url);

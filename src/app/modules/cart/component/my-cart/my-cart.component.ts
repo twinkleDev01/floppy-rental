@@ -26,6 +26,8 @@ export class MyCartComponent {
   initialAmountToCheckout: number = 0
   discountAmount: number | null = null;
   isBrowser!: boolean;
+  longitude:any;
+  latitude:any
 
   constructor(private cartService: CartService, private router:Router, private toastr: ToastrService, private sharedService:SharedService, private auth:AuthService, private dialog: MatDialog, private service:ServicesDetailService, @Inject(PLATFORM_ID) platformId: Object
   ) {
@@ -55,12 +57,15 @@ this.updateCartItemsFromApi();
   }
       // this.getCartItems()
       
-    this.getCouponList()
     }
+    this.getCouponList()
+    this.getCurrentLocation()
   }
 
 
   updateCartItemsFromApi() {
+    // Delay the API call by a specified timeout (e.g., 500 milliseconds)
+    setTimeout(() => {
     this.cartService.getCartItems().subscribe(
       (cartItems: any) => {
         this.syncCartWithLocalStorage(cartItems.data);
@@ -72,6 +77,7 @@ this.updateCartItemsFromApi();
         console.error('Error fetching cart items from API:', error);
       }
     );
+  }, 500); // Adjust the timeout as needed (e.g., 500 milliseconds)
   }
   
   syncCartWithLocalStorage(apiCartItems: any[]) {
@@ -405,55 +411,89 @@ placeInquiry(cartItems: any[]) {
   if (cartItems && cartItems.length > 0) {
     console.log(cartItems, "385 - Cart Items");
 
-    // Pass all cart items to the service, which will extract the item IDs
-    this.cartService.placeEnquiry(cartItems).subscribe(
-      (response: any) => {
-        console.log(response, "390 - API Response");
+    if(localStorage.getItem('userId')){
 
-        if (response.result && response.result.success) {
-          console.log("Enquiry placed successfully, proceeding to delete items...");
+      const userId = localStorage.getItem('userId');
+      const latitude = this.latitude;  // Assume you have latitude from somewhere in your component
+      const longitude = this.longitude; // Assume you have longitude from somewhere in your component
 
-          // Extract item IDs from cart items
-          const cardItemIds = cartItems.map(item => item.id);
-          console.log(cardItemIds, "Item IDs to be deleted");
+      // Create the request payload
+      const inquiryPayload = {
+        itemIds: cartItems.map(item => item.itemId?item.itemId:item.itemid),  // Assuming each item has an 'id' property
+        userId: Number(userId),  // Ensure userId is a number
+        latitude: String(latitude),  // Ensure latitude is a string
+        longitude: String(longitude)  // Ensure longitude is a string
+      };
 
-          // Call deleteCart with the extracted item IDs
-          this.cartService.deleteCart(cardItemIds).subscribe(
-            (deleteResponse: any) => {
-              console.log("Items deleted successfully:", deleteResponse);
-
-              
-              // Retrieve the current cart from local storage
-              const cart = JSON.parse(localStorage.getItem('myCartItem') || '[]');
-
-              // Filter out the items that were deleted
-              const updatedCart = cart.filter((item: any) => !cardItemIds.includes(item.id));
-
-              // Update local storage with the new cart
-              localStorage.setItem('myCartItem', JSON.stringify(updatedCart));
-              this.cartService.cartLength.next(0)
-
-              console.log("Updated cart in local storage:", updatedCart);
-
-              this.router.navigate(['']);
-            },
-            (deleteError: any) => {
-              console.error("Error occurred during item deletion:", deleteError);
-            }
-          );
-        } else {
-          console.error("Inquiry placement failed:", response);
+      // Pass all cart items to the service, which will extract the item IDs
+      this.cartService.placeEnquiry(inquiryPayload).subscribe(
+        (response: any) => {
+          console.log(response, "390 - API Response");
+  
+          if (response.success) {
+            console.log("Enquiry placed successfully, proceeding to delete items...");
+  this.toastr.success('Enquiry placed successfully')
+            // Extract item IDs from cart items
+            const cardItemIds = cartItems.map(item => item.id);
+            console.log(cardItemIds, "Item IDs to be deleted");
+  
+            // Call deleteCart with the extracted item IDs
+            this.cartService.deleteCart(cardItemIds).subscribe(
+              (deleteResponse: any) => {
+                console.log("Items deleted successfully:", deleteResponse);
+  
+                
+                // Retrieve the current cart from local storage
+                const cart = JSON.parse(localStorage.getItem('myCartItem') || '[]');
+  
+                // Filter out the items that were deleted
+                const updatedCart = cart.filter((item: any) => !cardItemIds.includes(item.id));
+  
+                // Update local storage with the new cart
+                localStorage.setItem('myCartItem', JSON.stringify(updatedCart));
+                this.cartService.cartLength.next(0)
+  
+                console.log("Updated cart in local storage:", updatedCart);
+  
+                this.router.navigate(['']);
+              },
+              (deleteError: any) => {
+                console.error("Error occurred during item deletion:", deleteError);
+              }
+            );
+          } else {
+            console.error("Inquiry placement failed:", response);
+          }
+        },
+        (error: any) => {
+          console.error("Error occurred during inquiry placement:", error);
         }
-      },
-      (error: any) => {
-        console.error("Error occurred during inquiry placement:", error);
-      }
-    );
+      );
+    }else{
+      // alert("Please log in before adding items to your cart.")
+  this.dialog.open(LoginComponent, {
+    width: '450',
+    disableClose: true
+  });
+    }
   } else {
     console.error("No items in the cart or cart is undefined.");
   }
 }
 
-
+getCurrentLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+      this.latitude = position.coords.latitude;
+this.longitude = position.coords.longitude;
+    }, (error) => {
+      console.error('Error fetching location: ', error);
+    });
+  } else {
+    console.log('Geolocation is not supported by this browser.');
+  }
+}
   
 }

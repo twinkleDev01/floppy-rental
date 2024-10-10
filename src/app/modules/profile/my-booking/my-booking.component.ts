@@ -40,6 +40,7 @@ export class MyBookingComponent {
   }
 
 ngOnInit(){
+  this.getUserDetailById();
   this.updatePayment()
   this.getUserBooking();
 }
@@ -116,8 +117,10 @@ openDateTimePicker(booking:any): void {
       return;
     }
   
+    setTimeout(() => {
     // Call the service method
-    this.cartService.updatePaymentStatus(paymentReferenceOrderId, orderId, userId, isCashOnDelivery).subscribe(
+    console.log(this.userEmail,"121")
+    this.cartService.updatePaymentStatus(paymentReferenceOrderId, orderId, userId, isCashOnDelivery, this.userEmail).subscribe(
       response => {
         this.toastr.success('Your order has been placed successfully')
         localStorage.removeItem('orderId')
@@ -129,6 +132,7 @@ openDateTimePicker(booking:any): void {
         console.error('Error updating payment status', error);
       }
     );
+  }, 1000); // Delay of 2 seconds (2000 milliseconds)
   }
   }
 
@@ -224,5 +228,24 @@ reAddToCart(item:any){
   }
 }
  }
+
+ userEmail:any;
+ getUserDetailById(): void {
+  if(this.isBrowser){
+  const id = localStorage.getItem('userId');
+  if (id) {
+    this.profileService.getProfileDetailsById(Number(id)).subscribe(
+      (response: any) => {
+     console.log(response.data,"306")
+    this.userEmail = response.data.emailId
+      },
+      (error) => {
+        console.error('Error fetching profile details:', error);
+        // this.toastr.error('Failed to load profile details');
+      }
+    );
+  }
+}
+}
 
 }
