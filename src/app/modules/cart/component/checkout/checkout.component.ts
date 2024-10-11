@@ -441,12 +441,23 @@ this.longitude = position.coords.longitude;
             city = component.long_name; // City name
           }
         });
+
+        setTimeout(() => {
+        if (this.checkout.value.state) {
+          const selectedState = State.getStatesOfCountry(this.selectedCountryCode || '').find(s => s.name === this.checkout.value.state);
+          if (selectedState) {
+              isoCode = selectedState.isoCode;
+                  this.loadCities(isoCode);
+                }
+              }
+            }, 1000); // Delay of 1000 milliseconds (1 second)
+      
   
-        console.log(country, state, city, stateIsoCode, "382");
-  
-        this.loadStates(isoCode); // Load states based on country
-        this.selectedStateCode = stateIsoCode; // Set the selected state code
-        this.loadCities(this.selectedStateCode); // Load cities based on the selected state code
+      
+      this.loadStates(isoCode); // Load states based on country
+      this.selectedStateCode = stateIsoCode; // Set the selected state code
+      this.loadCities(this.selectedStateCode); // Load cities based on the selected state code
+      console.log(country, state, city, stateIsoCode, "382");
   
       } else {
         console.log('No country information found for the provided coordinates.');
