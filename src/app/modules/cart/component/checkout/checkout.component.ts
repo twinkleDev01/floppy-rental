@@ -53,7 +53,7 @@ export class CheckoutComponent {
     lastName : [''],
     address: ['',[Validators.required]],
     state : ['',[Validators.required]],
-    country : ['',[Validators.required]],
+    country : ['India',[Validators.required]],
     city : ['',[Validators.required]],
     zipCode : ['',[Validators.required,Validators.maxLength(8)]],
     date : ['',[Validators.required]],
