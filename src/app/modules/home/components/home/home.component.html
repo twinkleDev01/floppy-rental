@@ -31,15 +31,17 @@
         <p>Service On Wheel helps you live smarter, giving you time to focus on what's most important.</p>
         
         <div class="location_search">
-          <i class="fa-solid fa-location-dot"></i>
+          
           <!-- <select class="select_box" name="location" id="location" (change)="onCityChange($event)">
             <option value="">Select</option>
             <option *ngFor="let location of locations" [value]="location.cityName + '|' + location.areaName">
               {{ location.cityName }} - {{ location.areaName }}
             </option>
           </select> -->
+
+          <!-- .................................SEARCH LOCATION.......................................
+           <i class="fa-solid fa-location-dot"></i>
           <div style="width: 300px;">
-            <!-- Searchable input field -->
             <input
               type="text"
               [(ngModel)]="searchInput"
@@ -48,13 +50,12 @@
               class="autocomplete-input location-auto"
             />
           
-            <!-- Select Dropdown for Predictions -->
             <select *ngIf="predictions.length > 0" size="5" (change)="selectPrediction($event)" class="select-location">
               <option *ngFor="let prediction of predictions" [value]="prediction.description" class="search-option">
                 <i class="fa-solid fa-location-dot"></i> {{ prediction.description }}
               </option>
             </select>
-          </div>
+          </div> 
           
           <i class="fa-solid fa-magnifying-glass search_glass"></i>
       

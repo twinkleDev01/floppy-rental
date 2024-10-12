@@ -11,6 +11,7 @@ import { Item, SubCategories } from '../../_models/home.model';
 import { FormControl } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -130,12 +131,12 @@ thirdCategory!:SubCategories
   showError = false;
   autocompleteService: any;
   predictions: any[] = [];
-  searchInput: string = '';
+  searchInput= '';
   placeDetails: any; // For storing selected place details
   filteredSubgroupsName: Observable<any[]> = new Observable();
   placesService!: google.maps.places.PlacesService;
   isBrowser!: boolean;
-  constructor(private homeService: HomeService, public dialog: MatDialog, private service:ServicesDetailService,private scrollService:ScrollService, private router:Router, @Inject(PLATFORM_ID) platformId: Object){
+  constructor(private homeService: HomeService, public dialog: MatDialog, private service:ServicesDetailService,private scrollService:ScrollService, private router:Router,private http: HttpClient, @Inject(PLATFORM_ID) platformId: Object){
     // this.initializeLocations();
     this.isBrowser = isPlatformBrowser(platformId);
     if(this.isBrowser){
@@ -446,8 +447,8 @@ if (this.filteredSubgroups.length === 0 && searchValue) {
           `/services/category/${this.locationSearchItem.subClassificationName.replaceAll("/","$")}/${this.locationSearchItem.mainId}`
         ], {
           queryParams: {
-            latitude: this.placeDetails.lat,
-            longitude: this.placeDetails.lng,
+            latitude: this.latitude,
+            longitude: this.longitude,
             locations: this.searchInput
           }
         });
@@ -557,12 +558,33 @@ if (this.filteredSubgroups.length === 0 && searchValue) {
     }
   
     onOptionSelected(event: any): void {
+      this.searchInput= this.searchInput = sessionStorage.getItem('address') as string || '';
+      this.findCoordinates(this.searchInput)
       console.log(event, "633");
       console.log('Selected Option:', event.option.value);
       this.locationSearchItem = event.option.value;
       this.error = false
     }
-  
+    findCoordinates(location:any) {
+      const apiKey = 'AIzaSyARIDLGBcFWWC5HltY1_t5iZcXuoXz08bo';
+      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(location)}&key=${apiKey}`;
+      
+      this.http.get<any>(url).subscribe(
+        (response) => {
+          if (response.status === 'OK') {
+            const result = response.results[0];
+            this.latitude = result.geometry.location.lat;
+            this.longitude = result.geometry.location.lng;
+            console.log('Latitude:', this.latitude, 'Longitude:', this.longitude);
+          } else {
+            console.error('Geocoding failed:', response.status);
+          }
+        },
+        (error) => {
+          console.error('Error fetching coordinates:', error);
+        }
+      );
+    }
     displaySubgroupName(subgroup: any): string {
       return subgroup ? subgroup.subClassificationName : '';
     }
