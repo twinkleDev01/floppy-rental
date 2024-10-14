@@ -1,8 +1,8 @@
 <div class="header">
   <div class="container">
     <div class="header_top">
-      <span><i class="fa-solid fa-mobile-screen-button"></i> Download Mobile App  </span>
-      <div>
+      <div class="d-flex">
+      <span style="margin-top: 8px;"><i class="fa-solid fa-mobile-screen-button"></i> Download Mobile App  </span>
         <span class="ms-5">
           <div><div><i class="fa-solid fa-location-dot"></i> {{city}} <i (click)="openLocationPopup()" class="fa-solid fa-angle-down"></i>
           </div><div style="font-size: 11px; padding-left: 10px;">{{ this.address.length > 20 ? (this.address | slice:0:30) + '...' : this.address }}</div>
@@ -92,26 +92,18 @@
 <div id="locationModal" class="modal" tabindex="-1" role="dialog" *ngIf="showLocationPopup">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header justify-content-between">
+      <!-- <div class="modal-header justify-content-between">
         <h5 class="modal-title">Select Your Location</h5>
         <button type="button" class="close float-end" (click)="closeLocationPopup()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-      </div>
-      <div class="modal-body">
-        <!-- <div class="search-bar">
-          <i class="fa fa-search"></i>
-          <input type="text" placeholder="Search for your location" >
-          <button >
-            <i class="fa-solid fa-location-dot"></i> Use current location
-          </button>
-        </div> -->
-        <!-- Add your location options here -->
+      </div> -->
+      <!-- <div class="modal-body">
         <input
         type="text"
         [(ngModel)]="searchInput"
         (input)="onInputChange()"
-        placeholder="Type to search for a location"
+        placeholder="Search for your location"
         class="autocomplete-input location-auto"
       />
       <select *ngIf="predictions.length > 0" size="5" (change)="selectPrediction($event)" class="select-location">
@@ -119,7 +111,29 @@
           <i class="fa-solid fa-location-dot"></i> {{ prediction.description }}
         </option>
       </select>
+      </div> -->
+      <div class="modal-body">
+        <div class="search-bar">
+          <i class="fa fa-search search-icon"></i>
+          <input
+            type="text"
+            [(ngModel)]="searchInput"
+            (input)="onInputChange()"
+            placeholder="Search for your location"
+            class="autocomplete-input location-auto"
+          />
+          <button class="current-location-btn" (click)="getCurrentLocation(true)">
+            <i class="fa-solid fa-location-dot"></i> Use current location
+          </button>
+        </div>
+      
+        <select *ngIf="predictions.length > 0" size="5" (change)="selectPrediction($event)" class="select-location">
+          <option *ngFor="let prediction of predictions" [value]="prediction.description" class="search-option">
+            <i class="fa-solid fa-location-dot"></i> {{ prediction.description }}
+          </option>
+        </select>
       </div>
+      
     </div>
   </div>
 </div>

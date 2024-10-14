@@ -67,12 +67,11 @@
       <div class="container">
         <h2 class="fw-bold fs-4 pt-5">Services</h2>
         <!--  -->
-        <mat-checkbox-group
+        <!-- <mat-checkbox-group
           aria-labelledby="example-radio-group-label"
           class="example-radio-group"
           [(ngModel)]="selectedCategory"
           >
-          <!--  (click)="onCheckboxChange(selectedCategory)" //{{ selectedServiceCategory }}-{{ selectedCategory }}-->
           @for (subCategory of categories; track subCategory) {
           <mat-checkbox
             class="example-radio-button"
@@ -82,7 +81,18 @@
             >{{ subCategory.SubClassificationName }}</mat-checkbox
           >
           }
-        </mat-checkbox-group>
+        </mat-checkbox-group> -->
+        <div aria-labelledby="example-checkbox-group-label" class="example-checkbox-group">
+          <mat-checkbox
+          *ngFor="let subCategory of categories"
+          class="example-checkbox-button"
+          [checked]="subCategory.isChecked"
+          (change)="onCheckboxChange(subCategory, $event)"
+        >
+          {{ subCategory.SubClassificationName }}
+        </mat-checkbox>
+        </div>
+        
       </div>
       <hr />
       <!--  -->

@@ -134,9 +134,10 @@ addReview(){
   const payload = {
     ...this.reviewForm.value,
     itemId:this.serviceDetail.item.id,
-    type: this.serviceDetail?.item.subgroupname,
+    type: '',
     rating:this.currentRating.toString(),
     ratingValue:this.serviceDetail?.item.ratingReview | 0,
+    userId:localStorage.getItem('userId')
   }
 this.service.addNewReview(payload).subscribe((res:any)=>{
   if(res.success){

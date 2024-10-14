@@ -166,23 +166,55 @@ setTimeout(() => {
     this.predictions = [];
     this.closeLocationPopup()
   }
-  getCurrentLocation() {
+  // getCurrentLocation() {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition((position) => {
+  //       const lat = position.coords.latitude;
+  //       const lng = position.coords.longitude;
+  //       this.latitude = lat;
+  //       this.longitude = lng;
+  
+  //       // Fetch the exact location (address) using Google Geocoding API
+  //       this.getExactLocation(lat, lng);
+  //     }, (error) => {
+  //       console.error('Error fetching location: ', error);
+  //     });
+  //   } else {
+  //     console.log('Geolocation is not supported by this browser.');
+  //   }
+  // }
+
+  getCurrentLocation(closeModal?: boolean) {
     if (navigator.geolocation) {
+      const options = {
+        enableHighAccuracy: true, // Use high accuracy for better location results
+        timeout: 10000, // Set a timeout for fetching the location (optional)
+        maximumAge: 0 // Prevent caching of the location
+      };
+  
       navigator.geolocation.getCurrentPosition((position) => {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
         this.latitude = lat;
         this.longitude = lng;
   
+        console.log(`Latitude: ${lat}, Longitude: ${lng}`);
+        
         // Fetch the exact location (address) using Google Geocoding API
         this.getExactLocation(lat, lng);
+
+        // Close the dialog if the flag is true
+        if (closeModal) {
+          this.showLocationPopup = false // Close the dialog
+        }
       }, (error) => {
         console.error('Error fetching location: ', error);
-      });
+      }, options);
     } else {
       console.log('Geolocation is not supported by this browser.');
     }
   }
+  
   
   getExactLocation(lat: number, lng: number) {
     const apiKey = 'AIzaSyARIDLGBcFWWC5HltY1_t5iZcXuoXz08bo'; // Add your API key here

@@ -88,6 +88,7 @@ export class ServicesCategoryComponent implements OnInit {
 this.route.paramMap.subscribe((params: any) => {
   this.subCategoryName = decodeURIComponent(params.get('categoryName'));
   this.subCategoryName = this.subCategoryName.replaceAll('$', '/');
+  console.log(this.subCategoryName,"97");
   this.CategoryId = params.get('id'); // Convert string to number
   this.selectedServiceCategory = this.CategoryId; // Set the selected category to match the id
 });
@@ -119,6 +120,11 @@ this.route.queryParams.subscribe(params => {
   }
   ngOnInit(){
     if(this.isBrowser){
+      const selectedCategoriesString = localStorage.getItem('selectedCategories');
+      this.selectedCategories = selectedCategoriesString ? JSON.parse(selectedCategoriesString) : [];
+    
+
+
     this.viewportScroller.scrollToPosition([0, 0]); 
 
 console.log(this.subCategoryName,"126")
@@ -245,60 +251,119 @@ getFilterSubCategory(id: any) {
     this.categories = res.data;
     if (this.categories && this.categories.length > 0) {
       // Attempt to find the category by name
-      const matchedCategory = this.categories.find(
+      const matchedCategory = this.categories.filter(
         (category) => category.SubClassificationName.toLowerCase() === this.subCategoryName.toLowerCase()
       );
-      this.CategoryId = matchedCategory.MainId
+      
 
       if (matchedCategory) {
-        this.selectedSubCategoryId = matchedCategory.SubId;
+        // this.selectedSubCategoryId = this.selectedCategories;
         // Mark the matched category as checked
-        this.categories.forEach((category) => {
-          category.isChecked = category.SubId === this.selectedSubCategoryId;
+        this.selectedCategories?.forEach((subCategory) => {
+          this.categories.forEach((category) => {
+            if (category.SubId === subCategory) {
+              category.isChecked = true;
+            }
+          });
         });
+      
 if(!this.searchLocation){
-  this.fetchItems(this.CategoryId, this.selectedSubCategoryId);
+  // this.fetchItems(this.CategoryId, this.selectedSubCategoryId);
+  this.fetchItems(this.CategoryId, this.selectedCategories);
 }else{
   this.getItemByLocation()
 }
         // Fetch items for the matched category
-      } 
+      }
+     
     } 
   });
 }
 
 
 
-onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
+// onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
+//   if (event.checked) {
+//     // Set the selectedCategory to the newly checked checkbox's value
+
+//        // Uncheck all other checkboxes by setting the selectedCategory as the only selected one
+//     this.categories.forEach((category) => {
+//       category.isChecked = category.SubId === subCategoryId;
+//     }); 
+
+//     this.subCategoryName = subCategoryId.SubClassificationName
+//     this.CategoryId = subCategoryId.MainId
+//      // Navigate
+//      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+//      this.router.onSameUrlNavigation = "reload";
+//      if(!this.searchLocation){
+//        this.router.navigate([`/services/category/${this.subCategoryName?.replaceAll("/","$")}/${this.CategoryId}`])
+//      }else{
+//       this.router.navigate([
+//         `/services/category/${this.subCategoryName?.replaceAll("/","$")}/${this.CategoryId}`
+//       ], {
+//         queryParams: {
+//           latitude: this.latitude,
+//           longitude: this.longitude,
+//           locations: this.searchLocation
+//         }
+//       });
+//      }
+
+//   }
+// }
+
+selectedCategories!: number[] // This array will hold the selected SubIds.
+
+
+onCheckboxChange(subCategory: any, event: MatCheckboxChange) {
+  subCategory.isChecked = event.checked;
+console.log(subCategory,"338",this.selectedCategories);
+
   if (event.checked) {
-    // Set the selectedCategory to the newly checked checkbox's value
-
-       // Uncheck all other checkboxes by setting the selectedCategory as the only selected one
-    this.categories.forEach((category) => {
-      category.isChecked = category.SubId === subCategoryId;
+        this.categories.forEach((category) => {
+      category.isChecked = category.SubId === subCategory.SubId;
     }); 
+    // Add the checked SubId to the selectedCategories array
+    if (!this.selectedCategories?.includes(subCategory.SubId)) {
+      console.log(this.selectedCategories,"344");
+      this.selectedCategories?.push(subCategory.SubId);
+    }
+  } else {
+    // Remove the unchecked SubId from the selectedCategories array
+    const index = this.selectedCategories?.indexOf(subCategory.SubId);
+    if (index > -1) {
+      
+      this.selectedCategories?.splice(index, 1); // Remove by index
+      console.log(this.selectedCategories,"this.selectedCategories")
+    }
+  
+  }
 
-    this.subCategoryName = subCategoryId.SubClassificationName
-    this.CategoryId = subCategoryId.MainId
-     // Navigate
-     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-     this.router.onSameUrlNavigation = "reload";
-     if(!this.searchLocation){
-       this.router.navigate([`/services/category/${this.subCategoryName?.replaceAll("/","$")}/${this.CategoryId}`])
-     }else{
-      this.router.navigate([
-        `/services/category/${this.subCategoryName?.replaceAll("/","$")}/${this.CategoryId}`
-      ], {
-        queryParams: {
-          latitude: this.latitude,
-          longitude: this.longitude,
-          locations: this.searchLocation
-        }
-      });
-     }
+  console.log('Selected Categories:', this.selectedCategories);
+  localStorage.setItem('selectedCategories', JSON.stringify(this.selectedCategories));
+  // Constructing the navigation URL based on the selected subcategories
+  const subCategoryParam = this.selectedCategories?.join(','); // Create a string with selected subCategoryIds
 
+  // Navigation logic
+  this.router.routeReuseStrategy.shouldReuseRoute = () => false; // Prevent route reuse
+  this.router.onSameUrlNavigation = 'reload'; // Reload the same URL
+
+  // Check if any subcategories are selected
+  if (this.selectedCategories.length > 0) {
+    this.router.navigate([
+      `/services/category/${this.selectedCategories.join(',').replaceAll('/', '$')}/${this.CategoryId}`
+    ], {
+      queryParams: {
+        subCategories: this.selectedCategories, // Pass the selected subcategories as query parameters
+        latitude: this.latitude,
+        longitude: this.longitude,
+        locations: this.searchLocation
+      }
+    });
   }
 }
+
 
   onRatingUpdated(newRating: number) {
     this.currentRating = newRating;
@@ -355,7 +420,8 @@ onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
     this.pageSize = event.pageSize;  // Update page size
     this.startIndex = this.pageIndex * this.pageSize;  // Calculate new startIndex
     if(!this.searchLocation){
-    this.fetchItems(this.CategoryId, this.selectedSubCategoryId);  // Fetch new items based on updated page
+    // this.fetchItems(this.CategoryId, this.selectedSubCategoryId);  // Fetch new items based on updated page
+    this.fetchItems(this.CategoryId, this.selectedCategories); 
     }else{
       this.getItemByLocation()
     }
@@ -583,6 +649,14 @@ getBannerData(){
   });
 
   
+}
+
+ngOnDestroy(): void {
+  //Called once, before the instance is destroyed.
+  //Add 'implements OnDestroy' to the class.
+  if(!this.router.url?.includes('services/category')){
+    localStorage.removeItem('selectedCategories');
+  }
 }
 
 }
