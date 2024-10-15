@@ -1,4 +1,4 @@
-import { Component, Inject, inject, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, inject, PLATFORM_ID } from '@angular/core';
 import { LoginComponent } from '../../../../modules/login/Components/login/login.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -25,7 +25,7 @@ export class HeaderComponent {
   showLocationPopup: boolean = false;
   isLoggedIn$ = inject(AuthService).isLoggedIn$;
   readonly dialog = inject(MatDialog)
-  constructor(private route:Router, private auth:AuthService, private toastr:ToastrService, private cartService:CartService, @Inject(PLATFORM_ID) platformId: Object) {
+  constructor(private route:Router, private auth:AuthService, private toastr:ToastrService, private cartService:CartService, @Inject(PLATFORM_ID) platformId: Object, private cdr: ChangeDetectorRef) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
   get cartBadge(){
@@ -36,14 +36,11 @@ export class HeaderComponent {
     if(this.isBrowser){
       const storedCity = sessionStorage.getItem('city');
       const storedAddress = sessionStorage.getItem('address');
-      console.log(storedCity,storedAddress,'kk')
       if (storedCity && storedAddress) {
         this.address=storedAddress;
         this.city=storedCity;
-         console.log(storedCity,storedAddress,'kk')
       }else{
         this.getCurrentLocation();
-        console.log(storedCity,storedAddress,'kk')
       }
       this.autocompleteService = new google.maps.places.AutocompleteService();
    let length = localStorage.getItem('cartItems')
@@ -54,14 +51,12 @@ export class HeaderComponent {
     if(this.auth.isLoggedIn$){
       
     this.auth.isLoggedIn$.subscribe(isLoggedIn => {
-      console.log('Login status changed:', isLoggedIn); // Log status changes
       if (isLoggedIn) {
         // If the user is logged in, call the API to fetch cart items
 // Delay the API call by a specified timeout (e.g., 500 milliseconds)
 setTimeout(() => {
         this.cartService.getCartItems().subscribe(
           (cartItems:any) => {
-            console.log(cartItems,"37")
            this.cartLength = cartItems?.data?.length;
           },
           (error) => {
@@ -72,7 +67,9 @@ setTimeout(() => {
       }
     });
   }
-  }
+  
+ 
+}
    }
    
   ngAfterViewInit() {
@@ -85,6 +82,10 @@ setTimeout(() => {
     this.cartService.cartLength.subscribe((val)=>{
       this.cartLength = val || length;
     })
+    if(localStorage.getItem('myCartItem') && !localStorage.getItem('userId')){
+      const cartItems = localStorage.getItem('myCartItem');
+      this.cartLength = cartItems ? JSON.parse(cartItems).length : 0;
+    }
   }
   }
 
@@ -131,7 +132,6 @@ setTimeout(() => {
   onInputChange() {
     // Fetch predictions when the user types
     if (this.searchInput) {
-      console.log(this.searchInput)
       this.getPlacePredictions(this.searchInput);
     } else {
       this.predictions = []; // Clear predictions if the input is empty
@@ -146,18 +146,14 @@ setTimeout(() => {
     // Use Google's AutocompleteService to get place predictions
     this.autocompleteService.getPlacePredictions(request, (predictions: any[], status: any) => {
       if (status === google.maps.places.PlacesServiceStatus.OK && predictions) {
-        console.log(predictions)
         this.predictions = predictions;
-        console.log(this.predictions,"539")
       } else {
         this.predictions = [];
       }
-      console.log(this.predictions)
     });
   }
 
   selectPrediction(event: any) {
-    console.log(event.target.value);
     this.address = event.target.value;
     this.city = this.extractCity(this.address);
     sessionStorage.setItem('city', this.city);
@@ -166,23 +162,7 @@ setTimeout(() => {
     this.predictions = [];
     this.closeLocationPopup()
   }
-  // getCurrentLocation() {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition((position) => {
-  //       const lat = position.coords.latitude;
-  //       const lng = position.coords.longitude;
-  //       this.latitude = lat;
-  //       this.longitude = lng;
-  
-  //       // Fetch the exact location (address) using Google Geocoding API
-  //       this.getExactLocation(lat, lng);
-  //     }, (error) => {
-  //       console.error('Error fetching location: ', error);
-  //     });
-  //   } else {
-  //     console.log('Geolocation is not supported by this browser.');
-  //   }
-  // }
+ 
 
   getCurrentLocation(closeModal?: boolean) {
     if (navigator.geolocation) {
@@ -197,8 +177,6 @@ setTimeout(() => {
         const lng = position.coords.longitude;
         this.latitude = lat;
         this.longitude = lng;
-  
-        console.log(`Latitude: ${lat}, Longitude: ${lng}`);
         
         // Fetch the exact location (address) using Google Geocoding API
         this.getExactLocation(lat, lng);
@@ -226,7 +204,6 @@ setTimeout(() => {
       .then(data => {
         if (data.status === 'OK') {
           const address = data.results[0]?.formatted_address;
-          console.log('Exact Location (Address): ', address);
           // You can store the address if needed
           this.address = address;
       this.city = this.extractCity(this.address);
@@ -261,4 +238,9 @@ setTimeout(() => {
   closeLocationPopup() {
     this.showLocationPopup = false;
   }
+
+ 
+  
+
+
 }

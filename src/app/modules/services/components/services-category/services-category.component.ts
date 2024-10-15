@@ -88,7 +88,6 @@ export class ServicesCategoryComponent implements OnInit {
 this.route.paramMap.subscribe((params: any) => {
   this.subCategoryName = decodeURIComponent(params.get('categoryName'));
   this.subCategoryName = this.subCategoryName.replaceAll('$', '/');
-  console.log(this.subCategoryName,"97");
   this.CategoryId = params.get('id'); // Convert string to number
   this.selectedServiceCategory = this.CategoryId; // Set the selected category to match the id
 });
@@ -126,8 +125,6 @@ this.route.queryParams.subscribe(params => {
 
 
     this.viewportScroller.scrollToPosition([0, 0]); 
-
-console.log(this.subCategoryName,"126")
 
     if (this.subCategoryName) {
       // Fetch meta tags from the API for the current page

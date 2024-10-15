@@ -25,8 +25,15 @@ export class AppComponent {
         this.sharedService.updateBreadcrumb(event.urlAfterRedirects);
       }
     });
-
+ 
     
+  }
+  ngAfterViewInit(){
+    if(this.isBrowser){
+    if(!this.router.url?.includes('services/category')){
+      localStorage.removeItem('selectedCategories');
+    }
+  }
   }
   
 }
