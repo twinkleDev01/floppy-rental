@@ -278,7 +278,7 @@ console.log('Formatted Date:', this.selectedDateIst);
       state: this.checkout.value.state || 'string',  // Assuming checkout form has state
       city: this.checkout.value.city || 'string',  // Assuming checkout form has city
       zipCode: this.checkout.value.zipCode || 'string',  // Assuming checkout form has zipCode
-      country: this.checkout.value.country || 'string',  // Assuming checkout form has country
+      country: 'India',  // Assuming checkout form has country
       date: this.selectedDateIst,  // Current date and time in ISO format
       slot: this.checkout.value.slot || 'string',  // Assuming checkout form has slot
       coupon: this.checkout.value.coupon || '',  // Assuming checkout form has coupon

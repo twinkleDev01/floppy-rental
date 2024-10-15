@@ -235,7 +235,7 @@ export class ServicesDetailService {
   //   return this.http.get<any>(url);
   // }
 
-  getServiceLocationWise(subgroupId: number, location: string, latitude: number, longitude: number): Observable<any> {
+  getServiceLocationWise(subgroupId: number[],location: string, latitude: number, longitude: number): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       // "Authorization": 'Bearer ' + localStorage.getItem('token') // Uncomment if needed
@@ -245,12 +245,12 @@ export class ServicesDetailService {
   
     // Construct the payload as required by the API
     const payload = {
-      subgroupId: subgroupId,
+      subgroupIds : Array.isArray(subgroupId) ? subgroupId.filter(id => id != null) : [subgroupId].filter(id => id != null),
       location: location,
       latitude: latitude,
       longitude: longitude
     };
-  
+  console.log(payload,"payload");
     // Make the POST request to the API with the payload
     return this.http.post<any>(this.locationServiceWiseUrl, payload, httpOptions)
       .pipe(

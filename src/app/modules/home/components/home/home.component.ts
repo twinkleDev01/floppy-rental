@@ -575,6 +575,8 @@ if (this.filteredSubgroups.length === 0 && searchValue) {
             const result = response.results[0];
             this.latitude = result.geometry.location.lat;
             this.longitude = result.geometry.location.lng;
+            sessionStorage.setItem('latitude', result.geometry.location.lat);
+            sessionStorage.setItem('longitude',result.geometry.location.lng);
             console.log('Latitude:', this.latitude, 'Longitude:', this.longitude);
           } else {
             console.error('Geocoding failed:', response.status);

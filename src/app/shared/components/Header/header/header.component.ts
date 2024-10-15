@@ -6,6 +6,7 @@ import { AuthService } from '../../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { CartService } from '../../../../modules/cart/services/cart.service';
 import { isPlatformBrowser } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 declare var bootstrap: any;  
 @Component({
   selector: 'app-header',
@@ -25,7 +26,7 @@ export class HeaderComponent {
   showLocationPopup: boolean = false;
   isLoggedIn$ = inject(AuthService).isLoggedIn$;
   readonly dialog = inject(MatDialog)
-  constructor(private route:Router, private auth:AuthService, private toastr:ToastrService, private cartService:CartService, @Inject(PLATFORM_ID) platformId: Object, private cdr: ChangeDetectorRef) {
+  constructor(private route:Router, private auth:AuthService, private toastr:ToastrService, private cartService:CartService, @Inject(PLATFORM_ID) platformId: Object, private cdr: ChangeDetectorRef,private http: HttpClient) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
   get cartBadge(){
@@ -158,6 +159,8 @@ setTimeout(() => {
     this.city = this.extractCity(this.address);
     sessionStorage.setItem('city', this.city);
     sessionStorage.setItem('address', this.address);
+    this.findCoordinates(this.address)
+
     this.searchInput=''
     this.predictions = [];
     this.closeLocationPopup()
@@ -217,6 +220,29 @@ setTimeout(() => {
         console.error('Error fetching address: ', error);
       });
   }
+
+  findCoordinates(location:any) {
+    const apiKey = 'AIzaSyARIDLGBcFWWC5HltY1_t5iZcXuoXz08bo';
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(location)}&key=${apiKey}`;
+    
+    this.http.get<any>(url).subscribe(
+      (response) => {
+        if (response.status === 'OK') {
+          const result = response.results[0];
+          this.latitude = result.geometry.location.lat;
+          this.longitude = result.geometry.location.lng;
+          sessionStorage.setItem('latitude', result.geometry.location.lat);
+          sessionStorage.setItem('longitude',result.geometry.location.lng);
+          console.log('Latitude:', this.latitude, 'Longitude:', this.longitude);
+        } else {
+          console.error('Geocoding failed:', response.status);
+        }
+      },
+      (error) => {
+        console.error('Error fetching coordinates:', error);
+      }
+    );
+  }
   extractCity(address: string): string {
     const parts = address.split(','); // Split the address by commas
     if (parts.length >= 3) {
@@ -239,8 +265,11 @@ setTimeout(() => {
     this.showLocationPopup = false;
   }
 
- 
-  
-
+  onBackdropClick(event: MouseEvent): void {
+    // Check if the click is outside the modal content
+    if (event.target === event.currentTarget) {
+      this.closeLocationPopup();
+    }
+  }
 
 }
