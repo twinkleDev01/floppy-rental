@@ -59,7 +59,10 @@ export class ServicesCategoryComponent implements OnInit {
   placeDetails: any; 
   placesService!: google.maps.places.PlacesService;
   autocompleteService: any;
-  searchLocation!:''
+  searchLocation: string = '';
+
+selectedSubCategoryId:any
+
   // toppings: FormGroup;
   // Paginator
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -241,9 +244,9 @@ this.route.queryParams.subscribe(params => {
       });
     }
     
-selectedSubCategoryId:any
 // selectedSubCategoryName:any
 getFilterSubCategory(id: any) {
+  console.log(id,'category id')
   this.service.getSubCategoryList(id).subscribe((res) => {
     this.categories = res.data;
     if (this.categories && this.categories.length > 0) {
@@ -251,8 +254,11 @@ getFilterSubCategory(id: any) {
       const matchedCategory = this.categories.filter(
         (category) => category.SubClassificationName.toLowerCase() === this.subCategoryName.toLowerCase()
       );
-      
-
+      console.log(matchedCategory,'256',this.subCategoryName);
+      if(this.searchLocation){
+        console.log('location', matchedCategory[0]?.SubId)
+       this.selectedCategories.push(matchedCategory[0]?.SubId)
+      }
       if (matchedCategory) {
         // this.selectedSubCategoryId = this.selectedCategories;
         // Mark the matched category as checked
@@ -263,7 +269,7 @@ getFilterSubCategory(id: any) {
             }
           });
         });
-      
+      console.log(this.CategoryId,this.selectedCategories)
 if(!this.searchLocation){
   // this.fetchItems(this.CategoryId, this.selectedSubCategoryId);
   this.fetchItems(this.CategoryId, this.selectedCategories);
@@ -314,19 +320,24 @@ selectedCategories!: number[] // This array will hold the selected SubIds.
 
 
 onCheckboxChange(subCategory: any, event: MatCheckboxChange) {
+  
   subCategory.isChecked = event.checked;
 console.log(subCategory,"338",this.selectedCategories);
 
   if (event.checked) {
+    console.log('checkedddddddd')
         this.categories.forEach((category) => {
       category.isChecked = category.SubId === subCategory.SubId;
     }); 
+    console.log(subCategory.SubId,this.selectedCategories);
     // Add the checked SubId to the selectedCategories array
     if (!this.selectedCategories?.includes(subCategory.SubId)) {
       console.log(this.selectedCategories,"344");
       this.selectedCategories?.push(subCategory.SubId);
+      console.log(this.selectedCategories);
     }
   } else {
+    console.log('uncheckedddddddddddd')
     // Remove the unchecked SubId from the selectedCategories array
     const index = this.selectedCategories?.indexOf(subCategory.SubId);
     if (index > -1) {
@@ -618,7 +629,12 @@ selectPrediction(event: any) {
 
 
 getItemByLocation(){
-  this.service.getServiceLocationWise(this.selectedSubCategoryId,this.searchLocation,this.latitude,this.longitude).subscribe((response:any)=>{
+  this.searchLocation = (sessionStorage.getItem('address') as string | null) || '';
+this.latitude=sessionStorage.getItem('latitude')
+this.longitude=sessionStorage.getItem('longitude')
+
+  this.selectedCategories = this.selectedCategories?.filter((c)=>c !== null);
+  this.service.getServiceLocationWise(this.selectedCategories,this.searchLocation,this.latitude,this.longitude).subscribe((response:any)=>{
     if (response.success) {
       this.servicesDetails = response.data.items.map((itemWrapper:any) => ({
         ...itemWrapper.item, reviews: itemWrapper.reviews, vender:itemWrapper.vendor})); // Correctly map to items
