@@ -27,6 +27,7 @@ import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-poli
 import { TermsComponent } from './components/terms/terms.component';
 import { ReturnPolicyComponent } from './components/return-policy/return-policy.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle'; // Add this import
+import { MatNativeDateModule } from '@angular/material/core';
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -60,7 +61,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle'; // Add 
     ReactiveFormsModule,
     MatBadgeModule,
     GoogleMapsModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatNativeDateModule,
   ],
   exports: [
     HeaderComponent,
