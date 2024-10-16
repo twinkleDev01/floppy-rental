@@ -76,7 +76,7 @@ h1 span {
 }
 
 .location_search {
-  width: 75%;
+  width: 60%;
   height: 50px;
   background-color: #ffffff52;
   border-radius: 25px;
@@ -494,6 +494,279 @@ h2 span {
   width: 100%;
 }
 
+// ---------------------------------service dialog css---------------------------
+
+.dialog-container {
+  // width: 700px;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  border-bottom: 2px solid #eee5e5;
+  padding-bottom: 20px;
+}
+
+.dialog-header h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.close-icon {
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.dialog-body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.subcategory-card {
+  width: 150px;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+  padding: 10px;
+}
+
+.subcategory-card img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.subcategory-card h3 {
+  margin: 10px 0 0;
+  font-size: 16px;
+}
+.dialog-card {
+  height: 200px;
+  width: 13rem;
+  // padding: 20px 10px;
+  background: #ffffff;
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  border: none;
+  margin: 1px 0px 20px 1px;
+}
+
+// .dialog-card-single {
+//   height: 200px;
+//   width: 13rem;
+//   // padding: 20px 10px;
+//   background: #ffffff;
+//   box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
+//   border-radius: 15px;
+//   border: none;
+//   margin: 1px 0px 20px -50px;
+// }
+.dialog_card_img img {
+  width: 100%;
+  border-radius: 10px 10px 0px 0px;
+  height: 130px;
+}
+.dialog-card h3 {
+  font-size: 13px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+}
+.custom-dialog-container {
+  overflow-y: auto; /* Enables vertical scrolling */
+}
+
+//   ____________________________Newww
+
+.card_salon img.carousel-image {
+  width: 100%; /* Makes the image span the full width of the card */
+  height: auto; /* Maintains aspect ratio */
+  max-width: 100%; /* Ensures the image doesn't exceed the card's width */
+  max-height: 200px; /* Limits the height to avoid excessive card height */
+  object-fit: cover; /* Crops the image to fit within the card */
+  display: block; /* Removes extra space below the image */
+  margin: 0 auto; /* Centers the image horizontally */
+}
+.owl-carousel .owl-item {
+  display: flex;
+  justify-content: center; /* Centers the item horizontally */
+}
+
+.card_salon {
+  // width: 100%; /* Adjust based on your design */
+  height: fit-content;
+  border-radius: 20px;
+  background-color: #fff;
+  box-shadow: 0px 5px 0px -1px #008cac;
+  margin: 1px 20px 20px 1px; /* Centers the card horizontally */
+  // overflow: hidden;
+  // text-align: center; /* Centers text inside the card */
+}
+.salon {
+  width: 320px; /* Adjust based on your design */
+  height: fit-content;
+  border-radius: 20px;
+  background-color: #fff;
+  box-shadow: 0px 5px 0px -1px #008cac;
+  margin: 1px auto; /* Centers the card horizontally */
+  overflow: hidden;
+  text-align: center; /* Centers text inside the card */
+}
+.salon img.carousel-image {
+  width: 100%; /* Makes the image span the full width of the card */
+  height: auto; /* Maintains aspect ratio */
+  max-width: 100%; /* Ensures the image doesn't exceed the card's width */
+  max-height: 200px; /* Limits the height to avoid excessive card height */
+  object-fit: cover; /* Crops the image to fit within the card */
+  display: block; /* Removes extra space below the image */
+  margin: 0 auto; /* Centers the image horizontally */
+}
+.salon h3 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  height: 40px;
+  padding: 5px;
+  font-size: 14px;
+  text-align: center;
+}
+
+// ----------------------------------------------------------------
+
+.service-card h3,
+.service-card span {
+  white-space: nowrap; /* Prevents text from wrapping to the next line */
+  overflow: hidden; /* Hides the overflow text */
+  text-overflow: ellipsis; /* Adds ellipses ('...') at the end of the text */
+  width: 100%; /* Ensure it takes up the full width of the container */
+  display: block; /* Make sure the text is treated as a block element */
+}
+
+.carousel-inner {
+  height: 600px;
+}
+// NeeeLocation
+.full-width {
+  width: 100%; /* Ensures the form field takes full width */
+}
+
+.mat-mdc-form-field {
+  display: block; /* Ensures the form field is displayed correctly */
+  background-color: transparent !important;
+  margin-top: 15px;
+}
+
+.mat-mdc-autocomplete-panel {
+  z-index: 1000; /* Ensures the autocomplete dropdown is on top */
+}
+::ng-deep .mat-mdc-text-field {
+  background-color: transparent !important;
+}
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: transparent !important;
+}
+
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled)
+  .mdc-line-ripple::before {
+  border-bottom: none;
+}
+
+::ng-deep .mdc-line-ripple::before, .mdc-line-ripple-active::before  {
+  border-bottom: none;
+}
+
+::ng-deep .mdc-line-ripple::before,
+.mdc-line-ripple::after, .mdc-line-ripple-active::after {
+  border-bottom-style: none;
+}
+
+// ::ng-deep .mat-mdc-option.mdc-list-item {
+//     background-color: white !important;
+// }
+// ::ng-deep .mat-mdc-option:hover:not(.mdc-list-item--disabled) {
+//   background-color: #EFEDF0 !important;
+// }
+
+::ng-deep div.mat-mdc-autocomplete-panel{
+  background-color: #fff !important;
+}
+
+::ng-deep .mat-mdc-form-field-focus-overlay{
+    background: none !important;
+}
+
+:host ::ng-deep .owl-nav {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  width: 108%;
+  transform: translate(-4%, -363%);
+  > div {
+      height: 30px;
+      width: 30px;
+      color: #008cac !important;
+      border-radius: 50% !important;
+      border: 1px solid #008cac;
+      background-color: transparent !important;
+  }
+}
+
+:host ::ng-deep .owl-nav .disabled {
+  opacity: 0.5; /* Style for disabled arrows */
+  pointer-events: none; /* Prevent clicking on disabled arrows */
+}
+
+.location-error{
+  color: #008cac;
+   font-size: 12px;
+}
+.select-location{
+    word-wrap: break-word;
+    position: absolute;
+    z-index: 1;
+    top: 47px;
+    left: 30px;
+    width: auto;
+    border: none;
+    box-shadow: 0 10px 10px lightgray;
+    overflow: auto;
+    height: auto;
+    max-width: 560px;
+    
+}
+.location-auto{
+  border: none;
+  background: transparent;
+}
+.location-auto:active, .location-auto:focus{
+  border: none;
+  outline: none;
+}
+.search-option{
+  padding: 10px;
+}
+.location-auto::placeholder{
+  font-size: 15px;
+}
+.selected {
+  background-color: #d1e3f8; /* Change the color as per your design */
+  font-weight: bold;
+}
+
+
 .arrow_box{
   position: absolute;
   top: 160px;
@@ -827,8 +1100,11 @@ h2 span {
 }
 
 @media (max-width: 679px) {
-  .carousel {
-    display: none;
+  // .carousel {
+  //   display: none;
+  // }
+  .carousel-item img{
+    height: 300px;
   }
 
   h1 {
@@ -836,13 +1112,14 @@ h2 span {
   }
 
   .banner_text {
-    padding: 20px 30px;
+    padding: 10px 30px;
     width: 100%;
-    position: inherit;
-    top: inherit;
-    z-index: inherit;
-    background-color: rgb(220, 220, 220);
     text-align: center;
+    top: 0;
+  }
+
+  .carousel-inner{
+    height: 300px;
   }
 
   .location_search,
@@ -914,263 +1191,3 @@ h2 span {
   }
 }
 
-// ---------------------------------service dialog css---------------------------
-
-.dialog-container {
-  // width: 700px;
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  position: relative;
-}
-
-.dialog-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 12px;
-  border-bottom: 2px solid #eee5e5;
-  padding-bottom: 20px;
-}
-
-.dialog-header h2 {
-  margin: 0;
-  font-size: 24px;
-}
-
-.close-icon {
-  cursor: pointer;
-  font-size: 24px;
-}
-
-.dialog-body {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.subcategory-card {
-  width: 150px;
-  text-align: center;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  background-color: #f9f9f9;
-  padding: 10px;
-}
-
-.subcategory-card img {
-  width: 100%;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 5px;
-}
-
-.subcategory-card h3 {
-  margin: 10px 0 0;
-  font-size: 16px;
-}
-.dialog-card {
-  height: 200px;
-  width: 13rem;
-  // padding: 20px 10px;
-  background: #ffffff;
-  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
-  border-radius: 15px;
-  border: none;
-  margin: 1px 0px 20px 1px;
-}
-
-// .dialog-card-single {
-//   height: 200px;
-//   width: 13rem;
-//   // padding: 20px 10px;
-//   background: #ffffff;
-//   box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
-//   border-radius: 15px;
-//   border: none;
-//   margin: 1px 0px 20px -50px;
-// }
-.dialog_card_img img {
-  width: 100%;
-  border-radius: 10px 10px 0px 0px;
-  height: 130px;
-}
-.dialog-card h3 {
-  font-size: 13px;
-  font-weight: bold;
-  text-align: center;
-  margin-top: 20px;
-}
-.custom-dialog-container {
-  overflow-y: auto; /* Enables vertical scrolling */
-}
-
-//   ____________________________Newww
-
-.card_salon img.carousel-image {
-  width: 100%; /* Makes the image span the full width of the card */
-  height: auto; /* Maintains aspect ratio */
-  max-width: 100%; /* Ensures the image doesn't exceed the card's width */
-  max-height: 200px; /* Limits the height to avoid excessive card height */
-  object-fit: cover; /* Crops the image to fit within the card */
-  display: block; /* Removes extra space below the image */
-  margin: 0 auto; /* Centers the image horizontally */
-}
-.owl-carousel .owl-item {
-  display: flex;
-  justify-content: center; /* Centers the item horizontally */
-}
-
-.card_salon {
-  // width: 100%; /* Adjust based on your design */
-  height: fit-content;
-  border-radius: 20px;
-  background-color: #fff;
-  box-shadow: 0px 5px 0px -1px #008cac;
-  margin: 1px 20px 20px 1px; /* Centers the card horizontally */
-  // overflow: hidden;
-  // text-align: center; /* Centers text inside the card */
-}
-.salon {
-  width: 320px; /* Adjust based on your design */
-  height: fit-content;
-  border-radius: 20px;
-  background-color: #fff;
-  box-shadow: 0px 5px 0px -1px #008cac;
-  margin: 1px auto; /* Centers the card horizontally */
-  overflow: hidden;
-  text-align: center; /* Centers text inside the card */
-}
-.salon img.carousel-image {
-  width: 100%; /* Makes the image span the full width of the card */
-  height: auto; /* Maintains aspect ratio */
-  max-width: 100%; /* Ensures the image doesn't exceed the card's width */
-  max-height: 200px; /* Limits the height to avoid excessive card height */
-  object-fit: cover; /* Crops the image to fit within the card */
-  display: block; /* Removes extra space below the image */
-  margin: 0 auto; /* Centers the image horizontally */
-}
-.salon h3 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  height: 40px;
-  padding: 5px;
-  font-size: 14px;
-  text-align: center;
-}
-
-// ----------------------------------------------------------------
-
-.service-card h3,
-.service-card span {
-  white-space: nowrap; /* Prevents text from wrapping to the next line */
-  overflow: hidden; /* Hides the overflow text */
-  text-overflow: ellipsis; /* Adds ellipses ('...') at the end of the text */
-  width: 100%; /* Ensure it takes up the full width of the container */
-  display: block; /* Make sure the text is treated as a block element */
-}
-
-.carousel-inner {
-  height: 600px;
-}
-// NeeeLocation
-.full-width {
-  width: 100%; /* Ensures the form field takes full width */
-}
-
-.mat-mdc-form-field {
-  display: block; /* Ensures the form field is displayed correctly */
-  background-color: transparent !important;
-  margin-top: 15px;
-}
-
-.mat-mdc-autocomplete-panel {
-  z-index: 1000; /* Ensures the autocomplete dropdown is on top */
-}
-::ng-deep .mat-mdc-text-field {
-  background-color: transparent !important;
-}
-::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-  background-color: transparent !important;
-}
-
-
-::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled)
-  .mdc-line-ripple::before {
-  border-bottom: none;
-}
-
-::ng-deep .mdc-line-ripple::before, .mdc-line-ripple-active::before  {
-  border-bottom: none;
-}
-
-::ng-deep .mdc-line-ripple::before,
-.mdc-line-ripple::after, .mdc-line-ripple-active::after {
-  border-bottom-style: none;
-}
-
-::ng-deep .mat-mdc-option.mdc-list-item {
-    background-color: white !important;
-}
-
-::ng-deep .mat-mdc-form-field-focus-overlay{
-    background: none !important;
-}
-
-:host ::ng-deep .owl-nav {
-  display: flex;
-  justify-content: space-between;
-  position: absolute;
-  width: 108%;
-  transform: translate(-4%, -363%);
-  > div {
-      height: 30px;
-      width: 30px;
-      color: #008cac !important;
-      border-radius: 50% !important;
-      border: 1px solid #008cac;
-      background-color: transparent !important;
-  }
-}
-
-:host ::ng-deep .owl-nav .disabled {
-  opacity: 0.5; /* Style for disabled arrows */
-  pointer-events: none; /* Prevent clicking on disabled arrows */
-}
-
-.location-error{
-  color: #008cac;
-   font-size: 12px;
-}
-.select-location{
-    word-wrap: break-word;
-    position: absolute;
-    z-index: 1;
-    top: 47px;
-    left: 30px;
-    width: auto;
-    border: none;
-    box-shadow: 0 10px 10px lightgray;
-    overflow: auto;
-    height: auto;
-    max-width: 560px;
-    
-}
-.location-auto{
-  border: none;
-  background: transparent;
-}
-.location-auto:active, .location-auto:focus{
-  border: none;
-  outline: none;
-}
-.search-option{
-  padding: 10px;
-}
-.location-auto::placeholder{
-  font-size: 15px;
-}
