@@ -416,15 +416,36 @@ placeInquiry(cartItems: any[]) {
       const userId = localStorage.getItem('userId');
       const latitude = this.latitude;  // Assume you have latitude from somewhere in your component
       const longitude = this.longitude; // Assume you have longitude from somewhere in your component
-
+      const address = sessionStorage?.getItem('address');
+      const country = address?.split(',')?.[3];
+      const state = address?.split(',')?.[2]?.split(' ')?.[0];
+      const zipCode = sessionStorage?.getItem('zipCode');
+      const city = sessionStorage?.getItem('city');
       // Create the request payload
       const inquiryPayload = {
         itemIds: cartItems.map(item => item.itemId?item.itemId:item.itemid),  // Assuming each item has an 'id' property
         userId: Number(userId),  // Ensure userId is a number
         latitude: String(latitude),  // Ensure latitude is a string
-        longitude: String(longitude)  // Ensure longitude is a string
+        longitude: String(longitude),
+        address,
+        city,
+        zipCode,
+        state,
+        country // Ensure longitude is a string
       };
-
+      // {
+      //   "itemIds": [
+      //     0
+      //   ],
+      //   "userId": 0,
+      //   "address": "string",
+      //   "city": "string",
+      //   "state": "string",
+      //   "country": "string",
+      //   "zipCode": "string",
+      //   "latitude": "string",
+      //   "longitude": "string"
+      // }
       // Pass all cart items to the service, which will extract the item IDs
       this.cartService.placeEnquiry(inquiryPayload).subscribe(
         (response: any) => {

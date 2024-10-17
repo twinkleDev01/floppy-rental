@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment.development';
 import { Observable } from 'rxjs';
@@ -42,12 +42,12 @@ private updateSlotUrl = environment.ApiBaseUrl + 'Order/UpdateOrder';
   }
 
    // Method to delete an order by id
-   deleteOrder(id: number): Observable<Object> {
+   deleteOrder(id: number,userEmail:string): Observable<Object> {
     const url = `${this.deleteUrl}/${id}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-
+    let params = new HttpParams().set('useremail',userEmail );
     return this.http.post(url, { headers });
   }
   

@@ -151,7 +151,7 @@ openDateTimePicker(booking:any): void {
   // Method to call delete service
   deleteBooking(item: any) {
 console.log(item,"161")
-    this.profileService.deleteOrder(item.leadEntryId).subscribe({
+    this.profileService.deleteOrder(item.leadEntryId, localStorage?.getItem('userEmail')??'').subscribe({
       next: () => {
         this.getUserBooking()
         console.log('Order deleted successfully');
