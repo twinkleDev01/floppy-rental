@@ -28,15 +28,20 @@ export class FooterComponent implements OnInit{
     });
   }
 
- // Method to chunk an array into smaller arrays of a given size
- chunkArray(array: any[], chunkSize: number): any[][] {
-  const result: any[][] = [];
-  for (let i = 0; i < array.length; i += chunkSize) {
-    result.push(array.slice(i, i + chunkSize));
+  getChunkSize(): number {
+    const screenWidth = window.innerWidth;
+    return screenWidth <= 768 ? 4 : 6;  // 4 for mobile, 6 for larger screens
   }
-  return result;
-}
-
+  
+  // Method to chunk an array into smaller arrays of a given size
+  chunkArray(array: any[]): any[][] {
+    const chunkSize = this.getChunkSize();
+    const result: any[][] = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+      result.push(array.slice(i, i + chunkSize));
+    }
+    return result;
+  }
 getColumnClass(index: number): string {
   if (index === 0 || index === 2) {
     return 'col-lg-4'; // Apply col-lg-4 to 1st and 3rd columns

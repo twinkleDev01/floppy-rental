@@ -119,7 +119,7 @@
                 <div class="col-12">
                   <span>{{ section.parameterDetail }}</span>
                   <div class="row">
-                    <ng-container *ngFor="let column of chunkArray(section.footers, 6)">
+                    <ng-container *ngFor="let column of chunkArray(section.footers)">
                       <div class="col-md-6">
                         <ul>
                           <li *ngFor="let item of column" style="font-size: 12px;">
