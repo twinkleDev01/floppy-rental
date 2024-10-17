@@ -15,6 +15,7 @@ declare var bootstrap: any;
 })
 export class HeaderComponent {
   cartLength:any;
+  zipCode!:string;
   searchInput: string = '';
   predictions: any[] = [];
   autocompleteService: any;
@@ -207,9 +208,21 @@ setTimeout(() => {
       .then(data => {
         if (data.status === 'OK') {
           const address = data.results[0]?.formatted_address;
+          const addressComponents = data.results[2].address_components;
+      
+          // Loop through the address components and find the postal code
+        
+          for (let component of addressComponents) {
+            if (component.types.includes('postal_code')) {
+              this.zipCode = component.long_name;
+              sessionStorage.setItem('zipCode',this.zipCode);
+              break;
+            }
+          }
           // You can store the address if needed
           this.address = address;
       this.city = this.extractCity(this.address);
+      
       sessionStorage.setItem('city', this.city);
       sessionStorage.setItem('address', this.address);
         } else {

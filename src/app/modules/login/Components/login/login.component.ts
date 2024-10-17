@@ -143,6 +143,7 @@ const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailOrPhone);
 this.auth.logIn(logInValue).subscribe((response:any)=>{
   console.log(response,"88")
   if(response.success){
+    localStorage?.setItem('userEmail',response?.data?.email);
     const cartItems = JSON.parse(localStorage.getItem('myCartItem')!)?.filter((item:any)=>!item?.cartUpdated);
  
     const payload = cartItems?.map((item:any) => ({
