@@ -407,6 +407,30 @@ if (localIndex !== -1) {
 //   }
 // }
 
+// Declare variables to store address components
+address = '';
+city = '';
+zipCode = '';
+state = '';
+country = '';
+
+extractAddressComponents(addressComponents: any): void {
+  // Iterate through the address components array returned by the Google API
+  const parts = addressComponents.split(',').map((part:any) => part.trim()); // Split the address by commas and trim whitespace
+
+  if (parts.length >= 5) {
+    this.address = parts[0];           // Street address or location code (e.g., "35P5+8M2")
+    this.city = parts[2];               // City (e.g., "Bilaspur")
+    this.state = parts[3].split(' ')[0]; // State (e.g., "Chhattisgarh")
+    this.zipCode = parts[3].split(' ')[1]; // Zip code (e.g., "495001")
+    this.country = parts[4];            // Country (e.g., "India")
+  }
+}
+
+// Example usage: Call the function to populate variables
+
+
+
 placeInquiry(cartItems: any[]) {
   if (cartItems && cartItems.length > 0) {
     console.log(cartItems, "385 - Cart Items");
@@ -417,22 +441,27 @@ placeInquiry(cartItems: any[]) {
       const latitude = this.latitude;  // Assume you have latitude from somewhere in your component
       const longitude = this.longitude; // Assume you have longitude from somewhere in your component
       const address = sessionStorage?.getItem('address');
+    this.extractAddressComponents(address);
+
+      console.log(address?.split(',')?.[2]?.split(' ')?.[1]);
       const country = address?.split(',')?.[3];
-      const state = address?.split(',')?.[2]?.split(' ')?.[0];
-      const zipCode = sessionStorage?.getItem('zipCode');
+      const state = "cg"
+      const zipCode = "495006"
       const city = sessionStorage?.getItem('city');
       // Create the request payload
       const inquiryPayload = {
-        itemIds: cartItems.map(item => item.itemId?item.itemId:item.itemid),  // Assuming each item has an 'id' property
-        userId: Number(userId),  // Ensure userId is a number
-        latitude: String(latitude),  // Ensure latitude is a string
-        longitude: String(longitude),
-        address,
-        city,
-        zipCode,
-        state,
-        country // Ensure longitude is a string
-      };
+        "itemIds": 
+          cartItems.map(item => item.itemId?item.itemId:item.itemid),
+        
+        "userId":  Number(localStorage.getItem('userId')),
+        "latitude": String(latitude),
+        "longitude": String(longitude),
+        "address": this.address,
+        "city": this.city,
+        "zipCode": this.zipCode,
+        "state": this.state,
+        "country": this.country
+    }
       // {
       //   "itemIds": [
       //     0
@@ -454,34 +483,36 @@ placeInquiry(cartItems: any[]) {
           if (response.success) {
             console.log("Enquiry placed successfully, proceeding to delete items...");
   this.toastr.success('Enquiry placed successfully')
+  // this.cartService.getAllCartItems(Number(localStorage.getItem('userId')))
+
             // Extract item IDs from cart items
-            const cardItemIds = cartItems.map(item => item.id);
-            console.log(cardItemIds, "Item IDs to be deleted");
-  
+
+            // const cardItemIds = cartItems.map(item => item.id);
+            // console.log(cardItemIds, "Item IDs to be deleted");
             // Call deleteCart with the extracted item IDs
-            this.cartService.deleteCart(cardItemIds).subscribe(
-              (deleteResponse: any) => {
-                console.log("Items deleted successfully:", deleteResponse);
+            // this.cartService.deleteCart(cardItemIds).subscribe(
+            //   (deleteResponse: any) => {
+            //     console.log("Items deleted successfully:", deleteResponse);
   
                 
-                // Retrieve the current cart from local storage
-                const cart = JSON.parse(localStorage.getItem('myCartItem') || '[]');
+            //     // Retrieve the current cart from local storage
+            //     const cart = JSON.parse(localStorage.getItem('myCartItem') || '[]');
   
-                // Filter out the items that were deleted
-                const updatedCart = cart.filter((item: any) => !cardItemIds.includes(item.id));
+            //     // Filter out the items that were deleted
+            //     const updatedCart = cart.filter((item: any) => !cardItemIds.includes(item.id));
   
-                // Update local storage with the new cart
-                localStorage.setItem('myCartItem', JSON.stringify(updatedCart));
-                this.cartService.cartLength.next(0)
+            //     // Update local storage with the new cart
+            //     localStorage.setItem('myCartItem', JSON.stringify(updatedCart));
+            //     this.cartService.cartLength.next(0)
   
-                console.log("Updated cart in local storage:", updatedCart);
+            //     console.log("Updated cart in local storage:", updatedCart);
   
-                this.router.navigate(['']);
-              },
-              (deleteError: any) => {
-                console.error("Error occurred during item deletion:", deleteError);
-              }
-            );
+            //     this.router.navigate(['']);
+            //   },
+            //   (deleteError: any) => {
+            //     console.error("Error occurred during item deletion:", deleteError);
+            //   }
+            // );
           } else {
             console.error("Inquiry placement failed:", response);
           }
@@ -518,3 +549,5 @@ this.longitude = position.coords.longitude;
 }
   
 }
+
+
