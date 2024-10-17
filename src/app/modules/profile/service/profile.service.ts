@@ -10,7 +10,7 @@ export class ProfileService {
   userBookingiUrl = environment.ApiBaseUrl + 'Order/orderlist/';
 userDetailUrl = environment.ApiBaseUrl + 'User/get_profile_details_by_id/'
 private updateProfileUrl = environment.ApiBaseUrl + 'User/update_user_profile';
-private deleteUrl = environment.ApiBaseUrl + 'Order/DeleteOrderById'; 
+private deleteUrl = environment.ApiBaseUrl + 'Order/CancelOrderById'; 
 private updateSlotUrl = environment.ApiBaseUrl + 'Order/UpdateOrder';
 
   constructor(private http: HttpClient) { }
