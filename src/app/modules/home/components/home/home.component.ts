@@ -325,6 +325,7 @@ thirdCategory!:SubCategories
     }
   
     getCurrentLocation(){
+      console.log("called")
       // Check if the browser supports Geolocation API
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
@@ -436,8 +437,11 @@ if (this.filteredSubgroups.length === 0 && searchValue) {
     }
     
     getSearchedItemList() {
+      this.searchInput= this.searchInput = sessionStorage.getItem('address') as string || '';
+      this.findCoordinates(this.searchInput)
       if(!this.searchInput){
         this.locationSelected = true;
+        this.homeService.triggerFunction('Data from Component A')
       }else if(!this.locationSearchItem){
         this.error = true;
       }else{ // Navigate with query parameters
@@ -558,8 +562,6 @@ if (this.filteredSubgroups.length === 0 && searchValue) {
     }
   
     onOptionSelected(event: any): void {
-      this.searchInput= this.searchInput = sessionStorage.getItem('address') as string || '';
-      this.findCoordinates(this.searchInput)
       console.log(event, "633");
       console.log('Selected Option:', event.option.value);
       this.locationSearchItem = event.option.value;

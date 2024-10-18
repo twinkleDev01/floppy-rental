@@ -125,6 +125,7 @@ openDateTimePicker(booking:any): void {
         this.toastr.success('Your order has been placed successfully')
         localStorage.removeItem('orderId')
         localStorage.removeItem('isCashOnDelivery')
+        localStorage.removeItem('myCartData');
         console.log('Payment status updated successfully', response);
         this.getUserBooking();
       },

@@ -194,7 +194,20 @@ nav {
   .mobile_menu{
     padding-left: 8px;
   }
-
+  .profile-navigation {
+    display: none; /* Hide the options by default */
+    position: absolute; /* Position the dropdown relative to the parent container */
+    background-color: #fff; /* Background color for the dropdown */
+    // border: 1px solid #ccc; /* Border for the dropdown */
+    padding: 10px; /* Padding for the dropdown content */
+    z-index: 1000; /* Ensure it appears above other elements */
+    border-radius: 0px 0 10px 10px;
+      width: 220px;
+      left: -02px !important;
+      top: 39px;
+      padding-top: 0px !important;
+      padding-left: 10px;
+  }
 }
 
 .mat-badge-medium .mat-badge-content{

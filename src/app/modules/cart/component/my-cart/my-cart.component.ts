@@ -492,6 +492,7 @@ placeInquiry(cartItems: any[]) {
   
                 // Update local storage with the new cart
                 localStorage.setItem('myCartItem', JSON.stringify(updatedCart));
+                localStorage.removeItem('myCartData');
                 this.cartService.cartLength.next(0)
   
                 console.log("Updated cart in local storage:", updatedCart);
