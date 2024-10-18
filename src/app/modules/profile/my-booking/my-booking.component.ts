@@ -154,6 +154,7 @@ console.log(item,"161")
     this.profileService.deleteOrder(item.leadEntryId, localStorage?.getItem('userEmail')??'').subscribe({
       next: () => {
         this.getUserBooking()
+        this.closeLocationPopup(); // Close the modal after confirmation
         console.log('Order deleted successfully');
         // Handle success (e.g., update UI or notify the user)
       },
@@ -256,5 +257,27 @@ reAddToCart(item:any){
   }
 }
 }
+showLocationPopup: boolean = false;
+selectedBookingToDelete:any
+openLocationPopup(booking:any) {
+  this.showLocationPopup = true; // Open the modal
+  this.selectedBookingToDelete=booking;
+}
 
+closeLocationPopup() {
+  this.showLocationPopup = false; // Close the modal
+}
+
+onBackdropClick(event: MouseEvent): void {
+  // Check if the click is outside the modal content
+  if (event.target === event.currentTarget) {
+    this.closeLocationPopup();
+  }
+}
+
+confirmDelete() {
+  console.log('User clicked Yes to delete');
+  this.deleteBooking(this.selectedBookingToDelete);
+  
+}
 }
