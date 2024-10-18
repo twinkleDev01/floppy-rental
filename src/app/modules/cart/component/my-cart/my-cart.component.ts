@@ -483,6 +483,19 @@ placeInquiry(cartItems: any[]) {
           if (response.success) {
             console.log("Enquiry placed successfully, proceeding to delete items...");
   this.toastr.success('Enquiry placed successfully')
+    // Retrieve the current cart from local storage
+    const cardItemIds = cartItems.map(item => item.id);
+                const cart = JSON.parse(localStorage.getItem('myCartItem') || '[]');
+  
+                // Filter out the items that were deleted
+                const updatedCart = cart.filter((item: any) => !cardItemIds.includes(item.id));
+  
+                // Update local storage with the new cart
+                localStorage.setItem('myCartItem', JSON.stringify(updatedCart));
+                this.cartService.cartLength.next(0)
+  
+                console.log("Updated cart in local storage:", updatedCart);
+  this.router.navigate(['']);
   // this.cartService.getAllCartItems(Number(localStorage.getItem('userId')))
 
             // Extract item IDs from cart items
