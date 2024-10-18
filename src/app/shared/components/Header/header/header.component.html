@@ -58,7 +58,7 @@
         </ul>        
         <ul class="navbar-nav ml-auto">
           <li class="nav-item login2" style="cursor: pointer;">
-            <a class="nav-link" (click)="goToMyCart()"><i class="fa-solid fa-cart-shopping" [matBadge]="cartBadge ?cartBadge:''" ></i> Cart</a>
+            <a class="nav-link" routerLink="/cart" data-bs-toggle="collapse" data-bs-target="#navbarNav"><i class="fa-solid fa-cart-shopping" [matBadge]="cartBadge ?cartBadge:''" ></i> Cart</a>
             <!-- (isLoggedIn$ | async) &&  -->
           </li>
           @if(isBrowser){
@@ -67,9 +67,9 @@
               <div class="profile-menu">
                <div class="login2"><a class="nav-link clickable" routerLink="/profile"><i class="fa-solid fa-user" style="color: #008CAC;"></i> Profile</a></div> 
                 <div class="profile-navigation">
-                  <a routerLink="profile" routerLinkActive="active-link"><i class="fa-solid fa-user-gear"></i> Account Setting</a>
-                  <a routerLink="profile/my-booking" routerLinkActive="active-link"><i class="fa-solid fa-clock-rotate-left"></i> My Bookings</a>
-                  <a routerLink="log-out" routerLinkActive="active-link" (click)="logOut()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Log-out</a>
+                  <a routerLink="profile" routerLinkActive="active-link" data-bs-toggle="collapse" data-bs-target="#navbarNav"><i class="fa-solid fa-user-gear"></i> Account Setting</a>
+                  <a routerLink="profile/my-booking" routerLinkActive="active-link" data-bs-toggle="collapse" data-bs-target="#navbarNav"><i class="fa-solid fa-clock-rotate-left"></i> My Bookings</a>
+                  <a routerLink="log-out" routerLinkActive="active-link" (click)="logOut()" data-bs-toggle="collapse" data-bs-target="#navbarNav"><i class="fa-solid fa-arrow-right-from-bracket"></i> Log-out</a>
                 </div>
               </div>
               

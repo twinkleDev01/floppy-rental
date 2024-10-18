@@ -98,18 +98,9 @@ setTimeout(() => {
     });
   }
 
-  goToMyCart(){
-    // if(localStorage.getItem("userId")){
-    //   this.route.navigate(['cart'])
-    // }else {
-    //   alert("Please log in before accessing your cart.");
-    //   this.dialog.open(LoginComponent, {
-    //     width: '450',
-    //     disableClose: true
-    //   });
-    //  }
-    this.route.navigate(['cart'])
-  }
+  // goToMyCart(){
+  //   this.route.navigate(['cart'])
+  // }
 
   logOut(){
     if(this.isBrowser){
