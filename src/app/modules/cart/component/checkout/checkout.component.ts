@@ -368,7 +368,7 @@ console.log('Formatted Date:', this.selectedDateIst);
         // lastName: formValue.name,   // Assuming the last name is derived from the full name
         address: formValue.address,
         state: formValue.state,
-        country: this.selectedCountry,  // You can hardcode the country or map it if available in the API
+        country: this.selectedCountry||'India',  // You can hardcode the country or map it if available in the API
         city: formValue.city,
         zipCode: formValue.pincode,
         phone: formValue.mobileNo.slice(-10),  

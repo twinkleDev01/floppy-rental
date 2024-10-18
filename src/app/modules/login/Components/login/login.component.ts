@@ -54,6 +54,8 @@ export class LoginComponent {
         // Validators.pattern('^[A-Z](?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,14}$')]],
         Validators.pattern('^[A-Z](?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{7,14}$')]]
     });
+
+   
   }
 
   togglePassword(): void {
@@ -202,6 +204,15 @@ this.auth.logIn(logInValue).subscribe((response:any)=>{
   }
   openSignupDialog() {
     this.stage = 'signup';
+  // Loop through each control and clear its errors
+  Object.keys(this.loginForm.controls).forEach(key => {
+    const control = this.loginForm.get(key);
+    if (control) {
+      control.setErrors(null);      // Clear errors
+      control.markAsPristine();     // Mark as pristine
+      control.markAsUntouched();    // Mark as untouched
+    }
+  });
     console.log("SIGNUP COMP",this.stage)
   }
   // closeLogin
@@ -219,4 +230,9 @@ this.auth.logIn(logInValue).subscribe((response:any)=>{
       event.preventDefault();
     }
   }
+
+  // ngOnDestroy() {
+  //   this.loginForm.setErrors(null)
+  // }
+
 }

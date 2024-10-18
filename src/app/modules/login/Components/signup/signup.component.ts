@@ -7,6 +7,7 @@ import { AuthService } from '../../../../shared/services/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { isPlatformBrowser } from '@angular/common';
+import { ServicesDetailService } from '../../../services/service/services-detail.service';
 
 @Component({
   selector: 'app-signup',
@@ -34,7 +35,9 @@ export class SignupComponent {
     private auth:AuthService,
     private router:Router,
     private toaster:ToastrService,
-    @Inject(PLATFORM_ID) platformId: Object
+    @Inject(PLATFORM_ID) platformId: Object,
+    private service:ServicesDetailService,
+    private toastr:ToastrService
   ) {
 
     this.isBrowser = isPlatformBrowser(platformId);
@@ -134,6 +137,40 @@ export class SignupComponent {
         (response: any) => {
   
           if (response.success) {
+
+              localStorage?.setItem('userEmail',response?.data?.email);
+              const cartItems = JSON.parse(localStorage.getItem('myCartItem')!)?.filter((item:any)=>!item?.cartUpdated);
+           
+              const payload = cartItems?.map((item:any) => ({
+                itemId: item.itemid || 0,
+                id: item.itemid,
+                itemName: item.itemName || item.specication || 'Unknown Item',
+                itemRate: Number(item.rate?.replace(/[^\d.-]/g, "")) || 0,
+                price: Number(item.rate?.replace(/[^\d.-]/g, "")) || 0,
+                quantity: item.quantity,
+                userId: Number(response.data.userId) || 0,
+                processStatus: '',
+                discountPercent: 0,
+                discountAmount: 0,
+                tax: item.tax || 0,
+                image: item.imagepath || ''
+              }));
+              
+              this.updateCartDetails('myCartItem')
+              console.log("163")
+          
+              // Assuming `addCartItem` accepts an array
+              this.service.addCartItem(payload).subscribe((res: any) => {
+                console.log(res, "149");
+              });
+              localStorage.setItem("token",response.data.token)
+              localStorage.setItem("userId",response.data.userId)
+              this.auth.updateLoginStatus(true);
+              this.toastr.success('Successfully Login')
+              this.dialogRef.close();
+            
+
+
             this.toaster.success('Registration successful!');
             localStorage.setItem("token",response.data.token);
             localStorage.setItem("userId",response.data.userId)
@@ -166,5 +203,13 @@ export class SignupComponent {
     if (event.key === ' ' && input.trim().length === 0) {
       event.preventDefault();
     }
+  }
+
+  updateCartDetails (storageKey: string){
+    console.log("206", storageKey)
+    const items = JSON.parse(localStorage[storageKey] || '[]');
+    localStorage[storageKey] = JSON.stringify(
+        items.map((d:any)=> ({...d, cartUpdated: true}))
+    )
   }
 }
