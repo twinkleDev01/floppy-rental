@@ -174,11 +174,20 @@ console.log(item,"161")
  }
 
  // Convert to UTC format
- const formattedDateTime = localDate.toISOString();
+ const year = localDate.getFullYear();
+const month = String(localDate.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+const day = String(localDate.getDate()).padStart(2, '0');
+const hours = String(localDate.getHours()).padStart(2, '0');
+const minutes = String(localDate.getMinutes()).padStart(2, '0');
+const seconds = String(localDate.getSeconds()).padStart(2, '0');
+const milliseconds = String(localDate.getMilliseconds()).padStart(3, '0');
+
+// Format it to match the desired ISO string format (without time zone conversion)
+const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}Z`;
 
     const orderData = {
       orderId: orderId,
-      newDateTime: formattedDateTime,
+      newDateTime: formattedDate,
       newSlot: newSlot
     };
 
