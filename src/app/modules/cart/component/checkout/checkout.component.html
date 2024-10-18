@@ -201,6 +201,14 @@
                 ></i>
                 Contact Required
               </span>
+              <span *ngIf="checkout.get('phone')?.errors?.['pattern']">
+                <i
+                  class="fa fa-exclamation-triangle"
+                  style="color: #fe3061"
+                  aria-hidden="true"
+                ></i>
+                Contact must contain only numbers
+              </span>
               <span
                 *ngIf="checkout.get('phone')?.errors?.['minlength'] && !checkout.get('phone')?.errors?.['required']"
               >
