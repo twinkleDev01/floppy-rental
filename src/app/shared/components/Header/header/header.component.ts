@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CartService } from '../../../../modules/cart/services/cart.service';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { HomeService } from '../../../../modules/home/services/home.service';
 declare var bootstrap: any;  
 @Component({
   selector: 'app-header',
@@ -27,7 +28,7 @@ export class HeaderComponent {
   showLocationPopup: boolean = false;
   isLoggedIn$ = inject(AuthService).isLoggedIn$;
   readonly dialog = inject(MatDialog)
-  constructor(private route:Router, private auth:AuthService, private toastr:ToastrService, private cartService:CartService, @Inject(PLATFORM_ID) platformId: Object, private cdr: ChangeDetectorRef,private http: HttpClient) {
+  constructor(private route:Router, private auth:AuthService, private toastr:ToastrService, private cartService:CartService, @Inject(PLATFORM_ID) platformId: Object, private cdr: ChangeDetectorRef,private http: HttpClient,private homeService: HomeService) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
   get cartBadge(){
@@ -72,6 +73,12 @@ setTimeout(() => {
   
  
 }
+
+this.homeService.triggerFunction$.subscribe((data:any) => {
+  if (data) {
+    this.openLocationPopup()
+  }
+});
    }
    
   ngAfterViewInit() {

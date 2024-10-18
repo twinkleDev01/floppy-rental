@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { catchError, map, Observable, of } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
 import { HttpOptions } from '../../../shared/components/common/cache';
 import { CacheStorage } from  '../../../shared/components/common/cache';
@@ -114,5 +114,15 @@ export class HomeService {
   getLocation(httpOptions: HttpOptions = {}) {
     const locations$ = this.http.get<any>(this.locationUrl);
     return this.locations$.loadData(locations$, httpOptions);
+  }
+
+  private triggerLocation = new BehaviorSubject<any>(null);
+
+  // Expose the observable for subscribing
+  triggerFunction$ = this.triggerLocation.asObservable();
+
+  // Method to trigger function calls from other components
+  triggerFunction(data: any) {
+    this.triggerLocation.next(data);
   }
 }
