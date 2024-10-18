@@ -154,6 +154,7 @@ console.log(item,"161")
     this.profileService.deleteOrder(item.leadEntryId, localStorage?.getItem('userEmail')??'').subscribe({
       next: () => {
         this.getUserBooking()
+        this.closeLocationPopup(); // Close the modal after confirmation
         console.log('Order deleted successfully');
         // Handle success (e.g., update UI or notify the user)
       },
@@ -174,11 +175,20 @@ console.log(item,"161")
  }
 
  // Convert to UTC format
- const formattedDateTime = localDate.toISOString();
+ const year = localDate.getFullYear();
+const month = String(localDate.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+const day = String(localDate.getDate()).padStart(2, '0');
+const hours = String(localDate.getHours()).padStart(2, '0');
+const minutes = String(localDate.getMinutes()).padStart(2, '0');
+const seconds = String(localDate.getSeconds()).padStart(2, '0');
+const milliseconds = String(localDate.getMilliseconds()).padStart(3, '0');
+
+// Format it to match the desired ISO string format (without time zone conversion)
+const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}Z`;
 
     const orderData = {
       orderId: orderId,
-      newDateTime: formattedDateTime,
+      newDateTime: formattedDate,
       newSlot: newSlot
     };
 
@@ -247,5 +257,27 @@ reAddToCart(item:any){
   }
 }
 }
+showLocationPopup: boolean = false;
+selectedBookingToDelete:any
+openLocationPopup(booking:any) {
+  this.showLocationPopup = true; // Open the modal
+  this.selectedBookingToDelete=booking;
+}
 
+closeLocationPopup() {
+  this.showLocationPopup = false; // Close the modal
+}
+
+onBackdropClick(event: MouseEvent): void {
+  // Check if the click is outside the modal content
+  if (event.target === event.currentTarget) {
+    this.closeLocationPopup();
+  }
+}
+
+confirmDelete() {
+  console.log('User clicked Yes to delete');
+  this.deleteBooking(this.selectedBookingToDelete);
+  
+}
 }

@@ -47,8 +47,8 @@
                   <td>{{ calculateTotal(booking) | currency:'INR' }}</td>
                   <!-- *ngIf="booking.deliveryStatus === 'Pending'" -->
                   <td class="action-buttons" *ngIf="booking.deliveryStatus === 'Pending'">
-                    <button class="btn btn-light" (click)="openDateTimePicker(booking)"><i class="fas fa-edit"></i></button>
-                    <button class="btn btn-light" (click)="deleteBooking(booking)"><i class="fas fa-times"></i></button>
+                    <button class="btn btn-light" (click)="openDateTimePicker(booking)" ><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-light" (click)="openLocationPopup(booking)"><i class="fas fa-times"></i></button>
                   </td>
                   <!-- *ngIf="booking.deliveryStatus ==='Completed'" -->
                   <td class="action-buttons" *ngIf="booking.deliveryStatus ==='Completed'">
@@ -97,3 +97,32 @@
           </div>
         </div>
       </div>
+
+<!-- Button to trigger the modal -->
+
+<!-- Modal Structure -->
+<div 
+  class="modal" 
+  [ngClass]="{'show': showLocationPopup}" 
+  [style.display]="showLocationPopup ? 'block' : 'none'" 
+  (click)="onBackdropClick($event)">
+  
+  <div class="modal-dialog modal-dialog-centered"> <!-- Add this class -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm Delete</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeLocationPopup()"></button>
+      </div>
+      <div class="modal-body">
+        Do you want to cancel this order?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeLocationPopup()">No</button>
+        <button type="button" class="btn btn-danger" (click)="confirmDelete()">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

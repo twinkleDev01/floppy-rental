@@ -124,6 +124,11 @@ input:focus, textarea:focus {
     h2{
         text-align: center;
     }
+    .avatar-upload {
+        position: relative;
+        display: inline-block;
+        margin-top: 0rem !important;
+      }
 }
 
 .avatar-upload {
