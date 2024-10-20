@@ -102,7 +102,10 @@ ngOnInit(){
       console.log('Selected Payment Method:', value);
       if(value === 'Cash On Delivery'){
         this.isCashOnDelivery = true
-        console.log(this.isCashOnDelivery,"144")
+        console.log(this.isCashOnDelivery,"105")
+      }else{
+        this.isCashOnDelivery = false;
+        console.log(this.isCashOnDelivery,"108")
       }
     });
 

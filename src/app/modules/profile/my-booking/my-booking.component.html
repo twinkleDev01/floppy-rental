@@ -44,7 +44,8 @@
                       {{ booking.deliveryStatus }}
                     </span>
                   </td>
-                  <td>{{ calculateTotal(booking) | currency:'INR' }}</td>
+                  <!-- <td>{{ calculateTotal(booking) | currency:'INR' }}</td> -->
+                  <td>{{ booking.totalAmount | currency:'INR' }}</td>
                   <!-- *ngIf="booking.deliveryStatus === 'Pending'" -->
                   <td class="action-buttons" *ngIf="booking.deliveryStatus === 'Pending'">
                     <button class="btn btn-light" (click)="openDateTimePicker(booking)" ><i class="fas fa-edit"></i></button>
