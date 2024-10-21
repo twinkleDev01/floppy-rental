@@ -8,6 +8,7 @@ import { CartService } from '../../../../modules/cart/services/cart.service';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { HomeService } from '../../../../modules/home/services/home.service';
+import { ServicesDetailService } from '../../../../modules/services/service/services-detail.service';
 declare var bootstrap: any;  
 @Component({
   selector: 'app-header',
@@ -28,7 +29,7 @@ export class HeaderComponent {
   showLocationPopup: boolean = false;
   isLoggedIn$ = inject(AuthService).isLoggedIn$;
   readonly dialog = inject(MatDialog)
-  constructor(private route:Router, private auth:AuthService, private toastr:ToastrService, private cartService:CartService, @Inject(PLATFORM_ID) platformId: Object, private cdr: ChangeDetectorRef,private http: HttpClient,private homeService: HomeService) {
+  constructor(private route:Router, private auth:AuthService, private toastr:ToastrService, private cartService:CartService, @Inject(PLATFORM_ID) platformId: Object, private cdr: ChangeDetectorRef,private http: HttpClient,private homeService: HomeService, private services: ServicesDetailService) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
   get cartBadge(){
@@ -183,6 +184,12 @@ this.homeService.triggerFunction$.subscribe((data:any) => {
         // Fetch the exact location (address) using Google Geocoding API
         this.getExactLocation(lat, lng);
 
+        // Trigger the location change notification
+        this.services.notifyLocationChange();
+        sessionStorage.setItem('latitude', this.latitude);
+        sessionStorage.setItem('longitude',this.longitude);
+        console.log('Latitude:', this.latitude, 'Longitude:', this.longitude);
+
         // Close the dialog if the flag is true
         if (closeModal) {
           this.showLocationPopup = false // Close the dialog
@@ -242,6 +249,8 @@ this.homeService.triggerFunction$.subscribe((data:any) => {
           const result = response.results[0];
           this.latitude = result.geometry.location.lat;
           this.longitude = result.geometry.location.lng;
+          // Trigger the location change notification
+        this.services.notifyLocationChange();
           sessionStorage.setItem('latitude', result.geometry.location.lat);
           sessionStorage.setItem('longitude',result.geometry.location.lng);
           console.log('Latitude:', this.latitude, 'Longitude:', this.longitude);

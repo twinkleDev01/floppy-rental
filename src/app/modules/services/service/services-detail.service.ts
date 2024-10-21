@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable } from 'rxjs';
+import { catchError, map, Observable, Subject } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
 
 @Injectable({
@@ -273,6 +273,14 @@ export class ServicesDetailService {
       }),
         // catchError(error => this.handleError(error))
       );
+  }
+
+  private locationChangedSource = new Subject<void>();  // Emits when location changes
+  locationChanged$ = this.locationChangedSource.asObservable();
+
+  // Method to trigger the change event
+  notifyLocationChange() {
+    this.locationChangedSource.next();  // Emit a notification of change
   }
 
 }

@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ServicesDetailService } from '../../service/services-detail.service';
 import { environment } from '../../../../../environments/environment.development';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription, take } from 'rxjs';
 import { HomeService } from '../../../home/services/home.service';
 import { SharedService } from '../../../../shared/services/shared.service';
 import { isPlatformBrowser, ViewportScroller } from '@angular/common';
@@ -78,6 +78,7 @@ selectedSubCategoryId:any
   isBrowser!: boolean;
   paginator$ = new BehaviorSubject<{pageIndex:number,pageSize:number}|null>({pageIndex:0,pageSize:12})
   myState: boolean | undefined;
+  locationSubscription$!:Subscription;
   constructor(private fb: FormBuilder, private router: Router, private service:ServicesDetailService, private homeService:HomeService, private sharedService:SharedService, private route:ActivatedRoute, @Inject(PLATFORM_ID) platformId: Object, private viewportScroller: ViewportScroller, private metaService: Meta,
   private titleService: Title) {
     this.isBrowser = isPlatformBrowser(platformId);
@@ -130,11 +131,23 @@ this.route.queryParams.subscribe(params => {
   }
   ngOnInit(){
     if(this.isBrowser){
+
+  // Subscribe to the change detection event
+  this.locationSubscription$ = this.service.locationChanged$?.pipe(take(1))?.subscribe(() => {
+    console.log('Location changed detected in category component');
+    // Perform actions when the location changes
+    setTimeout(()=>{
+      this.latitude = sessionStorage.getItem('latitude');
+      this.longitude = sessionStorage.getItem('longitude')
+      console.log(this.latitude, this.longitude, "140")
+    this.getFilterSubCategory(this.CategoryId);
+    }, 1000)
+ 
+  });
+
       const selectedCategoriesString = localStorage.getItem('selectedCategories');
       this.selectedCategories = selectedCategoriesString ? JSON.parse(selectedCategoriesString) : [];
     
-
-
     this.viewportScroller.scrollToPosition([0, 0]); 
 
     if (this.subCategoryName) {
@@ -172,7 +185,12 @@ this.route.queryParams.subscribe(params => {
   // this.getLocations()
     this.getCouponList()
     this.getBannerData()
-    this.getCurrentLocation()
+    if(!sessionStorage.getItem('latitude')){
+      this.getCurrentLocation()
+    }else{
+      this.latitude = sessionStorage.getItem('latitude');
+      this.longitude = sessionStorage.getItem('longitude')
+    }
     // getCategoryList
     this.service.getCategoryList().subscribe((res)=>{
       this.categoriesList = res.data;
@@ -370,10 +388,15 @@ console.log(subCategory,"338",this.selectedCategories);
   this.router.routeReuseStrategy.shouldReuseRoute = () => false; // Prevent route reuse
   this.router.onSameUrlNavigation = 'reload'; // Reload the same URL
 
+  if (!this.selectedCategories.length) {
+    this.selectedCategories = [];
+    this.selectedCategories?.push(1);
+  }
+
   // Check if any subcategories are selected
-  if (this.selectedCategories.length > 0) {
+  // if (this.selectedCategories.length > 0) {
     this.router.navigate([
-      `/services/category/${this.selectedCategories.join(',').replaceAll('/', '$')}/${this.CategoryId}`
+      `/services/category/${this.selectedCategories?.join(',')?.replaceAll('/', '$')}/${this.CategoryId}`
     ], {
       queryParams: {
         subCategories: this.selectedCategories, // Pass the selected subcategories as query parameters
@@ -382,7 +405,7 @@ console.log(subCategory,"338",this.selectedCategories);
         locations: this.searchLocation
       }
     });
-  }
+  // }
 }
 
 
@@ -683,6 +706,7 @@ ngOnDestroy(): void {
   if(!this.router.url?.includes('services/category')){
     localStorage.removeItem('selectedCategories');
   }
+  this.locationSubscription$?.unsubscribe();
 }
 
 }
