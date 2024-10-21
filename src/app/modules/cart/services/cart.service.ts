@@ -146,11 +146,12 @@ export class CartService {
     return this.http.post<any>(this.paymentUrl, payload, { headers });
   }
 
-  addCoupon(userId: number, couponId: number, totalPrice: number): Observable<any> {
+  addCoupon(userId: number, couponId: number, totalPrice: number, couponCode:string): Observable<any> {
     const payload = {
       userId: userId,
       couponId: couponId,
-      totalPrice: totalPrice
+      totalPrice: totalPrice,
+      couponCode: couponCode
     };
 
     return this.http.post(this.addCouponUrl, payload);
