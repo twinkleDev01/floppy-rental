@@ -86,6 +86,7 @@
               [matAutocompleteDisabled]="searchControl.value.length === 0"
               placeholder="Search"
               (focus)="onSearchFocus()"
+              (keyup.enter)="getSearchedItemList()"
             />
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displaySubgroupName"
             (optionSelected)="onOptionSelected($event)">

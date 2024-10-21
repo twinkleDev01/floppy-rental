@@ -13,6 +13,7 @@ import { City, Country, State } from 'country-state-city';
 import { ProfileService } from '../../../profile/service/profile.service';
 import { HttpClient } from '@angular/common/http';
 import { response } from 'express';
+import { LoginComponent } from '../../../login/Components/login/login.component';
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
@@ -41,7 +42,7 @@ export class CheckoutComponent {
     private router: Router,
     private dialog: MatDialog,
     private cartService:CartService,
-    private toaster:ToastrService,
+    private toastr:ToastrService,
     private datePipe: DatePipe,
     @Inject(PLATFORM_ID) platformId: object,
     private profileService:ProfileService,
@@ -353,6 +354,16 @@ console.log('Formatted Date:', this.selectedDateIst);
       },
       (error) => {
         console.error('Error creating order', error);
+          // Check if status code is 401 and show toastr
+    if (error.status === 401) {
+      // this.toastr.error('Unauthorized: Please log in again.');
+      this.dialog.open(LoginComponent, {
+        width: '450',
+        disableClose: true
+      });
+    } else {
+      this.toastr.error('An error occurred while creating the order.', 'Error');
+    }
       }
     );
   }
