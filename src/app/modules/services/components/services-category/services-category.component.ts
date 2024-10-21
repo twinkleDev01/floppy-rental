@@ -77,13 +77,21 @@ selectedSubCategoryId:any
   @Input() showPageSizeField = true;
   isBrowser!: boolean;
   paginator$ = new BehaviorSubject<{pageIndex:number,pageSize:number}|null>({pageIndex:0,pageSize:12})
-
+  myState: boolean | undefined;
   constructor(private fb: FormBuilder, private router: Router, private service:ServicesDetailService, private homeService:HomeService, private sharedService:SharedService, private route:ActivatedRoute, @Inject(PLATFORM_ID) platformId: Object, private viewportScroller: ViewportScroller, private metaService: Meta,
   private titleService: Title) {
     this.isBrowser = isPlatformBrowser(platformId);
     if(this.isBrowser){
     this.placesService = new google.maps.places.PlacesService(document.createElement('div'));
     }
+
+    const navigation = this.router.getCurrentNavigation();
+    console.log(navigation,"259")
+    if (navigation?.extras.state) {
+      this.myState = navigation.extras.state['myState'];
+      console.log('State from navigation:', this.myState);
+    }
+
     const urlSegments = this.router.url.split('/');
     this.selectedServiceCategoryId = urlSegments[urlSegments.length - 1];
 
@@ -255,9 +263,14 @@ getFilterSubCategory(id: any) {
         (category) => category.SubClassificationName.toLowerCase() === this.subCategoryName.toLowerCase()
       );
       console.log(matchedCategory,'256',this.subCategoryName);
-      if(this.searchLocation){
-        console.log('location', matchedCategory[0]?.SubId)
-       this.selectedCategories.push(matchedCategory[0]?.SubId)
+      // if(this.searchLocation){
+      //   console.log('location', matchedCategory[0]?.SubId)
+      //  this.selectedCategories.push(matchedCategory[0]?.SubId)
+      // }
+       // Run your logic here based on the state
+       if (this.myState) {
+        // Your code to run when myState is true
+        this.selectedCategories.push(matchedCategory[0]?.SubId)
       }
       if (matchedCategory) {
         // this.selectedSubCategoryId = this.selectedCategories;

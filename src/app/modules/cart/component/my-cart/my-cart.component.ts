@@ -333,11 +333,11 @@ if (localIndex !== -1) {
     }
     if(this.isBrowser){
     const userId = Number(localStorage.getItem('userId'));
-    const couponId = Number(couponCode);
+    // const couponId = Number(couponCode);
     const totalPrice = this.initialAmountToCheckout;
   
     // Find the selected coupon from the available coupon list
-    const selectedCoupon = this.OfferAndCoupon.find((coupon: any) => coupon.couponId === couponId);
+    const selectedCoupon = this.OfferAndCoupon.find((coupon: any) => coupon.coupanCode === couponCode);
   
     if (!selectedCoupon) {
       this.toastr.clear()
@@ -347,7 +347,7 @@ if (localIndex !== -1) {
   
     // Check if the coupon amount is less than or equal to the total price
     if (selectedCoupon.amount <= totalPrice) {
-      this.cartService.addCoupon(userId, couponId, totalPrice).subscribe(
+      this.cartService.addCoupon(userId, selectedCoupon.couponId, totalPrice, couponCode).subscribe(
         (response) => {
           if (response) {
             console.log('Coupon added successfully:', response);

@@ -3,6 +3,7 @@ import { LoaderService } from './loader.service';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { finalize, Observable, tap } from 'rxjs';
 import { AuthService } from './auth.service'; // Assuming AuthService handles logout
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class LoaderInterceptor implements HttpInterceptor {
 
   constructor(
     private loaderService: LoaderService,
-    private authService: AuthService // Inject AuthService for logout
+    private authService: AuthService, // Inject AuthService for logout
+    private toastr: ToastrService
   ) {}
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -25,6 +27,7 @@ export class LoaderInterceptor implements HttpInterceptor {
           if (err instanceof HttpErrorResponse && err.status === 401) {
             localStorage.removeItem('token')
             localStorage.removeItem('userId')
+            this.toastr.error('Your session has been expired, please login again')
             this.authService.updateLoginStatus(false);
           }
         }

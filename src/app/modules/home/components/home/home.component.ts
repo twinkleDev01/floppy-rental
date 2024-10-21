@@ -276,7 +276,11 @@ thirdCategory!:SubCategories
       //       ?.toLowerCase()}/${subcategory.mainId}`,
       //   ]
       // );
-      this.router.navigate([`/services/category/${subcategory?.subClassificationName.replaceAll("/","$")}/${subcategory?.mainId}`]);
+      this.router.navigate([`/services/category/${subcategory?.subClassificationName.replaceAll("/","$")}/${subcategory?.mainId}`],
+      {
+        state: { myState: true }  // You can pass any state if required
+      }
+    );
     }
 
     getItemlist(){
@@ -454,7 +458,10 @@ if (this.filteredSubgroups.length === 0 && searchValue) {
             latitude: this.latitude,
             longitude: this.longitude,
             locations: this.searchInput
-          }
+          },
+          
+            state: { myState: true }  // You can pass any state if required
+          
         });
       }
     }
