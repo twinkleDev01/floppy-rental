@@ -1,4 +1,4 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostBinding, Inject, PLATFORM_ID } from '@angular/core';
 import { ProfileService } from '../service/profile.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CartService } from '../../cart/services/cart.service';
@@ -9,6 +9,8 @@ import { LoginComponent } from '../../login/Components/login/login.component';
 import { ToastrService } from 'ngx-toastr';
 import { isPlatformBrowser } from '@angular/common';
 import { AuthService } from '../../../shared/services/auth.service';
+import { PageEvent } from '@angular/material/paginator';
+import { BehaviorSubject } from 'rxjs';
 
 interface Booking {
   orderId: string;
@@ -29,7 +31,7 @@ interface Booking {
 export class MyBookingComponent {
   isBrowser!: boolean;
   bookings:any;
-  constructor(private profileService:ProfileService, private route: ActivatedRoute, private cartService:CartService, private router:Router, private dialog: MatDialog, private service:ServicesDetailService, private toastr:ToastrService, @Inject(PLATFORM_ID) platformId: Object, private auth:AuthService){
+  constructor(private profileService:ProfileService, private route: ActivatedRoute, private cartService:CartService, private router:Router, private dialog: MatDialog, private service:ServicesDetailService, private toastr:ToastrService, @Inject(PLATFORM_ID) platformId: Object, private auth:AuthService, private el: ElementRef){
 
     this.isBrowser = isPlatformBrowser(platformId);
 
@@ -38,6 +40,20 @@ export class MyBookingComponent {
     //   const orderId = params['orderId'];
     //   console.log(orderId)
     // })
+  }
+
+  showPaginator: boolean = true;
+   @HostBinding('class.small-parent') isSmallParent = false;
+ page = new EventEmitter<PageEvent>()
+  length = 0;
+  startIndex:number=0;
+   pageIndex = 0;
+   pageSize = 5; //default page size
+   pageSizeOptions: number[] = [5, 10, 25, 100];
+   showPageSizeField = true;
+  paginator$ = new BehaviorSubject<{pageIndex:number,pageSize:number}>({pageIndex:0,pageSize:10})
+  onResize(event: Event) {
+    this.checkParentSize();
   }
 
 ngOnInit(){
@@ -49,7 +65,27 @@ ngOnInit(){
       this.getUserBooking(); 
     }
   })
+
+  this.paginator$.subscribe(({pageIndex, pageSize})=>{
+    const start = pageSize * pageIndex;
+    const end = (pageSize * (pageIndex + 1));
+    this.filteredBookings = this.bookings.slice(start, end )
+  })
+
 }
+
+onPageChange(event: PageEvent): void {
+  this.pageIndex = event.pageIndex;  // Update current page index
+  this.pageSize = event.pageSize;  // Update page size
+  this.startIndex = this.pageIndex * this.pageSize;  // Calculate new startIndex
+  this.getUserBooking() // Fetch new items based on updated page
+}
+checkParentSize() {
+  const parentWidth = (this.el.nativeElement as HTMLElement).parentElement?.clientWidth;
+  this.isSmallParent = parentWidth ? parentWidth < 600 : false; // Example threshold
+  console.log(parentWidth + 'px', this.isSmallParent);
+}
+filteredBookings: any[] = []
 
 getUserBooking() {
   if(this.isBrowser){
@@ -60,6 +96,7 @@ getUserBooking() {
       (response: any) => {
         this.bookings = response.data
         console.log(response.data, "62");
+        this.paginator$.next({ pageIndex: this.pageIndex, pageSize: this.pageSize });
       },
       (error: any) => {
         console.error('Error fetching user bookings:', error);

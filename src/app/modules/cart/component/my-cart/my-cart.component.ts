@@ -50,6 +50,7 @@ this.updateCartItemsFromApi();
                 }
                 else{
                   this.cartItems = JSON.parse(localStorage.getItem('myCartItem')!)
+                  console.log(this.cartItems,"52")
                   this.cartService.cartLength.next(this.cartItems.length)
                 }
        }

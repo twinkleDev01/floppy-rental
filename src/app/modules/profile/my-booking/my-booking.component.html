@@ -18,7 +18,8 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let booking of bookings">
+                <!-- <tr *ngFor="let booking of bookings"> -->
+                  <tr *ngFor="let booking of filteredBookings">
                   <td>{{ booking.leadEntryId }}</td>
                   <td>{{ booking.date }}</td>
                   <td>{{ booking.time }}</td>
@@ -124,6 +125,18 @@
     </div>
   </div>
 </div>
+<div class="originalPaginator">
+  <mat-paginator
+    style-paginator
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="onPageChange($event)"
+    [length]="bookings?.length"
+    aria-label="Select page"
+  >
+  </mat-paginator>
 
+</div>
 
 

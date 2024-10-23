@@ -52,7 +52,7 @@ export class ProfileComponent {
       state: ['', Validators.required],
       pincode: ['',[Validators.minLength(6), Validators.maxLength(8), Validators.pattern('^[0-9]+$')]],
       locality: [''],
-      city: ['', Validators.required],
+      city: [''],
       address: ['', [Validators.required, Validators.maxLength(50)]],
       profilePicture: [null]
     });
@@ -90,13 +90,16 @@ export class ProfileComponent {
       this.profileForm.get("selectedCountry")?.setValue(selectedCountry);
       this.profileForm.get("selectedCountry")?.updateValueAndValidity();
       this.states = State.getStatesOfCountry(selectedCountry.iso2);
-      this.cities = City.getCitiesOfState(this.selectedCountry.iso2, this.states?.[0].isoCode);
+      this.cities = City.getCitiesOfState(this.selectedCountry.iso2, this.states?.[0]?.isoCode);
       console.log(this.states,"87");
       if(this.states?.length){
         this.profileForm?.get("state")?.setValue(this.states?.[0]?.isoCode);
       }
       if(this.cities?.length){
         this.profileForm?.get("city")?.setValue(this.cities?.[0]?.name);
+      }else{
+        this.profileForm?.get("city")?.setValue('');
+        this.profileForm.markAsUntouched();
       }
       // this.cities = [];
     } else {
