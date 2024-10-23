@@ -91,21 +91,21 @@ ngOnInit(){
    })
 }
 
-  goToCategory(subcategory: any) {
+  goToCategory(card: any) {
 
  // Fetch the updated subcategory list based on the selected value
- this.service.getSubCategoryList(subcategory.mainId).subscribe((res:any) => {
+ this.service.getSubCategoryBySpecificationName(card.mainId).subscribe((res:any) => {
   this.subSategories = res.data; // Update the category list with new data
 
   if (this.subSategories && this.subSategories.length > 0) {
-    const selectedSubCategoryName = this.subSategories[0].SubClassificationName;
+    const selectedSubCategoryName = this.subSategories[0].serviceName;
 
     // Set navigation options
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.router.onSameUrlNavigation = 'reload';
 
     // Navigate using updated category name and ID
-    this.router.navigate([`/services/category/${selectedSubCategoryName?.replaceAll("/","$")}/${subcategory.mainId}`]);
+    this.router.navigate([`/services/category/${selectedSubCategoryName?.replaceAll("/","$")}/${card.mainId}`]);
   } 
 }, (error:any) => {
   console.error('Error fetching subcategories:', error);

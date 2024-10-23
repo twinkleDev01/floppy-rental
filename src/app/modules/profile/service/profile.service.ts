@@ -12,13 +12,20 @@ userDetailUrl = environment.ApiBaseUrl + 'User/get_profile_details_by_id/'
 private updateProfileUrl = environment.ApiBaseUrl + 'User/update_user_profile';
 private deleteUrl = environment.ApiBaseUrl + 'Order/CancelOrderById'; 
 private updateSlotUrl = environment.ApiBaseUrl + 'Order/UpdateOrder';
-
-  constructor(private http: HttpClient) { }
+token:any
+  constructor(private http: HttpClient) { 
+    
+  }
 
    // Method to get user bookings by userId
    getUserBooking(userId: number): Observable<any> {
+    this.token = localStorage.getItem('token')
     const url = `${this.userBookingiUrl}${userId}`; // Construct the API URL with userId
-    return this.http.get(url); // Perform HTTP GET request
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}` // Replace with your token logic
+    });
+  
+    return this.http.get(url, { headers }); 
   }
 
   getProfileDetailsById(id: number): Observable<any> {

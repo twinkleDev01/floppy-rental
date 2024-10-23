@@ -8,6 +8,7 @@ import { ServicesDetailService } from '../../services/service/services-detail.se
 import { LoginComponent } from '../../login/Components/login/login.component';
 import { ToastrService } from 'ngx-toastr';
 import { isPlatformBrowser } from '@angular/common';
+import { AuthService } from '../../../shared/services/auth.service';
 
 interface Booking {
   orderId: string;
@@ -28,7 +29,7 @@ interface Booking {
 export class MyBookingComponent {
   isBrowser!: boolean;
   bookings:any;
-  constructor(private profileService:ProfileService, private route: ActivatedRoute, private cartService:CartService, private router:Router, private dialog: MatDialog, private service:ServicesDetailService, private toastr:ToastrService, @Inject(PLATFORM_ID) platformId: Object){
+  constructor(private profileService:ProfileService, private route: ActivatedRoute, private cartService:CartService, private router:Router, private dialog: MatDialog, private service:ServicesDetailService, private toastr:ToastrService, @Inject(PLATFORM_ID) platformId: Object, private auth:AuthService){
 
     this.isBrowser = isPlatformBrowser(platformId);
 
@@ -43,6 +44,11 @@ ngOnInit(){
   this.getUserDetailById();
   this.updatePayment()
   this.getUserBooking();
+  this.auth.isLoggedIn$?.subscribe(isLoggedIn=>{
+    if(isLoggedIn){
+      this.getUserBooking(); 
+    }
+  })
 }
 
 getUserBooking() {

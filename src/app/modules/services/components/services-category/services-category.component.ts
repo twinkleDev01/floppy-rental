@@ -147,6 +147,11 @@ this.route.queryParams.subscribe(params => {
 
       const selectedCategoriesString = localStorage.getItem('selectedCategories');
       this.selectedCategories = selectedCategoriesString ? JSON.parse(selectedCategoriesString) : [];
+
+      const selectedServicesName = localStorage.getItem('serviceName');
+      this.servicesName = selectedServicesName ? JSON.parse(selectedServicesName) : [];
+
+      this.myState = JSON.parse(localStorage.getItem('myState') || 'false');
     
     this.viewportScroller.scrollToPosition([0, 0]); 
 
@@ -212,8 +217,8 @@ this.route.queryParams.subscribe(params => {
 }
   }
 
-  fetchItems(catId: any, subCatId: any) {
-    this.service.getItemByCategory(catId, subCatId, this.latitude, this.longitude, this.startIndex, this.pageSize).subscribe((res) => {
+  fetchItems(catId: any, subCatId: any, servicesName:any) {
+    this.service.getItemByCategory(catId, subCatId, servicesName, this.latitude, this.longitude, this.startIndex, this.pageSize).subscribe((res) => {
       if (res.success) {
         this.servicesDetails = res.data.items.map((itemWrapper:any) => ({
           ...itemWrapper.item, reviews: itemWrapper.reviews, vender:itemWrapper.vendor})); // Correctly map to items
@@ -228,90 +233,141 @@ this.route.queryParams.subscribe(params => {
     });
   }
 
-    onCategoryChange(selectedValue: any) {
-      this.CategoryId = selectedValue.value
+    // onCategoryChange(selectedValue: any) {
+    //   this.CategoryId = selectedValue.value
     
-      // Reset all variables to null or default values
-      this.selectedServiceCategoryIdThroughLocationSearch = null;
-      this.location = null;
-      this.subCategory = null;
-      this.selectedServiceSubCategoryIdThroughLocationSearch = null;
+    //   // Reset all variables to null or default values
+    //   this.selectedServiceCategoryIdThroughLocationSearch = null;
+    //   this.location = null;
+    //   this.subCategory = null;
+    //   this.selectedServiceSubCategoryIdThroughLocationSearch = null;
     
-      // Fetch the updated subcategory list based on the selected value
-      this.service.getSubCategoryList(this.CategoryId).subscribe((res:any) => {
-        this.categories = res.data; // Update the category list with new data
+    //   // Fetch the updated subcategory list based on the selected value
+    //   this.service.getSubCategoryList(this.CategoryId).subscribe((res:any) => {
+    //     this.categories = res.data; // Update the category list with new data
     
-        if (this.categories && this.categories.length > 0) {
-          this.subCategoryName = this.categories[0].SubClassificationName;
+    //     if (this.categories && this.categories.length > 0) {
+    //       this.subCategoryName = this.categories[0].SubClassificationName;
     
-          // Set navigation options
-          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-          this.router.onSameUrlNavigation = 'reload';
+    //       // Set navigation options
+    //       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    //       this.router.onSameUrlNavigation = 'reload';
     
-          if(!this.searchLocation){
-         // Navigate using updated category name and ID
-            this.router.navigate([`/services/category/${this.subCategoryName?.replaceAll("/","$")}/${this.CategoryId}`]);
-          }else{
-            this.router.navigate([
-              `/services/category/${this.subCategoryName?.replaceAll("/","$")}/${this.CategoryId}`
-            ], {
-              queryParams: {
-                latitude: this.latitude,
-                longitude: this.longitude,
-                locations: this.searchLocation
-              }
-            });
-          }
+    //       if(!this.searchLocation){
+    //      // Navigate using updated category name and ID
+    //         this.router.navigate([`/services/category/${this.subCategoryName?.replaceAll("/","$")}/${this.CategoryId}`]);
+    //       }else{
+    //         this.router.navigate([
+    //           `/services/category/${this.subCategoryName?.replaceAll("/","$")}/${this.CategoryId}`
+    //         ], {
+    //           queryParams: {
+    //             latitude: this.latitude,
+    //             longitude: this.longitude,
+    //             locations: this.searchLocation
+    //           }
+    //         });
+    //       }
 
 
-        } 
-      }, (error:any) => {
-        console.error('Error fetching subcategories:', error);
-      });
-    }
+    //     } 
+    //   }, (error:any) => {
+    //     console.error('Error fetching subcategories:', error);
+    //   });
+    // }
+
     
-// selectedSubCategoryName:any
 getFilterSubCategory(id: any) {
   console.log(id,'category id')
-  this.service.getSubCategoryList(id).subscribe((res) => {
-    this.categories = res.data;
-    if (this.categories && this.categories.length > 0) {
-      // Attempt to find the category by name
-      const matchedCategory = this.categories.filter(
-        (category) => category.SubClassificationName.toLowerCase() === this.subCategoryName.toLowerCase()
-      );
-      console.log(matchedCategory,'256',this.subCategoryName);
-      // if(this.searchLocation){
-      //   console.log('location', matchedCategory[0]?.SubId)
-      //  this.selectedCategories.push(matchedCategory[0]?.SubId)
-      // }
-       // Run your logic here based on the state
-       if (this.myState) {
-        // Your code to run when myState is true
-        this.selectedCategories.push(matchedCategory[0]?.SubId)
-      }
-      if (matchedCategory) {
-        // this.selectedSubCategoryId = this.selectedCategories;
-        // Mark the matched category as checked
-        this.selectedCategories?.forEach((subCategory) => {
-          this.categories.forEach((category) => {
-            if (category.SubId === subCategory) {
-              category.isChecked = true;
-            }
-          });
-        });
-      console.log(this.CategoryId,this.selectedCategories)
-if(!this.searchLocation){
-  // this.fetchItems(this.CategoryId, this.selectedSubCategoryId);
-  this.fetchItems(this.CategoryId, this.selectedCategories);
-}else{
-  this.getItemByLocation()
-}
-        // Fetch items for the matched category
-      }
+//   this.service.getSubCategoryList(id).subscribe((res) => {
+//     this.categories = res.data;
+//     if (this.categories && this.categories.length > 0) {
+//       // Attempt to find the category by name
+//       const matchedCategory = this.categories.filter(
+//         (category) => category.SubClassificationName.toLowerCase() === this.subCategoryName.toLowerCase()
+//       );
+//       console.log(matchedCategory,'256',this.subCategoryName);
+//       // if(this.searchLocation){
+//       //   console.log('location', matchedCategory[0]?.SubId)
+//       //  this.selectedCategories.push(matchedCategory[0]?.SubId)
+//       // }
+//        // Run your logic here based on the state
+//        if (this.myState) {
+//         // Your code to run when myState is true
+//         this.selectedCategories.push(matchedCategory[0]?.SubId)
+//       }
+//       if (matchedCategory) {
+//         // this.selectedSubCategoryId = this.selectedCategories;
+//         // Mark the matched category as checked
+//         this.selectedCategories?.forEach((subCategory) => {
+//           this.categories.forEach((category) => {
+//             if (category.SubId === subCategory) {
+//               category.isChecked = true;
+//             }
+//           });
+//         });
+//       console.log(this.CategoryId,this.selectedCategories)
+// if(!this.searchLocation){
+//   // this.fetchItems(this.CategoryId, this.selectedSubCategoryId);
+//   this.fetchItems(this.CategoryId, this.selectedCategories);
+// }else{
+//   this.getItemByLocation()
+// }
+//         // Fetch items for the matched category
+//       }
      
-    } 
-  });
+//     } 
+//   });
+
+
+
+this.service.getSubCategoryBySpecificationName(id).subscribe((res) => {
+  this.categories = res.data;
+  if (this.categories && this.categories.length > 0) {
+
+    console.log(this.subCategoryName,"322")
+    // Attempt to find the category by name
+    const matchedCategory = this.categories.filter(
+      (category) => category.serviceName.toLowerCase() === this.subCategoryName.toLowerCase()
+    );
+    console.log(matchedCategory,'327',this.subCategoryName);
+    // if(this.searchLocation){
+    //   console.log('location', matchedCategory[0]?.SubId)
+    //  this.selectedCategories.push(matchedCategory[0]?.SubId)
+    // }
+     // Run your logic here based on the state
+     if (this.myState) {
+      // Your code to run when myState is true
+      const categoryNumber = Number(this.subCategoryName); // Convert the subcategory name to a number
+
+      if (!this.selectedCategories.includes(categoryNumber)) {
+        this.selectedCategories.push(categoryNumber);
+        }  // Only push if it's not already in the array
+      localStorage.setItem('selectedCategories', JSON.stringify(this.selectedCategories));
+    }
+    // if (matchedCategory) {
+      // this.selectedSubCategoryId = this.selectedCategories;
+      // Mark the matched category as checked
+      this.servicesName?.forEach((serviceName:string) => {
+        this.categories.forEach((category) => {
+          if (category.serviceName === serviceName) {
+            category.isChecked = true;
+          }
+        });
+      });
+    console.log(this.CategoryId,this.selectedCategories, this.servicesName)
+if(!this.searchLocation){
+// this.fetchItems(this.CategoryId, this.selectedSubCategoryId);
+this.fetchItems(this.CategoryId, this.selectedCategories, this.servicesName);
+}else{
+this.getItemByLocation()
+}
+      // Fetch items for the matched category
+    // }
+   
+  } 
+});
+
+
 }
 
 
@@ -348,7 +404,7 @@ if(!this.searchLocation){
 // }
 
 selectedCategories!: number[] // This array will hold the selected SubIds.
-
+servicesName:any = [];
 
 onCheckboxChange(subCategory: any, event: MatCheckboxChange) {
   
@@ -358,29 +414,45 @@ console.log(subCategory,"338",this.selectedCategories);
   if (event.checked) {
     console.log('checkedddddddd')
         this.categories.forEach((category) => {
-      category.isChecked = category.SubId === subCategory.SubId;
+          console.log(category,subCategory)
+      category.isChecked = category.serviceName === subCategory.serviceName;
     }); 
-    console.log(subCategory.SubId,this.selectedCategories);
+
+    this.servicesName.push(subCategory.serviceName)
+    console.log(subCategory.SubIds?.split(",")?.map(Number),this.selectedCategories);
     // Add the checked SubId to the selectedCategories array
-    if (!this.selectedCategories?.includes(subCategory.SubId)) {
+    if(!this.myState){
+    if (!this.selectedCategories?.includes(subCategory.SubIds)) {
       console.log(this.selectedCategories,"344");
-      this.selectedCategories?.push(subCategory.SubId);
-      console.log(this.selectedCategories);
-    }
+      let arr :number[]= [];
+      subCategory.SubIds?.split(",")?.map((id:string)=> {if(id){arr?.push(Number(id))}});
+      this.selectedCategories = arr;
+      console.log(this.selectedCategories,arr);
+    }}
   } else {
     console.log('uncheckedddddddddddd')
     // Remove the unchecked SubId from the selectedCategories array
-    const index = this.selectedCategories?.indexOf(subCategory.SubId);
+    const index = this.selectedCategories?.indexOf(subCategory.SubIds);
     if (index > -1) {
       
       this.selectedCategories?.splice(index, 1); // Remove by index
       console.log(this.selectedCategories,"this.selectedCategories")
     }
+
+    const serviceIndex = this.servicesName?.indexOf(subCategory.serviceName);
+    if (serviceIndex > -1) {
+      
+      this.servicesName?.splice(serviceIndex, 1); // Remove by index
+      console.log(this.servicesName,"this.servicesName")
+    }
   
   }
 
   console.log('Selected Categories:', this.selectedCategories);
+  if(!this.myState){
   localStorage.setItem('selectedCategories', JSON.stringify(this.selectedCategories));
+  }
+  localStorage.setItem('serviceName', JSON.stringify(this.servicesName));
   // Constructing the navigation URL based on the selected subcategories
   const subCategoryParam = this.selectedCategories?.join(','); // Create a string with selected subCategoryIds
 
@@ -465,7 +537,7 @@ console.log(subCategory,"338",this.selectedCategories);
     this.startIndex = this.pageIndex * this.pageSize;  // Calculate new startIndex
     if(!this.searchLocation){
     // this.fetchItems(this.CategoryId, this.selectedSubCategoryId);  // Fetch new items based on updated page
-    this.fetchItems(this.CategoryId, this.selectedCategories); 
+    this.fetchItems(this.CategoryId, this.selectedCategories, this.servicesName); 
     }else{
       this.getItemByLocation()
     }
@@ -705,6 +777,8 @@ ngOnDestroy(): void {
   //Add 'implements OnDestroy' to the class.
   if(!this.router.url?.includes('services/category')){
     localStorage.removeItem('selectedCategories');
+    localStorage.removeItem('serviceName');
+    localStorage.removeItem('myState');
   }
   this.locationSubscription$?.unsubscribe();
 }

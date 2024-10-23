@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Review } from '../_models/serivece.model';
 import { isPlatformBrowser, ViewportScroller } from '@angular/common';
 import { error } from 'console';
+import { Subscription, take } from 'rxjs';
 
 @Component({
   selector: 'app-services-details',
@@ -27,8 +28,8 @@ export class ServicesDetailsComponent {
   vendorDetail:any;
   subgroupid:any;
   maingroupid:any;
-  latitude:number = 0;
-  longitude:number = 0;
+  latitude:any = 0;
+  longitude:any = 0;
   reviews: Review[] = [];
   reviewForm:any =FormGroup;
   startIndex:number=0;
@@ -61,12 +62,31 @@ export class ServicesDetailsComponent {
       type: [''] // Required validation
     });
   }
-
+  locationSubscription$!:Subscription;
   ngOnInit(){
     this.viewportScroller.scrollToPosition([0, 0]); // Scroll to the top of the page
-    this.getCurrentLocation()
+    if(!sessionStorage.getItem('latitude')){
+      this.getCurrentLocation()
+    }else{
+      this.latitude = sessionStorage.getItem('latitude');
+      this.longitude = sessionStorage.getItem('longitude')
+    }
     this.onRatingUpdated(this.currentRating)
     this.getServiceDetailById(this.serviceDetailId)
+
+  // Subscribe to the change detection event
+  this.locationSubscription$ = this.service.locationChanged$?.subscribe(() => {
+    console.log('Location changed detected in category component');
+    // Perform actions when the location changes
+    setTimeout(()=>{
+      this.latitude = sessionStorage.getItem('latitude');
+      this.longitude = sessionStorage.getItem('longitude')
+      console.log(this.latitude, this.longitude, "140")
+    this.getServiceDetailById(this.serviceDetailId);
+    }, 1000)
+ 
+  });
+
   }
 
 
@@ -81,7 +101,7 @@ export class ServicesDetailsComponent {
       this.maingroupid = this.serviceDetail?.item?.maingroupid;
       this.subgroupid = this.serviceDetail?.item?.subgroupid;
 
-      this.service.getItemByCategory(this.maingroupid, this.subgroupid,this.latitude, this.longitude).subscribe((SimilarItems:any)=>{
+      this.service.getAllItemListsByVendorId(this.vendorId, this.latitude, this.longitude).subscribe((SimilarItems:any)=>{
     
         // this.allSimilarServices = SimilarItems.data;
         this.allSimilarServices = SimilarItems.data.items;
@@ -157,19 +177,20 @@ this.service.addNewReview(payload).subscribe((res:any)=>{
 addToCart(serviceDetail:any){
   console.log(serviceDetail,"155")
   if(this.isBrowser){
+   
   const payload = {
-    itemId:this.serviceDetail.item.itemid||0,
+    itemId:serviceDetail.item.itemid||0,
     id:0,
-    itemName:this.serviceDetail.item.itemName?this.serviceDetail.item.itemName:this.serviceDetail.item.specication,
-    itemRate:Number(this.serviceDetail?.item.rate.replace(/[^0-9.-]+/g, "")),
-    price:Number(this.serviceDetail?.item.rate.replace(/[^0-9.-]+/g, "")),
+    itemName:serviceDetail.item.itemName?serviceDetail.item.itemName:serviceDetail.item.specication,
+    itemRate:Number(serviceDetail?.item.rate.replace(/[^0-9.-]+/g, "")),
+    price:Number(serviceDetail?.item.rate.replace(/[^0-9.-]+/g, "")),
     quantity: 1,
     userId:Number(localStorage.getItem("userId")),
     processStatus:'',
     discountPercent: 0,
     discountAmount: 0,
     tax: 0,
-    image:this.serviceDetail.item.imagepath?this.serviceDetail.item.imagepath:''
+    image:serviceDetail.item.imagepath?serviceDetail.item.imagepath:''
   }
  
   this.service.addCartItem([payload]).subscribe((res:any)=>{
@@ -370,8 +391,8 @@ calculateAverageRating(reviews:any, assign?:boolean): any {
 
 
 similarProductDetail(card:any){
-  this.getServiceDetailById(card.itemid);
-  this.scrollToTop();
+    this.getServiceDetailById(card.itemid); 
+    this.scrollToTop();
 }
 
 // Function to scroll to the top of the page
@@ -413,8 +434,10 @@ displayedReviewsCount = 3; // Initially display 3 reviews
     }
   }
 
-  // goToCheckout(){
-  //   this.router.navigate(['cart/checkout'])
-  // }
+  addToCartHandler(card: any, event: Event) {
+    event.stopPropagation();
+    console.log("Add to Cart clicked for:", card);
+    this.addToCart(card);
+  }
 
 }

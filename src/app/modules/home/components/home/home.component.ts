@@ -276,7 +276,10 @@ thirdCategory!:SubCategories
       //       ?.toLowerCase()}/${subcategory.mainId}`,
       //   ]
       // );
-      this.router.navigate([`/services/category/${subcategory?.subClassificationName.replaceAll("/","$")}/${subcategory?.mainId}`],
+      // this.router.navigate([`/services/category/${subcategory?.subClassificationName.replaceAll("/","$")}/${subcategory?.mainId}`],
+      localStorage.setItem('myState', JSON.stringify(true));
+
+      this.router.navigate([`/services/category/${subcategory?.subId}/${subcategory?.mainId}`],
       {
         state: { myState: true }  // You can pass any state if required
       }
