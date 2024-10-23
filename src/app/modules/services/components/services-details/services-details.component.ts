@@ -204,10 +204,18 @@ addToCart(serviceDetail:any, isNavigate: boolean = false){
  ? JSON.parse(localStorage.getItem('myCartItem')!)
  : [];
 
- const currentUserId = Number(localStorage.getItem("userId"));
+ if(localCart.length){
+ const currentUserId = localStorage.getItem("userId");
 
-        // Remove items that don't match the current user ID
-        localCart = localCart.filter((item: any) => item.userId === currentUserId);
+        // Check if the cart contains items with a different userId
+        const cartHasDifferentUser = localCart.length && localCart[0].userId !== currentUserId;
+console.log(currentUserId,localCart[0].userId,"211")
+        // If different userId is found, clear the cart
+        if (cartHasDifferentUser) {
+          localCart = []; // Clear the cart
+          console.log("Cart cleared due to different userId");
+        }
+      }
 
  // Check for vendor and category mismatch
  const mismatchItemIndex = localCart.findIndex((item: any) =>
