@@ -87,7 +87,7 @@ selectedSubCategoryId:any
     }
 
     const navigation = this.router.getCurrentNavigation();
-    console.log(navigation,"259")
+    console.log(navigation,"90")
     if (navigation?.extras.state) {
       this.myState = navigation.extras.state['myState'];
       console.log('State from navigation:', this.myState);
@@ -742,7 +742,7 @@ this.latitude=sessionStorage.getItem('latitude')
 this.longitude=sessionStorage.getItem('longitude')
 
   this.selectedCategories = this.selectedCategories?.filter((c)=>c !== null);
-  this.service.getServiceLocationWise(this.selectedCategories,this.searchLocation,this.latitude,this.longitude).subscribe((response:any)=>{
+  this.service.getServiceLocationWise(this.selectedCategories,this.servicesName,this.searchLocation,this.latitude,this.longitude).subscribe((response:any)=>{
     if (response.success) {
       this.servicesDetails = response.data.items.map((itemWrapper:any) => ({
         ...itemWrapper.item, reviews: itemWrapper.reviews, vender:itemWrapper.vendor})); // Correctly map to items

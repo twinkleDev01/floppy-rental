@@ -452,10 +452,12 @@ if (this.filteredSubgroups.length === 0 && searchValue) {
       }else if(!this.locationSearchItem){
         this.error = true;
       }else{ // Navigate with query parameters
+        console.log(this.locationSearchItem,"455")
+        localStorage.setItem('myState', JSON.stringify(true));
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
         this.router.onSameUrlNavigation = "reload";
         this.router.navigate([
-          `/services/category/${this.locationSearchItem.subClassificationName.replaceAll("/","$")}/${this.locationSearchItem.mainId}`
+          `/services/category/${this.locationSearchItem.subId}/${this.locationSearchItem.mainId}`
         ], {
           queryParams: {
             latitude: this.latitude,
