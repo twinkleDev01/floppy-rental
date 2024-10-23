@@ -133,7 +133,7 @@ this.route.queryParams.subscribe(params => {
     if(this.isBrowser){
 
   // Subscribe to the change detection event
-  this.locationSubscription$ = this.service.locationChanged$?.pipe(take(1))?.subscribe(() => {
+  this.locationSubscription$ = this.service.locationChanged$?.subscribe(() => {
     console.log('Location changed detected in category component');
     // Perform actions when the location changes
     setTimeout(()=>{

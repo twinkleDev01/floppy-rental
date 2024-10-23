@@ -53,7 +53,7 @@
                   </td>
                   <!-- *ngIf="booking.deliveryStatus ==='Completed'" -->
                   <td class="action-buttons" *ngIf="booking.deliveryStatus ==='Completed'">
-                    <button class="review status-badge" (click)="goToDetail(booking.items)">Review</button>&nbsp;
+                    <button class="review status-badge" (click)="goToDetail(booking.items[0])">Review</button>&nbsp;
                     <button class="reorder status-badge" (click)="reAddToCart(booking.items[0])">Re-order</button>
                   </td>
                 </tr>
