@@ -231,7 +231,7 @@ console.log('Formatted Date:', this.selectedDateIst);
 
   loadCities(stateCode: string) {
     console.log(`Selected Country Code: ${this.selectedCountryCode}, State Code: ${stateCode}`, "204");
-  
+    this.selectedCountryCode = this.selectedCountryCode?this.selectedCountryCode:'IN'
     if (this.selectedCountryCode) {
       const allCities = City.getCitiesOfState(this.selectedCountryCode, stateCode);
       console.log(`All Cities Retrieved: `, allCities); // Log the raw cities data
@@ -418,6 +418,13 @@ this.longitude = position.coords.longitude;
         // Call reverse geocoding API to convert lat, lng to address
         this.getCountryFromCoordinates(lat, lng);
       }, (error) => {
+        this.loadStates('IN')
+        const selectedState = State.getStatesOfCountry('IN');
+        if (selectedState) {
+          console.log("424")
+          const  isoCode = selectedState[0].isoCode;
+                this.loadCities(isoCode);
+              }
         console.error('Error fetching location: ', error);
       });
     } else {
