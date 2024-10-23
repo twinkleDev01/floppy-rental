@@ -204,6 +204,11 @@ addToCart(serviceDetail:any, isNavigate: boolean = false){
  ? JSON.parse(localStorage.getItem('myCartItem')!)
  : [];
 
+ const currentUserId = Number(localStorage.getItem("userId"));
+
+        // Remove items that don't match the current user ID
+        localCart = localCart.filter((item: any) => item.userId === currentUserId);
+
  // Check for vendor and category mismatch
  const mismatchItemIndex = localCart.findIndex((item: any) =>
   item.vendorid !== serviceDetail.item.vendorid ||
@@ -309,7 +314,7 @@ this.toastr.success('Item added successfully')
 updateCartDetails (storageKey: string){
   const items = JSON.parse(localStorage[storageKey] || '[]');
   localStorage[storageKey] = JSON.stringify(
-      items.map((d:any)=> ({...d, cartUpdated: true}))
+      items.map((d:any)=> ({...d, cartUpdated: true, userId:localStorage.getItem('userId')}))
   )
 }
 
