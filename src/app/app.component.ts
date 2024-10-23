@@ -32,6 +32,8 @@ export class AppComponent {
     if(this.isBrowser){
     if(!this.router.url?.includes('services/category')){
       localStorage.removeItem('selectedCategories');
+      localStorage.removeItem('serviceName');
+      localStorage.removeItem('myState');
     }
   }
   }

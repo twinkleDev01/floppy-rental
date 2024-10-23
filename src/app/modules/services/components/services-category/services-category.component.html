@@ -77,8 +77,9 @@
             class="example-radio-button"
             [checked]="subCategory.isChecked"
             (change)="onCheckboxChange(subCategory, $event)"
-            >{{ subCategory.SubClassificationName }}</mat-checkbox
+            >{{ subCategory.serviceName }}</mat-checkbox
           >
+          <!-- {{ subCategory.SubClassificationName }} -->
           }
         </mat-checkbox-group>
         <!-- <div aria-labelledby="example-checkbox-group-label" class="example-checkbox-group">

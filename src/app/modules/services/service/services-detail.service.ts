@@ -83,6 +83,7 @@ export class ServicesDetailService {
   getItemByCategory(
     catId: number, 
     subCategoryIds: number[], 
+    servicesName:[],
     latitude: number, 
     longitude: number, 
     startIndex: number = 0, 
@@ -98,7 +99,8 @@ export class ServicesDetailService {
     // Construct payload object as per the API requirements
     const payload = {
       categoryId: catId,
-      subCategoryIds: Array.isArray(subCategoryIds) ? subCategoryIds : [subCategoryIds], // Force array
+      subCategoryIds: Array.isArray(subCategoryIds) ? subCategoryIds.filter(id => id != null) : [subCategoryIds].filter(id => id != null), // Force array
+      servicesName: Array.isArray(servicesName) ? servicesName.filter(name => name != null) : [servicesName].filter(name => name != null),
       latitude: latitude,
       longitude: longitude,
       pageSize: pageSize,
@@ -280,7 +282,35 @@ export class ServicesDetailService {
 
   // Method to trigger the change event
   notifyLocationChange() {
+    console.log('chnsge')
     this.locationChangedSource.next();  // Emit a notification of change
   }
+
+  getSubCategoryBySpecificationName(id:string):Observable<any>{
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      // "Authorization": 'Bearer ' + localStorage.getItem('token')
+    });
+    const httpOptions = {
+      headers: headers
+    };
+    const url = environment.ApiBaseUrl.concat(`Service/GetServicesListByIds/${id}`);
+    return this.http.get<any>(url, httpOptions)
+      .pipe(map((response:any) => {
+        return response;
+      }),
+        catchError(error => this.handleError(error)));
+  }
+
+  getAllItemListsByVendorId(vendorId: number, latitude: number, longitude: number): Observable<any> {
+    const url = environment.ApiBaseUrl + `SellerInfo/GetAllItemListsByVendorId?vendorId=${vendorId}&latiude=${latitude}&longitude=${longitude}`;
+  
+    const headers = new HttpHeaders({
+      // 'Authorization': `Bearer ${this.authService.getToken()}` // Replace with your token logic
+    });
+  
+    return this.http.get(url, { headers });
+  }
+  
 
 }

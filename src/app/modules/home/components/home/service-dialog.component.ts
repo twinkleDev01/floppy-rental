@@ -78,7 +78,9 @@ console.log(data,'dialog')
       //       ?.toLowerCase()}/${subcategory.MainId}`,
       //   ]
       // );
-      this.router.navigate([`/services/category/${subcategory?.SubClassificationName.replaceAll("/","$")}/${subcategory.MainId}`],
+      localStorage.setItem('myState', JSON.stringify(true));
+
+      this.router.navigate([`/services/category/${subcategory?.SubId}/${subcategory.MainId}`],
       {
         state: { myState: true }  // You can pass any state if required
       }
