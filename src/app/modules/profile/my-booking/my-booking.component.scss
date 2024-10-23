@@ -116,3 +116,27 @@
   align-items: center; /* Center vertically */
   min-height: 100vh; /* Full viewport height */
 }
+
+
+:host ::ng-deep .mat-mdc-paginator-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 8px;
+  align-content: center;
+  align-items: center;
+}
+
+:host ::ng-deep {
+
+.mat-mdc-paginator-range-actions {
+  display: grid;
+  grid-auto-flow: column;
+  grid-column-gap: 1%;
+  justify-items: center;
+  align-content: center;
+  align-items: center;
+  min-width: 25rem;
+}
+.mat-mdc-icon-button .mat-mdc-paginator-icon{
+  margin: -3px;
+}}

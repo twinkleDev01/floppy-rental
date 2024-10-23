@@ -120,9 +120,9 @@
   <option value="" disabled selected>Select City</option>
                               <option *ngFor="let city of cities" [value]="city.name">{{ city.name }}</option>
                             </select>
-                            <div *ngIf="profileForm.get('city')?.touched && profileForm.get('city')?.hasError('required')" class="text-danger">
+                            <!-- <div *ngIf="profileForm.get('city')?.touched && profileForm.get('city')?.hasError('required')" class="text-danger">
                               City is required
-                            </div> 
+                            </div>  -->
                           </div>
                           <div class="col-lg-12 mt-3">
                             <span class="fw-bold fs-6">Address</span>
