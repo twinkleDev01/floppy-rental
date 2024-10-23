@@ -205,7 +205,7 @@
 </div>
 <div class="p-5">
     <div class="container">
-        <h3>Similar Products</h3>
+        <h3>More Services by {{serviceDetail?.item.vendorname}}</h3>
         <div>
             <ng-container *ngFor="let card of allSimilarServices">
 
@@ -224,12 +224,12 @@
                         <h6 class="card_h3 fw-bold pt-3">  {{card.item.vendorname }}</h6>
                         <div class="Staff mb-2">
                             <span class="main-name">{{ card.item.maingroupname }}</span>
-                            <span>{{ card?.item.subgroupname }}</span>
+                            <span>{{ card?.item.itemName }}</span>
                           </div>
                           <!-- <div class="charge pt-2">Monthly Charge For</div> -->
                            <div class="d-flex" style="justify-content: space-between;">
                                <div class="price">₹ {{ card.item.rate }}</div>
-                               <button class="cart_btn me-2" (click)="addToCartHandler(card, $event)" style="font-size: 10px;">Add to Cart</button>
+                               <button class="cart_btn me-2" (click)="addToCartHandler(card, $event, true)" style="font-size: 10px;">Add to Cart</button>
                            </div>
                           <hr />
                           <div class="distance">
