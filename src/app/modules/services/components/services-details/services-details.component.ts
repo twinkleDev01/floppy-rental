@@ -11,6 +11,8 @@ import { Review } from '../_models/serivece.model';
 import { isPlatformBrowser, ViewportScroller } from '@angular/common';
 import { error } from 'console';
 import { Subscription, take } from 'rxjs';
+import { CartService } from '../../../cart/services/cart.service';
+import { AuthService } from '../../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-services-details',
@@ -36,7 +38,7 @@ export class ServicesDetailsComponent {
   pageSize:number=0;
   isBrowser!: boolean;
 
-  constructor(private router: Router,private service:ServicesDetailService, private fb:FormBuilder, private dialog:MatDialog, private toastr:ToastrService, private route:ActivatedRoute, @Inject(PLATFORM_ID) platformId: Object, private viewportScroller: ViewportScroller) {
+  constructor(private router: Router,private service:ServicesDetailService, private fb:FormBuilder, private dialog:MatDialog, private toastr:ToastrService, private route:ActivatedRoute, @Inject(PLATFORM_ID) platformId: Object, private viewportScroller: ViewportScroller, private cartService:CartService) {
 
     this.isBrowser = isPlatformBrowser(platformId);
 
@@ -174,7 +176,7 @@ this.service.addNewReview(payload).subscribe((res:any)=>{
 }
 
 // add to cart 
-addToCart(serviceDetail:any){
+addToCart(serviceDetail:any, isNavigate: boolean = false){
   console.log(serviceDetail,"155")
   if(this.isBrowser){
    
@@ -236,7 +238,16 @@ if(localStorage.getItem('userId')){
 }
 // Navigate to the cart page
 this.toastr.success('Item added successfully')
-this.router.navigate(['cart']);
+// this.router.navigate(['cart']);
+if (!isNavigate) {
+  console.log("241")
+  this.router.navigate(['cart']);
+}
+if (isNavigate) {
+  console.log("247")
+  const cartItems = JSON.parse(localStorage.getItem('myCartItem')!)
+                this.cartService.cartLength.next(cartItems.length)
+}
  } 
 }, (error)=>{
     // Handle the case where the response was not successful
@@ -279,7 +290,17 @@ if(localStorage.getItem('userId')){
 }
 // Navigate to the cart page
 this.toastr.success('Item added successfully')
-this.router.navigate(['cart']);
+// this.router.navigate(['cart']);
+  // Only navigate if the action is triggered from the button that allows navigation
+  if (!isNavigate) {
+    console.log("285")
+    this.router.navigate(['cart']);
+  }
+  if (isNavigate) {
+    console.log("295")
+    const cartItems = JSON.parse(localStorage.getItem('myCartItem')!)
+                  this.cartService.cartLength.next(cartItems.length)
+  }
 })
  
   }
@@ -434,10 +455,10 @@ displayedReviewsCount = 3; // Initially display 3 reviews
     }
   }
 
-  addToCartHandler(card: any, event: Event) {
+  addToCartHandler(card: any, event: Event, isNavigate: boolean = false) {
     event.stopPropagation();
-    console.log("Add to Cart clicked for:", card);
-    this.addToCart(card);
+    console.log("Add to Cart clicked for:", isNavigate);
+    this.addToCart(card, isNavigate);
   }
 
 }
