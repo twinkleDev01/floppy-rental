@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, of, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -60,5 +60,36 @@ export class AuthService {
             return of(false)
           }
     }
+
+    // Method to send OTP to the mobile number
+  sendOtp(mobileNumber: string): Observable<any> {
+    const url = environment.ApiBaseUrl + `Auth/sendotp/${mobileNumber}`;
+    
+    // You can add any necessary headers if required
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    // Sending a GET request to the API to send OTP
+    return this.http.post<any>(url, { headers });
+  }
+
+  verifyOtp(mobileNumber: string, otp: string): Observable<any> {
+    const url = environment.ApiBaseUrl + `Auth/verifyotp?mobilenumber=${mobileNumber}&otp=${otp}`;
+     // The payload for the POST request
+  const payload = {
+    mobilenumber: mobileNumber,
+    otp: otp
+  };
+
+    return this.http.post<any>(url, payload).pipe(
+      catchError((error) => {
+        console.error('Error verifying OTP:', error);
+        return throwError(error);
+      })
+    );
+  }
+  
+  
 
 }

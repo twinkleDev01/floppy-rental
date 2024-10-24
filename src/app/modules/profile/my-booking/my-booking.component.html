@@ -18,6 +18,7 @@
                 </tr>
               </thead>
               <tbody>
+                @if(filteredBookings.length){   
                 <!-- <tr *ngFor="let booking of bookings"> -->
                   <tr *ngFor="let booking of filteredBookings">
                   <td>{{ booking.leadEntryId }}</td>
@@ -92,7 +93,13 @@
                   </td>
                 </tr> -->
                 
-
+              }@else {
+                @if(isBrowser){
+                     <tr class="text-center">
+                        <td colspan="9"> <strong class="text-danger" style="text-align: center;">Data Not Found</strong> </td>
+                     </tr>
+                }
+            }
 
               </tbody>
             </table>

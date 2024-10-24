@@ -49,20 +49,41 @@ token:any
   }
 
    // Method to delete an order by id
-   deleteOrder(id: number,userEmail:string): Observable<Object> {
+  //  deleteOrder(id: number,userEmail:string): Observable<Object> {
+  //   const url = `${this.deleteUrl}/${id}`;
+  //   const headers = new HttpHeaders({
+  //     'Content-Type': 'application/json'
+  //   });
+  //   let params = new HttpParams().set('useremail',userEmail );
+  //   return this.http.post(url, { headers });
+  // }
+
+  deleteOrder(id: number, userEmail: string, token: string): Observable<Object> {
     const url = `${this.deleteUrl}/${id}`;
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}` // Add Authorization header with the token
     });
-    let params = new HttpParams().set('useremail',userEmail );
-    return this.http.post(url, { headers });
+    let params = new HttpParams().set('useremail', userEmail);
+  
+    // Sending headers and params in the post request
+    return this.http.post(url, { params }, { headers });
   }
   
 
 
   // Method to update an order
-  updateOrder(orderData: { orderId: number, newDateTime: string, newSlot: string }): Observable<void> {
-    return this.http.post<void>(this.updateSlotUrl, orderData);
-  }
+  // updateOrder(orderData: { orderId: number, newDateTime: string, newSlot: string }): Observable<void> {
+  //   return this.http.post<void>(this.updateSlotUrl, orderData);
+  // }
   
+  updateOrder(orderData: { orderId: number, newDateTime: string, newSlot: string }, token: string): Observable<void> {
+    const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` // Add Authorization header with the token
+    });
+
+    // Sending headers and the orderData in the post request
+    return this.http.post<void>(this.updateSlotUrl, orderData, { headers });
+}
 }

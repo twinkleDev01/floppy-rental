@@ -145,47 +145,101 @@ openDateTimePicker(booking:any): void {
     return booking.items.reduce((total: number, item: any) => total + (item.price || 0), 0);
   }
   
-  updatePayment() {
-    if(this.isBrowser){
-      const orderId = localStorage.getItem('orderId'); // Default to empty string if orderId is null;
-    const userIdString = localStorage.getItem('userId');
-    const isCashOnDelivery = JSON.parse(localStorage.getItem('isCashOnDelivery') || 'false');
-    const paymentReferenceOrderId = localStorage.getItem('paymentOrderReferenceId') || '';
+  // updatePayment() {
+  //   if(this.isBrowser){
+  //     const orderId = localStorage.getItem('orderId'); // Default to empty string if orderId is null;
+  //   const userIdString = localStorage.getItem('userId');
+  //   const isCashOnDelivery = JSON.parse(localStorage.getItem('isCashOnDelivery') || 'false');
+  //   const paymentReferenceOrderId = localStorage.getItem('paymentOrderReferenceId') || '';
     
-    // Handle cases where localStorage might return null
-    if (!orderId || !userIdString) {
-      console.error('Order ID or User ID is missing');
-      return;
-    }
+  //   // Handle cases where localStorage might return null
+  //   if (!orderId || !userIdString) {
+  //     console.error('Order ID or User ID is missing');
+  //     return;
+  //   }
   
-    // Convert userId to a number
-    const userId = Number(userIdString);
+  //   // Convert userId to a number
+  //   const userId = Number(userIdString);
   
-    // Ensure userId is a valid number
-    if (isNaN(userId)) {
-      console.error('User ID is invalid');
-      return;
-    }
+  //   // Ensure userId is a valid number
+  //   if (isNaN(userId)) {
+  //     console.error('User ID is invalid');
+  //     return;
+  //   }
   
-    setTimeout(() => {
-    // Call the service method
-    console.log(this.userEmail,"121")
-    this.cartService.updatePaymentStatus(paymentReferenceOrderId, orderId, userId, isCashOnDelivery, this.userEmail).subscribe(
-      response => {
-        this.toastr.success('Your order has been placed successfully')
-        localStorage.removeItem('orderId')
-        localStorage.removeItem('isCashOnDelivery')
-        localStorage.removeItem('myCartData');
-        console.log('Payment status updated successfully', response);
-        this.getUserBooking();
-      },
-      error => {
-        console.error('Error updating payment status', error);
+  //   setTimeout(() => {
+  //   // Call the service method
+  //   console.log(this.userEmail,"121")
+  //   this.cartService.updatePaymentStatus(paymentReferenceOrderId, orderId, userId, isCashOnDelivery, this.userEmail).subscribe(
+  //     response => {
+  //       this.toastr.success('Your order has been placed successfully')
+  //       localStorage.removeItem('orderId')
+  //       localStorage.removeItem('isCashOnDelivery')
+  //       localStorage.removeItem('myCartData');
+  //       console.log('Payment status updated successfully', response);
+  //       this.getUserBooking();
+  //     },
+  //     error => {
+  //       console.error('Error updating payment status', error);
+  //     }
+  //   );
+  // }, 1000); // Delay of 2 seconds (2000 milliseconds)
+  // }
+  // }
+
+  updatePayment() {
+    if (this.isBrowser) {
+      const orderId = localStorage.getItem('orderId'); 
+      const userIdString = localStorage.getItem('userId');
+      const isCashOnDelivery = JSON.parse(localStorage.getItem('isCashOnDelivery') || 'false');
+      const paymentReferenceOrderId = localStorage.getItem('paymentOrderReferenceId') || '';
+  
+      // Check if orderId or userId is missing
+      if (!orderId || !userIdString) {
+        console.error('Order ID or User ID is missing');
+        return;
       }
-    );
-  }, 1000); // Delay of 2 seconds (2000 milliseconds)
+  
+      const userId = Number(userIdString);
+  
+      // Check if userId is valid
+      if (isNaN(userId)) {
+        console.error('User ID is invalid');
+        return;
+      }
+  
+      setTimeout(() => {
+        this.cartService.updatePaymentStatus(paymentReferenceOrderId, orderId, userId, isCashOnDelivery, this.userEmail).subscribe(
+          response => {
+            if (response.success === true) {
+              // Handle success case
+              this.toastr.success('Your order has been placed successfully.');
+              localStorage.removeItem('orderId');
+              localStorage.removeItem('isCashOnDelivery');
+              localStorage.removeItem('myCartData');
+              console.log('Payment status updated successfully:', response);
+              this.getUserBooking();
+            } else if (response.message.includes('Transaction canceled.')){
+              // Handle order canceled case
+              localStorage.removeItem('orderId');
+              localStorage.removeItem('isCashOnDelivery');
+              localStorage.removeItem('myCartData');
+              this.toastr.warning('Your order has been canceled.');
+              console.log('Order was canceled:', response);
+            } 
+            else {
+              // Handle any other cases
+              this.toastr.error('Something went wrong with your order.');
+            }
+          },
+          error => {
+            console.error('Error updating payment status:', error);
+          }
+        );
+      }, 1000); // Delay of 1 second (1000 milliseconds)
+    }
   }
-  }
+  
 
   goToDetail(card: any) {
     console.log(card,"139")
@@ -202,7 +256,8 @@ openDateTimePicker(booking:any): void {
   // Method to call delete service
   deleteBooking(item: any) {
 console.log(item,"161")
-    this.profileService.deleteOrder(item.leadEntryId, localStorage?.getItem('userEmail')??'').subscribe({
+const token = localStorage.getItem('token');
+    this.profileService.deleteOrder(item.leadEntryId, localStorage?.getItem('userEmail')??'', token || '').subscribe({
       next: () => {
         this.getUserBooking()
         this.closeLocationPopup(); // Close the modal after confirmation
@@ -233,17 +288,19 @@ const hours = String(localDate.getHours()).padStart(2, '0');
 const minutes = String(localDate.getMinutes()).padStart(2, '0');
 const seconds = String(localDate.getSeconds()).padStart(2, '0');
 const milliseconds = String(localDate.getMilliseconds()).padStart(3, '0');
-
+const userId = localStorage.getItem('userId');
 // Format it to match the desired ISO string format (without time zone conversion)
 const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}Z`;
+const token = localStorage.getItem('token');
 
     const orderData = {
       orderId: orderId,
       newDateTime: formattedDate,
-      newSlot: newSlot
+      newSlot: newSlot,
+      userId: userId
     };
 
-    this.profileService.updateOrder(orderData).subscribe({
+    this.profileService.updateOrder(orderData, token || '').subscribe({
       next: () => {
         this.getUserBooking();
         console.log('Order updated successfully');

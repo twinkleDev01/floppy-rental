@@ -24,8 +24,8 @@ export class CheckoutComponent {
    cities:any[] =  [];
 
   states: any = [];
-  latitude:any;
-  longitude:any;
+  latitude:any =0;
+  longitude:any =0;
 
   checkout: FormGroup;
   selectedPaymentOption = 'option5'; 

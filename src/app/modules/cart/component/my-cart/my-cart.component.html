@@ -75,9 +75,16 @@
                     <span>₹ &nbsp;{{AmountToCheckout | number:'1.2-2'}}</span>
                 </b>
                 <div class="proceedToCheckout py-2">
-                    <button *ngIf="!isPlaceInquiryOnly()" (click)="proceedToCheckout(cartItems)" [disabled]="(isUpdate && cartItems?.length === 0) || (!isUpdate && isQuantityChanged) || (isUpdate && isQuantityChanged && cartItems?.length === 0)" >Proceed To Checkout<i
+                    <!-- <button *ngIf="!isPlaceInquiryOnly()" (click)="proceedToCheckout(cartItems)" [disabled]="(isUpdate && cartItems?.length === 0) || (!isUpdate && isQuantityChanged) || (isUpdate && isQuantityChanged && cartItems?.length === 0)" >Proceed To Checkout<i
                             class="fa-solid fa-arrow-right-long"></i></button>
-                            <button  *ngIf="isPlaceInquiryOnly()" [disabled]="!cartItems?.length" (click)="placeInquiry(cartItems)" [disabled]="(isUpdate && cartItems?.length === 0) || (!isUpdate && isQuantityChanged) || (isUpdate && isQuantityChanged && cartItems?.length === 0)" >Place Enquiry</button>
+                            <button  *ngIf="isPlaceInquiryOnly()" [disabled]="!cartItems?.length" (click)="placeInquiry(cartItems)" [disabled]="(isUpdate && cartItems?.length === 0) || (!isUpdate && isQuantityChanged) || (isUpdate && isQuantityChanged && cartItems?.length === 0)" >Place Enquiry</button> -->
+                            <button *ngIf="!isPlaceInquiryOnly()" (click)="proceedToCheckout(cartItems)" [disabled]="(isUpdate && cartItems?.length === 0) || (!isUpdate && isQuantityChanged) || (isUpdate && isQuantityChanged && cartItems?.length === 0)" >Proceed To Checkout<i
+                                class="fa-solid fa-arrow-right-long"></i></button>
+                                <button *ngIf="isPlaceInquiryOnly()" 
+                                [disabled]="!cartItems?.length || (isUpdate && cartItems?.length === 0) || (!isUpdate && isQuantityChanged) || (isUpdate && isQuantityChanged && cartItems?.length === 0)"
+                                (click)="placeInquiry(cartItems)">
+                            Place Enquiry
+                        </button>
                 </div>
             </div>
         </div>
