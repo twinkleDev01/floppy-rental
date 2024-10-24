@@ -303,8 +303,8 @@ export class ServicesDetailService {
         catchError(error => this.handleError(error)));
   }
 
-  getAllItemListsByVendorId(vendorId: number, latitude: number, longitude: number): Observable<any> {
-    const url = environment.ApiBaseUrl + `SellerInfo/GetAllItemListsByVendorId?vendorId=${vendorId}&latiude=${latitude}&longitude=${longitude}`;
+  getAllItemListsByVendorId(vendorId: number, latitude: number, longitude: number, ItemId:any): Observable<any> {
+    const url = environment.ApiBaseUrl + `SellerInfo/GetAllItemListsByVendorId?vendorId=${vendorId}&latiude=${latitude}&longitude=${longitude}&ItemId=${ItemId}`;
   
     const headers = new HttpHeaders({
       // 'Authorization': `Bearer ${this.authService.getToken()}` // Replace with your token logic

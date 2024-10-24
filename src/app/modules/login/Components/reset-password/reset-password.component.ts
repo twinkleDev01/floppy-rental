@@ -234,6 +234,7 @@ this.auth.resetPassword(resetpwd).subscribe((response:any)=>{
         console.error('Error verifying OTP:', error);
         this.stopTimer()
         this.isResenOtp = true;
+        this.loginForm.get('otp')?.setValue('');
         this.isVerifyingOtp = false;  // Hide verify OTP button since it's failed
         this.cdr.detectChanges();
       }

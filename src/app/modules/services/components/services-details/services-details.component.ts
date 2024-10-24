@@ -103,7 +103,7 @@ export class ServicesDetailsComponent {
       this.maingroupid = this.serviceDetail?.item?.maingroupid;
       this.subgroupid = this.serviceDetail?.item?.subgroupid;
 
-      this.service.getAllItemListsByVendorId(this.vendorId, this.latitude, this.longitude).subscribe((SimilarItems:any)=>{
+      this.service.getAllItemListsByVendorId(this.vendorId, this.latitude, this.longitude, this.serviceDetail.item.itemid).subscribe((SimilarItems:any)=>{
     
         // this.allSimilarServices = SimilarItems.data;
         this.allSimilarServices = SimilarItems.data.items;
@@ -468,10 +468,30 @@ displayedReviewsCount = 3; // Initially display 3 reviews
     }
   }
 
+  // addToCartHandler(card: any, event: Event, isNavigate: boolean = false) {
+  //   event.stopPropagation();
+  //   console.log("Add to Cart clicked for:", isNavigate);
+  //   this.addToCart(card, isNavigate);
+  // }
+
   addToCartHandler(card: any, event: Event, isNavigate: boolean = false) {
     event.stopPropagation();
     console.log("Add to Cart clicked for:", isNavigate);
+      // Check if the item is already in the cart
+  if (this.isItemInCart(card.item.itemid)) {
+    this.toastr.info('This item is already in your cart.');
+    return;
+  }
     this.addToCart(card, isNavigate);
+  }
+
+  isItemInCart(itemId: number): boolean {
+    const localCart = localStorage.getItem('myCartItem') 
+      ? JSON.parse(localStorage.getItem('myCartItem')!) 
+      : [];
+  
+    // Check if the item is already in the cart
+    return localCart.some((item: any) => item.itemid === itemId);
   }
 
 }
