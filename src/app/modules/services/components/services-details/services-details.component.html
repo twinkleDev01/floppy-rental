@@ -229,7 +229,7 @@
                           <!-- <div class="charge pt-2">Monthly Charge For</div> -->
                            <div class="d-flex" style="justify-content: space-between;">
                                <div class="price">₹ {{ card.item.rate }}</div>
-                               <button class="cart_btn me-2" (click)="addToCartHandler(card, $event, true)" style="font-size: 10px;">Add to Cart</button>
+                               <button class="cart_btn me-2" (click)="addToCartHandler(card, $event, true)" style="font-size: 10px;"  [disabled]="isItemInCart(card.item.itemid)">Add to Cart</button>
                            </div>
                           <hr />
                           <div class="distance">

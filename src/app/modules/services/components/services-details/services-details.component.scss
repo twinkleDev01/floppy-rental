@@ -195,4 +195,10 @@ margin-bottom: 8px;
   align-items: center;
   color: gray;
 }
-        
+button:disabled {
+  cursor: not-allowed;
+  background-color: #ccc; 
+  color: #666; 
+  border: 1px solid #ccc; 
+  opacity: 0.65; 
+}        
