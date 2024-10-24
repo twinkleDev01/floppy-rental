@@ -67,9 +67,10 @@ ngOnInit(){
   })
 
   this.paginator$.subscribe(({pageIndex, pageSize})=>{
-    const start = pageSize * pageIndex;
-    const end = (pageSize * (pageIndex + 1));
-    this.filteredBookings = this.bookings.slice(start, end )
+    // const start = pageSize * pageIndex;
+    // const end = (pageSize * (pageIndex + 1));
+    // this.filteredBookings = this.bookings.slice(start, end )
+    this.updatePaginatedBookings(pageIndex, pageSize);
   })
 
 }
@@ -77,8 +78,14 @@ ngOnInit(){
 onPageChange(event: PageEvent): void {
   this.pageIndex = event.pageIndex;  // Update current page index
   this.pageSize = event.pageSize;  // Update page size
-  this.startIndex = this.pageIndex * this.pageSize;  // Calculate new startIndex
-  this.getUserBooking() // Fetch new items based on updated page
+  // this.startIndex = this.pageIndex * this.pageSize;  // Calculate new startIndex
+  // this.getUserBooking() // Fetch new items based on updated page
+  this.updatePaginatedBookings(this.pageIndex, this.pageSize);
+}
+updatePaginatedBookings(pageIndex: number, pageSize: number) {
+  const start = pageIndex * pageSize;
+  const end = start + pageSize;
+  this.filteredBookings = this.bookings.slice(start, end);  // Slice the already loaded bookings data
 }
 checkParentSize() {
   const parentWidth = (this.el.nativeElement as HTMLElement).parentElement?.clientWidth;
