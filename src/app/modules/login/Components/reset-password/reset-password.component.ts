@@ -67,6 +67,8 @@ ngOnInit(){
     }));
     this.loginForm?.get("selectedCountry")?.setValue(this.countries.find(d=> d.name == "India"));
   });
+
+  console.log(this.loginForm.get('selectedCountry')?.value,"71")
 }
 
 
@@ -173,7 +175,8 @@ this.auth.resetPassword(resetpwd).subscribe((response:any)=>{
   }
   // Method to call the sendOtp method from the service
   sendOtp() {
-    const mobileNumber = this.loginForm.get('contactNumber')?.value;
+   console.log(this.loginForm.get('selectedCountry')?.value)
+    const mobileNumber = this.loginForm.value.selectedCountry.code + this.loginForm.value.contactNumber;
 
     if (mobileNumber) {
       

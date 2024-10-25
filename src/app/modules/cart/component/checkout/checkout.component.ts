@@ -293,7 +293,7 @@ console.log('Formatted Date:', this.selectedDateIst);
       latitude: this.latitude.toString(),
       longitude: this.longitude.toString(),
     };
-    
+    console.log(payload,"296")
     localStorage.setItem('isCashOnDelivery', JSON.stringify(this.isCashOnDelivery));
 
     this.cartService.createOrder(payload).subscribe(
