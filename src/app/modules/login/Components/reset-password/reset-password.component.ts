@@ -176,7 +176,7 @@ this.auth.resetPassword(resetpwd).subscribe((response:any)=>{
   // Method to call the sendOtp method from the service
   sendOtp() {
    console.log(this.loginForm.get('selectedCountry')?.value)
-    const mobileNumber = this.loginForm.value.selectedCountry.code + this.loginForm.value.contactNumber;
+    const mobileNumber = this.loginForm.value.contactNumber;
 
     if (mobileNumber) {
       
