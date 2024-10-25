@@ -62,16 +62,15 @@ export class AuthService {
     }
 
     // Method to send OTP to the mobile number
-  sendOtp(mobileNumber: string): Observable<any> {
-    const url = environment.ApiBaseUrl + `Auth/sendotp/${mobileNumber}`;
-    
-    // You can add any necessary headers if required
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-
-    // Sending a GET request to the API to send OTP
-    return this.http.post<any>(url, { headers });
+    sendOtp(mobileNumber: string): Observable<any> {
+      const url = `${environment.ApiBaseUrl}Auth/sendotp?mobilenumber=${mobileNumber}`;
+  
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+      });
+  
+      // Sending a POST request with the mobile number as a query parameter
+      return this.http.post<any>(url, {}, { headers });
   }
 
   verifyOtp(mobileNumber: string, otp: string): Observable<any> {
