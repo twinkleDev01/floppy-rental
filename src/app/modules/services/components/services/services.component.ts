@@ -92,7 +92,7 @@ ngOnInit(){
 }
 
   goToCategory(card: any) {
-
+console.log(card,"95")
  // Fetch the updated subcategory list based on the selected value
  this.service.getSubCategoryBySpecificationName(card.mainId).subscribe((res:any) => {
   this.subSategories = res.data; // Update the category list with new data
@@ -105,7 +105,10 @@ ngOnInit(){
     this.router.onSameUrlNavigation = 'reload';
 
     // Navigate using updated category name and ID
-    this.router.navigate([`/services/category/${selectedSubCategoryName?.replaceAll("/","$")}/${card.mainId}`]);
+    // this.router.navigate([`/services/category/${selectedSubCategoryName?.replaceAll("/","$")}/${card.mainId}`]);
+    this.router.navigate([`${card.classificationName?.trim()
+      ?.replace(/\s+/g, '')
+      ?.toLowerCase()}`]);
   } 
 }, (error:any) => {
   console.error('Error fetching subcategories:', error);

@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ServiceDialogComponent } from './service-dialog.component';
 import { ServicesDetailService } from '../../../services/service/services-detail.service';
 import { ScrollService } from '../../../../shared/services/scroll.service';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { Item, SubCategories } from '../../_models/home.model';
 import { FormControl } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
@@ -247,11 +247,15 @@ thirdCategory!:SubCategories
           this.secondCategory = filteredCategories[1];
           this.thirdCategory = filteredCategories[2];
 
+          console.log(this.allSubCategotyList,"250")
+
           this.allSubCategotyList = this.allSubCategotyList.flatMap((category:any) =>
-            category.subcategories.map((subcategory:any) => ({
+            category.subcategories.map((subcategory:any) => (
+              {
               subId: subcategory.subId,
               subClassificationName: subcategory.subClassificationName,
-              mainId: subcategory.mainId
+              mainId: subcategory.mainId,
+              categoryName: category.classificationName
             }))
           );
       
@@ -266,8 +270,8 @@ thirdCategory!:SubCategories
       
   }
 
-    goCategory(subcategory: any) {
-      console.log(subcategory,"253")
+    goCategory(subcategory: any, classificationName:any) {
+      console.log(subcategory, classificationName,"253")
       // this.router.navigate(
       //   [
       //     `/services/category/${subcategory?.SubClassificationName
@@ -279,9 +283,11 @@ thirdCategory!:SubCategories
       // this.router.navigate([`/services/category/${subcategory?.subClassificationName.replaceAll("/","$")}/${subcategory?.mainId}`],
       localStorage.setItem('myState', JSON.stringify(true));
 
-      this.router.navigate([`/services/category/${subcategory?.subId}/${subcategory?.mainId}`],
+      this.router.navigate([`${classificationName?.trim()
+        ?.replace(/\s+/g, '')
+        ?.toLowerCase()}`],
       {
-        state: { myState: true }  // You can pass any state if required
+        state: { myState: true, subcategory:subcategory?.subId}  // You can pass any state if required
       }
     );
     }
@@ -457,15 +463,12 @@ if (this.filteredSubgroups.length === 0 && searchValue) {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
         this.router.onSameUrlNavigation = "reload";
         this.router.navigate([
-          `/services/category/${this.locationSearchItem.subId}/${this.locationSearchItem.mainId}`
+          `${this.locationSearchItem.categoryName?.trim()
+            ?.replace(/\s+/g, '')
+            ?.toLowerCase()}`
         ], {
-          queryParams: {
-            latitude: this.latitude,
-            longitude: this.longitude,
-            locations: this.searchInput
-          },
           
-            state: { myState: true }  // You can pass any state if required
+            state: { myState: true,subcategory:this.locationSearchItem?.subId }  // You can pass any state if required
           
         });
       }

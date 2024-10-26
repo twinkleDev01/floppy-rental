@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PrivacyPolicyComponent } from './shared/components/privacy-policy/privacy-policy.component';
 import { TermsComponent } from './shared/components/terms/terms.component';
 import { ReturnPolicyComponent } from './shared/components/return-policy/return-policy.component';
+import { ServicesCategoryComponent } from './modules/services/components/services-category/services-category.component';
 
 export const routes: Routes = [
     {
@@ -44,6 +45,10 @@ export const routes: Routes = [
       {
         path: 'return-policy',
         component: ReturnPolicyComponent
+      },
+      {
+        path: ':categorySeoUrl',
+        component: ServicesCategoryComponent
       },
       {
         path: '**', // Wildcard route to catch any undefined paths

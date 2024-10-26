@@ -263,6 +263,7 @@ if (isNavigate) {
 }
  } 
 }, (error)=>{
+  if(!localStorage.getItem('userId')){
     // Handle the case where the response was not successful
    // For guest users, manage cart in localStorage
  let localCart = localStorage.getItem('myCartItem')
@@ -314,7 +315,12 @@ this.toastr.success('Item added successfully')
     const cartItems = JSON.parse(localStorage.getItem('myCartItem')!)
                   this.cartService.cartLength.next(cartItems.length)
   }
-})
+  
+}else{
+  this.toastr.error('Cannot add items from different vendor or category');
+}
+}
+)
  
   }
 }

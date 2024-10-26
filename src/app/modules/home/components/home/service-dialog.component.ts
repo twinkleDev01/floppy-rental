@@ -4,7 +4,7 @@ import { HomeService } from "../../services/home.service";
 import { Router } from "@angular/router";
 
 @Component({
-    selector: "app-landing-page",
+    selector: "service-dialog",
   
     template: ` <div class="dialog-container">
     <div class="dialog-header">
@@ -80,9 +80,11 @@ console.log(data,'dialog')
       // );
       localStorage.setItem('myState', JSON.stringify(true));
 
-      this.router.navigate([`/services/category/${subcategory?.SubId}/${subcategory.MainId}`],
+      this.router.navigate([`${subcategory?.CategoryName?.trim()
+        ?.replace(/\s+/g, '')
+        ?.toLowerCase()}`],
       {
-        state: { myState: true }  // You can pass any state if required
+        state: { myState: true,subcategory:subcategory?.SubId }  // You can pass any state if required
       }
     );
       this.dialogRef.close();
