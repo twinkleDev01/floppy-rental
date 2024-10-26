@@ -21,7 +21,7 @@ export function app(): express.Express {
   // server.get('/api/**', (req, res) => { });
   // Serve static files from /browser
   server.get('**', express.static(browserDistFolder, {
-    maxAge: '1y',
+    maxAge: '1d',
     index: 'index.html',
   }));
 
