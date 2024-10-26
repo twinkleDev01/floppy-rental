@@ -7,10 +7,10 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">services</th>
-                        <th scope="col">price</th>
-                        <th scope="col">quantity</th>
-                        <th scope="col">sub-total</th>
+                        <th scope="col">Services</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Subtotal</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,7 +62,7 @@
                     <strong>₹ &nbsp;{{sabTotal | number:'1.2-2'}}</strong>
                 </div>
                 <div class="d-flex justify-content-between font">
-                    <span>Your total Saving</span>
+                    <span>Your Total Saving</span>
                     <strong>₹ &nbsp; {{sabTotalSaving | number:'1.2-2'}}</strong>
                 </div>
                 <div class="d-flex justify-content-between font py-1">
@@ -78,7 +78,7 @@
                     <!-- <button *ngIf="!isPlaceInquiryOnly()" (click)="proceedToCheckout(cartItems)" [disabled]="(isUpdate && cartItems?.length === 0) || (!isUpdate && isQuantityChanged) || (isUpdate && isQuantityChanged && cartItems?.length === 0)" >Proceed To Checkout<i
                             class="fa-solid fa-arrow-right-long"></i></button>
                             <button  *ngIf="isPlaceInquiryOnly()" [disabled]="!cartItems?.length" (click)="placeInquiry(cartItems)" [disabled]="(isUpdate && cartItems?.length === 0) || (!isUpdate && isQuantityChanged) || (isUpdate && isQuantityChanged && cartItems?.length === 0)" >Place Enquiry</button> -->
-                            <button *ngIf="!isPlaceInquiryOnly()" (click)="proceedToCheckout(cartItems)" [disabled]="(isUpdate && cartItems?.length === 0) || (!isUpdate && isQuantityChanged) || (isUpdate && isQuantityChanged && cartItems?.length === 0)" >Proceed To Checkout<i
+                            <button *ngIf="!isPlaceInquiryOnly()" (click)="proceedToCheckout(cartItems)" [disabled]="(isUpdate && cartItems?.length === 0) || (!isUpdate && isQuantityChanged) || (isUpdate && isQuantityChanged && cartItems?.length === 0) || isQuantityChanged" >Proceed to Checkout<i
                                 class="fa-solid fa-arrow-right-long"></i></button>
                                 <button *ngIf="isPlaceInquiryOnly()" 
                                 [disabled]="!cartItems?.length || (isUpdate && cartItems?.length === 0) || (!isUpdate && isQuantityChanged) || (isUpdate && isQuantityChanged && cartItems?.length === 0)"
@@ -92,7 +92,7 @@
             <div class="p-2 apply-coupon">
                 <h5> <strong>Coupon Code</strong></h5>
                 <div class="d-flex justify-content-between">
-                        <input type="text" class="px-1 form-control w-50 " (keydown)="preventLeadingWhitespace($event)" placeholder="Enter Code" [(ngModel)]="couponCode" (ngModelChange)="OnCouponFilled()">
+                        <input type="text" class="px-2 form-control w-50 " (keydown)="preventLeadingWhitespace($event)" placeholder="Enter Code" [(ngModel)]="couponCode" (ngModelChange)="OnCouponFilled()">
                     <div class="d-flex align-items-center">
                         <button (click)="applyCoupon(couponCode)">Apply</button>
                     </div>

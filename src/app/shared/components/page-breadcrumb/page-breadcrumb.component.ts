@@ -23,4 +23,8 @@ export class PageBreadcrumbComponent {
       this.last = res?.replaceAll('-', ' ');
     });
   }
+
+  convertToSlug(text: string): string {
+    return text.trim().replace(/\s+/g, '-').toLowerCase();
+  }
 }

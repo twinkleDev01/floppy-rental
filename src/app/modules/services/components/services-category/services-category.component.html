@@ -21,49 +21,7 @@
         style="color: black; right: 1rem; top: 1rem"
         >cancel</mat-icon
       >
-      <!--  -->
-      <!-- <div class="container mt-5">
-        <h2 class="fw-bold fs-4">CATEGORY</h2>
-        <mat-radio-group
-          aria-labelledby="example-radio-group-label"
-          class="example-radio-group"
-          [(ngModel)]="selectedServiceCategory"
-          (change)="onCategoryChange($event)"
-        >
-          @for (category of categoriesList; track category) {
-
-          <mat-radio-button
-            class="example-radio-button"
-            [value]="category.mainId"
-            >{{ category.classificationName }}</mat-radio-button
-          >
-          }
-        </mat-radio-group>
-      </div>
-      <hr /> -->
-
-      <!-- LocationArea -->
-      <!-- <div class="container">
-        <h2 class="fw-bold fs-4">AREA</h2>
-        <div class="location_search">
-          <i class="fa-solid fa-location-dot"></i>
-          <div style="width: 300px;">
-            <input
-              type="text"
-              [(ngModel)]="searchInput"
-              (input)="onInputChange()"
-              placeholder="Type to search for a location..."
-              class="autocomplete-input location-auto"
-            />
-            <select *ngIf="predictions.length > 0" size="5" (change)="selectPrediction($event)" class="select-location" #selectDropdown>
-              <option *ngFor="let prediction of predictions" [value]="prediction.description" class="search-option">
-                <i class="fa-solid fa-location-dot"></i> {{ prediction.description }}
-              </option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <hr /> -->
+     
       <div class="container">
         <h2 class="fw-bold fs-4 pt-5">Services</h2>
         <!--  -->
@@ -79,27 +37,16 @@
             (change)="onCheckboxChange(subCategory, $event)"
             >{{ subCategory.serviceName }}</mat-checkbox
           >
-          <!-- {{ subCategory.SubClassificationName }} -->
+          
           }
         </mat-checkbox-group>
-        <!-- <div aria-labelledby="example-checkbox-group-label" class="example-checkbox-group">
-          <mat-checkbox
-          *ngFor="let subCategory of categories"
-          class="example-checkbox-button"
-          [checked]="subCategory.isChecked"
-          (change)="onCheckboxChange(subCategory, $event)"
-        >
-          {{ subCategory.SubClassificationName }}
-        </mat-checkbox>
-        </div> -->
         
       </div>
       <hr />
       <!--  -->
       <div class="container bg-offer" *ngFor="let list of offerListData">
         <img [src]="list.Image" alt="" class="mb-4 mt-4" />
-        <!-- <div class="fw-bold fs-6">{{list.percentage}}% OFF On {{list.couponDescription}}</div>
-        <p>{{list.percentage}}% OFF up to {{list.currency}} {{list.amount}}</p> -->
+        
       </div>
 
       <!--  -->

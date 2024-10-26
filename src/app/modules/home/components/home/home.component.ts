@@ -197,7 +197,6 @@ thirdCategory!:SubCategories
         const topData = this.homeBannerData['Top'];
         if (topData) {
           this.sortedTopData = topData.sort((a: any, b: any) => a.Seqno - b.Seqno);
-          console.log("199",this.sortedTopData)
         } else {
           console.error('Top data not found:', this.homeBannerData);
         }
@@ -247,8 +246,6 @@ thirdCategory!:SubCategories
           this.secondCategory = filteredCategories[1];
           this.thirdCategory = filteredCategories[2];
 
-          console.log(this.allSubCategotyList,"250")
-
           this.allSubCategotyList = this.allSubCategotyList.flatMap((category:any) =>
             category.subcategories.map((subcategory:any) => (
               {
@@ -264,23 +261,12 @@ thirdCategory!:SubCategories
         startWith(''),
         // map(value => this._filter(value))
         map(value => value ? this._filter(value) : [])
-      );
-          console.log(this.allSubCategotyList); 
+      ); 
       });
       
   }
 
     goCategory(subcategory: any, classificationName:any) {
-      console.log(subcategory, classificationName,"253")
-      // this.router.navigate(
-      //   [
-      //     `/services/category/${subcategory?.SubClassificationName
-      //       ?.trim()
-      //       ?.replace(/\s+/g, '-')
-      //       ?.toLowerCase()}/${subcategory.mainId}`,
-      //   ]
-      // );
-      // this.router.navigate([`/services/category/${subcategory?.subClassificationName.replaceAll("/","$")}/${subcategory?.mainId}`],
       localStorage.setItem('myState', JSON.stringify(true));
 
       this.router.navigate([`${classificationName?.trim()
@@ -297,15 +283,6 @@ thirdCategory!:SubCategories
         this.itemList = response.data
       })
     }
-
-    // goToServiceDetail(item:any){
-    //   const itemNameDetail = item?.subgroupname.split(',')[0]?.trim()?.replace(/\s+/g, '-')?.toLowerCase();
-    //   this.router.navigate([`/services/service-Details/${itemNameDetail}`], {
-    //     state: {
-    //       card: item,
-    //     }
-    //   });
-    // }
 
     goToServiceDetail(card: any) {
       const itemNameDetail = card?.subgroupname
@@ -338,7 +315,6 @@ thirdCategory!:SubCategories
     }
   
     getCurrentLocation(){
-      console.log("called")
       // Check if the browser supports Geolocation API
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
@@ -458,7 +434,6 @@ if (this.filteredSubgroups.length === 0 && searchValue) {
       }else if(!this.locationSearchItem){
         this.error = true;
       }else{ // Navigate with query parameters
-        console.log(this.locationSearchItem,"455")
         localStorage.setItem('myState', JSON.stringify(true));
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
         this.router.onSameUrlNavigation = "reload";
@@ -499,7 +474,6 @@ if (this.filteredSubgroups.length === 0 && searchValue) {
       this.autocompleteService.getPlacePredictions(request, (predictions: any[], status: any) => {
         if (status === google.maps.places.PlacesServiceStatus.OK && predictions) {
           this.predictions = predictions;
-          console.log(this.predictions,"539")
         } else {
           this.predictions = [];
         }
@@ -512,19 +486,11 @@ if (this.filteredSubgroups.length === 0 && searchValue) {
       if(this.searchInput){
         this.locationSelected = false;
       }
-      console.log(this.searchInput,"489")
-      // this.predictions = []; // Clear predictions after selection
-      console.log('Selected Description:', selectedDescription);
-    
-      // Log predictions to verify their content
-      console.log('Available Predictions:', this.predictions);
-    
       // Find the selected place
       const selectedPrediction = this.predictions.find(prediction => prediction.description === selectedDescription);
     
       if (selectedPrediction) {
         const placeId = selectedPrediction.place_id; // Ensure 'place_id' is available in predictions
-        console.log('Place ID:', placeId, "562");
     
         // Fetch place details
         const request = {
@@ -536,14 +502,11 @@ if (this.filteredSubgroups.length === 0 && searchValue) {
           if (status === google.maps.places.PlacesServiceStatus.OK && place && place.geometry) {
             const location = place.geometry.location;
             if (location) {
-              console.log('Latitude:', location.lat());
-              console.log('Longitude:', location.lng());
               this.placeDetails = {
                 lat: location.lat(),
                 lng: location.lng()
               };
               this.predictions = [];
-              console.log('Location:', location, 'Place Details:', this.placeDetails);
             } else {
               console.error('Place geometry is not available.');
             }
@@ -556,19 +519,6 @@ if (this.filteredSubgroups.length === 0 && searchValue) {
       }
     }
     
-    
-
-    // private _filter(value: string): any[] {
-    //   console.log(value,"602")
-    //   const filterValue = value.toLowerCase();
-    //   console.log(this.allSubCategotyList.filter((subgroup:any) =>
-    //     subgroup.subClassificationName.toLowerCase().includes(filterValue)
-    //   ),"560")
-    //   return this.allSubCategotyList.filter((subgroup:any) =>
-    //     subgroup.subClassificationName.toLowerCase().includes(filterValue)
-    //   );
-    // }
-
     private _filter(value: string): any[] {
       const filterValue = value.toLowerCase();
       return this.allSubCategotyList.filter((subgroup:any) =>
@@ -577,8 +527,6 @@ if (this.filteredSubgroups.length === 0 && searchValue) {
     }
   
     onOptionSelected(event: any): void {
-      console.log(event, "633");
-      console.log('Selected Option:', event.option.value);
       this.locationSearchItem = event.option.value;
       this.error = false
     }
@@ -594,7 +542,6 @@ if (this.filteredSubgroups.length === 0 && searchValue) {
             this.longitude = result.geometry.location.lng;
             sessionStorage.setItem('latitude', result.geometry.location.lat);
             sessionStorage.setItem('longitude',result.geometry.location.lng);
-            console.log('Latitude:', this.latitude, 'Longitude:', this.longitude);
           } else {
             console.error('Geocoding failed:', response.status);
           }

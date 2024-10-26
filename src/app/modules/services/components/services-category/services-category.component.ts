@@ -1,4 +1,4 @@
-import { Component, Directive, ElementRef, EventEmitter, Inject, inject, Input, Output, PLATFORM_ID, ViewChild, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Inject, inject, Input, Output, PLATFORM_ID, ViewChild, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -87,11 +87,9 @@ categorySeoUrl:any
     }
 
     const navigation = this.router.getCurrentNavigation();
-    console.log(navigation,"90")
     if (navigation?.extras.state) {
       this.myState = navigation.extras.state['myState'];
       this.subCategoryName = navigation.extras.state['subcategory']
-      console.log('State from navigation:', this.myState, this.subCategoryName);
     }
 
     const urlSegments = this.router.url.split('/');
@@ -99,12 +97,7 @@ categorySeoUrl:any
 
   // Subscribe to route parameters
 this.route.paramMap.subscribe((params: any) => {
-  console.log(params,"101", params?.params?.categorySeoUrl)
-  this.categorySeoUrl = params?.params?.categorySeoUrl
-  // this.subCategoryName = decodeURIComponent(params.get('categoryName'));
-  // this.subCategoryName = this.subCategoryName.replaceAll('$', '/');
-  // this.CategoryId = params.get('id');
-   // Convert string to number
+  this.categorySeoUrl = params?.params?.categorySeoUrl;
   this.selectedServiceCategory = this.CategoryId; // Set the selected category to match the id
 });
 
@@ -118,11 +111,6 @@ this.route.queryParams.subscribe(params => {
     if(this.searchLocation){
       this.searchInput = this.searchLocation
     }
-
-    // if (this.CategoryId) {
-    //   // Call the API to fetch subcategories and match the name
-    //   // this.getFilterSubCategory(this.CategoryId);
-    // }
 }
 
  private filteringThroughSubcategory(selectedServiceCategoryId: any): void {
@@ -138,12 +126,10 @@ this.route.queryParams.subscribe(params => {
 
   // Subscribe to the change detection event
   this.locationSubscription$ = this.service.locationChanged$?.subscribe(() => {
-    console.log('Location changed detected in category component');
     // Perform actions when the location changes
     setTimeout(()=>{
       this.latitude = sessionStorage.getItem('latitude');
       this.longitude = sessionStorage.getItem('longitude')
-      console.log(this.latitude, this.longitude, "140")
     this.getFilterSubCategory(this.CategoryId);
     }, 1000)
  
@@ -203,7 +189,6 @@ this.route.queryParams.subscribe(params => {
     // getCategoryList
     this.service.getCategoryList().subscribe((res)=>{
       this.categoriesList = res.data;
-      console.log(this.categoriesList,"203")
       this.originalList = [...res?.data];
       this.categoriesList = this.categoriesList?.filter((iterable:any)=> iterable?.status === 1);
       const selectedService = this.categoriesList?.find(record => record?.categoryseourl === this.categorySeoUrl);
@@ -211,7 +196,6 @@ this.route.queryParams.subscribe(params => {
 if(this.CategoryId){
   this.getFilterSubCategory(this.CategoryId);
 }
-console.log(selectedService, this.CategoryId, "210", this.categorySeoUrl)
          // Set the selectedCategory based on selectedServiceCategoryId
          if (this.selectedServiceCategoryId) {
           this.filteringThroughSubcategory(this.selectedServiceCategoryId);
@@ -243,110 +227,18 @@ console.log(selectedService, this.CategoryId, "210", this.categorySeoUrl)
     });
   }
 
-    // onCategoryChange(selectedValue: any) {
-    //   this.CategoryId = selectedValue.value
-    
-    //   // Reset all variables to null or default values
-    //   this.selectedServiceCategoryIdThroughLocationSearch = null;
-    //   this.location = null;
-    //   this.subCategory = null;
-    //   this.selectedServiceSubCategoryIdThroughLocationSearch = null;
-    
-    //   // Fetch the updated subcategory list based on the selected value
-    //   this.service.getSubCategoryList(this.CategoryId).subscribe((res:any) => {
-    //     this.categories = res.data; // Update the category list with new data
-    
-    //     if (this.categories && this.categories.length > 0) {
-    //       this.subCategoryName = this.categories[0].SubClassificationName;
-    
-    //       // Set navigation options
-    //       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    //       this.router.onSameUrlNavigation = 'reload';
-    
-    //       if(!this.searchLocation){
-    //      // Navigate using updated category name and ID
-    //         this.router.navigate([`/services/category/${this.subCategoryName?.replaceAll("/","$")}/${this.CategoryId}`]);
-    //       }else{
-    //         this.router.navigate([
-    //           `/services/category/${this.subCategoryName?.replaceAll("/","$")}/${this.CategoryId}`
-    //         ], {
-    //           queryParams: {
-    //             latitude: this.latitude,
-    //             longitude: this.longitude,
-    //             locations: this.searchLocation
-    //           }
-    //         });
-    //       }
-
-
-    //     } 
-    //   }, (error:any) => {
-    //     console.error('Error fetching subcategories:', error);
-    //   });
-    // }
-
     
 getFilterSubCategory(id: any) {
-  console.log(id,'category id')
-//   this.service.getSubCategoryList(id).subscribe((res) => {
-//     this.categories = res.data;
-//     if (this.categories && this.categories.length > 0) {
-//       // Attempt to find the category by name
-//       const matchedCategory = this.categories.filter(
-//         (category) => category.SubClassificationName.toLowerCase() === this.subCategoryName.toLowerCase()
-//       );
-//       console.log(matchedCategory,'256',this.subCategoryName);
-//       // if(this.searchLocation){
-//       //   console.log('location', matchedCategory[0]?.SubId)
-//       //  this.selectedCategories.push(matchedCategory[0]?.SubId)
-//       // }
-//        // Run your logic here based on the state
-//        if (this.myState) {
-//         // Your code to run when myState is true
-//         this.selectedCategories.push(matchedCategory[0]?.SubId)
-//       }
-//       if (matchedCategory) {
-//         // this.selectedSubCategoryId = this.selectedCategories;
-//         // Mark the matched category as checked
-//         this.selectedCategories?.forEach((subCategory) => {
-//           this.categories.forEach((category) => {
-//             if (category.SubId === subCategory) {
-//               category.isChecked = true;
-//             }
-//           });
-//         });
-//       console.log(this.CategoryId,this.selectedCategories)
-// if(!this.searchLocation){
-//   // this.fetchItems(this.CategoryId, this.selectedSubCategoryId);
-//   this.fetchItems(this.CategoryId, this.selectedCategories);
-// }else{
-//   this.getItemByLocation()
-// }
-//         // Fetch items for the matched category
-//       }
-     
-//     } 
-//   });
-
-
 
 this.service.getSubCategoryBySpecificationName(id).subscribe((res) => {
   this.categories = res.data;
   if (this.categories && this.categories.length > 0) {
-
-    console.log(this.categories, this.subCategoryName,"322")
     // Attempt to find the category by name
     if(!this.myState){
     const matchedCategory = this.categories.filter(
       (category) => category.serviceName.toLowerCase() === this.subCategoryName?.toLowerCase()
     );
-    console.log(matchedCategory,"343")
   }
-    console.log('342',this.subCategoryName);
-    // if(this.searchLocation){
-    //   console.log('location', matchedCategory[0]?.SubId)
-    //  this.selectedCategories.push(matchedCategory[0]?.SubId)
-    // }
      // Run your logic here based on the state
      if (this.myState) {
       // Your code to run when myState is true
@@ -367,7 +259,6 @@ this.service.getSubCategoryBySpecificationName(id).subscribe((res) => {
           }
         });
       });
-    console.log(this.CategoryId,this.selectedCategories, this.servicesName)
 if(!this.searchLocation){
 // this.fetchItems(this.CategoryId, this.selectedSubCategoryId);
 this.fetchItems(this.CategoryId, this.selectedCategories, this.servicesName);
@@ -383,117 +274,8 @@ this.getItemByLocation()
 
 }
 
-
-
-// onCheckboxChange(subCategoryId: any, event: MatCheckboxChange) {
-//   if (event.checked) {
-//     // Set the selectedCategory to the newly checked checkbox's value
-
-//        // Uncheck all other checkboxes by setting the selectedCategory as the only selected one
-//     this.categories.forEach((category) => {
-//       category.isChecked = category.SubId === subCategoryId;
-//     }); 
-
-//     this.subCategoryName = subCategoryId.SubClassificationName
-//     this.CategoryId = subCategoryId.MainId
-//      // Navigate
-//      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-//      this.router.onSameUrlNavigation = "reload";
-//      if(!this.searchLocation){
-//        this.router.navigate([`/services/category/${this.subCategoryName?.replaceAll("/","$")}/${this.CategoryId}`])
-//      }else{
-//       this.router.navigate([
-//         `/services/category/${this.subCategoryName?.replaceAll("/","$")}/${this.CategoryId}`
-//       ], {
-//         queryParams: {
-//           latitude: this.latitude,
-//           longitude: this.longitude,
-//           locations: this.searchLocation
-//         }
-//       });
-//      }
-
-//   }
-// }
-
 selectedCategories!: number[] // This array will hold the selected SubIds.
 servicesName:any = [];
-
-// onCheckboxChange(subCategory: any, event: MatCheckboxChange) {
-  
-//   subCategory.isChecked = event.checked;
-// console.log(subCategory,"338",this.selectedCategories);
-
-//   if (event.checked) {
-//     console.log('checkedddddddd')
-//         this.categories.forEach((category) => {
-//           console.log(category,subCategory)
-//       category.isChecked = category.serviceName === subCategory.serviceName;
-//     }); 
-
-//     this.servicesName.push(subCategory.serviceName)
-//     console.log(subCategory.SubIds?.split(",")?.map(Number),this.selectedCategories);
-//     // Add the checked SubId to the selectedCategories array
-//     if(!this.myState){
-//     if (!this.selectedCategories?.includes(subCategory.SubIds)) {
-//       console.log(this.selectedCategories,"344");
-//       let arr :number[]= [];
-//       subCategory.SubIds?.split(",")?.map((id:string)=> {if(id){arr?.push(Number(id))}});
-//       this.selectedCategories = arr;
-//       console.log(this.selectedCategories,arr);
-//     }}
-//   } else {
-//     console.log('uncheckedddddddddddd')
-//     // Remove the unchecked SubId from the selectedCategories array
-//     const index = this.selectedCategories?.indexOf(subCategory.SubIds);
-//     if (index > -1) {
-      
-//       this.selectedCategories?.splice(index, 1); // Remove by index
-//       console.log(this.selectedCategories,"this.selectedCategories")
-//     }
-
-//     const serviceIndex = this.servicesName?.indexOf(subCategory.serviceName);
-//     if (serviceIndex > -1) {
-      
-//       this.servicesName?.splice(serviceIndex, 1); // Remove by index
-//       console.log(this.servicesName,"this.servicesName")
-//     }
-  
-//   }
-
-//   console.log('Selected Categories:', this.selectedCategories);
-//   if(!this.myState){
-//   localStorage.setItem('selectedCategories', JSON.stringify(this.selectedCategories));
-//   }
-//   localStorage.setItem('serviceName', JSON.stringify(this.servicesName));
-//   // Constructing the navigation URL based on the selected subcategories
-//   const subCategoryParam = this.selectedCategories?.join(','); // Create a string with selected subCategoryIds
-
-//   // Navigation logic
-//   this.router.routeReuseStrategy.shouldReuseRoute = () => false; // Prevent route reuse
-//   this.router.onSameUrlNavigation = 'reload'; // Reload the same URL
-
-//   if (!this.selectedCategories.length) {
-//     this.selectedCategories = [];
-//     this.selectedCategories?.push(1);
-//   }
-
-//   // Check if any subcategories are selected
-//   // if (this.selectedCategories.length > 0) {
-//     this.router.navigate([
-//       `/services/category/${this.selectedCategories?.join(',')?.replaceAll('/', '$')}/${this.CategoryId}`
-//     ], {
-//       queryParams: {
-//         subCategories: this.selectedCategories, // Pass the selected subcategories as query parameters
-//         latitude: this.latitude,
-//         longitude: this.longitude,
-//         locations: this.searchLocation
-//       }
-//     });
-//   // }
-// }
-
-
 onCheckboxChange(subCategory: any, event: MatCheckboxChange) {
 if( localStorage.getItem('selectedCategories')){
   const selectedCategoriesString = localStorage.getItem('selectedCategories');
@@ -504,14 +286,8 @@ if( localStorage.getItem('serviceName')){
   this.servicesName = selectedServicesName ? JSON.parse(selectedServicesName) : [];
 }
   subCategory.isChecked = event.checked;
-console.log(subCategory,"338",this.selectedCategories);
 
   if (event.checked) {
-    console.log('checkedddddddd')
-    //     this.categories.forEach((category) => {
-    //       console.log(category,subCategory)
-    //   category.isChecked = category.serviceName === subCategory.serviceName;
-    // }); 
 
     this.servicesName?.forEach((serviceName:string) => {
       this.categories.forEach((category) => {
@@ -522,36 +298,29 @@ console.log(subCategory,"338",this.selectedCategories);
     });
 
     this.servicesName.push(subCategory.serviceName)
-    console.log(subCategory.SubIds?.split(",")?.map(Number),this.selectedCategories);
     // Add the checked SubId to the selectedCategories array
     if(!this.myState){
     if (!this.selectedCategories?.includes(subCategory.SubIds)) {
-      console.log(this.selectedCategories,"344");
       let arr :number[]= [];
       subCategory.SubIds?.split(",")?.map((id:string)=> {if(id){arr?.push(Number(id))}});
       this.selectedCategories = arr;
-      console.log(this.selectedCategories,arr);
     }}
   } else {
-    console.log('uncheckedddddddddddd')
     // Remove the unchecked SubId from the selectedCategories array
     const index = this.selectedCategories?.indexOf(subCategory.SubIds);
     if (index > -1) {
       
       this.selectedCategories?.splice(index, 1); // Remove by index
-      console.log(this.selectedCategories,"this.selectedCategories")
     }
 
     const serviceIndex = this.servicesName?.indexOf(subCategory.serviceName);
     if (serviceIndex > -1) {
       
       this.servicesName?.splice(serviceIndex, 1); // Remove by index
-      console.log(this.servicesName,"this.servicesName")
     }
   
   }
 
-  console.log('Selected Categories:', this.selectedCategories);
   if(!this.myState){
   localStorage.setItem('selectedCategories', JSON.stringify(this.selectedCategories));
   }
@@ -568,19 +337,6 @@ console.log(subCategory,"338",this.selectedCategories);
     this.selectedCategories?.push(1);
   }
 
-  // Check if any subcategories are selected
-  // if (this.selectedCategories.length > 0) {
-    // this.router.navigate([
-    //   `/services/category/${this.selectedCategories?.join(',')?.replaceAll('/', '$')}/${this.CategoryId}`
-    // ], {
-    //   queryParams: {
-    //     subCategories: this.selectedCategories, // Pass the selected subcategories as query parameters
-    //     latitude: this.latitude,
-    //     longitude: this.longitude,
-    //     locations: this.searchLocation
-    //   }
-    // });
-  // }
   this.fetchItems(this.CategoryId, this.selectedCategories, this.servicesName); 
 }
 
@@ -656,7 +412,6 @@ if (navigator.geolocation) {
           // Success callback
           this.latitude = position.coords.latitude;
           this.longitude = position.coords.longitude;
-          console.log(this.latitude, this.longitude,"373")
       },
       (error) => {
           // Error callback
@@ -684,37 +439,6 @@ if (navigator.geolocation) {
     })
   }
 
-  // newLocationId:any
-  // getLocations() {
-  //   this.homeService.getLocation().subscribe((response: any) => {
-  //     const uniqueLocations: any = {};
-  //     this.newLocationId = response.data
-  //     response.data.reduce((acc: any, city: any) => {
-  //       city.areas.forEach((area: any) => {
-  //         area.subgroups.forEach((subgroup: any) => {
-  //           const locationKey = `${city.cityName}|${area.areaName}`;
-  //           if (!uniqueLocations[locationKey]) {
-  //             uniqueLocations[locationKey] = {
-  //               cityName: city.cityName,
-  //               areaName: area.areaName,
-  //               subgroupName: [subgroup.subgroupName],
-  //             };
-  //           } else {
-  //             uniqueLocations[locationKey].subgroupName.push(
-  //               subgroup.subgroupName
-  //             );
-  //           }
-  //         });
-  //       });
-  //       return acc;
-  //     }, []);
-  //     this.locations = Object.values(uniqueLocations);
-  //     this.allSubgroups = this.locations.reduce((acc: string[], loc: any) => {
-  //       acc.push(...loc.subgroupName);
-  //       return acc;
-  //     }, []);
-  //   }); // Store unique subgroups
-  // }
 
   getFilteredSubgroups() {
     if (!this.selectedCity || !this.selectedArea) {

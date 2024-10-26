@@ -35,7 +35,7 @@
           autocomplete="firstName"
           formControlName="firstName"
           required
-          placeholder="First Name"
+          placeholder="Full Name"
           class="form-control pe-3 rounded-2 border-1 text-muted"
           (keypress)="noSpace($event)"
         />
@@ -54,7 +54,7 @@
               style="color: #fe3061"
               aria-hidden="true"
             ></i
-            >Required
+            >Name is Required
           </span>
           <span
             *ngIf="checkout.get('firstName')?.errors?.['pattern'] && !checkout.get('firstName')?.errors?.['required']"
@@ -64,7 +64,7 @@
               style="color: #fe3061"
               aria-hidden="true"
             ></i>
-            Invalid FirstName
+            Invalid Name
           </span>
         </div>
         </div>
@@ -117,7 +117,7 @@
                   style="color: #fe3061"
                   aria-hidden="true"
                 ></i>
-                Required
+                Address is Required
               </span>
               <span
                 *ngIf="checkout.get('address')?.errors?.['pattern'] && !checkout.get('address')?.errors?.['required']"
@@ -156,7 +156,7 @@
                   style="color: #fe3061"
                   aria-hidden="true"
                 ></i>
-                Required
+                Email is Required
               </span>
               <span
                 *ngIf="checkout.get('email')?.errors?.['pattern'] && !checkout.get('email')?.errors?.['required']"
@@ -166,7 +166,7 @@
                   style="color: #fe3061"
                   aria-hidden="true"
                 ></i>
-                Invalid email
+                Invalid Email
               </span>
             </div>
           </div>
@@ -199,7 +199,7 @@
                   style="color: #fe3061"
                   aria-hidden="true"
                 ></i>
-                Contact Required
+                Contact Number is Required
               </span>
               <span *ngIf="checkout.get('phone')?.errors?.['pattern']">
                 <i
@@ -207,7 +207,7 @@
                   style="color: #fe3061"
                   aria-hidden="true"
                 ></i>
-                Contact must contain only numbers
+                Contact Number must contain only numbers
               </span>
               <span
                 *ngIf="checkout.get('phone')?.errors?.['minlength'] && !checkout.get('phone')?.errors?.['required']"
@@ -263,7 +263,7 @@
                 style="color: #fe3061"
                 aria-hidden="true"
               ></i>
-              Required
+              Region/State is Required
             </span>
             <span
               *ngIf="checkout.get('address')?.errors?.['pattern'] && !checkout.get('address')?.errors?.['required']"
@@ -273,7 +273,7 @@
                 style="color: #fe3061"
                 aria-hidden="true"
               ></i>
-              Invalid State
+              Invalid Region/State
             </span>
           </div>
         </div>
@@ -303,7 +303,7 @@
                 style="color: #fe3061"
                 aria-hidden="true"
               ></i>
-              Required
+              City is Required
             </span>
             <span
               *ngIf="checkout.get('city')?.errors?.['pattern'] && !checkout.get('city')?.errors?.['required']"
@@ -329,7 +329,7 @@
             formControlName="zipCode"
             required
             maxlength="8"
-            placeholder="zipCode"
+            placeholder="Zip Code"
             class="form-control pe-3 rounded-2 border-1 text-muted"
             (keypress)="noSpace($event)"
           />
@@ -350,7 +350,7 @@
                 style="color: #fe3061"
                 aria-hidden="true"
               ></i>
-              ZipCode Required
+              ZipCode is Required
             </span>
             <!-- <span
               *ngIf="checkout.get('zipCode')?.errors?.['minlength'] && !checkout.get('zipCode')?.errors?.['required']"
@@ -370,7 +370,7 @@
                 style="color: #fe3061"
                 aria-hidden="true"
               ></i>
-              zipCode cannot exceed 8 digits
+              zip Code cannot exceed 8 digits
             </span>
           </div>
         </div>
@@ -408,7 +408,7 @@
                  style="color: #fe3061"
                  aria-hidden="true"
                ></i>
-               Date Required
+               Date is Required
              </span>
              </div>
            </div>
