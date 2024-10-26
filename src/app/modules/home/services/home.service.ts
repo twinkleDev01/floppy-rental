@@ -33,7 +33,8 @@ export class HomeService {
     const httpOptions = {
       headers: headers
     };
-    const url = environment.ApiBaseUrl.concat(`Home/fetch-all-dynamic-data`);
+    // const url = environment.ApiBaseUrl.concat(`Home/fetch-all-dynamic-data`);
+    const url = `${environment.ApiBaseUrl}Home/fetch-all-dynamic-data?timestamp=${new Date().getTime()}`;
     return this.http.get<any>(url, httpOptions)
       .pipe(map((response:any) => {
         return response;
