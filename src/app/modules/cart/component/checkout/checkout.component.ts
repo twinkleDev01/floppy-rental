@@ -175,35 +175,7 @@ console.log('Formatted Date:', this.selectedDateIst);
       }
     });
   }
-  // LocationDialog
-  openLocationDialog(): void {
-    const dialogRef = this.dialog.open(LocationDialogComponent, {
-      // width: '500px',
-      panelClass: 'location-dialog'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Selected Location:', result);
-        this.selectedCountryCode = result.countryCode
-        this.selectedStateCode = result.selectedStateCode || result.stateCode
-        // Patch form with the returned location data
-      this.checkout.patchValue({
-        address: result.address || result.location,
-        city: result.area,
-        country: result.country,
-        state: result.state,
-        zipCode: result.zipCode || result.pinCode, // Assuming zipCode is part of the result
-        // Add more fields here as needed
-      });
-      this.loadStates(result.countryCode);
-      }
-      if(this.selectedStateCode){
-        this.loadCities(this.selectedStateCode);
-      }
-    });
-  }
-
+  
   loadStates(countryCode: string) {
     const allStates = State.getStatesOfCountry(countryCode);
     this.states = allStates.map(state => state.name);
@@ -230,8 +202,8 @@ console.log('Formatted Date:', this.selectedDateIst);
 
 
   loadCities(stateCode: string) {
-    console.log(`Selected Country Code: ${this.selectedCountryCode}, State Code: ${stateCode}`, "204");
     this.selectedCountryCode = this.selectedCountryCode?this.selectedCountryCode:'IN'
+    console.log(`Selected Country Code: ${this.selectedCountryCode}, State Code: ${stateCode}`, "204");
     if (this.selectedCountryCode) {
       const allCities = City.getCitiesOfState(this.selectedCountryCode, stateCode);
       console.log(`All Cities Retrieved: `, allCities); // Log the raw cities data
@@ -368,14 +340,15 @@ console.log('Formatted Date:', this.selectedDateIst);
     );
   }
   }
-
+  userData:any
   getUserDetailById(): void {
     if(this.isBrowser){
     const id = localStorage.getItem('userId');
     if (id) {
       this.profileService.getProfileDetailsById(Number(id)).subscribe(
         (response: any) => {
-       console.log(response.data,"306")
+          this.userData = response.data
+          console.log(response.userData,"351")
        const formValue = response.data
        this.checkout.patchValue({
         firstName: formValue.name,  // Assuming the first name is derived from the full name
@@ -409,6 +382,7 @@ console.log('Formatted Date:', this.selectedDateIst);
   }
 
   getCurrentLocation() {
+    setTimeout(()=>{
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         const lat = position.coords.latitude;
@@ -416,20 +390,47 @@ console.log('Formatted Date:', this.selectedDateIst);
         this.latitude = position.coords.latitude;
 this.longitude = position.coords.longitude;
         // Call reverse geocoding API to convert lat, lng to address
+        console.log("391")
         this.getCountryFromCoordinates(lat, lng);
       }, (error) => {
+        console.log("394")
         this.loadStates('IN')
-        const selectedState = State.getStatesOfCountry('IN');
-        if (selectedState) {
-          console.log("424")
-          const  isoCode = selectedState[0].isoCode;
-                this.loadCities(isoCode);
-              }
+        // const selectedState = State.getStatesOfCountry('IN');
+        // if (selectedState) {
+        //   console.log("424")
+        //   const  isoCode = selectedState[0].isoCode;
+        //         this.loadCities(isoCode);
+        //       }
+        const selectedStateName = this.userData.state;
+console.log(selectedStateName,"403")
+if (!selectedStateName) {
+  // No state selected, so use the default first state for 'IN'
+  const defaultState = State.getStatesOfCountry('IN');
+  if (defaultState && defaultState.length > 0) {
+    const isoCode = defaultState[0].isoCode;
+    console.log("Default state found, loading cities for:", defaultState[0].name);
+    this.loadCities(isoCode);
+    
+    // Optionally, set the form control to this default state's isoCode
+    // this.checkout.get('state')?.setValue(defaultState[0].name);
+  }
+} else {
+  // State is selected; find its isoCode and load cities
+  const selectedState = State.getStatesOfCountry('IN').find(state => state.name === selectedStateName);
+  if (selectedState) {
+    const isoCode = selectedState.isoCode;
+    console.log("Selected state found, loading cities for:", selectedState.name);
+    this.loadCities(isoCode);
+  } else {
+    console.error("Selected state does not have a matching isoCode.");
+  }
+}
         console.error('Error fetching location: ', error);
       });
     } else {
       console.log('Geolocation is not supported by this browser.');
     }
+  },5000)
   }
 
   selectedCountry:any
