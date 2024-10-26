@@ -9,10 +9,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Review } from '../_models/serivece.model';
 import { isPlatformBrowser, ViewportScroller } from '@angular/common';
-import { error } from 'console';
 import { Subscription, take } from 'rxjs';
 import { CartService } from '../../../cart/services/cart.service';
-import { AuthService } from '../../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-services-details',
@@ -42,19 +40,10 @@ export class ServicesDetailsComponent {
 
     this.isBrowser = isPlatformBrowser(platformId);
 
-    // const navigation = this.router.getCurrentNavigation();
-    // this.selectedCard = navigation?.extras?.state?.['card']; 
-    // console.log(this.selectedCard,"38")
-    // const urlSegments = this.router.url.split('/');
-    // this.serviceDetailId = urlSegments[urlSegments.length - 1];
     this.route.paramMap.subscribe(params => {
       // this.itemNameDetail = params.get('itemNameDetail');
       this.serviceDetailId = params.get('id');
-      
-      // console.log('Item Name Detail:', this.itemNameDetail);
-      console.log('Card ID:', this.serviceDetailId);
     });
-    console.log(this.serviceDetailId,"41")
     this.reviewForm = fb.group({
       name: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]], // Required and no special characters
       email: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/)]], // Required and valid email format with stricter pattern
@@ -78,12 +67,10 @@ export class ServicesDetailsComponent {
 
   // Subscribe to the change detection event
   this.locationSubscription$ = this.service.locationChanged$?.subscribe(() => {
-    console.log('Location changed detected in category component');
     // Perform actions when the location changes
     setTimeout(()=>{
       this.latitude = sessionStorage.getItem('latitude');
       this.longitude = sessionStorage.getItem('longitude')
-      console.log(this.latitude, this.longitude, "140")
     this.getServiceDetailById(this.serviceDetailId);
     }, 1000)
  
@@ -95,7 +82,6 @@ export class ServicesDetailsComponent {
   getServiceDetailById(id:any){
     this.service.getServiceDetailsById(id).subscribe((res)=>{
       this.serviceDetail = res.data;
-      console.log(res.data.item.itemid,"61")
       this.getRatingByItemId(res.data.item.itemid)
       this.vendorId = this.serviceDetail.item.vendorid;
 
@@ -120,19 +106,16 @@ export class ServicesDetailsComponent {
 
   // get ratings
   getRatingByItemId(id: string) {
-    console.log('Fetching ratings for ID:', id);
     this.service.getRatingByItemId(id).subscribe(
       (res: any) => {
         // Check for successful response
         if (res.success && res.data) {
           // If data is present, set reviews and calculate average rating
           this.reviews = res.data;
-          console.log('Received rating data:', this.reviews);
           this.calculateAverageRating(this.reviews, true);
         } else {
           // If no data or unsuccessful response, reset reviews and average rating
           this.reviews = [];
-          console.log('No rating data found or unsuccessful response.');
           this.calculateAverageRating([], true); // Pass empty array for no ratings
         }
       },
@@ -149,7 +132,6 @@ export class ServicesDetailsComponent {
 // Rating
 addReview(){
   if (this.reviewForm.invalid) {
-    console.log("92")
     this.reviewForm.markAllAsTouched(); // Mark all fields as touched to trigger validation messages
     return;
   }
@@ -177,7 +159,6 @@ this.service.addNewReview(payload).subscribe((res:any)=>{
 
 // add to cart 
 addToCart(serviceDetail:any, isNavigate: boolean = false){
-  console.log(serviceDetail,"155")
   if(this.isBrowser){
    
   const payload = {
@@ -209,11 +190,9 @@ addToCart(serviceDetail:any, isNavigate: boolean = false){
 
         // Check if the cart contains items with a different userId
         const cartHasDifferentUser = localCart.length && localCart[0].userId !== currentUserId;
-console.log(currentUserId,localCart[0].userId,"211")
         // If different userId is found, clear the cart
         if (cartHasDifferentUser) {
           localCart = []; // Clear the cart
-          console.log("Cart cleared due to different userId");
         }
       }
 
@@ -222,23 +201,18 @@ console.log(currentUserId,localCart[0].userId,"211")
   item.vendorid !== serviceDetail.item.vendorid ||
   item.maingroupid !== serviceDetail.item.maingroupid
 );
-console.log(mismatchItemIndex,"187")
 
 if (mismatchItemIndex > -1) {
   // Show error message if a mismatch is found
   this.toastr.error('Cannot add items from different vendor or category');
-  console.log("193")
   return; // Exit the function without adding the item
 }
 // Find the existing item in the cart
 const existingItemIndex = localCart.findIndex((item: any) => item.itemid === serviceDetail.item.itemid);
-
-console.log(existingItemIndex,"183")
 if (existingItemIndex > -1) {
   // If item exists, update its quantity
   localCart[existingItemIndex].quantity += 1;
 } else {
-  console.log(serviceDetail.item.quantity)
   // If item doesn't exist, add new item with quantity 1
   serviceDetail.item.quantity = 1;
   localCart.push(serviceDetail.item);
@@ -253,11 +227,9 @@ if(localStorage.getItem('userId')){
 this.toastr.success('Item added successfully')
 // this.router.navigate(['cart']);
 if (!isNavigate) {
-  console.log("241")
   this.router.navigate(['cart']);
 }
 if (isNavigate) {
-  console.log("247")
   const cartItems = JSON.parse(localStorage.getItem('myCartItem')!)
                 this.cartService.cartLength.next(cartItems.length)
 }
@@ -275,23 +247,18 @@ if (isNavigate) {
   item.vendorid !== serviceDetail.item.vendorid ||
   item.maingroupid !== serviceDetail.item.maingroupid
 );
-console.log(mismatchItemIndex,"187")
 
 if (mismatchItemIndex > -1) {
   // Show error message if a mismatch is found
   this.toastr.error('Cannot add items from different vendor or category');
-  console.log("236")
   return; // Exit the function without adding the item
 }
 // Find the existing item in the cart
 const existingItemIndex = localCart.findIndex((item: any) => item.itemid === serviceDetail.item.itemid);
-
-console.log(existingItemIndex,"183")
 if (existingItemIndex > -1) {
   // If item exists, update its quantity
   localCart[existingItemIndex].quantity += 1;
 } else {
-  console.log(serviceDetail.item.quantity)
   // If item doesn't exist, add new item with quantity 1
   serviceDetail.item.quantity = 1;
   localCart.push(serviceDetail.item);
@@ -307,11 +274,9 @@ this.toastr.success('Item added successfully')
 // this.router.navigate(['cart']);
   // Only navigate if the action is triggered from the button that allows navigation
   if (!isNavigate) {
-    console.log("285")
     this.router.navigate(['cart']);
   }
   if (isNavigate) {
-    console.log("295")
     const cartItems = JSON.parse(localStorage.getItem('myCartItem')!)
                   this.cartService.cartLength.next(cartItems.length)
   }
@@ -474,15 +439,10 @@ displayedReviewsCount = 3; // Initially display 3 reviews
     }
   }
 
-  // addToCartHandler(card: any, event: Event, isNavigate: boolean = false) {
-  //   event.stopPropagation();
-  //   console.log("Add to Cart clicked for:", isNavigate);
-  //   this.addToCart(card, isNavigate);
-  // }
+
 
   addToCartHandler(card: any, event: Event, isNavigate: boolean = false) {
     event.stopPropagation();
-    console.log("Add to Cart clicked for:", isNavigate);
       // Check if the item is already in the cart
   if (this.isItemInCart(card.item.itemid)) {
     this.toastr.info('This item is already in your cart.');

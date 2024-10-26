@@ -32,50 +32,9 @@
         
         <div class="location_search">
           
-          <!-- <select class="select_box" name="location" id="location" (change)="onCityChange($event)">
-            <option value="">Select</option>
-            <option *ngFor="let location of locations" [value]="location.cityName + '|' + location.areaName">
-              {{ location.cityName }} - {{ location.areaName }}
-            </option>
-          </select> -->
-
-          <!-- .................................SEARCH LOCATION.......................................
-           <i class="fa-solid fa-location-dot"></i>
-          <div style="width: 300px;">
-            <input
-              type="text"
-              [(ngModel)]="searchInput"
-              (input)="onInputChange()"
-              placeholder="Type to search for a location"
-              class="autocomplete-input location-auto"
-            />
-          
-            <select *ngIf="predictions.length > 0" size="5" (change)="selectPrediction($event)" class="select-location">
-              <option *ngFor="let prediction of predictions" [value]="prediction.description" class="search-option">
-                <i class="fa-solid fa-location-dot"></i> {{ prediction.description }}
-              </option>
-            </select>
-          </div> 
-          
-          <i class="fa-solid fa-magnifying-glass search_glass"></i>
+         
       
-          <!-- Search input for filtering subgroups -->
-          <!-- <mat-form-field appearance="fill" class="full-width">
-            <input
-              type="text"
-              matInput
-              [formControl]="searchControl"
-              [matAutocomplete]="auto"
-              placeholder="Search"
-              [disabled]="!locationSelected"
-      (focus)="onSearchFocus()"
-            />
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let subgroup of filteredSubgroups" [value]="subgroup">
-                {{ subgroup }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field> -->
+          <!-- <-- Search input for filtering subgroups --> 
 
           <mat-form-field appearance="fill" class="full-width">
             <input
@@ -99,15 +58,9 @@
           
           
         </div>
-        <!-- <div *ngIf="locationSelected" class="location-error">
-            Please select a location before searching.
-        </div> -->
         <div *ngIf="error" class="location-error">
             Please enter a search item
         </div>
-        <!-- <div *ngIf="itemError" class="location-error">
-            Service Not Available
-        </div> -->
     
         <button (click)="getSearchedItemList()">Search</button>
       </div>
@@ -230,8 +183,7 @@
 
 </div>
 
-<!-- <div id="lazy-load-target" >
-    <ng-container *ngIf="contentLoaded"> -->
+
         <!-- Appliance repare & service -->
 <div class="appliance_repair_section" [ngStyle]="{'background-image': 'url(' + backgroundImage + ')'}">
     <!-- <h2><span>Appliance Repair </span>& Services</h2> -->

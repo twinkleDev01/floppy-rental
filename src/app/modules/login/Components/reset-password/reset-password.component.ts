@@ -67,13 +67,10 @@ ngOnInit(){
     }));
     this.loginForm?.get("selectedCountry")?.setValue(this.countries.find(d=> d.name == "India"));
   });
-
-  console.log(this.loginForm.get('selectedCountry')?.value,"71")
 }
 
 
 onCountryChange(selectedCountry: any) {
-  console.log(selectedCountry,"selectedCountry")
   if (selectedCountry) {
     this.selectedCountryFlag = selectedCountry.flag;
     this.loginForm?.get("selectedCountry")?.setValue(this.selectedCountry);
@@ -91,16 +88,13 @@ onCountryChange(selectedCountry: any) {
   }
   toggleConfirmPassword(): void {
    if(this.confirmPasswordType === 'confirmPassword') {
-    console.log("82")
     this.confirmPasswordType = 'text';
    }else{
-    console.log("85")
       this.confirmPasswordType = 'confirmPassword';
     }  ;
   }
 
   noSpace(event:any) {
-    console.log(event,"keyyyy");
     // if (event.keyCode === 32 && !event.target.value) return false;
     if (event.key === ' ' && !event.ctrlKey && !event.metaKey) {
       event.preventDefault();
@@ -124,7 +118,6 @@ this.auth.resetPassword(resetpwd).subscribe((response:any)=>{
   }
 },
 (error: any) => {
-  console.error('Registration error', error);
   this.toastr.error(error.error.message);
 })
     } else {
@@ -152,10 +145,10 @@ this.auth.resetPassword(resetpwd).subscribe((response:any)=>{
       this.timer--;
       if (this.timer === 0) {
         this.stopTimer();
+        this.isResenOtp = true;
       }
       this.countdown = this.formatTimer(this.timer);
       this.cdr.detectChanges();  // Manually trigger change detection
-      console.log(this.countdown,"155")
     });
   }
   stopTimer() {
@@ -175,20 +168,17 @@ this.auth.resetPassword(resetpwd).subscribe((response:any)=>{
   }
   // Method to call the sendOtp method from the service
   sendOtp() {
-   console.log(this.loginForm.get('selectedCountry')?.value)
     const mobileNumber = this.loginForm.value.contactNumber;
 
     if (mobileNumber) {
-      
+      this.isResenOtp = false
       this.auth.sendOtp(mobileNumber).subscribe(
         (response) => {
-          console.log("178", this.showOtp)
           if (response.success) {
             // this.showOtp?.next(true);
             this.showOtp = true;
             this.isVerifyingOtp = true
             this.startTimer()
-            console.log("179",this.showOtp)
             this.toastr.success('OTP sent successfully!');
             this.cdr.detectChanges()
           } else {
@@ -234,11 +224,10 @@ this.auth.resetPassword(resetpwd).subscribe((response:any)=>{
       },
       (error) => {
         this.toastr.error('Error verifying OTP. Please try again.');
-        console.error('Error verifying OTP:', error);
-        this.stopTimer()
-        this.isResenOtp = true;
+        // this.stopTimer()
+        // this.isResenOtp = true;
         this.loginForm.get('otp')?.setValue('');
-        this.isVerifyingOtp = false;  // Hide verify OTP button since it's failed
+        // this.isVerifyingOtp = false;  // Hide verify OTP button since it's failed
         this.cdr.detectChanges();
       }
     );

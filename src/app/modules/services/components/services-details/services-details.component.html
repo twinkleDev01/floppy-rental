@@ -10,10 +10,6 @@
             <div class="col-md-6 service_detail pt-4">
                 <span style="color: gray; font-weight: 600;">{{ serviceDetail?.item.subgroupname }}</span>
                     <h2 class="fw-bold">{{ serviceDetail?.item.vendorname }}</h2>
-                    <!-- <p> -->
-                        <!-- <app-rating-star [rating]="currentRating" [starCount]="5" [color]="'yellow'"
-                            (ratingUpdated)="onRatingUpdated($event)">
-                        </app-rating-star> -->
                         <div class="d-flex">
                         <app-rating-star [rating]="averageRating" [starCount]="5" [color]="'yellow'">
                     </app-rating-star>&nbsp;
@@ -53,28 +49,6 @@
                     } @else {
                        <div class="d-flex justify-content-center"> <strong class="text-danger">No Description Found</strong></div>
                     }
-                    <!-- <ul>
-                        <li>
-                            A clean home is a happy home, so they say. But it doesn't have to be tiring or day long job
-                            for you. If you think you are the only one who finds cleaning to be less than
-                            thrilling,don't worry. Almost everyone does. Hence,the need for professionals armed with
-                            their supplies,who can finish the job quickly and tastefully,so that you can do things you
-                            love to do. Choose from a variety of cleaning jobs listed on Service On Wheel platform.Get
-                            Cleaning services in Nagpur near you within 90 minutes .
-                        </li>
-                        <li>
-                            So if you are searching House Keeping, Cleaning services near me in Nagpur,Home Cleaning
-                            services in Nagpur,Maids Cleaning services in Nagpur,House cleaners near me in Nagpur,Best
-                            Carpet Cleaning services in Nagpur,House Cleaning services near me in Nagpur,Cleaning
-                            companies in Nagpur,Home Cleaning services near me in Nagpur.Then Service On Wheel is the
-                            one stop that provides a solution for all your Cleaning problems in Nagpur . Experts at
-                            Service On Wheel provide you with basic Cleaning services in Nagpur.We provide All Type of
-                            Cleaning service in Nagpur at the comfort of your home, choose a slot according to your
-                            convenience and leave the rest on us.Our Services are -- House Cleaning services in
-                            Nagpur,Sofa Cleaning service in Nagpur,Carpet Cleaning services in Nagpur,Water Tank
-                            Cleaning service in Nagpur,Or any Cleaning job in Nagpur...!!
-                        </li>
-                    </ul> -->
                 </div>
             </mat-tab>
             <mat-tab label="Reviews">

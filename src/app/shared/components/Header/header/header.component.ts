@@ -188,7 +188,6 @@ this.homeService.triggerFunction$.subscribe((data:any) => {
         this.services.notifyLocationChange();
         sessionStorage.setItem('latitude', this.latitude);
         sessionStorage.setItem('longitude',this.longitude);
-        console.log('Latitude:', this.latitude, 'Longitude:', this.longitude);
 
         // Close the dialog if the flag is true
         if (closeModal) {
@@ -253,7 +252,6 @@ this.homeService.triggerFunction$.subscribe((data:any) => {
         this.services.notifyLocationChange();
           sessionStorage.setItem('latitude', result.geometry.location.lat);
           sessionStorage.setItem('longitude',result.geometry.location.lng);
-          console.log('Latitude:', this.latitude, 'Longitude:', this.longitude);
         } else {
           console.error('Geocoding failed:', response.status);
         }

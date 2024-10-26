@@ -15,7 +15,6 @@ export class DatePickerDialogComponent {
   minDate: Date = new Date();
   constructor(public dialogRef: MatDialogRef<DatePickerDialogComponent>) {}
   ngOnInit(){
-    console.log("Dialog Component")
   }
 
   selectDay(day: string) {

@@ -17,7 +17,7 @@ export class SharedService {
     couponListUrl = environment.ApiBaseUrl + 'Coupon/CouponList';
 
     private addressSaveUrl = environment.ApiBaseUrl + 'Address/save-address';
-    private metaTagUrl = 'https://firstfloppy.asptask.in/api/MetaTag/GetMetagByPageName';
+    private metaTagUrl = environment.ApiBaseUrl + 'MetaTag/GetMetagByPageName';
 
   constructor(private http: HttpClient) {}
 
