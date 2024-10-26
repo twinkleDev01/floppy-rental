@@ -94,7 +94,6 @@ categorySeoUrl:any
 
     const urlSegments = this.router.url.split('/');
     this.selectedServiceCategoryId = urlSegments[urlSegments.length - 1];
-
   // Subscribe to route parameters
 this.route.paramMap.subscribe((params: any) => {
   this.categorySeoUrl = params?.params?.categorySeoUrl;
@@ -122,8 +121,8 @@ this.route.queryParams.subscribe(params => {
       : +this.CategoryId;
   }
   ngOnInit(){
+    this.sharedService.updateBreadcrumb('/services'+this.router.url);
     if(this.isBrowser){
-
   // Subscribe to the change detection event
   this.locationSubscription$ = this.service.locationChanged$?.subscribe(() => {
     // Perform actions when the location changes

@@ -7,7 +7,7 @@
       <span> <a [ngClass]="{'current-breadcrumb': !page && !last}" [routerLink]="'/' + base">{{ base | titlecase
           }}</a></span>
       <span *ngIf="page">&nbsp; > &nbsp;</span>
-      <span *ngIf="page && !last"><a [routerLink]="'/' + base + '/' + convertToSlug(page)" class="current-breadcrumb">{{ page |
+      <span *ngIf="page && !last"><a [routerLink]="base == 'services' ? './' : '/' + base + '/' + convertToSlug(page)" class="current-breadcrumb">{{ page |
           titlecase 
           }} </a></span>
            <span *ngIf="page && last"><a [routerLink]="'/' + base + '/' + convertToSlug(page)+'/'+last" class="current-breadcrumb">{{ page |
