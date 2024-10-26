@@ -62,7 +62,7 @@ export class ServicesCategoryComponent implements OnInit {
   searchLocation: string = '';
 
 selectedSubCategoryId:any
-
+categorySeoUrl:any
   // toppings: FormGroup;
   // Paginator
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -90,7 +90,8 @@ selectedSubCategoryId:any
     console.log(navigation,"90")
     if (navigation?.extras.state) {
       this.myState = navigation.extras.state['myState'];
-      console.log('State from navigation:', this.myState);
+      this.subCategoryName = navigation.extras.state['subcategory']
+      console.log('State from navigation:', this.myState, this.subCategoryName);
     }
 
     const urlSegments = this.router.url.split('/');
@@ -98,9 +99,12 @@ selectedSubCategoryId:any
 
   // Subscribe to route parameters
 this.route.paramMap.subscribe((params: any) => {
-  this.subCategoryName = decodeURIComponent(params.get('categoryName'));
-  this.subCategoryName = this.subCategoryName.replaceAll('$', '/');
-  this.CategoryId = params.get('id'); // Convert string to number
+  console.log(params,"101", params?.params?.categorySeoUrl)
+  this.categorySeoUrl = params?.params?.categorySeoUrl
+  // this.subCategoryName = decodeURIComponent(params.get('categoryName'));
+  // this.subCategoryName = this.subCategoryName.replaceAll('$', '/');
+  // this.CategoryId = params.get('id');
+   // Convert string to number
   this.selectedServiceCategory = this.CategoryId; // Set the selected category to match the id
 });
 
@@ -115,10 +119,10 @@ this.route.queryParams.subscribe(params => {
       this.searchInput = this.searchLocation
     }
 
-    if (this.CategoryId) {
-      // Call the API to fetch subcategories and match the name
-      this.getFilterSubCategory(this.CategoryId);
-    }
+    // if (this.CategoryId) {
+    //   // Call the API to fetch subcategories and match the name
+    //   // this.getFilterSubCategory(this.CategoryId);
+    // }
 }
 
  private filteringThroughSubcategory(selectedServiceCategoryId: any): void {
@@ -155,9 +159,9 @@ this.route.queryParams.subscribe(params => {
     
     this.viewportScroller.scrollToPosition([0, 0]); 
 
-    if (this.subCategoryName) {
+    if (this.categorySeoUrl) {
       // Fetch meta tags from the API for the current page
-      this.sharedService.getMetaTags(this.subCategoryName).subscribe((res: any) => {
+      this.sharedService.getMetaTags(this.categorySeoUrl).subscribe((res: any) => {
         if (res?.success) {
           const metaData = res.data;
 
@@ -199,9 +203,15 @@ this.route.queryParams.subscribe(params => {
     // getCategoryList
     this.service.getCategoryList().subscribe((res)=>{
       this.categoriesList = res.data;
+      console.log(this.categoriesList,"203")
       this.originalList = [...res?.data];
       this.categoriesList = this.categoriesList?.filter((iterable:any)=> iterable?.status === 1);
-
+      const selectedService = this.categoriesList?.find(record => record?.categoryseourl === this.categorySeoUrl);
+      this.CategoryId = selectedService ? selectedService.mainId : null;      
+if(this.CategoryId){
+  this.getFilterSubCategory(this.CategoryId);
+}
+console.log(selectedService, this.CategoryId, "210", this.categorySeoUrl)
          // Set the selectedCategory based on selectedServiceCategoryId
          if (this.selectedServiceCategoryId) {
           this.filteringThroughSubcategory(this.selectedServiceCategoryId);
@@ -324,12 +334,15 @@ this.service.getSubCategoryBySpecificationName(id).subscribe((res) => {
   this.categories = res.data;
   if (this.categories && this.categories.length > 0) {
 
-    console.log(this.subCategoryName,"322")
+    console.log(this.categories, this.subCategoryName,"322")
     // Attempt to find the category by name
+    if(!this.myState){
     const matchedCategory = this.categories.filter(
-      (category) => category.serviceName.toLowerCase() === this.subCategoryName.toLowerCase()
+      (category) => category.serviceName.toLowerCase() === this.subCategoryName?.toLowerCase()
     );
-    console.log(matchedCategory,'327',this.subCategoryName);
+    console.log(matchedCategory,"343")
+  }
+    console.log('342',this.subCategoryName);
     // if(this.searchLocation){
     //   console.log('location', matchedCategory[0]?.SubId)
     //  this.selectedCategories.push(matchedCategory[0]?.SubId)
@@ -406,17 +419,107 @@ this.getItemByLocation()
 selectedCategories!: number[] // This array will hold the selected SubIds.
 servicesName:any = [];
 
-onCheckboxChange(subCategory: any, event: MatCheckboxChange) {
+// onCheckboxChange(subCategory: any, event: MatCheckboxChange) {
   
+//   subCategory.isChecked = event.checked;
+// console.log(subCategory,"338",this.selectedCategories);
+
+//   if (event.checked) {
+//     console.log('checkedddddddd')
+//         this.categories.forEach((category) => {
+//           console.log(category,subCategory)
+//       category.isChecked = category.serviceName === subCategory.serviceName;
+//     }); 
+
+//     this.servicesName.push(subCategory.serviceName)
+//     console.log(subCategory.SubIds?.split(",")?.map(Number),this.selectedCategories);
+//     // Add the checked SubId to the selectedCategories array
+//     if(!this.myState){
+//     if (!this.selectedCategories?.includes(subCategory.SubIds)) {
+//       console.log(this.selectedCategories,"344");
+//       let arr :number[]= [];
+//       subCategory.SubIds?.split(",")?.map((id:string)=> {if(id){arr?.push(Number(id))}});
+//       this.selectedCategories = arr;
+//       console.log(this.selectedCategories,arr);
+//     }}
+//   } else {
+//     console.log('uncheckedddddddddddd')
+//     // Remove the unchecked SubId from the selectedCategories array
+//     const index = this.selectedCategories?.indexOf(subCategory.SubIds);
+//     if (index > -1) {
+      
+//       this.selectedCategories?.splice(index, 1); // Remove by index
+//       console.log(this.selectedCategories,"this.selectedCategories")
+//     }
+
+//     const serviceIndex = this.servicesName?.indexOf(subCategory.serviceName);
+//     if (serviceIndex > -1) {
+      
+//       this.servicesName?.splice(serviceIndex, 1); // Remove by index
+//       console.log(this.servicesName,"this.servicesName")
+//     }
+  
+//   }
+
+//   console.log('Selected Categories:', this.selectedCategories);
+//   if(!this.myState){
+//   localStorage.setItem('selectedCategories', JSON.stringify(this.selectedCategories));
+//   }
+//   localStorage.setItem('serviceName', JSON.stringify(this.servicesName));
+//   // Constructing the navigation URL based on the selected subcategories
+//   const subCategoryParam = this.selectedCategories?.join(','); // Create a string with selected subCategoryIds
+
+//   // Navigation logic
+//   this.router.routeReuseStrategy.shouldReuseRoute = () => false; // Prevent route reuse
+//   this.router.onSameUrlNavigation = 'reload'; // Reload the same URL
+
+//   if (!this.selectedCategories.length) {
+//     this.selectedCategories = [];
+//     this.selectedCategories?.push(1);
+//   }
+
+//   // Check if any subcategories are selected
+//   // if (this.selectedCategories.length > 0) {
+//     this.router.navigate([
+//       `/services/category/${this.selectedCategories?.join(',')?.replaceAll('/', '$')}/${this.CategoryId}`
+//     ], {
+//       queryParams: {
+//         subCategories: this.selectedCategories, // Pass the selected subcategories as query parameters
+//         latitude: this.latitude,
+//         longitude: this.longitude,
+//         locations: this.searchLocation
+//       }
+//     });
+//   // }
+// }
+
+
+onCheckboxChange(subCategory: any, event: MatCheckboxChange) {
+if( localStorage.getItem('selectedCategories')){
+  const selectedCategoriesString = localStorage.getItem('selectedCategories');
+  this.selectedCategories = selectedCategoriesString ? JSON.parse(selectedCategoriesString) : [];
+}
+if( localStorage.getItem('serviceName')){
+  const selectedServicesName = localStorage.getItem('serviceName');
+  this.servicesName = selectedServicesName ? JSON.parse(selectedServicesName) : [];
+}
   subCategory.isChecked = event.checked;
 console.log(subCategory,"338",this.selectedCategories);
 
   if (event.checked) {
     console.log('checkedddddddd')
-        this.categories.forEach((category) => {
-          console.log(category,subCategory)
-      category.isChecked = category.serviceName === subCategory.serviceName;
-    }); 
+    //     this.categories.forEach((category) => {
+    //       console.log(category,subCategory)
+    //   category.isChecked = category.serviceName === subCategory.serviceName;
+    // }); 
+
+    this.servicesName?.forEach((serviceName:string) => {
+      this.categories.forEach((category) => {
+        if (category.serviceName === serviceName) {
+          category.isChecked = true;
+        }
+      });
+    });
 
     this.servicesName.push(subCategory.serviceName)
     console.log(subCategory.SubIds?.split(",")?.map(Number),this.selectedCategories);
@@ -467,17 +570,18 @@ console.log(subCategory,"338",this.selectedCategories);
 
   // Check if any subcategories are selected
   // if (this.selectedCategories.length > 0) {
-    this.router.navigate([
-      `/services/category/${this.selectedCategories?.join(',')?.replaceAll('/', '$')}/${this.CategoryId}`
-    ], {
-      queryParams: {
-        subCategories: this.selectedCategories, // Pass the selected subcategories as query parameters
-        latitude: this.latitude,
-        longitude: this.longitude,
-        locations: this.searchLocation
-      }
-    });
+    // this.router.navigate([
+    //   `/services/category/${this.selectedCategories?.join(',')?.replaceAll('/', '$')}/${this.CategoryId}`
+    // ], {
+    //   queryParams: {
+    //     subCategories: this.selectedCategories, // Pass the selected subcategories as query parameters
+    //     latitude: this.latitude,
+    //     longitude: this.longitude,
+    //     locations: this.searchLocation
+    //   }
+    // });
   // }
+  this.fetchItems(this.CategoryId, this.selectedCategories, this.servicesName); 
 }
 
 
@@ -490,7 +594,7 @@ console.log(subCategory,"338",this.selectedCategories);
   }
 
   goToDetail(card: any) {
-    const itemNameDetail = card?.subgroupname
+    const itemNameDetail = card?.serviceSeoUrl
       ?.trim()
       ?.replace(/\s+/g, '-')
       ?.toLowerCase();
@@ -773,6 +877,7 @@ getBannerData(){
 }
 
 ngOnDestroy(): void {
+  if(this.isBrowser){
   //Called once, before the instance is destroyed.
   //Add 'implements OnDestroy' to the class.
   if(!this.router.url?.includes('services/category')){
@@ -781,6 +886,7 @@ ngOnDestroy(): void {
     localStorage.removeItem('myState');
   }
   this.locationSubscription$?.unsubscribe();
+}
 }
 
 }

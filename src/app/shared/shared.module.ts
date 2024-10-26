@@ -28,6 +28,11 @@ import { TermsComponent } from './components/terms/terms.component';
 import { ReturnPolicyComponent } from './components/return-policy/return-policy.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle'; // Add this import
 import { MatNativeDateModule } from '@angular/material/core';
+import { ServicesCategoryComponent } from '../modules/services/components/services-category/services-category.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -43,7 +48,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     PrivacyPolicyComponent,
     TermsComponent,
     ReturnPolicyComponent,
-
+    ServicesCategoryComponent,
   ],
   imports: [
     CommonModule,
@@ -63,6 +68,10 @@ import { MatNativeDateModule } from '@angular/material/core';
     GoogleMapsModule,
     MatButtonToggleModule,
     MatNativeDateModule,
+    MatCheckboxModule,
+    MatTabsModule,
+    MatPaginatorModule,
+    MatAutocompleteModule,
   ],
   exports: [
     HeaderComponent,
