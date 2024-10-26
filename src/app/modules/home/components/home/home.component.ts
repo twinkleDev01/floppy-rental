@@ -192,11 +192,12 @@ thirdCategory!:SubCategories
       this.homeService.getHomeDetails().subscribe((res: any) => {
         // Treat res.data as an object with dynamic keys
         this.homeBannerData = res.data as { [key: string]: any };
-      
+      console.log( this.homeBannerData,"195")
         // Accessing the Top section and sorting
         const topData = this.homeBannerData['Top'];
         if (topData) {
           this.sortedTopData = topData.sort((a: any, b: any) => a.Seqno - b.Seqno);
+
         } else {
           console.error('Top data not found:', this.homeBannerData);
         }
