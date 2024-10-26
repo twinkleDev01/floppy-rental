@@ -42,7 +42,8 @@ h1 span {
   padding-left: 100px;
   width: 60%;
   position: absolute;
-  top: 70px;
+  // top: 70px;
+  bottom: 200px;
   z-index: 2;
 }
 
@@ -1115,7 +1116,8 @@ h2 span {
     padding: 10px 30px;
     width: 100%;
     text-align: center;
-    top: 0;
+    // top: 0;
+    top: 160px;
   }
 
   .carousel-inner{
