@@ -44,9 +44,7 @@ ngOnInit(){
 
     // Navigate using updated category name and ID
     // this.router.navigate([`/services/category/${selectedSubCategoryName?.replaceAll("/","$")}/${card.mainId}`]);
-    this.router.navigate([`${card.classificationName?.trim()
-      ?.replace(/\s+/g, '')
-      ?.toLowerCase()}`]);
+    this.router.navigate([`${card.categoryseourl}`]);
   } 
 }, (error:any) => {
   console.error('Error fetching subcategories:', error);

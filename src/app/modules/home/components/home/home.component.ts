@@ -238,6 +238,7 @@ thirdCategory!:SubCategories
                   // Return the complete category object with subcategories included
                   return {
                       classificationName: category.classificationName,
+                      categoryseourl: category.categoryseourl,
                       subcategories: filteredSubcategories // Keep all properties here
                   };
               });
@@ -253,7 +254,7 @@ thirdCategory!:SubCategories
               subId: subcategory.subId,
               subClassificationName: subcategory.subClassificationName,
               mainId: subcategory.mainId,
-              categoryName: category.classificationName
+              categoryseourl: category.categoryseourl
             }))
           );
       
@@ -267,12 +268,11 @@ thirdCategory!:SubCategories
       
   }
 
-    goCategory(subcategory: any, classificationName:any) {
+    goCategory(subcategory: any, category:any) {
+      console.log(subcategory, category,"271")
       localStorage.setItem('myState', JSON.stringify(true));
 
-      this.router.navigate([`${classificationName?.trim()
-        ?.replace(/\s+/g, '')
-        ?.toLowerCase()}`],
+      this.router.navigate([`${category.categoryseourl}`],
       {
         state: { myState: true, subcategory:subcategory?.subId}  // You can pass any state if required
       }
@@ -439,9 +439,7 @@ if (this.filteredSubgroups.length === 0 && searchValue) {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
         this.router.onSameUrlNavigation = "reload";
         this.router.navigate([
-          `${this.locationSearchItem.categoryName?.trim()
-            ?.replace(/\s+/g, '')
-            ?.toLowerCase()}`
+          `${this.locationSearchItem.categoryseourl}`
         ], {
           
             state: { myState: true,subcategory:this.locationSearchItem?.subId }  // You can pass any state if required
