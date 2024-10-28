@@ -191,7 +191,7 @@
     <div class="row row_mobile_response m-0">
         <div class="col-lg-2 col-md-2"></div>
         <div class="col-lg-2 col-md-2 d-flex justify-content-center" *ngFor="let subcategory of firstCategory?.subcategories | slice:0:4">
-            <div class="ac_repair_margin" (click)="goCategory(subcategory, firstCategory.classificationName)">
+            <div class="ac_repair_margin" (click)="goCategory(subcategory, firstCategory)">
                 <div class="appliance_repair">
                     <div class="appliance_repair_img">
                         <!-- <img src="images/ac-repair.svg" alt=""> -->
@@ -215,7 +215,7 @@
         <owl-carousel-o [options]="customOptions">
             <ng-container *ngFor="let subcategory of secondCategory?.subcategories">
               <ng-template carouselSlide>
-                <div class="card_salon" (click)="goCategory(subcategory, this.secondCategory?.classificationName)">
+                <div class="card_salon" (click)="goCategory(subcategory, this.secondCategory)">
                   <img [src]="subcategory.image || 'images/No_Image_Available.jpg'" alt="{{subcategory.subClassificationName}}" class="carousel-image">
                   <!-- <img src="images/sofa-cleaning.png" alt=""> -->
                   <h3>{{subcategory.subClassificationName}}</h3>
@@ -239,7 +239,7 @@
         <h2 class="text-center"><span>{{ thirdCategory?.classificationName }}</span></h2>
         <owl-carousel-o [options]="customOptions">
             <ng-template carouselSlide *ngFor="let subcategory of thirdCategory?.subcategories | slice:0:4">
-                <div class="card_salon" (click)="goCategory(subcategory, thirdCategory?.classificationName)">
+                <div class="card_salon" (click)="goCategory(subcategory, thirdCategory)">
                     <img [src]="subcategory.image || 'images/No_Image_Available.jpg'" alt="{{ subcategory.subClassificationName }}" class="carousel-image">
                     <!-- <img src="images/facial.png" alt=""> -->
                     <h3>{{ subcategory?.subClassificationName }}</h3>

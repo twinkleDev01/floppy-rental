@@ -69,7 +69,7 @@ console.log(data,'dialog')
     // }
 
     goCategory(subcategory: any) {
-      console.log('56', subcategory);
+      console.log('72', subcategory.Categoryseourl);
       // this.router.navigate(
       //   [
       //     `/services/category/${subcategory?.SubClassificationName?.toString()
@@ -80,9 +80,7 @@ console.log(data,'dialog')
       // );
       localStorage.setItem('myState', JSON.stringify(true));
 
-      this.router.navigate([`${subcategory?.CategoryName?.trim()
-        ?.replace(/\s+/g, '')
-        ?.toLowerCase()}`],
+      this.router.navigate([`${subcategory?.Categoryseourl}`],
       {
         state: { myState: true,subcategory:subcategory?.SubId }  // You can pass any state if required
       }
