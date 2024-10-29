@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { HomeService } from '../../services/home.service';
 import { environment } from '../../../../../environments/environment.development';
@@ -136,7 +136,7 @@ thirdCategory!:SubCategories
   filteredSubgroupsName: Observable<any[]> = new Observable();
   placesService!: google.maps.places.PlacesService;
   isBrowser!: boolean;
-  constructor(private homeService: HomeService, public dialog: MatDialog, private service:ServicesDetailService,private scrollService:ScrollService, private router:Router,private http: HttpClient, @Inject(PLATFORM_ID) platformId: Object){
+  constructor(private homeService: HomeService, public dialog: MatDialog, private service:ServicesDetailService,private scrollService:ScrollService, private router:Router,private http: HttpClient, @Inject(PLATFORM_ID) platformId: Object, private cdr: ChangeDetectorRef){
     // this.initializeLocations();
     this.isBrowser = isPlatformBrowser(platformId);
     if(this.isBrowser){
@@ -206,7 +206,12 @@ thirdCategory!:SubCategories
         const middleData = this.homeBannerData['Middle'];
         if (middleData) {
           this.sortedMiddleData = middleData.sort((a: any, b: any) => a.Seqno - b.Seqno);
-          this.backgroundImage = this.sortedMiddleData[0]?.Image
+          const appliance_repair_section = document.getElementById('appliance_repair_section');
+          if(appliance_repair_section)
+            appliance_repair_section.style.backgroundImage = `url('${this.sortedMiddleData[0]?.Image.trim()}')`
+
+            // Trigger change detection
+    this.cdr.detectChanges();
         } else {
           console.error('Middle data not found:', this.homeBannerData);
         }
