@@ -48,13 +48,14 @@ export class ServicesDetailsComponent {
       name: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]], // Required and no special characters
       email: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/)]], // Required and valid email format with stricter pattern
       phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]], // Required and must be a 10-digit number
-      review: ['', [Validators.required, Validators.maxLength(50)]], // Required and minimum length of 10
+      review: ['', [Validators.required, Validators.maxLength(200)]], // Required and minimum length of 10
       rating: [''], // Required validation
       type: [''] // Required validation
     });
   }
   locationSubscription$!:Subscription;
   ngOnInit(){
+    if(this.isBrowser){
     this.viewportScroller.scrollToPosition([0, 0]); // Scroll to the top of the page
     if(!sessionStorage.getItem('latitude')){
       this.getCurrentLocation()
@@ -75,7 +76,7 @@ export class ServicesDetailsComponent {
     }, 1000)
  
   });
-
+    }
   }
 
 
