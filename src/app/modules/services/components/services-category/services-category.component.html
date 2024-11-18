@@ -88,7 +88,7 @@
                   <span>{{ card?.itemName }}</span>
                 </div>
                 <!-- <div class="charge pt-2">Monthly Charge For</div> -->
-                <div class="price">₹ {{ card?.rate }}</div>
+                <div class="price">{{ card?.itemRateForDisplay }} ₹</div>
                 <hr />
                 <div class="distance">
                   Distance : {{ card?.vender?.distance | json}} KM
