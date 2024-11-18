@@ -1,41 +1,44 @@
-
 <app-page-breadcrumb></app-page-breadcrumb>
 
 <div class="mt-4">
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <img class="service_img" [src]="serviceDetail?.item?.imagepath ||'images/No_Image_Available.jpg'" alt="">
+                <img class="service_img" [src]="serviceDetail?.item?.imagepath ||'images/No_Image_Available.jpg'"
+                    alt="">
             </div>
             <div class="col-md-6 service_detail pt-4">
                 <span style="color: gray; font-weight: 600;">{{ serviceDetail?.item.subgroupname }}</span>
-                    <h2 class="fw-bold">{{ serviceDetail?.item.vendorname }}</h2>
-                        <div class="d-flex">
-                        <app-rating-star [rating]="averageRating" [starCount]="5" [color]="'yellow'">
+                <h2 class="fw-bold">{{ serviceDetail?.item.vendorname }}</h2>
+                <div class="d-flex">
+                    <app-rating-star [rating]="averageRating" [starCount]="5" [color]="'yellow'">
                     </app-rating-star>&nbsp;
                     <span style="font-size: 13px; color:gray;">{{averageRating}} Review</span>
                 </div>
-                    <!-- </p> -->
-                    <p><span style="font-weight: bold; color: black;"></span> &nbsp;<span style="font-size: 18px; color: #008cac;">{{ serviceDetail?.item.itemRateForDisplay }} ₹</span></p>
-                    <p *ngFor="let rate of serviceDetail?.item.packageTrans" class="packageName">
-                        <ng-container *ngIf="rate.productName?.toLowerCase() !== 'image'">
-                            {{rate.productValue}}
-                          </ng-container>
-                      </p>
-                      
-                         <!-- <p><img src="images/Service-detail-img/green_tick.png" alt="" class="green-tick"> {{ serviceDetail?.item.maingroupname }}</p>
+                <!-- </p> -->
+                <p><span style="font-weight: bold; color: black;"></span> &nbsp;<span
+                        style="font-size: 18px; color: #008cac;">{{ serviceDetail?.item.itemRateForDisplay }} ₹</span>
+                </p>
+                <p *ngFor="let rate of serviceDetail?.item.packageTrans" class="packageName">
+                    <ng-container *ngIf="rate.productName?.toLowerCase() !== 'image'">
+                        {{rate.productValue}}
+                    </ng-container>
+                </p>
+
+                <!-- <p><img src="images/Service-detail-img/green_tick.png" alt="" class="green-tick"> {{ serviceDetail?.item.maingroupname }}</p>
                         <p> <img src="images/Service-detail-img/green_tick.png" alt="" class="green-tick"> {{ serviceDetail?.item.subgroupname }}</p> -->
-                        <p> <img src="images/Service-detail-img/green_tick.png" alt="" class="green-tick"> {{ serviceDetail?.item.specication }}</p>
-                        <!-- <li>{{ serviceDetail?.item.id }}</li> -->
-                   
-               
-               
+                <p> <img src="images/Service-detail-img/green_tick.png" alt="" class="green-tick"> {{
+                    serviceDetail?.item.specication }}</p>
+                <!-- <li>{{ serviceDetail?.item.id }}</li> -->
+
+
+
                 <div class="mt-3">
                     <Button class="rate_btn me-2" (click)="navigateToServiceRate()">Spare part rate</Button>
                     <button class="cart_btn me-2" (click)="addToCart(serviceDetail)">Add to Cart</button>
                     <!-- <button class="cart_btn" (click)="goToCheckout()">Buy Now</button> -->
                 </div>
-                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -45,58 +48,51 @@
             <mat-tab label="Description">
                 <div class="py-3">
                     @if (serviceDetail?.item?.specicationname) {
-                        {{serviceDetail.item.specicationname}}
+                    {{serviceDetail.item.specicationname}}
                     } @else {
-                       <div class="d-flex justify-content-center"> <strong class="text-danger">No Description Found</strong></div>
+                    <div class="d-flex justify-content-center"> <strong class="text-danger">No Description
+                            Found</strong></div>
                     }
                 </div>
             </mat-tab>
             <mat-tab label="Reviews">
                 <div class="reviews py-3">
                     @if (reviews.length) {
-                        <h5 class="fw-bolder">Reviews</h5>
+                    <h5 class="fw-bolder">Reviews</h5>
                     <ng-container *ngFor="let reviews of reviews | slice:0:displayedReviewsCount">
                         <div class="review_card">
                             <div class="d-flex" style="justify-content: space-between;">
-                            <div class="d-flex mb-2">
-                                <div><img [src]="reviews.profileImg? reviews.profileImg: 'images/th (1).jpg'" class="me-3 " alt=""></div>
+                                <div class="d-flex mb-2">
+                                    <div><img [src]="reviews.profileImg? reviews.profileImg: 'images/th (1).jpg'"
+                                            class="me-3 " alt=""></div>
+                                    <div>
+                                        <p class="m-0 fw-bold">{{reviews.name}}</p>
+                                        <span>{{reviews?.address}}</span>
+                                    </div>
+                                </div>
                                 <div>
-                                    <p class="m-0 fw-bold">{{reviews.name}}</p>
-                                    <span>{{reviews?.address}}</span>
+                                    <app-rating-star [rating]="reviews.rating" [starCount]="5" [color]="'yellow'"
+                                        (ratingUpdated)="onRatingUpdated($event)">
+                                    </app-rating-star>
                                 </div>
                             </div>
-                            <div>
-                                <app-rating-star
-                                [rating]="reviews.rating"
-                                [starCount]="5"
-                                [color]="'yellow'"
-                               
-                                (ratingUpdated)="onRatingUpdated($event)"
-                              >
-                              </app-rating-star> 
-                            </div>
-                        </div>
                             <p class="m-0 description_text">{{reviews.review}}</p>
                         </div>
                     </ng-container>
                     <div class="d-flex justify-content-center" *ngIf="reviews.length > 3">
                         <button class="cart_btn load_more" (click)="loadMoreReviews()">
-                          {{ shouldShowLoadMore ? 'Load More' : 'Show Less' }}
+                            {{ shouldShowLoadMore ? 'Load More' : 'Show Less' }}
                         </button>
-                      </div>
-                } @else {
-                    <div class="d-flex justify-content-center"> <strong class="text-danger"> No Reviews Found. </strong></div>
-                }
+                    </div>
+                    } @else {
+                    <div class="d-flex justify-content-center"> <strong class="text-danger"> No Reviews Found. </strong>
+                    </div>
+                    }
                     <div [formGroup]="reviewForm">
                         <h5 class="fw-bold mt-5">Write Your Reviews</h5>
                         <div class="rating-write">
-                        <app-rating-star
-                              [rating]="currentRating"
-                              [starCount]="5"
-                              [color]="'yellow'"
-                              [needReview]="true"
-                              (ratingUpdated)="onRatingUpdated($event)"
-                            >
+                            <app-rating-star [rating]="currentRating" [starCount]="5" [color]="'yellow'"
+                                [needReview]="true" (ratingUpdated)="onRatingUpdated($event)">
                             </app-rating-star>
                         </div>
                         <div class="row">
@@ -104,45 +100,54 @@
                                 <label class="d-block" for="">Name*</label>
                                 <input type="text" formControlName="name" (keydown)="preventLeadingWhitespace($event)">
                                 <!-- Validation error message for Name -->
-      <div *ngIf="reviewForm.get('name')?.touched && reviewForm.get('name')?.hasError('required')" class="text-danger">
-        Name is required.
-      </div>
-      <div *ngIf="reviewForm.get('name')?.touched && reviewForm.get('name')?.hasError('pattern')" class="text-danger">
-        Name should contain only letters and spaces.
-      </div>
+                                <div *ngIf="reviewForm.get('name')?.touched && reviewForm.get('name')?.hasError('required')"
+                                    class="text-danger">
+                                    Name is required.
+                                </div>
+                                <div *ngIf="reviewForm.get('name')?.touched && reviewForm.get('name')?.hasError('pattern')"
+                                    class="text-danger">
+                                    Name should contain only letters and spaces.
+                                </div>
                             </div>
                             <div class="col-md-4">
                                 <label class="d-block" for="">Email*</label>
                                 <input type="text" formControlName="email" (keydown)="preventLeadingWhitespace($event)">
                                 <!-- Validation error messages for Email -->
-      <div *ngIf="reviewForm.get('email')?.touched && reviewForm.get('email')?.hasError('required')" class="text-danger">
-        Email is required.
-      </div>
-      <div *ngIf="reviewForm.get('email')?.touched && reviewForm.get('email')?.hasError('pattern')" class="text-danger">
-        Enter a valid email.
-      </div>
+                                <div *ngIf="reviewForm.get('email')?.touched && reviewForm.get('email')?.hasError('required')"
+                                    class="text-danger">
+                                    Email is required.
+                                </div>
+                                <div *ngIf="reviewForm.get('email')?.touched && reviewForm.get('email')?.hasError('pattern')"
+                                    class="text-danger">
+                                    Enter a valid email.
+                                </div>
                             </div>
                             <div class="col-md-4">
                                 <label class="d-block" for="">Phone Number*</label>
                                 <input type="text" formControlName="phone" (keydown)="preventLeadingWhitespace($event)">
                                 <!-- Validation error messages for Phone -->
-      <div *ngIf="reviewForm.get('phone')?.touched && reviewForm.get('phone')?.hasError('required')" class="text-danger">
-        Phone number is required.
-      </div>
-      <div *ngIf="reviewForm.get('phone')?.touched && reviewForm.get('phone')?.hasError('pattern')" class="text-danger">
-        Enter a valid 10-digit phone number.
-      </div>
+                                <div *ngIf="reviewForm.get('phone')?.touched && reviewForm.get('phone')?.hasError('required')"
+                                    class="text-danger">
+                                    Phone number is required.
+                                </div>
+                                <div *ngIf="reviewForm.get('phone')?.touched && reviewForm.get('phone')?.hasError('pattern')"
+                                    class="text-danger">
+                                    Enter a valid 10-digit phone number.
+                                </div>
                             </div>
                         </div>
                         <label class="d-block mt-4" for="">Message*</label>
-                        <textarea name="" id="" rows="6"  formControlName="review" (keydown)="preventLeadingWhitespace($event)"></textarea>
+                        <textarea name="" id="" rows="6" formControlName="review"
+                            (keydown)="preventLeadingWhitespace($event)"></textarea>
                         <!-- Validation error message for Review -->
-  <div *ngIf="reviewForm.get('review')?.touched && reviewForm.get('review')?.hasError('required')" class="text-danger">
-    Message is required.
-  </div>
-  <div *ngIf="reviewForm.get('review')?.touched && reviewForm.get('review')?.hasError('maxlength')" class="text-danger">
-    Message must be at only 200 characters.
-  </div>
+                        <div *ngIf="reviewForm.get('review')?.touched && reviewForm.get('review')?.hasError('required')"
+                            class="text-danger">
+                            Message is required.
+                        </div>
+                        <div *ngIf="reviewForm.get('review')?.touched && reviewForm.get('review')?.hasError('maxlength')"
+                            class="text-danger">
+                            Message must be at only 200 characters.
+                        </div>
                     </div>
                     <div class="d-flex justify-content-center">
                         <button class="cart_btn submit_review" (click)="addReview()">Submit Review </button>
@@ -153,17 +158,14 @@
                 <div class="seller_info py-3">
                     <h5 class="fw-bolder">Seller Info</h5>
                     <div class="d-flex info_card">
-                        <div><img [src]="vendorDetail?.logo_img||'images/No_Image_Available.jpg'" alt="" class="seller_img"></div>
+                        <div><img [src]="vendorDetail?.logo_img||'images/No_Image_Available.jpg'" alt=""
+                                class="seller_img"></div>
                         <div class="p-3 ">
                             <p class="fw-bold m-0">{{vendorDetail?.serviceProvider}}</p>
                             <span class="location">{{vendorDetail?.address}}</span>
-                            <app-rating-star
-                            [rating]="vendorDetail?.averageRating"
-                            [starCount]="5"
-                            [color]="'yellow'"
-                            (ratingUpdated)="onRatingUpdated($event)"
-                          >
-                          </app-rating-star>
+                            <app-rating-star [rating]="vendorDetail?.averageRating" [starCount]="5" [color]="'yellow'"
+                                (ratingUpdated)="onRatingUpdated($event)">
+                            </app-rating-star>
                             <p class="m-0 des_text"><span class="fw-bold">Services:</span> <span
                                     class="text-muted">{{vendorDetail?.servicesName?.join(', ') || ''}}</span> </p>
                             <p class="m-0 des_text"><span class="fw-bold">Category:</span> <span
@@ -177,7 +179,7 @@
 
     </div>
 </div>
-<div class="p-5">
+<div class="py-5">
     <div class="container">
         <h3 *ngIf="allSimilarServices?.length">More Services by {{serviceDetail?.item.vendorname}}</h3>
         <div>
@@ -189,33 +191,28 @@
                 @for (card of allSimilarServices; track card) {
                 <ng-template carouselSlide>
                     <div class="card p-3 similar-card" (click)="similarProductDetail(card.item)">
-                        <img
-                        [src]="
+                        <img [src]="
                           card.item.imagepath ? card.item.imagepath : 'images/No_Image_Available.jpg'
-                        "
-                        class="img-fluid similar_img"
-                      />
-                        <h6 class="card_h3 fw-bold pt-3">  {{card.item.vendorname }}</h6>
+                        " class="img-fluid similar_img" />
+                        <h6 class="card_h3 fw-bold pt-3"> {{card.item.vendorname }}</h6>
                         <div class="Staff mb-2">
                             <span class="main-name">{{ card.item.maingroupname }}</span>
                             <span>{{ card?.item.itemName }}</span>
-                          </div>
-                          <!-- <div class="charge pt-2">Monthly Charge For</div> -->
-                           <div class="d-flex" style="justify-content: space-between;">
-                               <div class="price">₹ {{ card.item.rate }}</div>
-                               <button class="cart_btn me-2" (click)="addToCartHandler(card, $event, true)" style="font-size: 10px;"  [disabled]="isItemInCart(card.item.itemid)">Add to Cart</button>
-                           </div>
-                          <hr />
-                          <div class="distance">
+                        </div>
+                        <!-- <div class="charge pt-2">Monthly Charge For</div> -->
+                        <div class="d-flex" style="justify-content: space-between;">
+                            <div class="price">₹ {{ card.item.rate }}</div>
+                            <button class="cart_btn me-2" (click)="addToCartHandler(card, $event, true)"
+                                style="font-size: 10px;" [disabled]="isItemInCart(card.item.itemid)">Add to
+                                Cart</button>
+                        </div>
+                        <hr />
+                        <div class="distance">
                             Distance : {{ card.vendor?.distance }} KM
-                            <app-rating-star
-                              [rating]="calculateAverageRating(card.reviews)"
-                              [starCount]="5"
-                              [color]="'yellow'"
-                              (ratingUpdated)="onRatingUpdated($event)"
-                            >
+                            <app-rating-star [rating]="calculateAverageRating(card.reviews)" [starCount]="5"
+                                [color]="'yellow'" (ratingUpdated)="onRatingUpdated($event)">
                             </app-rating-star>
-                          </div>
+                        </div>
                     </div>
                 </ng-template>
                 }

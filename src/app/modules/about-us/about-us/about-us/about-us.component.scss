@@ -299,12 +299,17 @@ color: #fff
     width:560px;
     height:315px;
 }
-@media (max-width: 767px) {
+
+@media (max-width: 1080px){
     .iframe-vid {
         width: 100%; /* Makes the iframe full-width */
         height: auto; /* Adjusts the height automatically */
         aspect-ratio: 16/9; /* Maintains a 16:9 aspect ratio */
     }
+}
+
+@media (max-width: 767px) {
+    
     .about-section{
         padding: 0px;
     }

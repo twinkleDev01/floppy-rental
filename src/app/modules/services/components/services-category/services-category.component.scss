@@ -364,3 +364,9 @@ padding: 10px;
   text-align: center;
   color: red;
 }
+
+@media (max-width: 768px){
+  :host ::ng-deep .mat-mdc-paginator-range-actions {
+     min-width: 17rem;
+   }
+ }
