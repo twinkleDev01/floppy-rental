@@ -16,7 +16,7 @@
                     <span style="font-size: 13px; color:gray;">{{averageRating}} Review</span>
                 </div>
                     <!-- </p> -->
-                    <p><span style="font-weight: bold; color: black;"></span> &nbsp;<span style="font-size: 18px; color: #008cac;">₹ {{ serviceDetail?.item.rate }}</span></p>
+                    <p><span style="font-weight: bold; color: black;"></span> &nbsp;<span style="font-size: 18px; color: #008cac;">{{ serviceDetail?.item.itemRateForDisplay }} ₹</span></p>
                     <p *ngFor="let rate of serviceDetail?.item.packageTrans" class="packageName">
                         <ng-container *ngIf="rate.productName?.toLowerCase() !== 'image'">
                             {{rate.productValue}}
@@ -179,7 +179,7 @@
 </div>
 <div class="p-5">
     <div class="container">
-        <h3>More Services by {{serviceDetail?.item.vendorname}}</h3>
+        <h3 *ngIf="allSimilarServices?.length">More Services by {{serviceDetail?.item.vendorname}}</h3>
         <div>
             <ng-container *ngFor="let card of allSimilarServices">
 
