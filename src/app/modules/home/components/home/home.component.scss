@@ -133,8 +133,11 @@ h2 {
   font-weight: bold;
 }
 
-h2 span {
+h2 span{
   color: #008cac;
+}
+
+.ac_repair_services{
   background-color: #fff;
   padding: 10px 20px;
   border-radius: 25px 0px;
@@ -979,7 +982,7 @@ h2 span {
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   h1 {
     font-size: 24px;
   }
@@ -1001,7 +1004,7 @@ h2 span {
 
   .banner_text {
     width: 70%;
-    top: 30px;
+    top: 130px;
   }
 
   .banner_text button {
@@ -1109,6 +1112,9 @@ h2 span {
   .washing_repair_margin,
   .water_repair_margin {
     margin-top: 20px;
+  }
+  .carousel-inner {
+    height: 400px;
   }
 }
 
