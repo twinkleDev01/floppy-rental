@@ -57,3 +57,9 @@ height:4rem;
   :host ::ng-deep .mat-mdc-icon-button.mat-mdc-button-base{
     padding: 5px;
   }
+
+  @media (max-width: 768px){
+   :host ::ng-deep .mat-mdc-paginator-range-actions {
+      min-width: 17rem;
+    }
+  }

@@ -122,9 +122,7 @@
   .dataContainer {
     min-width: 100%; /* Set minimum width to 100% for full-screen width */
   }
-  .item-align {
-    left: 50px; /* Adjust icon position for smaller screens */
-  }
+
 
   .item-align-new {
     right: 50px; /* Adjust eye icon position for smaller screens */
@@ -143,9 +141,7 @@
 }
 
 @media (max-width: 576px) {
-  .item-align {
-    left: 30px; /* Further adjust for very small screens */
-  }
+
 
   .item-align-new {
     right: 35px; /* Further adjust eye icon position for very small screens */

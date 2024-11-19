@@ -107,7 +107,7 @@
     </div>
 
    
-    <div class="row mt-5">
+    <!-- <div class="row mt-5">
         <div class="col-lg-4 col-md-6 col-sm-12 d-flex justify-content-center" *ngFor="let item of itemList | slice:0:3">
             <div class="fridge_repair service-card" [ngStyle]="{'background-image': item.imagepath ? 'url(' + item.imagepath + ')' : 'url(images/No_Image_Available.jpg)', 'background-repeat': 'no-repeat', 'background-size': 'cover'}">
                 <h3 class="text-center text-white">{{ item.itemName }}</h3>
@@ -116,13 +116,13 @@
             </div>
         </div>
     </div>
-    
+     -->
     
     
 
 
     <!-- How it works -->
-    <div class="how_it_works_section">
+    <!-- <div class="how_it_works_section">
         <h2 class="text-center"><span>How it</span> works</h2>
         <div class="inner_container">
             <div class="row">
@@ -179,7 +179,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 </div>
 
@@ -188,7 +188,7 @@
 <!-- <div class="appliance_repair_section" [ngStyle]="{'background-image': 'url(' + backgroundImage + ')'}"> -->
     <div class="appliance_repair_section" id="appliance_repair_section">
     <!-- <h2><span>Appliance Repair </span>& Services</h2> -->
-     <h2><span>{{ firstCategory?.classificationName }}</span></h2>
+     <h2><span class="ac_repair_services">{{ firstCategory?.classificationName }}</span></h2>
     <div class="row row_mobile_response m-0">
         <div class="col-lg-2 col-md-2"></div>
         <div class="col-lg-2 col-md-2 d-flex justify-content-center" *ngFor="let subcategory of firstCategory?.subcategories | slice:0:4">

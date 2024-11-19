@@ -133,8 +133,14 @@ h2 {
   font-weight: bold;
 }
 
-h2 span {
+h2 span{
   color: #008cac;
+}
+
+.ac_repair_services{
+  background-color: #fff;
+  padding: 10px 20px;
+  border-radius: 25px 0px;
 }
 
 .card_background {
@@ -836,6 +842,10 @@ h2 span {
     height: 180px;
     width: 180px;
   }
+  .banner_text{
+    top: 30%;
+    padding-left: 50px;
+  }
 }
 
 @media (max-width: 992px) {
@@ -852,6 +862,11 @@ h2 span {
   h1 {
     font-size: 28px;
     width: 90%;
+  }
+
+  .banner_text{
+    padding-left: 25px;
+    top: 25%;
   }
 
   .banner_text p {
@@ -967,7 +982,7 @@ h2 span {
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   h1 {
     font-size: 24px;
   }
@@ -989,7 +1004,7 @@ h2 span {
 
   .banner_text {
     width: 70%;
-    top: 30px;
+    top: 130px;
   }
 
   .banner_text button {
@@ -1098,6 +1113,9 @@ h2 span {
   .water_repair_margin {
     margin-top: 20px;
   }
+  .carousel-inner {
+    height: 400px;
+  }
 }
 
 @media (max-width: 679px) {
@@ -1105,7 +1123,7 @@ h2 span {
   //   display: none;
   // }
   .carousel-item img{
-    height: 300px;
+    height: 220px;
   }
 
   h1 {
@@ -1155,6 +1173,8 @@ h2 span {
     width: 180px;
     height: 180px;
   }
+
+
 
   .container {
     max-width: 95%;
