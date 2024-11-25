@@ -4,6 +4,7 @@ import { PrivacyPolicyComponent } from './shared/components/privacy-policy/priva
 import { TermsComponent } from './shared/components/terms/terms.component';
 import { ReturnPolicyComponent } from './shared/components/return-policy/return-policy.component';
 import { ServicesCategoryComponent } from './modules/services/components/services-category/services-category.component';
+import { AntiDiscriminationPolicyComponent } from './shared/components/anti-discrimination-policy/anti-discrimination-policy.component';
 
 export const routes: Routes = [
     {
@@ -45,6 +46,10 @@ export const routes: Routes = [
       {
         path: 'return-policy',
         component: ReturnPolicyComponent
+      },
+      {
+        path: 'anti-discrimination-policy',
+        component: AntiDiscriminationPolicyComponent
       },
       {
         path: ':categorySeoUrl',

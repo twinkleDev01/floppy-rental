@@ -33,6 +33,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { AntiDiscriminationPolicyComponent } from './components/anti-discrimination-policy/anti-discrimination-policy.component';
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -49,6 +50,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     TermsComponent,
     ReturnPolicyComponent,
     ServicesCategoryComponent,
+    AntiDiscriminationPolicyComponent,
   ],
   imports: [
     CommonModule,
