@@ -461,4 +461,8 @@ displayedReviewsCount = 3; // Initially display 3 reviews
     return localCart.some((item: any) => item.itemid === itemId);
   }
 
+  getFormattedPrice(): string {
+    return this.serviceDetail?.item?.itemRateForDisplay.replace(/(\d+)/, '₹$1');
+  }
+
 }
