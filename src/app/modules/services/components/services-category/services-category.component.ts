@@ -612,5 +612,9 @@ ngOnDestroy(): void {
 }
 }
 
+getFormattedPrice(price:any): string {
+  return price.replace(/(\d+)/, '₹$1');
+}
+
 }
 

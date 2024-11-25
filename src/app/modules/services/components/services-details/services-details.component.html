@@ -16,9 +16,12 @@
                     <span style="font-size: 13px; color:gray;">{{averageRating}} Review</span>
                 </div>
                 <!-- </p> -->
+                <!-- <p><span style="font-weight: bold; color: black;"></span> &nbsp;<span
+                        style="font-size: 18px; color: #008cac;">{{ serviceDetail?.item.itemRateForDisplay }}</span>
+                </p> -->
                 <p><span style="font-weight: bold; color: black;"></span> &nbsp;<span
-                        style="font-size: 18px; color: #008cac;">{{ serviceDetail?.item.itemRateForDisplay }} ₹</span>
-                </p>
+                    style="font-size: 18px; color: #008cac;">{{ getFormattedPrice() }}</span>
+            </p>
                 <p *ngFor="let rate of serviceDetail?.item.packageTrans" class="packageName">
                     <ng-container *ngIf="rate.productName?.toLowerCase() !== 'image'">
                         {{rate.productValue}}
