@@ -30,4 +30,16 @@
 .service-list{
     display: flex;
     justify-content: space-between;
+    // padding-bottom: 10px; /* Optional: spacing below content */
+  margin-bottom: 10px; /* Optional: spacing between items */
+  position: relative; /* Required for pseudo-element positioning */
 }
+.service-list:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%; /* Line spans the entire width */
+    height: 1px; /* Thickness of the line */
+    background-color: #ccc; /* Line color */
+  }
