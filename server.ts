@@ -14,19 +14,18 @@ export function app(): express.Express {
 
   const commonEngine = new CommonEngine();
 
-  server.set('view engine', 'html');
-  server.set('views', browserDistFolder);
-
-  // Example Express Rest API endpoints
-  // server.get('/api/**', (req, res) => { });
   // Serve static files from /browser
-  server.get('**', express.static(browserDistFolder, {
-    maxAge: '1d',
-    index: 'index.html',
+  server.use(express.static(browserDistFolder, {
+    maxAge: '1d', // Cache static files for 1 day
   }));
 
-  // All regular routes use the Angular engine
-  server.get('**', (req, res, next) => {
+  // All API routes (Example: Adjust if you have specific APIs)
+  server.get('/api/**', (req, res) => {
+    res.status(404).json({ message: 'API endpoint not found.' });
+  });
+
+  // Handle Angular Routes
+  server.get('*', (req, res) => {
     const { protocol, originalUrl, baseUrl, headers } = req;
 
     commonEngine
@@ -38,7 +37,10 @@ export function app(): express.Express {
         providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
       })
       .then((html) => res.send(html))
-      .catch((err) => next(err));
+      .catch((err) => {
+        console.error('Error rendering Angular app:', err);
+        res.status(500).send('An error occurred while rendering the page.');
+      });
   });
 
   return server;
