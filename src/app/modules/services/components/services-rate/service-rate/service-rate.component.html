@@ -8,7 +8,7 @@
                     <h4>{{ service.categoryName }}</h4>
                     <div class="service-list" *ngFor="let category of service.subCategories">
                       <p>{{ category.subCategoryName }}</p>
-                      <p>{{ category.firstPrice }}</p>
+                      <p>₹{{ category.firstPrice }}</p>
                     </div>
                     <hr *ngIf="!last">
                 </ng-container>

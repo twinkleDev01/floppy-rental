@@ -63,4 +63,15 @@ openPartnerLink() {
   window.open('https://play.google.com/store/apps/details?id=com.ffvendor.app', '_blank');
   }
 }
+
+isValidMobileNumber(mobile: string): boolean {
+  console.log(mobile, "mobile (before cleaning)");
+  // Remove spaces or non-numeric characters from the input
+  const cleanedMobile = mobile.replace(/\D/g, ''); // Keeps only digits
+  console.log(cleanedMobile, "mobile (after cleaning)");
+
+  // Check if the cleaned input contains exactly 10 digits
+  const mobileNumberPattern = /^\d{10}$/;
+  return mobileNumberPattern.test(cleanedMobile);
+}
 }

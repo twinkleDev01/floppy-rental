@@ -20,12 +20,12 @@
                     <ng-container *ngFor="let column of chunkArray(section.footers)">
                       <div class="col-md-6">
                         <ul>
-                          <li *ngFor="let item of column" style="font-size: 12px;">
+                          <li *ngFor="let item of column" style="font-size: 11px;">
                             <a [href]="item.url" class="text-decoration-none text-white" [attr.target]="section.parameterDetail === 'Social Media' ? '_blank' : null">
                               <ng-container *ngIf="section.parameterDetail === 'Location'">
-                                <img *ngIf="item.tittle.includes('.com')" src="Icons/mail.svg" alt="Mail" style="height: 15px; width: 15px;">
-                                <img *ngIf="item.tittle.includes('+91')" src="Icons/phone.svg" alt="Phone" style="height: 15px; width: 15px;">
-                                <img *ngIf="!item.tittle.includes('+91') && !item.tittle.includes('.com')" src="Icons/Group.svg" alt="Group" style="height: 15px; width: 15px;">
+                                <img *ngIf="item.tittle.includes('.com')" src="Icons/mail.svg" alt="Mail" style="height: 13px; width: 13px;">
+                                <img *ngIf="item.tittle.includes('+91') || isValidMobileNumber(item.tittle)" src="Icons/phone.svg" alt="Phone" style="height: 13px; width: 13px;">
+                                <img *ngIf="!item.tittle.includes('+91') && !item.tittle.includes('.com') && !isValidMobileNumber(item.tittle)" src="Icons/Group.svg" alt="Group" style="height: 13px; width: 13px;">
                               </ng-container>
                               <ng-container *ngIf="section.parameterDetail === 'Social Media'">
                                 <i class="fab fa-facebook" *ngIf="item.tittle === 'Facebook'"></i>
